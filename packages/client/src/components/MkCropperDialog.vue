@@ -34,9 +34,9 @@ import XModalWindow from '@/components/MkModalWindow.vue';
 import * as os from '@/os';
 import { $i } from '@/account';
 import { defaultStore } from '@/store';
-import { apiUrl, url } from '@/config';
-import { query } from '@/scripts/url';
+import { apiUrl } from '@/config';
 import { i18n } from '@/i18n';
+import { getProxiedImageUrl } from '@/scripts/media-proxy';
 
 const emit = defineEmits<{
 	(ev: 'ok', cropped: misskey.entities.DriveFile): void;
@@ -50,9 +50,7 @@ const props = defineProps<{
 	highDefinition: boolean;
 }>();
 
-const imgUrl = `${url}/proxy/image.webp?${query({
-	url: props.file.url,
-})}`;
+const imgUrl = getProxiedImageUrl(props.file.url);
 let dialogEl = $shallowRef<InstanceType<typeof XModalWindow>>();
 let imgEl = $shallowRef<HTMLImageElement>();
 let cropper: Cropper | null = null;
@@ -83,10 +81,10 @@ const ok = async () => {
 				method: 'POST',
 				body: formData,
 			})
-			.then(response => response.json())
-			.then(f => {
-				res(f);
-			});
+				.then(response => response.json())
+				.then(f => {
+					res(f);
+				});
 		},
 		'image/jpeg', 1); //TODO: オプションにする(これだと意図しない場所にjpgを渡しちゃうかも？、アイコンがjpgでもいいと思うけど)
 	});

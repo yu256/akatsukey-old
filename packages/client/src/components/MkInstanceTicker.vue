@@ -9,6 +9,7 @@
 import { } from 'vue';
 import { instanceName } from '@/config';
 import { instance as Instance } from '@/instance';
+import { getProxiedImageUrlNullable } from '@/scripts/media-proxy';
 
 const props = defineProps<{
 	instance?: {
@@ -21,9 +22,9 @@ const props = defineProps<{
 
 // if no instance data is given, this is for the local instance
 const instance = props.instance ?? {
-	faviconUrl: Instance.iconUrl || Instance.faviconUrl || '/favicon.ico',
+	faviconUrl: getProxiedImageUrlNullable(Instance.iconUrl) ?? getProxiedImageUrlNullable(Instance.faviconUrl) ?? '/favicon.ico',
 	name: instanceName,
-	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement)?.content
+	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement).content,
 };
 
 const vertical = props.vertical ?? false;
