@@ -51,6 +51,11 @@
 			ウィジェットを表示
 			<template #caption>モバイルのボトムナビゲーションにウィジェットを表示します。</template>
 		</FormSwitch>
+
+		<FormInput v-model="mediaProxy">
+			<template #label>{{ i18n.ts.mediaProxy }}</template>
+			<template #caption>{{ i18n.ts.mediaProxyInfo }}</template>
+		</FormInput>
 	</FormSection>
 	<FormInfo warn class="_formBlock">以下の設定はベータ版です。</FormInfo>
 	<FormSection>
@@ -68,8 +73,10 @@ import { defaultStore } from '@/store';
 import FormInfo from '@/components/MkInfo.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import FormSelect from '@/components/form/select.vue';
+import FormInput from '@/components/form/input.vue';
 import { isTouchUsing } from '@/scripts/touch';
 import { deviceKind } from '@/scripts/device-kind';
+import { i18n } from '@/i18n';
 
 const UseEasyReactionsViewer = computed(defaultStore.makeGetterSetter('UseEasyReactionsViewer'));
 const ShowActionsOnlyOnHover = computed(defaultStore.makeGetterSetter('ShowActionsOnlyOnHover'));
@@ -80,4 +87,5 @@ const InstanceTickerPosition = computed(defaultStore.makeGetterSetter('instanceT
 const navBarChatIcon = computed(defaultStore.makeGetterSetter('navBarChatIcon'));
 const navBarReloadIcon = computed(defaultStore.makeGetterSetter('navBarReloadIcon'));
 const navBarWidgetIcon = computed(defaultStore.makeGetterSetter('navBarWidgetIcon'));
+const mediaProxy = computed(defaultStore.makeGetterSetter('mediaProxy'));
 </script>

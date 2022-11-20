@@ -1,13 +1,14 @@
 <template>
 <div class="xubzgfgb" :class="{ cover }" :title="title">
 	<canvas v-if="!loaded" ref="canvas" :width="size" :height="size" :title="title"/>
-	<img v-if="src" :src="src" :title="title" :alt="alt" @load="onLoad"/>
+	<img v-if="src" :src="imgSrc" :title="title" :alt="alt" @load="onLoad"/>
 </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted } from 'vue';
 import { decode } from 'blurhash';
+import { defaultStore } from '@/store';
 
 const props = withDefaults(defineProps<{
 	src?: string | null;
@@ -25,6 +26,10 @@ const props = withDefaults(defineProps<{
 });
 
 const canvas = $shallowRef<HTMLCanvasElement>();
+const imgSrc = defaultStore.state.mediaProxy ?
+	defaultStore.state.mediaProxy + '?url=' + props.src
+	:
+	props.src;
 let loaded = $ref(false);
 
 const draw = (): void => {

@@ -1,6 +1,6 @@
 <template>
 <div class="hpaizdrt" :class="position" :style="tickerColor">
-	<img v-if="instance.faviconUrl" class="icon" :src="instance.faviconUrl"/>
+	<img v-if="instance.faviconUrl" class="icon" :src="faviconUrl"/>
 	<span class="name">{{ instance.name }}</span>
 </div>
 </template>
@@ -29,6 +29,11 @@ const instance = props.instance ?? {
 };
 
 const position = computed(() => unref(props.forceType) ?? defaultStore.state.instanceTickerPosition);
+
+const faviconUrl = defaultStore.state.mediaProxy ?
+	defaultStore.state.mediaProxy + '?url=' + instance.faviconUrl
+	:
+	instance.faviconUrl ?? undefined;
 
 const hexToRgb = (hex: string): {
 	r: number;
