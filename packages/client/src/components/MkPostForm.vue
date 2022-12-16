@@ -55,6 +55,7 @@
 			</button>
 			<button v-tooltip="i18n.ts.previewNoteText" class="_button preview" :class="{ active: showPreview }" @click="showPreview = !showPreview"><i class="fas fa-file-code"></i></button>
 		</footer>
+		<MkEmojiPicker @chosen="emojiChosen"></MkEmojiPicker>
 		<datalist id="hashtags">
 			<option v-for="hashtag in recentHashtags" :key="hashtag" :value="hashtag"/>
 		</datalist>
@@ -75,6 +76,7 @@ import XNoteSimple from '@/components/MkNoteSimple.vue';
 import XNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
 import XPollEditor from '@/components/MkPollEditor.vue';
+import MkEmojiPicker from '@/components/MkEmojiPicker.vue';
 import { host, url } from '@/config';
 import { erase, unique } from '@/scripts/array';
 import { extractMentions } from '@/scripts/extract-mentions';
@@ -707,6 +709,10 @@ onMounted(() => {
 		nextTick(() => watchForDraft());
 	});
 });
+
+function emojiChosen(emoji: any) {
+	insertTextAtCursor(textareaEl, emoji);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -984,5 +990,8 @@ onMounted(() => {
 			}
 		}
 	}
+}
+.omfetrab.w1,.omfetrab.w2,.omfetrab.w3 {
+	width: 100%; 
 }
 </style>
