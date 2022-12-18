@@ -427,6 +427,7 @@ importers:
       eventemitter3: 5.0.0
       idb-keyval: 6.2.0
       insert-text-at-cursor: 0.3.0
+      is-file-animated: 1.0.1
       json5: ^2.2.3
       katex: 0.16.4
       matter-js: 0.19.0
@@ -483,6 +484,7 @@ importers:
       eventemitter3: 5.0.0
       idb-keyval: 6.2.0
       insert-text-at-cursor: 0.3.0
+      is-file-animated: 1.0.1
       json5: 2.2.3
       katex: 0.16.4
       matter-js: 0.19.0
@@ -1853,6 +1855,7 @@ packages:
   /@swc/cli/0.1.62_wyduggqpvtv2oy5nc7cgtozgpy:
     resolution: {integrity: sha512-kOFLjKY3XH1DWLfXL1/B5MizeNorHR8wHKEi92S/Zi9Md/AK17KSqR8MgyRJ6C1fhKHvbBCl8wboyKAFXStkYw==}
     engines: {node: '>= 12.13'}
+    hasBin: true
     peerDependencies:
       '@swc/core': ^1.2.66
       chokidar: ^3.5.1
@@ -7577,6 +7580,10 @@ packages:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
 
+  /is-file-animated/1.0.1:
+    resolution: {integrity: sha512-KTQ+7WrEG0gcBT6/0W6TGqqRGcBl+2GxtRyOM2iVYzO7YlzItn0LoOOA+TbV6WaHTpJ5rDF5hi0RJMCQWJudVg==}
+    dev: false
+
   /is-fullwidth-code-point/1.0.0:
     resolution: {integrity: sha512-1pqUqRjkhPJ9miNq9SwMfdvi6lBJcd6eFxvfaivQhaH3SgisfiuudvFntdKOmxuee/77l+FPjKrQjWvmPjWrRw==}
     engines: {node: '>=0.10.0'}
@@ -12077,6 +12084,7 @@ packages:
 
   /ts-node/10.9.1_656fwgv7zp7pezl4tsvwzszufm:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
       '@swc/wasm': '>=1.2.50'
@@ -12235,6 +12243,7 @@ packages:
   /typeorm/0.3.12_2zk5xt4vgoten65ydygyhy2cvq:
     resolution: {integrity: sha512-sYSxBmCf1nJLLTcYtwqZ+lQIRtLPyUoO93rHTOKk9vJCyT4UfRtU7oRsJvfvKP3nnZTD1hzz2SEy2zwPEN6OyA==}
     engines: {node: '>= 12.9.0'}
+    hasBin: true
     peerDependencies:
       '@google-cloud/spanner': ^5.18.0
       '@sap/hana-client': ^2.12.25
@@ -12461,6 +12470,7 @@ packages:
 
   /update-browserslist-db/1.0.10_browserslist@4.21.5:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
+    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
@@ -12642,6 +12652,7 @@ packages:
   /vite/4.1.4_sass@1.58.3:
     resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}
     engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
     peerDependencies:
       '@types/node': '>= 14'
       less: '*'
