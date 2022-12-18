@@ -2,7 +2,7 @@
 <time :title="absolute">
 	<template v-if="mode === 'relative'">{{ relative }}</template>
 	<template v-else-if="mode === 'absolute'">{{ absolute }}</template>
-	<template v-else-if="mode === 'detail'">{{ absolute }} ({{ relative }})</template>
+	<template v-else-if="mode === 'detail'">{{ absolute }} ({{ allRelative }})</template>
 </time>
 </template>
 
@@ -25,6 +25,17 @@ let now = $shallowRef(new Date());
 const relative = $computed(() => {
 	const ago = (now.getTime() - _time.getTime()) / 1000/*ms*/;
 	return (
+		ago >= 86400 ? _time.toLocaleDateString() :
+		ago >= 3600 ? i18n.t('_ago.hoursAgo', { n: Math.round(ago / 3600).toString() }) :
+		ago >= 60 ? i18n.t('_ago.minutesAgo', { n: (~~(ago / 60)).toString() }) :
+		ago >= 10 ? i18n.t('_ago.secondsAgo', { n: (~~(ago % 60)).toString() }) :
+		ago >= -1 ? i18n.ts._ago.justNow :
+		i18n.ts._ago.future);
+});
+
+const allRelative = $computed(() => {
+	const ago = (now.getTime() - _time.getTime()) / 1000/*ms*/;
+	return (
 		ago >= 31536000 ? i18n.t('_ago.yearsAgo', { n: Math.round(ago / 31536000).toString() }) :
 		ago >= 2592000 ? i18n.t('_ago.monthsAgo', { n: Math.round(ago / 2592000).toString() }) :
 		ago >= 604800 ? i18n.t('_ago.weeksAgo', { n: Math.round(ago / 604800).toString() }) :
@@ -36,7 +47,8 @@ const relative = $computed(() => {
 		i18n.ts._ago.future);
 });
 
-const tick = (): void => {
+function tick(): void {
+	// TODO: パフォーマンス向上のため、このコンポーネントが画面内に表示されている場合のみ更新する
 	now = new Date();
 	const ago = (now.getTime() - _time.getTime()) / 1000/*ms*/;
 	const next = ago < 60 ? 10000 : ago < 3600 ? 60000 : 180000;
@@ -44,7 +56,7 @@ const tick = (): void => {
 	tickId = window.setTimeout(() => {
 		window.requestAnimationFrame(tick);
 	}, next);
-};
+}
 
 let tickId: number;
 
