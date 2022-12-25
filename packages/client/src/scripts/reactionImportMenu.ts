@@ -14,6 +14,11 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 	const isCustom = reaction.startsWith(':');
 
 	const getEmojiObject = (emojiId): Promise<Record<string, any> | null> => new Promise<Record<string, any> | null>(async resolve => {
+		if (!($i?.isAdmin || $i?.isModerator)) {
+			resolve(null);
+			return;
+		}
+
 		const sinceId = await os.api('admin/emoji/list', {
 			limit: 1,
 			untilId: emojiId.id,
@@ -40,6 +45,7 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 	const getEmojiId = async (): Promise<string | null> => {
 		if (isLocal) return null;
 		if (!host || !name) return null;
+		if (!($i?.isAdmin || $i?.isModerator)) return null;
 
 		const resList: Record<string, any>[] = await os.api('admin/emoji/list-remote', {
 			host,
@@ -93,19 +99,22 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 				const duplication: boolean = await os.api('meta').then(meta => {
 					const emojis = meta.emojis;
 					return emojis.some((emoji) => {
-						return (emoji === name);
+						return (emoji.name === name);
 					});
 				});
-				if (duplication) {
+				if (await duplication) {
 					os.api('notes/reactions/create', {
 						noteId: noteId,
-						reaction: name,
+						reaction: `:${name}:`,
 					});
 				} else {
-					await importEmoji(true);
-					os.api('notes/reactions/create', {
-						noteId: noteId,
-						reaction: name,
+					await importEmoji(true).then(() => {
+						setTimeout(() => {
+							os.api('notes/reactions/create', {
+								noteId: noteId,
+								reaction: `:${name}:`,
+							});
+						}, 2000); // インポートしてからバックエンドに浸透するのが遅いので2秒待つ
 					});
 				}
 			},
@@ -138,4 +147,3 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 
 	os.contextMenu(menuItems, ev);
 }
-
