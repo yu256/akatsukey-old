@@ -755,6 +755,7 @@ function emojiChosen(emoji: any) {
 			> .text-count {
 				opacity: 0.7;
 				line-height: 66px;
+				margin-right: 12px;
 			}
 
 			> .visibility {
@@ -993,5 +994,14 @@ function emojiChosen(emoji: any) {
 }
 .omfetrab.w1,.omfetrab.w2,.omfetrab.w3 {
 	width: 100%; 
+}
+.body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--eachSize), auto));
+}
+.body button {
+  width: 100%;
+  display: flex !important;
+  justify-content: center;
 }
 </style>
