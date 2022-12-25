@@ -40,6 +40,7 @@ import { Cache } from '@/misc/cache.js';
 import { UserProfile } from '@/models/entities/user-profile.js';
 import { db } from '@/db/postgre.js';
 import { getActiveWebhooks } from '@/misc/webhook-cache.js';
+import { DB_MAX_NOTE_TEXT_LENGTH } from '@/const.js';
 
 const mutedWordsCache = new Cache<{ userId: UserProfile['userId']; mutedWords: UserProfile['mutedWords']; }[]>(1000 * 60 * 5);
 
@@ -186,6 +187,9 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	}
 
 	if (data.text) {
+		if (data.text.length > DB_MAX_NOTE_TEXT_LENGTH) {
+			data.text = data.text.slice(0, DB_MAX_NOTE_TEXT_LENGTH);
+		}
 		data.text = data.text.trim();
 	} else {
 		data.text = null;
