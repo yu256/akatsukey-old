@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import XWindow from '@/components/MkWindow.vue';
-import { lang } from '@/config';
+import { versatileLang } from '@/scripts/intl-const';
 
 const props = defineProps<{
 	url: string;
@@ -37,11 +37,9 @@ let player = $ref({
 	height: null,
 });
 
-const requestLang = (lang ?? 'ja-JP').replace('ja-KS', 'ja-JP').replace('ja-CJP', 'ja-JP').replace('ja-NY', 'ja-JP');
-
 const ytFetch = (): void => {
 	fetching = true;
-	fetch(`/url?url=${encodeURIComponent(requestUrl.href)}&lang=${requestLang}`).then(res => {
+	window.fetch(`/url?url=${encodeURIComponent(requestUrl.href)}&lang=${versatileLang}`).then(res => {
 		res.json().then(info => {
 			if (info.url == null) return;
 			title = info.title;

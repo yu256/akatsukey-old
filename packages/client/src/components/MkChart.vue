@@ -40,6 +40,7 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 import * as os from '@/os';
 import { defaultStore } from '@/store';
 import { useChartTooltip } from '@/scripts/use-chart-tooltip';
+import date from '@/filters/date';
 
 const props = defineProps({
 	src: {
@@ -178,7 +179,7 @@ const render = () => {
 	chartInstance = new Chart(chartEl.value, {
 		type: props.bar ? 'bar' : 'line',
 		data: {
-			labels: new Array(props.limit).fill(0).map((_, i) => getDate(i).toLocaleString()).slice().reverse(),
+			labels: new Array(props.limit).fill(0).map((_, i) => date(getDate(i))).slice().reverse(),
 			datasets: chartData.series.map((x, i) => ({
 				parsing: false,
 				label: x.name,

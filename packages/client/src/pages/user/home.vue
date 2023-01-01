@@ -70,7 +70,7 @@
 							<dl class="field">
 								<dt class="name"><i class="fas fa-calendar-alt fa-fw"></i> {{ i18n.ts.registeredDate }}
 								</dt>
-								<dd class="value">{{ new Date(user.createdAt).toLocaleString() }} (
+								<dd class="value">{{ dateString(user.createdAt) }} (
 									<MkTime :time="user.createdAt" />)
 								</dd>
 							</dl>
@@ -133,10 +133,7 @@ import calcAge from 's-age';
 import * as misskey from 'misskey-js';
 import XNote from '@/components/MkNote.vue';
 import MkFollowButton from '@/components/MkFollowButton.vue';
-import MkContainer from '@/components/MkContainer.vue';
-import MkFolder from '@/components/MkFolder.vue';
 import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
-import MkTab from '@/components/MkTab.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import { getScrollPosition } from '@/scripts/scroll';
 import { getUserMenu } from '@/scripts/get-user-menu';
@@ -147,6 +144,7 @@ import { useRouter } from '@/router';
 import { i18n } from '@/i18n';
 import { $i } from '@/account';
 import XNotes from '@/components/MkNotes.vue';
+import { dateString } from '@/filters/date';
 
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
