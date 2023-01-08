@@ -44,7 +44,7 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	if (isUsername) {
 		const usernameQuery = Users.createQueryBuilder('user')
-		.where('user.usernameLower LIKE :username', { username: sqlLikeEscape(ps.query.replace('@', '').toLowerCase()) + '%' })
+			.where('user.usernameLower LIKE :username', { username: sqlLikeEscape(ps.query.replace('@', '').toLowerCase()) + '%' })
 			.andWhere(new Brackets(qb => { qb
 				.where('user.updatedAt IS NULL')
 				.orWhere('user.updatedAt > :activeThreshold', { activeThreshold: activeThreshold });
