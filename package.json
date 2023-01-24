@@ -1,19 +1,10 @@
 {
-<<<<<<< HEAD
 	"name": "misskey",
 	"version": "12.119.2-akatsuki-forkbombfix",
 	"codename": "indigo",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/yu256/akatsuki.git"
-=======
-	"name": "yoiyami",
-	"version": "12.119.2_rcamod-v5b9",
-	"codename": "indigo",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/rca-fedi/yoiyami.git"
->>>>>>> 23b7ecaf1 (とりあえず絵文字ボタン消した)
 	},
 	"private": true,
 	"scripts": {
