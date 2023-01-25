@@ -5,6 +5,7 @@ import MkLink from '@/components/MkLink.vue';
 import MkMention from '@/components/MkMention.vue';
 import MkEmoji from '@/components/global/MkEmoji.vue';
 import { concat } from '@/scripts/array';
+import MkFormula from '@/components/MkFormula.vue';
 import MkCode from '@/components/MkCode.vue';
 import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
@@ -42,6 +43,10 @@ export default defineComponent({
 		i: {
 			type: Object,
 			default: null,
+		},
+		// eslint-disable-next-line vue/require-default-prop, vue/require-prop-types
+		customEmojis: {
+			required: false,
 		},
 		isNote: {
 			type: Boolean,
@@ -304,9 +309,8 @@ export default defineComponent({
 					return [h(MkEmoji, {
 						key: Math.random(),
 						emoji: `:${token.props.name}:`,
+						customEmojis: this.customEmojis,
 						normal: this.plain,
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-						host: this.author?.host,
 					})];
 				}
 
@@ -314,6 +318,7 @@ export default defineComponent({
 					return [h(MkEmoji, {
 						key: Math.random(),
 						emoji: token.props.emoji,
+						customEmojis: this.customEmojis,
 						normal: this.plain,
 					})];
 				}
