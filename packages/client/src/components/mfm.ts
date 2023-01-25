@@ -322,14 +322,23 @@ export default defineComponent({
 						normal: this.plain,
 					})];
 				}
-
+				
 				case 'mathInline': {
-					return [h('code', token.props.formula)];
+					return [h(MkFormula, {
+						key: Math.random(),
+						formula: token.props.formula,
+						block: false,
+					})];
 				}
 
 				case 'mathBlock': {
-					return [h('code', token.props.formula)];
+					return [h(MkFormula, {
+						key: Math.random(),
+						formula: token.props.formula,
+						block: true,
+					})];
 				}
+
 
 				case 'search': {
 					return [h(MkGoogle, {
