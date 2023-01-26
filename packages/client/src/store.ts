@@ -251,6 +251,22 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	navBarChatIcon: {
+		where: 'device',
+		default: false,
+	},
+	navBarWidgetIcon: {
+		where: 'device',
+		default: true,
+	},
+	navBarAntennaIcon: {
+		where: 'device',
+		default: false,
+	},
+	navBarReloadIcon: {
+		where: 'device',
+		default: true,
+	}
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
@@ -271,6 +287,7 @@ type Plugin = {
  */
 import lightTheme from '@/themes/l-light.json5';
 import darkTheme from '@/themes/d-green-lime.json5';
+import formatRelativeWithOptions from 'date-fns/esm/fp/formatRelativeWithOptions';
 
 export class ColdDeviceStorage {
 	public static default = {
