@@ -13,6 +13,8 @@
 	<FormLink to="/registry" class="_formBlock"><template #icon><i class="fas fa-cogs"></i></template>{{ i18n.ts.registry }}</FormLink>
 
 	<FormLink to="/settings/delete-account" class="_formBlock"><template #icon><i class="fas fa-exclamation-triangle"></i></template>{{ i18n.ts.closeAccount }}</FormLink>
+
+	<FormLink to="/settings/beta-function" class="_formBlock"><template #icon><i class="fas fa-exclamation-triangle"></i></template>yoiyami beta</FormLink>
 </div>
 </template>
 

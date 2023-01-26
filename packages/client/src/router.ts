@@ -174,6 +174,10 @@ export const routes = [{
 		name: 'other',
 		component: page(() => import('./pages/settings/delete-account.vue')),
 	}, {
+		path: '/beta-function',
+		name: 'other',
+		component: page(() => import('./pages/settings/beta-function.vue')),
+	},{
 		path: '/other',
 		name: 'other',
 		component: page(() => import('./pages/settings/other.vue')),
