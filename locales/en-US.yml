@@ -893,6 +893,8 @@ navbar: "Navigation bar"
 shuffle: "Shuffle"
 account: "Account"
 move: "Move"
+pakuruConfirm: "Do you want a crack at it?"
+pakuru: "crack"
 _sensitiveMediaDetection:
   description: "Reduces the effort of server moderation through automatically recognizing NSFW media via Machine Learning. This will slightly increase the load on the server."
   sensitivity: "Detection sensitivity"

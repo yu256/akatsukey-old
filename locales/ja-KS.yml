@@ -842,6 +842,8 @@ navbar: "ナビゲーションバー"
 shuffle: "シャッフルするで"
 account: "アカウント"
 move: "移動するで"
+pakuruConfirm: "パクりますか？"
+pakuru: "パクる"
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出して、モデレーションに役立てることができるで。サーバーの負荷が少し増えてまうなあ。"
   sensitivity: "検出感度やで"
