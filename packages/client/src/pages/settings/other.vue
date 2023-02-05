@@ -14,7 +14,7 @@
 
 	<FormLink to="/settings/delete-account" class="_formBlock"><template #icon><i class="fas fa-exclamation-triangle"></i></template>{{ i18n.ts.closeAccount }}</FormLink>
 
-	<FormLink to="/settings/beta-function" class="_formBlock"><template #icon><i class="fas fa-exclamation-triangle"></i></template>yoiyami beta</FormLink>
+	<FormLink to="/settings/beta-function" class="_formBlock"><template #icon><i class="fas fa-exclamation-triangle"></i></template>akatsukey beta</FormLink>
 </div>
 </template>
 
