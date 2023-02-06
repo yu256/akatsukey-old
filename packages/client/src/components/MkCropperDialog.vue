@@ -47,6 +47,7 @@ const emit = defineEmits<{
 const props = defineProps<{
 	file: misskey.entities.DriveFile;
 	aspectRatio: number;
+	highDefinition: boolean;
 }>();
 
 const imgUrl = `${url}/proxy/image.webp?${query({
@@ -56,10 +57,20 @@ let dialogEl = $ref<InstanceType<typeof XModalWindow>>();
 let imgEl = $ref<HTMLImageElement>();
 let cropper: Cropper | null = null;
 let loading = $ref(true);
+let highDefinition = props.highDefinition ?? false; //もともとのコードでは存在しないので
 
 const ok = async () => {
-	const promise = new Promise<misskey.entities.DriveFile>(async (res) => {
-		const croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
+	const promise = new Promise<misskey.entities.DriveFile>(async (res) => { 
+		let croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
+		if ( highDefinition ) { //TODO: 2回も取得してるの効率悪すぎるのでなんとかする
+			croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas({
+				width: 4096,
+				height: 4096,
+			});
+		}
+		if (croppedCanvas == null) {
+			throw new Error('croppedCanvas is null'); //ここで蹴らないと警告が出るので, あとでエラーちゃんと出すようにする
+		}
 		croppedCanvas.toBlob(blob => {
 			const formData = new FormData();
 			formData.append('file', blob);
@@ -76,7 +87,8 @@ const ok = async () => {
 			.then(f => {
 				res(f);
 			});
-		});
+		},
+		'image/jpeg', 1); //TODO: オプションにする(これだと意図しない場所にjpgを渡しちゃうかも？、アイコンがjpgでもいいと思うけど)
 	});
 
 	os.promiseDialog(promise);
@@ -96,8 +108,8 @@ const onImageLoad = () => {
 	loading = false;
 
 	if (cropper) {
-		cropper.getCropperImage()!.$center('contain');
-		cropper.getCropperSelection()!.$center();
+			cropper.getCropperImage()!.$center('contain');
+			cropper.getCropperSelection()!.$center();
 	}
 };
 

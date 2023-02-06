@@ -440,11 +440,13 @@ export async function pickEmoji(src: HTMLElement | null, opts) {
 
 export async function cropImage(image: Misskey.entities.DriveFile, options: {
 	aspectRatio: number;
+	highDefinition?: boolean;
 }): Promise<Misskey.entities.DriveFile> {
 	return new Promise((resolve, reject) => {
 		popup(defineAsyncComponent(() => import('@/components/MkCropperDialog.vue')), {
 			file: image,
 			aspectRatio: options.aspectRatio,
+			highDefinition: options.highDefinition,
 		}, {
 			ok: x => {
 				resolve(x);

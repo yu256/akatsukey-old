@@ -96,7 +96,8 @@ export default defineComponent({
 
 			if (!canceled) {
 				const clopped = await os.cropImage(file, {
-					aspectRatio: 0,
+					aspectRatio: -1,
+					highDefinition: true,
 				});
 				this.$emit('cropImage', file, clopped);
 				// file.id = clopped.id;
