@@ -37,7 +37,7 @@ export default defineComponent({
 		},
 	},
 
-	emits: ['updated', 'detach', 'changeSensitive', 'changeName'],
+	emits: ['updated', 'detach', 'changeSensitive', 'changeName', 'cropImage'],
 
 	data() {
 		return {
@@ -98,7 +98,8 @@ export default defineComponent({
 				const clopped = await os.cropImage(file, {
 					aspectRatio: 0,
 				});
-				file = clopped;
+				this.$emit('cropImage', file, clopped);
+				// file.id = clopped.id;
 			}
 		},
 
