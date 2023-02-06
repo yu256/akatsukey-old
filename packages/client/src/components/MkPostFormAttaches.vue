@@ -18,6 +18,7 @@
 import { defineComponent, defineAsyncComponent } from 'vue';
 import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
 import * as os from '@/os';
+import { i18n } from '@/i18n';
 
 export default defineComponent({
 	components: {
@@ -87,6 +88,20 @@ export default defineComponent({
 			});
 		},
 
+		async cropImage(file) {
+			const { canceled } = await os.confirm({
+				type: 'question',
+				text: i18n.t('cropImageAsk'),
+			});
+
+			if (!canceled) {
+				const clopped = await os.cropImage(file, {
+					aspectRatio: 0,
+				});
+				file = clopped;
+			}
+		},
+
 		async describe(file) {
 			os.popup(defineAsyncComponent(() => import('@/components/MkMediaCaption.vue')), {
 				title: this.$ts.describeFile,
@@ -119,6 +134,10 @@ export default defineComponent({
 				text: file.isSensitive ? this.$ts.unmarkAsSensitive : this.$ts.markAsSensitive,
 				icon: file.isSensitive ? 'fas fa-eye-slash' : 'fas fa-eye',
 				action: () => { this.toggleSensitive(file); },
+			}, {
+				text: 'editimage_test',
+				icon: 'fas fa-i-cursor',
+				action: () => { this.cropImage(file); },
 			}, {
 				text: this.$ts.describeFile,
 				icon: 'fas fa-i-cursor',
