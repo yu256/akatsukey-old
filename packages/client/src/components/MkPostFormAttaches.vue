@@ -137,7 +137,7 @@ export default defineComponent({
 				icon: file.isSensitive ? 'fas fa-eye-slash' : 'fas fa-eye',
 				action: () => { this.toggleSensitive(file); },
 			}, {
-				text: 'editimage_test',
+				text: 'this.$ts.cropImageFile',
 				icon: 'fas fa-crop',
 				action: () => { this.cropImage(file); },
 			}, {
