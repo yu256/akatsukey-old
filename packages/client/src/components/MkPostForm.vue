@@ -45,6 +45,7 @@
 			<button v-tooltip="i18n.ts.useCw" class="_button" :class="{ active: useCw }" @click="useCw = !useCw"><i class="fas fa-eye-slash"></i></button>
 			<button v-tooltip="i18n.ts.mention" class="_button" @click="insertMention"><i class="fas fa-at"></i></button>
 			<button v-tooltip="i18n.ts.hashtags" class="_button" :class="{ active: withHashtags }" @click="withHashtags = !withHashtags"><i class="fas fa-hashtag"></i></button>
+			<button v-tooltip="i18n.ts.emoji" class="_button" @click="insertEmoji"><i class="fas fa-laugh-squint"></i></button>
 			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugin" class="_button" @click="showActions"><i class="fas fa-plug"></i></button>
 			<button ref="visibilityButton" v-tooltip="i18n.ts.visibility" class="_button visibility" :disabled="channel != null" @click="setVisibility">
 				<span v-if="visibility === 'public'"><i class="fas fa-globe"></i></span>
@@ -54,7 +55,6 @@
 			</button>
 			<button v-tooltip="i18n.ts.previewNoteText" class="_button preview" :class="{ active: showPreview }" @click="showPreview = !showPreview"><i class="fas fa-file-code"></i></button>
 		</footer>
-		<MkEmojiPicker @chosen="emojiChosen"></MkEmojiPicker>
 		<datalist id="hashtags">
 			<option v-for="hashtag in recentHashtags" :key="hashtag" :value="hashtag"/>
 		</datalist>
@@ -75,7 +75,6 @@ import XNoteSimple from '@/components/MkNoteSimple.vue';
 import XNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
 import XPollEditor from '@/components/MkPollEditor.vue';
-import MkEmojiPicker from '@/components/MkEmojiPicker.vue';
 import { host, url } from '@/config';
 import { erase, unique } from '@/scripts/array';
 import { extractMentions } from '@/scripts/extract-mentions';
@@ -712,10 +711,6 @@ onMounted(() => {
 		nextTick(() => watchForDraft());
 	});
 });
-
-function emojiChosen(emoji: any) {
-	insertTextAtCursor(textareaEl, emoji);
-}
 </script>
 
 <style lang="scss" scoped>
@@ -758,7 +753,6 @@ function emojiChosen(emoji: any) {
 			> .text-count {
 				opacity: 0.7;
 				line-height: 66px;
-				margin-right: 12px;
 			}
 
 			> .visibility {
@@ -994,17 +988,5 @@ function emojiChosen(emoji: any) {
 			}
 		}
 	}
-}
-.omfetrab.w1,.omfetrab.w2,.omfetrab.w3 {
-	width: 100%; 
-}
-.body {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--eachSize), auto));
-}
-.body button {
-  width: 100%;
-  display: flex !important;
-  justify-content: center;
 }
 </style>
