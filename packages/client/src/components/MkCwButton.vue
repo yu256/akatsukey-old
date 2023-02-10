@@ -1,5 +1,5 @@
 <template>
-<button class="nrvgflfu _button" @click="toggle">
+<button class="nrvgflfu _button" @mousedown="toggle">
 	<b>{{ modelValue ? i18n.ts._cw.hide : i18n.ts._cw.show }}</b>
 	<span v-if="!modelValue">{{ label }}</span>
 </button>
