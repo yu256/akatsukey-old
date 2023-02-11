@@ -16,22 +16,22 @@
 		<XWidgets @mounted="attachSticky"/>
 	</div>
 
-	<button v-if="!isDesktop && !isMobile" class="widgetButton _button" @click="widgetsShowing = true"><i class="fas fa-layer-group"></i></button>
+	<button v-if="!isDesktop && !isMobile" class="widgetButton _button" @click="widgetsShowing = true"><i class="ti ti-apps"></i></button>
 
 	<div v-if="isMobile" class="buttons">
 		<div class="tabs_area">
-			<button class="button nav _button" @click="drawerMenuShowing = true"><i class="fas fa-bars"></i><span v-if="menuIndicated" class="indicator navbar"><i class="fas fa-circle"></i></span></button>
-			<button class="button home _button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i class="fas fa-home"></i></button>
-			<button class="button notifications _button" @click="mainRouter.push('/my/notifications')"><i class="fas fa-bell"></i><span v-if="$i?.hasUnreadNotification" class="indicator navbar"><i class="fas fa-circle"></i></span></button>
-			<button class="button messaging _button" @click="mainRouter.push('/my/messaging')" v-if="$store.state.navBarChatIcon"><i class="fas fa-comments"></i><span v-if="$i?.hasUnreadMessagingMessage" class="indicator navbar"><i class="fas fa-circle"></i></span></button>
-			<button class="button widget _button" @click="widgetsShowing = true" v-if="$store.state.navBarWidgetIcon"><i class="fas fa-layer-group"></i></button>
-			<button class="button reload _button" @click="reloadPage()" v-if="$store.state.navBarReloadIcon"><i class="fas fa-redo"></i><span v-if="hasDisconnected" class="indicator navbar"><i class="fas fa-circle"></i></span></button>
+			<button class="button nav _button" @click="drawerMenuShowing = true"><i class="ti ti-menu-2"></i><span v-if="menuIndicated" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
+			<button class="button home _button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i class="ti ti-home"></i></button>
+			<button class="button notifications _button" @click="mainRouter.push('/my/notifications')"><i class="ti ti-bell"></i><span v-if="$i?.hasUnreadNotification" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
+			<button class="button messaging _button" @click="mainRouter.push('/my/messaging')" v-if="$store.state.navBarChatIcon"><i class="ti ti-messages"></i><span v-if="$i?.hasUnreadMessagingMessage" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
+			<button class="button widget _button" @click="widgetsShowing = true" v-if="$store.state.navBarWidgetIcon"><i class="ti ti-apps"></i></button>
+			<button class="button reload _button" @click="reloadPage()" v-if="$store.state.navBarReloadIcon"><i class="ti ti-refresh"></i><span v-if="hasDisconnected" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
 		</div>
 		<div class="post_area">
 			<div class="post_button">
-				<!-- <button class="button post _button" @click="os.post()"><i class="fas fa-pencil-alt"></i></button> -->
+				<!-- <button class="button post _button" @click="os.post()"><i class="ti ti-pencil"></i></button> -->
 				<button class="button post _button" data-cy-open-post-form @click="os.post">
-					<i class="icon fas fa-pencil-alt fa-fw"></i>
+					<i class="icon ti ti-pencil ti-fw"></i>
 				</button>
 			</div>
 		</div>
@@ -161,7 +161,7 @@ const onContextmenu = (ev) => {
 		type: 'label',
 		text: path,
 	}, {
-		icon: 'fas fa-window-maximize',
+		icon: 'ti ti-window-maximize',
 		text: i18n.ts.openInWindow,
 		action: () => {
 			os.pageWindow(path);
