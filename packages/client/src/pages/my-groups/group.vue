@@ -13,7 +13,7 @@
 							</div>
 							<div class="action">
 								<button class="_button" @click="removeUser(user)">
-									<i class="fas fa-times"></i>
+									<i class="ti ti-x"></i>
 								</button>
 							</div>
 						</div>
@@ -108,24 +108,24 @@
 	definePageMetadata(
 		computed(() => ({
 			title: i18n.ts.members,
-			icon: "fas fa-users",
+			icon: "ti ti-users",
 		})),
 	);
 	const headerActions = $computed(() => [
 		{
-			icon: 'fas fa-plus',
+			icon: 'ti ti-plus',
 			text: i18n.ts.invite,
 			handler: invite,
 		}, {
-			icon: 'fas fa-i-cursor',
+			icon: 'ti ti-cursor-text',
 			text: i18n.ts.rename,
 			handler: renameGroup,
 		}, {
-			icon: 'fas fa-right-left',
+			icon: 'ti ti-arrows-horizontal',
 			text: i18n.ts.transfer,
 			handler: transfer,
 		}, {
-			icon: 'fas fa-trash-alt',
+			icon: 'ti ti-trash',
 			text: i18n.ts.delete,
 			handler: deleteGroup,
 		},

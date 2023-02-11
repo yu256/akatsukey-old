@@ -88,7 +88,7 @@ export const navbarItemDef = reactive({
 	},
 	groups: {
 		title: 'groups',
-		icon: 'fas fa-users',
+		icon: 'ti ti-users',
 		to: '/my/groups',
 	},
 	clips: {
