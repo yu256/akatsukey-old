@@ -5,6 +5,7 @@
 		<transition name="fade" mode="out-in">
 			<div v-if="user">
 				<XHome v-if="tab === 'home'" :user="user"/>
+				<XTimeline v-else-if="tab === 'notes'" :user="user" />
 				<XReactions v-else-if="tab === 'reactions'" :user="user"/>
 				<XClips v-else-if="tab === 'clips'" :user="user"/>
 				<XPages v-else-if="tab === 'pages'" :user="user"/>
@@ -32,6 +33,7 @@ import { i18n } from '@/i18n';
 import { $i } from '@/account';
 
 const XHome = defineAsyncComponent(() => import('./home.vue'));
+const XTimeline = defineAsyncComponent(() => import('./index.timeline.vue'));
 const XReactions = defineAsyncComponent(() => import('./reactions.vue'));
 const XClips = defineAsyncComponent(() => import('./clips.vue'));
 const XPages = defineAsyncComponent(() => import('./pages.vue'));
@@ -70,6 +72,10 @@ const headerTabs = $computed(() => user ? [{
 	key: 'home',
 	title: i18n.ts.overview,
 	icon: 'ti ti-home',
+}, {
+	key: 'notes',
+	title: i18n.ts.notes,
+	icon: 'ti ti-pencil',
 }, ...($i && ($i.id === user.id)) || user.publicReactions ? [{
 	key: 'reactions',
 	title: i18n.ts.reaction,
