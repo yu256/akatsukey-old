@@ -236,7 +236,7 @@ export function getNoteMenu(props: {
 				action: pakuru,
 			},
 			{
-				icon: 'ti ti-copy',
+				icon: 'ti ti-clipboard',
 				text: i18n.ts.copyContent,
 				action: copyContent,
 			}, {
