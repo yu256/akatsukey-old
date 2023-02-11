@@ -1,6 +1,6 @@
 <template>
 <button class="suta _button" @click="star($event)">
-		<i class="fas fa-star"></i>
+		<i class="ti ti-star"></i>
 </button>
 </template>
 
