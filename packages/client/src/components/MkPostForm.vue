@@ -48,7 +48,7 @@
 			<button v-tooltip="i18n.ts.emoji" class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
 			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugin" class="_button" @click="showActions"><i class="ti ti-plug"></i></button>
 			<button ref="visibilityButton" v-tooltip="i18n.ts.visibility" class="_button visibility" :disabled="channel != null" @click="setVisibility">
-				<span v-if="visibility === 'public'"><i class="ti ti-world-off"></i></span>
+				<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
 				<span v-if="visibility === 'home'"><i class="ti ti-home"></i></span>
 				<span v-if="visibility === 'followers'"><i class="ti ti-lock"></i></span>
 				<span v-if="visibility === 'specified'"><i class="ti ti-mail"></i></span>
