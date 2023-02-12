@@ -116,6 +116,7 @@
 						<XPhotos :key="user.id" :user="user" />
 						<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
 					</template>
+					<XNotes :no-gap="true" :pagination="pagination"/>
 				</div>
 			</div>
 			<div v-if="!narrow" class="sub">
@@ -145,6 +146,7 @@ import * as os from '@/os';
 import { useRouter } from '@/router';
 import { i18n } from '@/i18n';
 import { $i } from '@/account';
+import XNotes from '@/components/MkNotes.vue';
 
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
@@ -160,6 +162,14 @@ let parallaxAnimationId = $ref<null | number>(null);
 let narrow = $ref<null | boolean>(null);
 let rootEl = $ref<null | HTMLElement>(null);
 let bannerEl = $ref<null | HTMLElement>(null);
+
+const pagination = {
+	endpoint: 'users/notes' as const,
+	limit: 10,
+	params: computed(() => ({
+		userId: props.user.id,
+	})),
+};
 
 const style = $computed(() => {
 	if (props.user.bannerUrl == null) return {};
