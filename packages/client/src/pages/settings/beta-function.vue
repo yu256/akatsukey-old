@@ -5,6 +5,8 @@
 		<FormSwitch v-model="navBarChatIcon" class="_formBlock">チャットを表示する</FormSwitch>
 		<FormSwitch v-model="navBarReloadIcon" class="_formBlock">リロードを表示する</FormSwitch>
 		<FormSwitch v-model="navBarWidgetIcon" class="_formBlock">ウィジェットを表示する</FormSwitch>
+		<FormSwitch v-model="postFormEmojiPickerNewStyleEnabled" class="_formBlock">投稿画面で新しい絵文字ピッカーを使用する</FormSwitch>
+		<FormSwitch v-model="postFormFooterEmojiIconEnabled" class="_formBlock">投稿画面のフッターに絵文字ボタンを表示する</FormSwitch>
 	</div>
 </template>
 	
@@ -17,4 +19,6 @@ import { defaultStore } from '@/store';
 	const navBarChatIcon = computed(defaultStore.makeGetterSetter('navBarChatIcon'));
 	const navBarReloadIcon = computed(defaultStore.makeGetterSetter('navBarReloadIcon'));
 	const navBarWidgetIcon = computed(defaultStore.makeGetterSetter('navBarWidgetIcon'));
+	const postFormEmojiPickerNewStyleEnabled = computed(defaultStore.makeGetterSetter('postFormEmojiPickerNewStyleEnabled'));
+	const postFormFooterEmojiIconEnabled = computed(defaultStore.makeGetterSetter('postFormFooterEmojiIconEnabled'));
 </script>
