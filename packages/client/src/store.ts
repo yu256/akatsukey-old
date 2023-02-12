@@ -266,7 +266,15 @@ export const defaultStore = markRaw(new Storage('base', {
 	navBarReloadIcon: {
 		where: 'device',
 		default: true,
-	}
+	},
+	postFormEmojiPickerNewStyleEnabled: { 
+		where: 'device',
+		default: true,
+	},
+	postFormFooterEmojiIconEnabled: { 
+		where: 'device',
+		default: false,
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
