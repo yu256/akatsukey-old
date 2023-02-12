@@ -138,7 +138,7 @@ export default defineComponent({
 				action: () => { this.toggleSensitive(file); },
 			}, {
 				text: this.$ts.cropImageFile,
-				icon: 'fas fa-crop',
+				icon: 'ti ti-crop',
 				action: () => { this.cropImage(file); },
 			}, {
 				text: this.$ts.describeFile,
