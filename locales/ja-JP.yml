@@ -897,6 +897,8 @@ account: "アカウント"
 move: "移動"
 pakuruConfirm: "パクりますか？"
 pakuru: "パクる"
+windowMaximize: "最大化"
+windowRestore: "元に戻す"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"
