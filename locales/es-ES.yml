@@ -1389,7 +1389,7 @@ _instanceCharts:
 _timelines:
   home: "Inicio"
   local: "Local"
-  social: "Social"
+  social: "Social+"
   global: "Global"
 _pages:
   newPage: "Crear página"

@@ -1434,8 +1434,7 @@ _instanceCharts:
 _timelines:
   home: "ホーム"
   local: "ローカル"
-  social: "ソーシャル"
-  global: "グローバル"
+  social: "ソーシャル＋"
 
 _pages:
   newPage: "ページの作成"
