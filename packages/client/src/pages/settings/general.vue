@@ -29,12 +29,6 @@
 		<FormSwitch v-model="useReactionPickerForContextMenu" class="_formBlock">{{ i18n.ts.useReactionPickerForContextMenu }}</FormSwitch>
 		<FormSwitch v-model="disablePagesScript" class="_formBlock">{{ i18n.ts.disablePagesScript }}</FormSwitch>
 
-		<FormSelect v-model="serverDisconnectedBehavior" class="_formBlock">
-			<template #label>{{ i18n.ts.whenServerDisconnected }}</template>
-			<option value="reload">{{ i18n.ts._serverDisconnectedBehavior.reload }}</option>
-			<option value="dialog">{{ i18n.ts._serverDisconnectedBehavior.dialog }}</option>
-			<option value="quiet">{{ i18n.ts._serverDisconnectedBehavior.quiet }}</option>
-		</FormSelect>
 	</FormSection>
 
 	<FormSection>
