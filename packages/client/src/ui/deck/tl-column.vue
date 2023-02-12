@@ -62,8 +62,6 @@ async function setType() {
 			value: 'local' as const, text: i18n.ts._timelines.local,
 		}, {
 			value: 'social' as const, text: i18n.ts._timelines.social,
-		}, {
-			value: 'global' as const, text: i18n.ts._timelines.global,
 		}],
 	});
 	if (canceled) {

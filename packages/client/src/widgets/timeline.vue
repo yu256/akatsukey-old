@@ -112,12 +112,6 @@ const choose = async (ev) => {
 		text: i18n.ts._timelines.social,
 		icon: 'ti ti-rocket',
 		action: () => { setSrc('social'); },
-	}, {
-		text: i18n.ts._timelines.global,
-		icon: 'ti ti-whirl',
-		action: () => { setSrc('global'); },
-	}, antennaItems.length > 0 ? null : undefined, ...antennaItems, listItems.length > 0 ? null : undefined, ...listItems], ev.currentTarget ?? ev.target).then(() => {
-		menuOpened.value = false;
 	});
 };
 

@@ -126,12 +126,7 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts._timelines.social,
 	icon: 'ti ti-rocket',
 	iconOnly: true,
-}] : []), ...(isGlobalTimelineAvailable ? [{
-	key: 'global',
-	title: i18n.ts._timelines.global,
-	icon: 'ti ti-whirl',
-	iconOnly: true,
-}] : []), {
+}, {
 	icon: 'ti ti-list',
 	title: i18n.ts.lists,
 	iconOnly: true,
