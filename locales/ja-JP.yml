@@ -1435,6 +1435,7 @@ _timelines:
   home: "ホーム"
   local: "ローカル"
   social: "ソーシャル＋"
+  global: "グローバル"
 
 _pages:
   newPage: "ページの作成"
