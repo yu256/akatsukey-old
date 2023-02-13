@@ -126,7 +126,12 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts._timelines.social,
 	icon: 'ti ti-view-360',
 	iconOnly: true,
-}, {
+}] : []), ...(isGlobalTimelineAvailable ? [{
+	key: 'global',
+	title: i18n.ts._timelines.global,
+	icon: 'ti ti-whirl',
+	iconOnly: true,
+}] : []), {
 	icon: 'ti ti-list',
 	title: i18n.ts.lists,
 	iconOnly: true,
@@ -145,7 +150,7 @@ const headerTabs = $computed(() => [{
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.timeline,
-	icon: src === 'local' ? 'ti ti-planet' : src === 'social' ? 'ti ti-view-360' : 'ti ti-home',
+	icon: src === 'local' ? 'ti ti-planet' : src === 'social' ? 'ti ti-view-360' : src === 'global' ? 'ti ti-whirl' : 'ti ti-home',
 })));
 </script>
 
