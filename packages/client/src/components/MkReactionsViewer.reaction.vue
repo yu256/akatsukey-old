@@ -4,7 +4,7 @@
 	ref="buttonRef"
 	v-ripple="canToggle"
 	class="hkzvhatu _button"
-	:class="{ reacted: note.myReaction == reaction, canToggle }"
+	:class="{ reacted: note.myReaction == reaction, canToggle: (canToggle || alternative) }"
 	@click="toggleReaction()"
 >
 	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis"/>
@@ -13,13 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ComputedRef, onMounted, ref, watch } from 'vue';
 import * as misskey from 'misskey-js';
 import XDetails from '@/components/MkReactionsViewer.details.vue';
 import XReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { $i } from '@/account';
+import { customEmojis } from '@/custom-emojis';
 
 const props = defineProps<{
 	reaction: string;
@@ -30,10 +31,19 @@ const props = defineProps<{
 
 const buttonRef = ref<HTMLElement>();
 
+const reactionName = computed(() => {
+	const r = props.reaction.replace(':', '');
+	return r.slice(0, r.indexOf('@'));
+});
+const alternative: ComputedRef<string | null> = computed(() => (customEmojis).find(it => it.name === reactionName.value)?.name);
+
 const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
 
-const toggleReaction = () => {
-	if (!canToggle.value) return;
+const toggleReaction = (ev) => {
+	if (!canToggle.value) {
+		chooseAlternative(ev);
+		return;
+	}
 
 	const oldReaction = props.note.myReaction;
 	if (oldReaction) {
@@ -59,6 +69,16 @@ const anime = () => {
 	if (document.hidden) return;
 
 	// TODO: 新しくリアクションが付いたことが視覚的に分かりやすいアニメーション
+};
+
+const chooseAlternative = (ev) => {
+	// メニュー表示にして、モデレーター以上の場合は登録もできるように
+	if (!alternative.value) return;
+	console.log(alternative.value);
+	os.api('notes/reactions/create', {
+		noteId: props.note.id,
+		reaction: `:${alternative.value}:`,
+	});
 };
 
 watch(() => props.count, (newCount, oldCount) => {
