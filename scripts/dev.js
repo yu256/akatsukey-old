@@ -1,31 +1,31 @@
 const execa = require('execa');
 
 (async () => {
-	await execa('pnpm', ['run', 'clean'], {
+	await execa('npm', ['run', 'clean'], {
 		cwd: __dirname + '/../',
 		stdout: process.stdout,
 		stderr: process.stderr,
 	});
 
-	execa('pnpm', ['dlx', 'gulp', 'watch'], {
+	execa('npx', ['gulp', 'watch'], {
 		cwd: __dirname + '/../',
 		stdout: process.stdout,
 		stderr: process.stderr,
 	});
 
-	execa('pnpm', ['run', 'watch'], {
+	execa('npm', ['run', 'watch'], {
 		cwd: __dirname + '/../packages/backend',
 		stdout: process.stdout,
 		stderr: process.stderr,
 	});
 
-	execa('pnpm', ['run', 'watch'], {
+	execa('npm', ['run', 'watch'], {
 		cwd: __dirname + '/../packages/client',
 		stdout: process.stdout,
 		stderr: process.stderr,
 	});
 
-	execa('pnpm', ['run', 'watch'], {
+	execa('npm', ['run', 'watch'], {
 		cwd: __dirname + '/../packages/sw',
 		stdout: process.stdout,
 		stderr: process.stderr,
@@ -33,7 +33,7 @@ const execa = require('execa');
 
 	const start = async () => {
 		try {
-			await execa('pnpm', ['run', 'start'], {
+			await execa('npm', ['run', 'start'], {
 				cwd: __dirname + '/../',
 				stdout: process.stdout,
 				stderr: process.stderr,
