@@ -897,6 +897,7 @@ account: "Account"
 move: "Move"
 pakuruConfirm: "Do you want a crack at it?"
 pakuru: "crack"
+duplicateEmoji: "An emoji with the same name exists. Do you want to import them?"
 windowMaximize: "Maximize"
 windowRestore: "Restore"
 _sensitiveMediaDetection:

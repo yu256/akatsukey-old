@@ -897,6 +897,7 @@ account: "アカウント"
 move: "移動"
 pakuruConfirm: "パクりますか？"
 pakuru: "パクる"
+duplicateEmoji: "同じ名前の絵文字が存在します。インポートしますか？"
 windowMaximize: "最大化"
 windowRestore: "元に戻す"
 
