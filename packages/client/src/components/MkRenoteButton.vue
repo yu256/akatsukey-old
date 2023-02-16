@@ -60,7 +60,25 @@ const renote = (viaKeyboard = false) => {
 				renoteId: props.note.id,
 			});
 		},
-	}, {
+	},{
+		text: i18n.ts.renoteinHome,
+		icon: 'ti ti-home',
+		action: () => {
+			os.api('notes/create', {
+				renoteId: props.note.id,
+				visibility: 'home'
+			});
+		}
+	},{
+		text: i18n.ts.renoteFollowerOnly,
+		icon: 'ti ti-lock',
+		action: () => {
+			os.api('notes/create', {
+				renoteId: props.note.id,
+				visibility: 'followers'
+			});
+		}
+	},{
 		text: i18n.ts.quote,
 		icon: 'ti ti-quote',
 		action: () => {
