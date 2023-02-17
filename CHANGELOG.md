@@ -8,6 +8,9 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.5
+- 数字引用機能
+
 ## akatsukey v2.4
 - グループにタブメニューを追加
 - クライアント起動時にも言語ファイルのチェックを行うように
