@@ -1,6 +1,7 @@
 import { defineAsyncComponent, Ref, inject } from 'vue';
 import * as misskey from 'misskey-js';
 import { pleaseLogin } from './please-login';
+import { getTextLastNumeric, getTextWithoutEndingNumeric } from './get-note-last-numeric';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
@@ -39,6 +40,25 @@ export function getNoteMenu(props: {
 				visibility: appearNote.visibility,
 			}
 			os.api('notes/create', postData, undefined);
+		});
+	}
+
+	function nextnumeric(): void {
+		os.confirm({
+			type: 'question',
+			text: i18n.ts.nextNumericConfirm,
+		}).then(({ canceled }) => {
+			if (canceled) return;
+			const postData = {
+				text: appearNote.text,
+				cw: appearNote.cw ? appearNote.cw || '' : undefined,
+				localOnly: appearNote.localOnly,
+				visibility: appearNote.visibility,
+			}
+			os.api('notes/create', {
+				text: getTextWithoutEndingNumeric(appearNote.text) + nextNumeric,
+				visibility: appearNote.visibility,
+			});
 		});
 	}
 
@@ -218,6 +238,8 @@ export function getNoteMenu(props: {
 			noteId: appearNote.id,
 		});
 
+		const nextNumeric = getTextLastNumeric(appearNote.text ?? '') + 1;
+
 		menu = [
 			...(
 				props.currentClipPage?.value.userId === $i.id ? [{
@@ -231,11 +253,14 @@ export function getNoteMenu(props: {
 				text: i18n.ts.reactions,
 				action: showReactions,
 			}, {
+				icon: `ti ti-box-multiple-${Math.min(9, nextNumeric)}`,
+				text: i18n.ts.nextNumeric,
+				action: nextnumeric,
+			}, {
 				icon: 'ti ti-copy',
 				text: i18n.ts.pakuru,
 				action: pakuru,
-			},
-			{
+			}, {
 				icon: 'ti ti-clipboard',
 				text: i18n.ts.copyContent,
 				action: copyContent,
