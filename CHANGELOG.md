@@ -9,8 +9,7 @@
 You should also include the user name that made the change.
 -->
 ## akatsukey v2.6
-- 絵文字インポート後そのままリアクションできるように
-- 同じ絵文字が存在すればクリックしてリアクションできるように
+- 他インスタンスの絵文字をクリックしてリアクションできるように（存在しなければ自動インポート）
 - 通報UIを見やすく
 
 ## akatsukey v2.5
