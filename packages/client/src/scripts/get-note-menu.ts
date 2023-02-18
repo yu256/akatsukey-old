@@ -43,25 +43,6 @@ export function getNoteMenu(props: {
 		});
 	}
 
-	function nextnumeric(): void {
-		os.confirm({
-			type: 'question',
-			text: i18n.ts.nextNumericConfirm,
-		}).then(({ canceled }) => {
-			if (canceled) return;
-			const postData = {
-				text: appearNote.text,
-				cw: appearNote.cw ? appearNote.cw || '' : undefined,
-				localOnly: appearNote.localOnly,
-				visibility: appearNote.visibility,
-			}
-			os.api('notes/create', {
-				text: getTextWithoutEndingNumeric(appearNote.text) + nextNumeric,
-				visibility: appearNote.visibility,
-			});
-		});
-	}
-
 	function del(): void {
 		os.confirm({
 			type: 'warning',
@@ -255,7 +236,13 @@ export function getNoteMenu(props: {
 			}, {
 				icon: `ti ti-box-multiple-${Math.min(9, nextNumeric)}`,
 				text: i18n.ts.nextNumeric,
-				action: nextnumeric,
+				action: () => {
+					if (!appearNote.text) return;
+					os.api('notes/create', {
+						text: getTextWithoutEndingNumeric(appearNote.text) + nextNumeric,
+						visibility: appearNote.visibility,
+					});
+				},
 			}, {
 				icon: 'ti ti-copy',
 				text: i18n.ts.pakuru,
