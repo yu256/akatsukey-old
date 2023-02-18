@@ -10,6 +10,7 @@ You should also include the user name that made the change.
 -->
 ## akatsukey v2.6
 - 絵文字インポート後そのままリアクションできるように
+- 同じ絵文字が存在すればクリックしてリアクションできるように
 - 通報UIを見やすく
 
 ## akatsukey v2.5
