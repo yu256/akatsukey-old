@@ -8,6 +8,10 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.6
+- 絵文字インポート後そのままリアクションできるように
+- 通報UIを見やすく
+
 ## akatsukey v2.5
 - 数字引用機能
 
