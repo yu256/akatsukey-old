@@ -1,8 +1,9 @@
-name: Publish Docker image
+name: Publish Docker image (develop)
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - develop
   workflow_dispatch:
 
 jobs:
@@ -28,5 +29,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: misskey/misskey:develop
+          labels: develop

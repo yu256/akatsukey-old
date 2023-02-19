@@ -2,10 +2,7 @@ version: "3"
 
 services:
   web:
-    build:
-      context: .
-      cache_from: 
-        - ghcr.io/taiyme/misskey:buildcache
+    build: .
     restart: always
     ports:
       - 3000:3000
