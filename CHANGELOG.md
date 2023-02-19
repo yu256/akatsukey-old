@@ -8,6 +8,9 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.7
+- Renoteした人一覧をリアクション一覧詳細ダイアログで見れるように
+
 ## akatsukey v2.6
 - 他インスタンスの絵文字をクリックしてリアクションできるように（存在しなければ自動インポート）
 - 通報UIを見やすく
