@@ -8,6 +8,11 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.8.5
+- MkEmojiPickerで大文字と小文字を区別しないように
+- メンションがはみ出る場合は省略する
+- 通知のフォローボタンの位置の修正
+
 ## akatsukey v2.8
 - リアクションをつけたユーザーが31人以上の場合でも全て表示されるように
 - 通知のノートサマリーを1行にする 
