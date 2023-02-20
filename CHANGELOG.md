@@ -8,6 +8,10 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.8
+- リアクションをつけたユーザーが31人以上の場合でも全て表示されるように
+- 通知のノートサマリーを1行にする 
+
 ## akatsukey v2.7
 - Renoteした人一覧をリアクション一覧詳細ダイアログで見れるように
 
