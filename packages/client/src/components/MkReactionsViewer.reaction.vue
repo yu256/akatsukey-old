@@ -8,7 +8,7 @@
 	@click="toggleReaction"
 	@contextmenu.stop="onContextmenu"
 >
-	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis"/>
+	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis" :use-fallback-icon="true"/>
 	<span class="count">{{ count }}</span>
 </button>
 </template>
