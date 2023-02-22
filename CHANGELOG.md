@@ -8,6 +8,9 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.8.9
+- 脆弱性の修正
+
 ## akatsukey v2.8.8
 - アンテナがフォローしていないユーザーの鍵投稿を拾わないように
 - x3 x4が含まれていたらノートを畳むように
