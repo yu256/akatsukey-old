@@ -8,6 +8,12 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.8.8
+- アンテナがフォローしていないユーザーの鍵投稿を拾わないように
+- x3 x4が含まれていたらノートを畳むように
+- ワードミュート機能の強化
+- 照会機能
+
 ## akatsukey v2.8.5
 - MkEmojiPickerで大文字と小文字を区別しないように
 - メンションがはみ出る場合は省略する
