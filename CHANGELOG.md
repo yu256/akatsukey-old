@@ -8,6 +8,10 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.9
+- チャンネルカラムとお気に入りカラムを追加
+- 一部のダイアログがMFMとしてパースされる問題の修正
+
 ## akatsukey v2.8.9
 - 脆弱性の修正
 
