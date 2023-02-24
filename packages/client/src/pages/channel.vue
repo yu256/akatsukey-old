@@ -23,7 +23,7 @@
 				</div>
 			</div>
 
-			<XPostForm v-if="$i" :channel="channel" class="post-form _panel _gap" fixed/>
+			<XPostForm v-if="$i" :channel="channel" class="post-form _panel _gap" fixed :autofocus="deviceKind === 'desktop'"/>
 
 			<XTimeline :key="channelId" class="_gap" src="channel" :channel="channelId" @before="before" @after="after"/>
 		</div>
@@ -42,6 +42,7 @@ import { useRouter } from '@/router';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
 
 const router = useRouter();
 
