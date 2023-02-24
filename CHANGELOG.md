@@ -8,6 +8,9 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.9.1.5
+- revert koruri font
+
 ## akatsukey v2.9.1
 - pwa iconをmaskableに
 - koruri fontを導入
