@@ -8,6 +8,9 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.9.2
+- x2, scaleでも畳むように
+
 ## akatsukey v2.9.1.5
 - revert koruri font
 
