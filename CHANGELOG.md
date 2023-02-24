@@ -8,6 +8,11 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.9.1
+- pwa iconをmaskableに
+- koruri fontを導入
+- windowsやandroidでも動作するように
+
 ## akatsukey v2.9
 - チャンネルカラムとお気に入りカラムを追加
 - 一部のダイアログがMFMとしてパースされる問題の修正
