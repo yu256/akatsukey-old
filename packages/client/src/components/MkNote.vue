@@ -165,6 +165,8 @@ let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note
 const isMyRenote = $i && ($i.id === note.userId || $i.isModerator || $i.isAdmin);
 const showContent = ref(false);
 const isLong = (appearNote.cw == null && appearNote.text != null && (
+	(appearNote.text.includes('$[scale')) ||
+	(appearNote.text.includes('$[x2')) ||
 	(appearNote.text.includes('$[x3')) ||
 	(appearNote.text.includes('$[x4')) ||
 	(appearNote.text.split('\n').length > 9) ||
