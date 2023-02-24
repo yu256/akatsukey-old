@@ -146,6 +146,8 @@ export function getUserMenu(user: misskey.entities.UserDetailed, router: Router 
 	}
 
 	async function invalidateFollow() {
+		if (!await getConfirmed(i18n.ts.breakFollowConfirm)) return;
+
 		os.apiWithDialog('following/invalidate', {
 			userId: user.id,
 		}).then(() => {
