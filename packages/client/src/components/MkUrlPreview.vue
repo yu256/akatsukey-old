@@ -105,7 +105,7 @@ if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/
 	requestUrl.hostname = 'www.youtube.com';
 }
 
-const requestLang = (lang ?? 'ja-JP').replace('ja-KS', 'ja-JP').replace('ja-CJP', 'ja-JP');
+const requestLang = (lang ?? 'ja-JP').replace('ja-KS', 'ja-JP').replace('ja-CJP', 'ja-JP').replace('ja-NY', 'ja-JP');
 
 requestUrl.hash = '';
 

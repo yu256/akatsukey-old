@@ -37,7 +37,7 @@ let player = $ref({
 	height: null,
 });
 
-const requestLang = (lang ?? 'ja-JP').replace('ja-KS', 'ja-JP').replace('ja-CJP', 'ja-JP');
+const requestLang = (lang ?? 'ja-JP').replace('ja-KS', 'ja-JP').replace('ja-CJP', 'ja-JP').replace('ja-NY', 'ja-JP');
 
 const ytFetch = (): void => {
 	fetching = true;
