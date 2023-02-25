@@ -27,22 +27,6 @@ export function getNoteMenu(props: {
 
 	const appearNote = isRenote ? props.note.renote as misskey.entities.Note : props.note;
 
-	function pakuru(): void {
-		os.confirm({
-			type: 'question',
-			text: i18n.ts.pakuruConfirm,
-		}).then(({ canceled }) => {
-			if (canceled) return;
-			const postData = {
-				text: appearNote.text,
-				cw: appearNote.cw ? appearNote.cw || '' : undefined,
-				localOnly: appearNote.localOnly,
-				visibility: appearNote.visibility,
-			}
-			os.api('notes/create', postData, undefined);
-		});
-	}
-
 	function del(): void {
 		os.confirm({
 			type: 'warning',
@@ -246,7 +230,15 @@ export function getNoteMenu(props: {
 			}, {
 				icon: 'ti ti-copy',
 				text: i18n.ts.pakuru,
-				action: pakuru,
+				action: () => {
+					if (!appearNote.text) return;
+					os.api('notes/create', {
+						text: appearNote.text,
+						cw: appearNote.cw ? appearNote.cw || '' : undefined,
+						localOnly: appearNote.localOnly,
+						visibility: appearNote.visibility,
+					});
+				},
 			}, {
 				icon: 'ti ti-clipboard',
 				text: i18n.ts.copyContent,
