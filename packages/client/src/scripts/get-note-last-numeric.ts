@@ -1,4 +1,4 @@
-const ENDS_WITH_NUMERIC = /\d+$/;
+const ENDS_WITH_NUMERIC = /-?\d+$/;
 
 export function getTextLastNumeric(text: string): number {
 	const result = ENDS_WITH_NUMERIC.exec(text);

@@ -204,6 +204,7 @@ export function getNoteMenu(props: {
 		});
 
 		const nextNumeric = getTextLastNumeric(appearNote.text ?? '') + 1;
+		const nextNumericOnesPlace = nextNumeric % 10;
 
 		menu = [
 			...(
@@ -218,12 +219,14 @@ export function getNoteMenu(props: {
 				text: i18n.ts.reactions,
 				action: showReactions,
 			}, {
-				icon: `ti ti-box-multiple-${Math.min(9, nextNumeric)}`,
+				icon: `ti ti-box-multiple-${nextNumericOnesPlace}`,
 				text: i18n.ts.nextNumeric,
 				action: () => {
 					if (!appearNote.text) return;
+					let baseText = getTextWithoutEndingNumeric(appearNote.text);
+					if (baseText.endsWith('</center>')) baseText += '\n';
 					os.api('notes/create', {
-						text: getTextWithoutEndingNumeric(appearNote.text) + nextNumeric,
+						text: baseText + nextNumeric,
 						visibility: appearNote.visibility,
 					});
 				},
