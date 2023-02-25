@@ -8,6 +8,14 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.9.3
+- fix(mfm): default degree not used in rotate
+- パクるのポップアップを削除
+- Update ja-KS
+- feat(client): 宛先ダイアログ
+- enhance(client): has authority
+- feat(client): ja-NY 
+
 ## akatsukey v2.9.2
 - x2, scaleでも畳むように
 
