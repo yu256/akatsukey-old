@@ -40,7 +40,6 @@
 import { defineComponent, defineAsyncComponent } from 'vue';
 import XHeader from './header.vue';
 import { host, instanceName } from '@/config';
-import { search } from '@/scripts/search';
 import * as os from '@/os';
 import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
@@ -79,7 +78,9 @@ export default defineComponent({
 					if (ColdDeviceStorage.get('syncDeviceDarkMode')) return;
 					this.$store.set('darkMode', !this.$store.state.darkMode);
 				},
-				's': search,
+				's': () => {
+					mainRouter.push('/search');
+				},
 				'h|/': this.help,
 			};
 		},
