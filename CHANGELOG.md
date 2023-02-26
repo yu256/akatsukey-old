@@ -8,6 +8,13 @@
 
 You should also include the user name that made the change.
 -->
+## akatsukey v2.9.4
+- スマホ・タブレットの場合、チャンネルの投稿フォームに自動でフォーカスしないように
+- Update pnpm 7.27.1 to 7.28.0
+- メニューの「もっと」からインスタンス情報を見れるように
+- improve clip menu ux
+- ノートメニューからユーザーメニューを開けるように 
+
 ## akatsukey v2.9.3
 - fix(mfm): default degree not used in rotate
 - パクるのポップアップを削除
