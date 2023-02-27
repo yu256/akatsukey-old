@@ -198,6 +198,13 @@ const menuDef = computed(() => [{
 		},
 		danger: true,
 	}],
+}, {
+	items: [{
+		icon: 'ti ti-git-fork',
+		text: 'akatsukey',
+		to: '/settings/akatsukey-settings',
+		active: currentPage?.route.name === 'akatsukey-settings',
+	}],
 }]);
 
 watch($$(narrow), () => {
