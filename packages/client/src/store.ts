@@ -278,6 +278,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	RenoteCollapsedEnabled: {
 		where: 'device',
 		default: false,
+	}
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
