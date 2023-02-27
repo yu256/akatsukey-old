@@ -206,7 +206,7 @@ function onMousedown(evt: MouseEvent): void {
 		width: 100%;
 		height: 100%;
 		border-radius: 6px;
-		overflow: hidden;
+		overflow: clip;
 
 		::v-deep(div) {
 			position: absolute;
