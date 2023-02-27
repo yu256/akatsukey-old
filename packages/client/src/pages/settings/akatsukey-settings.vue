@@ -1,5 +1,5 @@
 <template>
-<div class="_formRoot"></div>
+<div class="_formRoot">
 	<MkInfo warn class="_formBlock">設定は自動で保存されません。画面下部の保存ボタンを使用してください。</MkInfo>
 
 	<FormSection>
@@ -37,6 +37,7 @@
 	</FormSection>
 
 	<MkButton class="_formBlock" primary :disabled="!changed" @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+</div>
 </template>
 
 <script lang="ts" setup>
