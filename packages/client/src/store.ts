@@ -269,11 +269,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	postFormEmojiPickerNewStyleEnabled: { 
 		where: 'device',
-		default: true,
+		default: false,
 	},
 	postFormFooterEmojiIconEnabled: { 
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	RenoteCollapsedEnabled: {
 		where: 'device',
