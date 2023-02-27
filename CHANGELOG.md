@@ -8,6 +8,9 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v2.9.6
+- フロントエンドのパフォーマンスの向上
+
 # akatsukey v2.9.5
 - enhance(client): 一度見たノートのRenoteを畳む(opt-in)
 - 新絵文字ピッカーをopt-inに
