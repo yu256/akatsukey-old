@@ -42,7 +42,7 @@ const keymap = {
 };
 
 const tlComponent = $ref<InstanceType<typeof XTimeline>>();
-const rootEl = $shallowRef<HTMLElement>();
+const rootEl = $ref<HTMLElement>();
 
 let queue = $ref(0);
 const src = $computed({ get: () => defaultStore.reactiveState.tl.value.src, set: (x) => saveSrc(x) });

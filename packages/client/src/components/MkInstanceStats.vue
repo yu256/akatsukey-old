@@ -100,8 +100,8 @@ const props = withDefaults(defineProps<{
 
 const chartSpan = $ref<'hour' | 'day'>('hour');
 const chartSrc = $ref('active-users');
-let subDoughnutEl = $shallowRef<HTMLCanvasElement>();
-let pubDoughnutEl = $shallowRef<HTMLCanvasElement>();
+let subDoughnutEl = $ref<HTMLCanvasElement>();
+let pubDoughnutEl = $ref<HTMLCanvasElement>();
 
 const { handler: externalTooltipHandler1 } = useChartTooltip();
 const { handler: externalTooltipHandler2 } = useChartTooltip();

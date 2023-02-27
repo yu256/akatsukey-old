@@ -59,7 +59,7 @@ const emit = defineEmits<{
 	(ev: 'change-active-state', v: boolean): void;
 }>();
 
-let body = $shallowRef<HTMLDivElement>();
+let body = $ref<HTMLDivElement>();
 
 let dragging = $ref(false);
 watch($$(dragging), v => os.deckGlobalEvents.emit(v ? 'column.dragStart' : 'column.dragEnd'));

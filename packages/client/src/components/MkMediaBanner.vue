@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<{
 }>(), {
 });
 
-const audioEl = $shallowRef<HTMLAudioElement | null>();
+const audioEl = $ref<HTMLAudioElement | null>();
 let hide = $ref(true);
 
 function volumechange() {

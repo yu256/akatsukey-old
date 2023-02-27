@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, onMounted, onUnmounted, ref, shallowRef } from 'vue';
+import { watch, onMounted, onUnmounted, ref } from 'vue';
 import {
 	Chart,
 	ArcElement,
@@ -55,7 +55,7 @@ const alpha = (hex, a) => {
 	return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
-const chartEl = shallowRef<HTMLCanvasElement>(null);
+const chartEl = ref<HTMLCanvasElement>(null);
 
 const gridColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 

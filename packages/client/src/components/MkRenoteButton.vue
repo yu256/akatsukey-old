@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, shallowRef } from 'vue';
+import { computed, ref } from 'vue';
 import * as misskey from 'misskey-js';
 import XDetails from '@/components/MkUsersTooltip.vue';
 import { pleaseLogin } from '@/scripts/please-login';
@@ -28,7 +28,7 @@ const props = defineProps<{
 	count: number;
 }>();
 
-const buttonRef = shallowRef<HTMLElement>();
+const buttonRef = ref<HTMLElement>();
 
 const canRenote = computed(() => ['public', 'home'].includes(props.note.visibility) || props.note.userId === $i.id);
 

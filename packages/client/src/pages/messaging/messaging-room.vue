@@ -71,7 +71,7 @@ const props = defineProps<{
 	groupId?: string;
 }>();
 
-let rootEl = $shallowRef<HTMLDivElement>();
+let rootEl = $ref<HTMLDivElement>();
 let formEl = $ref<InstanceType<typeof XForm>>();
 let pagingComponent = $ref<InstanceType<typeof MkPagination>>();
 

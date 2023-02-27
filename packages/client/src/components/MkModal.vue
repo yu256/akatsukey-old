@@ -61,7 +61,7 @@ let maxHeight = $ref<number>();
 let fixed = $ref(false);
 let transformOrigin = $ref('center');
 let showing = $ref(true);
-let content = $shallowRef<HTMLElement>();
+let content = $ref<HTMLElement>();
 const zIndex = os.claimZIndex(props.zPriority);
 const type = $computed(() => {
 	if (props.preferType === 'auto') {

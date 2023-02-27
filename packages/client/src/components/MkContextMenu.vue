@@ -22,7 +22,7 @@ const emit = defineEmits<{
 	(ev: 'closed'): void;
 }>();
 
-let rootEl = $shallowRef<HTMLDivElement>();
+let rootEl = $ref<HTMLDivElement>();
 
 let zIndex = $ref<number>(os.claimZIndex('high'));
 

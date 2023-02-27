@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
 	cover: true,
 });
 
-const canvas = $shallowRef<HTMLCanvasElement>();
+const canvas = $ref<HTMLCanvasElement>();
 let loaded = $ref(false);
 
 function draw() {

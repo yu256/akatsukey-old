@@ -34,7 +34,7 @@ const props = defineProps<{
 
 let antenna = $ref(null);
 let queue = $ref(0);
-let rootEl = $shallowRef<HTMLElement>();
+let rootEl = $ref<HTMLElement>();
 let tlEl = $ref<InstanceType<typeof XTimeline>>();
 const keymap = $computed(() => ({
 	't': focus,

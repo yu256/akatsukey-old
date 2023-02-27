@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 
@@ -42,7 +42,7 @@ const emit = defineEmits<{
 
 const available = ref(false);
 
-const captchaEl = shallowRef<HTMLDivElement | undefined>();
+const captchaEl = ref<HTMLDivElement | undefined>();
 
 const variable = computed(() => {
 	switch (props.provider) {

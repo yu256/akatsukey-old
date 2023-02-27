@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import {
 	Chart,
 	ArcElement,
@@ -48,7 +48,7 @@ const props = defineProps<{
 	data: { name: string; value: number; color: string; onClick?: () => void }[];
 }>();
 
-const chartEl = shallowRef<HTMLCanvasElement>(null);
+const chartEl = ref<HTMLCanvasElement>(null);
 
 // フォントカラー
 Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');

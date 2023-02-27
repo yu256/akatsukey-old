@@ -35,7 +35,7 @@ const props = defineProps<{
 let list = $ref(null);
 let queue = $ref(0);
 let tlEl = $ref<InstanceType<typeof XTimeline>>();
-let rootEl = $shallowRef<HTMLElement>();
+let rootEl = $ref<HTMLElement>();
 
 watch(() => props.listId, async () => {
 	list = await os.api('users/lists/show', {

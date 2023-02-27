@@ -42,8 +42,8 @@ const emit = defineEmits<{
 }>();
 
 let modal = $ref<InstanceType<typeof MkModal>>();
-let rootEl = $shallowRef<HTMLElement>();
-let headerEl = $shallowRef<HTMLElement>();
+let rootEl = $ref<HTMLElement>();
+let headerEl = $ref<HTMLElement>();
 let bodyWidth = $ref(0);
 let bodyHeight = $ref(0);
 

@@ -78,7 +78,7 @@ const emit = defineEmits<{
 	(ev: 'close', actioned?: boolean): void;
 }>();
 
-let itemsEl = $shallowRef<HTMLDivElement>();
+let itemsEl = $ref<HTMLDivElement>();
 
 let items2: InnerMenuItem[] = $ref([]);
 
