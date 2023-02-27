@@ -159,7 +159,7 @@ const patrons = [
 let easterEggReady = false;
 let easterEggEmojis = $ref([]);
 let easterEggEngine = $ref(null);
-const containerEl = $ref<HTMLElement>();
+const containerEl = $shallowRef<HTMLElement>();
 
 function iconLoaded() {
 	const emojis = defaultStore.state.reactions;

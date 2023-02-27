@@ -21,8 +21,8 @@ const props = withDefaults(defineProps<{
 });
 
 let ro: ResizeObserver;
-let root = $ref<HTMLElement>();
-let content = $ref<HTMLElement>();
+let root = $shallowRef<HTMLElement>();
+let content = $shallowRef<HTMLElement>();
 let margin = $ref(0);
 const shouldSpacerMin = inject('shouldSpacerMin', false);
 
