@@ -186,7 +186,7 @@ const translation = ref(null);
 const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
-let renoteCollapsed = $ref(defaultStore.state.tmsRenoteCollapsedEnabled && isRenote && (($i && ($i.id === note.userId)) || shownNoteIds.has(appearNote.id)));
+let renoteCollapsed = $ref(defaultStore.state.RenoteCollapsedEnabled && isRenote && (($i && ($i.id === note.userId)) || shownNoteIds.has(appearNote.id)));
 
 shownNoteIds.add(appearNote.id);
 
