@@ -8,6 +8,12 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v2.9.5
+- enhance(client): 一度見たノートのRenoteを畳む(opt-in)
+- 新絵文字ピッカーをopt-inに
+- フォークの機能の設定を移動
+- フロントエンドのパフォーマンスの向上
+
 ## akatsukey v2.9.4
 - スマホ・タブレットの場合、チャンネルの投稿フォームに自動でフォーカスしないように
 - Update pnpm 7.27.1 to 7.28.0
