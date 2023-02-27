@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { markRaw, ref, onUpdated, onMounted, onBeforeUnmount, nextTick, watch } from 'vue';
+import { markRaw, ref, shallowRef, onUpdated, onMounted, onBeforeUnmount, nextTick, watch } from 'vue';
 import contains from '@/scripts/contains';
 import { char2filePath } from '@/scripts/twemoji-base';
 import { getStaticImageUrl } from '@/scripts/get-static-image-url';
@@ -131,7 +131,7 @@ const emit = defineEmits<{
 }>();
 
 const suggests = ref<Element>();
-const rootEl = ref<HTMLDivElement>();
+const rootEl = ShallowRef<HTMLDivElement>();
 
 const fetching = ref(true);
 const users = ref<any[]>([]);

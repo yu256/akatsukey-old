@@ -46,8 +46,8 @@ const emit = defineEmits<{
 	(ev: 'click', payload: MouseEvent): void;
 }>();
 
-let el = $ref<HTMLElement | null>(null);
-let ripples = $ref<HTMLElement | null>(null);
+let el = $ShallowRef<HTMLElement | null>(null);
+let ripples = $ShallowRef<HTMLElement | null>(null);
 
 onMounted(() => {
 	if (props.autofocus) {

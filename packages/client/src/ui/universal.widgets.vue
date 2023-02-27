@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>();
 
 let editMode = $ref(false);
-let rootEl = $ref<HTMLDivElement>();
+let rootEl = $shallowRef<HTMLDivElement>();
 
 onMounted(() => {
 	emit('mounted', rootEl);

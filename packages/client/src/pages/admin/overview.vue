@@ -196,8 +196,8 @@ Chart.register(
 	//gradient,
 );
 
-const rootEl = $ref<HTMLElement>();
-const chartEl = $ref<HTMLCanvasElement>(null);
+const rootEl = $shallowRef<HTMLElement>();
+const chartEl = $shallowRef<HTMLCanvasElement>(null);
 let stats: any = $ref(null);
 let serverInfo: any = $ref(null);
 let topSubInstancesForPie: any = $ref(null);
