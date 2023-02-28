@@ -379,7 +379,7 @@ onBeforeUnmount(() => {
 	position: fixed;
 	max-width: 100%;
 	margin-top: calc(1em + 8px);
-	overflow: clip;
+	overflow: hidden;
 	transition: top 0.1s ease, left 0.1s ease;
 
 	> ol {
@@ -396,7 +396,7 @@ onBeforeUnmount(() => {
 			align-items: center;
 			padding: 4px 12px;
 			white-space: nowrap;
-			overflow: clip;
+			overflow: hidden;
 			font-size: 0.9em;
 			cursor: default;
 

@@ -59,7 +59,7 @@ const collapsed = $ref(
 	&.collapsed {
 		position: relative;
 		max-height: 9em;
-		overflow: clip;
+		overflow: hidden;
 
 		> .fade {
 			display: block;

@@ -224,12 +224,12 @@ onUnmounted(() => {
 
 			>.main {
 				position: relative;
-				overflow: clip;
+				overflow: hidden;
 
 				>.banner-container {
 					position: relative;
 					height: 250px;
-					overflow: clip;
+					overflow: hidden;
 					background-size: cover;
 					background-position: center;
 
