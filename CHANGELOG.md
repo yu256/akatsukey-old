@@ -8,7 +8,13 @@
 
 You should also include the user name that made the change.
 -->
-# akatsukey 2.9.6.5
+# akatsukey v2.9.7
+- perf(client): use shallowRef for html element ref
+- perf(client): use shallowRef instead of ref for template reference
+- perf(client): improve MkTime performance
+- perf: use replaceAll instead of regex
+
+# akatsukey v2.9.6.5
 - Revert "enhance(client): 一度見たノートのRenoteを畳む(opt-in)"
 - fix(client): Android ChromeでPWAとしてインストールできない問題を修正
 - enhance(client): photoswipe 表示時に戻る操作をしても前の画面に戻らないように
