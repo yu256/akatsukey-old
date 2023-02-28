@@ -18,7 +18,7 @@ export const renderLike = async (noteReaction: NoteReaction, note: Note) => {
 	} as any;
 
 	if (reaction.startsWith(':')) {
-		const name = reaction.replace(/:/g, '');
+		const name = reaction.replaceAll(':', '');
 		const emoji = await Emojis.findOneBy({
 			name,
 			host: IsNull(),
