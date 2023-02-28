@@ -7,7 +7,6 @@
 		<FormSwitch v-model="navBarWidgetIcon" class="_formBlock">ウィジェットを表示する</FormSwitch>
 		<FormSwitch v-model="postFormEmojiPickerNewStyleEnabled" class="_formBlock">投稿画面で新しい絵文字ピッカーを使用する</FormSwitch>
 		<FormSwitch v-model="postFormFooterEmojiIconEnabled" class="_formBlock">投稿画面のフッターに絵文字ボタンを表示する</FormSwitch>
-		<FormSwitch v-model="RenoteCollapsedEnabled" class="_formBlock">タイムライン上の一度見たノートのRenoteを畳んで表示します。本文をクリックすると展開します。</FormSwitch>
 	</div>
 </template>
 	
@@ -22,5 +21,4 @@ import { defaultStore } from '@/store';
 	const navBarWidgetIcon = computed(defaultStore.makeGetterSetter('navBarWidgetIcon'));
 	const postFormEmojiPickerNewStyleEnabled = computed(defaultStore.makeGetterSetter('postFormEmojiPickerNewStyleEnabled'));
 	const postFormFooterEmojiIconEnabled = computed(defaultStore.makeGetterSetter('postFormFooterEmojiIconEnabled'));
-	const RenoteCollapsedEnabled = computed(defaultStore.makeGetterSetter('defaultStore.state.RenoteCollapsedEnabled'));
 </script>
