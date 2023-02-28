@@ -8,6 +8,11 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey 2.9.6.5
+- Revert "enhance(client): 一度見たノートのRenoteを畳む(opt-in)"
+- fix(client): Android ChromeでPWAとしてインストールできない問題を修正
+- enhance(client): photoswipe 表示時に戻る操作をしても前の画面に戻らないように
+
 # akatsukey v2.9.6
 - フロントエンドのパフォーマンスの向上
 
