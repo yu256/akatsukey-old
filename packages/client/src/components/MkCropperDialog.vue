@@ -53,7 +53,7 @@ const props = defineProps<{
 const imgUrl = `${url}/proxy/image.webp?${query({
 	url: props.file.url,
 })}`;
-let dialogEl = $ref<InstanceType<typeof XModalWindow>>();
+let dialogEl = $shallowRef<InstanceType<typeof XModalWindow>>();
 let imgEl = $shallowRef<HTMLImageElement>();
 let cropper: Cropper | null = null;
 let loading = $ref(true);

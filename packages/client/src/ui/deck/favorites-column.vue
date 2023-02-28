@@ -37,7 +37,7 @@ const emit = defineEmits<{
 	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
 }>();
 
-const pagingComponent = ref<InstanceType<typeof MkPagination>>();
+const pagingComponent = shallowRef<InstanceType<typeof MkPagination>>();
 
 const pagination = {
 	endpoint: 'i/favorites' as const,

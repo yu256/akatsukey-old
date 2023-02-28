@@ -158,7 +158,7 @@ const isRenote = (
 
 const el = shallowRef<HTMLElement>();
 const menuButton = shallowRef<HTMLElement>();
-const renoteButton = ref<InstanceType<typeof XRenoteButton>>();
+const renoteButton = shallowRef<InstanceType<typeof XRenoteButton>>();
 const renoteTime = shallowRef<HTMLElement>();
 const reactButton = shallowRef<HTMLElement>();
 let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);

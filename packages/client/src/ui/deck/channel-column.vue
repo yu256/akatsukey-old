@@ -32,7 +32,7 @@ const emit = defineEmits<{
 	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
 }>();
 
-let timeline = $ref<InstanceType<typeof XTimeline>>();
+let timeline = $shallowRef<InstanceType<typeof XTimeline>>();
 
 if (props.column.channelId == null) {
 	setChannel();

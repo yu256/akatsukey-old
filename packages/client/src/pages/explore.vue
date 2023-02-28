@@ -48,7 +48,7 @@ const props = defineProps<{
 }>();
 
 let tab = $ref('featured');
-let tagsEl = $ref<InstanceType<typeof MkFolder>>();
+let tagsEl = $shallowRef<InstanceType<typeof MkFolder>>();
 let searchQuery = $ref(null);
 let searchOrigin = $ref('combined');
 
