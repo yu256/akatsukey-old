@@ -300,28 +300,4 @@ definePageMetadata({
 		}
 	}
 }
-
-@container (max-width: 400px) {
-	.yweeujhr {
-		> .history {
-			> .message {
-				&:not(.isMe):not(.isRead) {
-					> div {
-						background-image: none;
-						border-left: solid 4px #3aa2dc;
-					}
-				}
-
-				> div {
-					padding: 16px;
-					font-size: 0.9em;
-
-					> .avatar {
-						margin: 0 12px 0 0;
-					}
-				}
-			}
-		}
-	}
-}
 </style>
