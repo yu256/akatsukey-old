@@ -11,7 +11,7 @@ You should also include the user name that made the change.
 # akatsukey v2.9.8
 - paddingが異常にでかくなるバグの修正のためいくつかrevert
 - enhance(client): improve ux of sound settings
-- enhance(client): improve ux of sound settings
+- enhance(client): add new sounds
 - fix dev
 - upgrade dependencies
 
