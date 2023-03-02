@@ -8,6 +8,13 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v2.9.8
+- paddingが異常にでかくなるバグの修正のためいくつかrevert
+- enhance(client): improve ux of sound settings
+- enhance(client): improve ux of sound settings
+- fix dev
+- upgrade dependencies
+
 # akatsukey v2.9.7
 - perf(client): use shallowRef for html element ref
 - perf(client): use shallowRef instead of ref for template reference
