@@ -12,7 +12,7 @@ import { PushNotificationService } from '@/core/PushNotificationService.js';
 import * as Acct from '@/misc/acct.js';
 import type { Packed } from '@/misc/json-schema.js';
 import { DI } from '@/di-symbols.js';
-import type { MutingsRepository, NotesRepository, AntennasRepository, UserListJoiningsRepository } from '@/models/index.js';
+import type { MutingsRepository, NotesRepository, AntennasRepository, UserListJoiningsRepository, FollowingsRepository } from '@/models/index.js';
 import { UtilityService } from '@/core/UtilityService.js';
 import { bindThis } from '@/decorators.js';
 import { StreamMessages } from '@/server/api/stream/types.js';
@@ -41,6 +41,9 @@ export class AntennaService implements OnApplicationShutdown {
 
 		@Inject(DI.userListJoiningsRepository)
 		private userListJoiningsRepository: UserListJoiningsRepository,
+
+		@Inject(DI.followingsRepository)
+		private followingsRepository: FollowingsRepository,
 
 		private utilityService: UtilityService,
 		private idService: IdService,
@@ -108,8 +111,26 @@ export class AntennaService implements OnApplicationShutdown {
 
 	@bindThis
 	public async checkHitAntenna(antenna: Antenna, note: (Note | Packed<'Note'>), noteUser: { id: User['id']; username: string; host: string | null; }): Promise<boolean> {
-		if (note.visibility === 'specified') return false;
-		if (note.visibility === 'followers') return false;
+		if (antenna.userId === note.userId) return true;
+
+		if (note.visibility === 'specified') {
+			if (note.userId !== antenna.userId) {
+				if (note.visibleUserIds == null) return false;
+				if (!note.visibleUserIds.includes(antenna.userId)) return false;
+			}
+		}
+
+		if (note.visibility === 'followers') {
+			const isFollowing = await this.followingsRepository.count({
+				where: {
+					followerId: antenna.userId,
+					followeeId: note.userId,
+				},
+				take: 1,
+			}).then(n => n > 0);
+			console.log(isFollowing, antenna.userId, note.userId);
+			if (!isFollowing) return false;
+		}
 	
 		if (!antenna.withReplies && note.replyId != null) return false;
 	
