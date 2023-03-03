@@ -8,6 +8,10 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v2.9.9
+- update sounds
+- feat: 2つの検索画面の統合
+
 # akatsukey v2.9.8
 - paddingが異常にでかくなるバグの修正のためいくつかrevert
 - enhance(client): improve ux of sound settings
