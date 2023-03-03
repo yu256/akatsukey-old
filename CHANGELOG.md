@@ -8,9 +8,14 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v2.9.9.5
+- perf: use Intl.DateTimeFormat and Intl.NumberFormat instead of toLocaleString
+- enhance(client): MkPageHeader関連をv13仕様に
+- fix(client): ユーザーページのファイル付きTLはリプライも含む
+- tabler icons変更漏れを修正
+
 # akatsukey v2.9.9
 - update sounds
-- feat: 2つの検索画面の統合
 
 # akatsukey v2.9.8
 - paddingが異常にでかくなるバグの修正のためいくつかrevert
