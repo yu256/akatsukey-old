@@ -44,7 +44,7 @@ import { defineComponent } from 'vue';
 import XSigninDialog from '@/components/MkSigninDialog.vue';
 import XSignupDialog from '@/components/MkSignupDialog.vue';
 import * as os from '@/os';
-import { mainRouter } from '@/router';
+import { search } from '@/scripts/search';
 
 export default defineComponent({
 	props: {
@@ -77,9 +77,7 @@ export default defineComponent({
 			}, {}, 'closed');
 		},
 
-		search() {
-			mainRouter.push('/search');
-		},
+		search,
 	},
 });
 </script>

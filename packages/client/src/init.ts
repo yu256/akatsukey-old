@@ -38,7 +38,6 @@ import { reloadChannel } from '@/scripts/unison-reload';
 import { reactionPicker } from '@/scripts/reaction-picker';
 import { getUrlWithoutLoginId } from '@/scripts/login-id';
 import { getAccountFromId } from '@/scripts/get-account-from-id';
-import { mainRouter } from './router';
 
 (async () => {
 	console.info(`Misskey v${version}`);
@@ -351,9 +350,7 @@ import { mainRouter } from './router';
 		'd': (): void => {
 			defaultStore.set('darkMode', !defaultStore.state.darkMode);
 		},
-		's': (): void => {
-			mainRouter.push('/search');
-		}
+		's': search,
 	};
 
 	if ($i) {
