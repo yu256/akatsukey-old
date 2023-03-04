@@ -905,6 +905,7 @@ nextNumeric: "数字引用する"
 duplicateEmoji: "同じ名前の絵文字が存在します。インポートしますか？"
 windowMaximize: "最大化"
 windowRestore: "元に戻す"
+emailNotSupported: "このサーバーではメール配信はサポートされていません"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

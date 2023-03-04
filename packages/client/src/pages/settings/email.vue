@@ -1,6 +1,6 @@
 <template>
-<div class="_formRoot">
-	<FormSection>
+<div v-if="instance.enableEmail" class="_gaps_m">
+	<FormSection first>
 		<template #label>{{ i18n.ts.emailAddress }}</template>
 		<FormInput v-model="emailAddress" type="email" manual-save>
 			<template #prefix><i class="ti ti-mail"></i></template>
@@ -37,17 +37,22 @@
 		</FormSwitch>
 	</FormSection>
 </div>
+<div v-if="!instance.enableEmail" class="_gaps_m">
+	<MkInfo>{{ i18n.ts.emailNotSupported }}</MkInfo>
+</div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
 import FormSection from '@/components/form/section.vue';
+import MkInfo from '@/components/MkInfo.vue';
 import FormInput from '@/components/form/input.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import * as os from '@/os';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { instance } from '@/instance';
 
 const emailAddress = ref($i!.email);
 
