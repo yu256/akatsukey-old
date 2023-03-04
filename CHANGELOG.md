@@ -8,6 +8,12 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.0
+- fix: 何故かバージョンが下がった依存関係を修正
+- アンテナの検索対象にCWを追加 
+- モデレーション画面のスイッチトグルをプルダウンにする,rejectされたときにアラートを出す
+- HTLの最適化
+
 # akatsukey v2.9.9.5
 - perf: use Intl.DateTimeFormat and Intl.NumberFormat instead of toLocaleString
 - enhance(client): MkPageHeader関連をv13仕様に
