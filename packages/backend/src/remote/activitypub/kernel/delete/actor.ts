@@ -14,9 +14,9 @@ export async function deleteActor(actor: CacheableRemoteUser, uri: string): Prom
 
 	const user = await Users.findOneBy({ id: actor.id });
 	if (user == null) {
-		logger.info(`skip: actor not found`);
+		return `skip: actor not found`;
 	} else if (user.isDeleted) {
-		logger.info(`skip: already deleted`);
+		return `skip: already deleted`;
 	}
 
 	const job = await createDeleteAccountJob(actor);
