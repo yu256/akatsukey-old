@@ -12,8 +12,10 @@ export async function deleteActor(actor: CacheableRemoteUser, uri: string): Prom
 		return `skip: delete actor ${actor.uri} !== ${uri}`;
 	}
 
-	const user = await Users.findOneByOrFail({ id: actor.id });
-	if (user.isDeleted) {
+	const user = await Users.findOneBy({ id: actor.id });
+	if (user == null) {
+		logger.info(`skip: actor not found`);
+	} else if (user.isDeleted) {
 		logger.info(`skip: already deleted`);
 	}
 
