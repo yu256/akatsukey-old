@@ -8,6 +8,11 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.2.5
+- enhance: AVIF support
+- 一部の状態のファイルをドロップしてアップロードできない場合がある問題を修正
+- インスタンスティッカーのfaviconを読み込む際に偽サイト警告が出ることがあるのを修正
+
 # akatsukey v3.2
 - リアクション履歴が公開なら、ログインしていなくても表示できるように
 - proxyRemoteFilesがfalseならリモートカスタム絵文字は直リンにする
