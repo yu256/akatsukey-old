@@ -8,6 +8,14 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.1
+- 削除済みのユーザーが deleteActor される時の動作を修正する, 未知のユーザーが deleteActor されたら処理をスキップする
+- Add dialog to remove follower
+- perf(sw): skipWaitingしない
+- chore(client): improve usability
+- enhance(client): show Unicode emoji tooltip with its name
+- enhance: Unicode絵文字名逆引き効率化
+
 # akatsukey v3.0
 - fix: 何故かバージョンが下がった依存関係を修正
 - アンテナの検索対象にCWを追加 
