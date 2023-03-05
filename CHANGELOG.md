@@ -8,6 +8,19 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.2
+- リアクション履歴が公開なら、ログインしていなくても表示できるように
+- proxyRemoteFilesがfalseならリモートカスタム絵文字は直リンにする
+- fix(backend): Set correct access control of admin/drive/files
+- enhance: RSSウィジェット / RSSティッカーウィジェットをいい感じにする
+- feat(client): add user list widget
+- enhance: convert video thumbnail to webp
+- サーバーでメール配信が無効になっている場合は設定ページにその旨を表示する
+- fix(server): trim long text of note from ap
+- fix(backend): block delivery
+- enhance(client): Compress non-animated PNG files
+- chore(backend): fix duplicated css preload
+
 # akatsukey v3.1
 - 削除済みのユーザーが deleteActor される時の動作を修正する, 未知のユーザーが deleteActor されたら処理をスキップする
 - Add dialog to remove follower
