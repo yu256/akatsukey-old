@@ -21,7 +21,6 @@ export async function GenerateVideoThumbnail(source: string): Promise<IImage> {
 			});
 		});
 
-		// JPEGに変換 (Webpでもいいが、MastodonはWebpをサポートせず表示できなくなる)
 		return await convertToWebp(`${dir}/out.png`, 498, 280);
 	} finally {
 		cleanup();
