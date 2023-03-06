@@ -8,6 +8,12 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.3
+- 文字数制限を3000から8000にする
+- enhance(server): make identicon same between local and remote
+- chore(client): tweak custom emoji size
+- perf: deepClone
+
 # akatsukey v3.2.5
 - enhance: AVIF support
 - 一部の状態のファイルをドロップしてアップロードできない場合がある問題を修正
