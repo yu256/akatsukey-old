@@ -8,6 +8,17 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.4
+- モバイル表示のボトムメニューをv13仕様に(デッキUI)
+- Feature: photo drawer swipe
+- enhance(client): trimHash
+- chore(client): tweak modal/contextmenu position calculation
+- enhance(client): tweak contextmenu position calculation
+- fix(client): モバイル環境でポップアップが表示されない
+- fix(client): チャンネル一覧が最大5個までしか表示されない
+- enhance(client): make possible to reload page of window 
+- iOS Safariでウィジェットを開くとモーダルが残って操作できなくなるバグの修正
+
 # akatsukey v3.3
 - 文字数制限を3000から8000にする
 - enhance(server): make identicon same between local and remote
