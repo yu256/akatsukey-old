@@ -82,7 +82,9 @@ async function chooseAntenna(ev: MouseEvent): Promise<void> {
 }
 
 async function chooseChannel(ev: MouseEvent): Promise<void> {
-	const channels = await os.api('channels/followed');
+	const channels = await os.api('channels/followed', {
+		limit: 100,
+	});
 	const items = channels.map(channel => ({
 		type: 'link' as const,
 		text: channel.name,
