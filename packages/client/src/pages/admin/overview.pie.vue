@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue';
+import { onMounted, shallowRef } from 'vue';
 import {
 	Chart,
 	ArcElement,
@@ -22,8 +22,6 @@ import {
 	Filler,
 	DoughnutController,
 } from 'chart.js';
-import number from '@/filters/number';
-import { defaultStore } from '@/store';
 import { useChartTooltip } from '@/scripts/use-chart-tooltip';
 
 Chart.register(
