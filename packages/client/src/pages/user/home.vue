@@ -113,15 +113,17 @@
 					</div>
 					<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
 					<template v-if="narrow">
-						<XPhotos :key="user.id" :user="user" />
-						<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
+						<XPhotos :key="user.id" :user="user"/>
+						<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 					</template>
-					<XNotes :no-gap="true" :pagination="pagination"/>
+				</div>
+				<div>
+					<XUserTimeline :user="user"/>
 				</div>
 			</div>
 			<div v-if="!narrow" class="sub">
-				<XPhotos :key="user.id" :user="user" />
-				<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);" />
+				<XPhotos :key="user.id" :user="user"/>
+				<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 			</div>
 		</div>
 	</MkSpacer>
@@ -131,6 +133,7 @@
 import { defineAsyncComponent, computed, inject, onMounted, onUnmounted, watch } from 'vue';
 import calcAge from 's-age';
 import * as misskey from 'misskey-js';
+import XUserTimeline from './index.timeline.vue';
 import XNote from '@/components/MkNote.vue';
 import MkFollowButton from '@/components/MkFollowButton.vue';
 import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
@@ -143,7 +146,6 @@ import * as os from '@/os';
 import { useRouter } from '@/router';
 import { i18n } from '@/i18n';
 import { $i } from '@/account';
-import XNotes from '@/components/MkNotes.vue';
 import { dateString } from '@/filters/date';
 
 const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
@@ -160,14 +162,6 @@ let parallaxAnimationId = $ref<null | number>(null);
 let narrow = $ref<null | boolean>(null);
 let rootEl = $ref<null | HTMLElement>(null);
 let bannerEl = $ref<null | HTMLElement>(null);
-
-const pagination = {
-	endpoint: 'users/notes' as const,
-	limit: 10,
-	params: computed(() => ({
-		userId: props.user.id,
-	})),
-};
 
 const style = $computed(() => {
 	if (props.user.bannerUrl == null) return {};
