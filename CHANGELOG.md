@@ -8,6 +8,13 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.5
+- プロフィールのUIを変更
+- fix(frontend): ポップアップメニューのクリック判定が貫通する
+- enhance(frontend): デッキUIのカラムにリロードボタンを追加
+- homeのタブの概要とノートを統合
+- URL内のパラメータを正しく読み取れずOGPが適切に取得されない問題を修正
+
 # akatsukey v3.4
 - モバイル表示のボトムメニューをv13仕様に(デッキUI)
 - Feature: photo drawer swipe
