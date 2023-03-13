@@ -519,7 +519,6 @@ export function popupMenu(items: MenuItem[] | Ref<MenuItem[]>, src?: HTMLElement
 	align?: string;
 	width?: number;
 	viaKeyboard?: boolean;
-	onClosing?: () => void;
 }) {
 	return new Promise((resolve, reject) => {
 		let dispose;
@@ -533,9 +532,6 @@ export function popupMenu(items: MenuItem[] | Ref<MenuItem[]>, src?: HTMLElement
 			closed: () => {
 				resolve();
 				dispose();
-			},
-			closing: () => {
-				if (options?.onClosing) options.onClosing();
 			},
 		}).then(res => {
 			dispose = res.dispose;
