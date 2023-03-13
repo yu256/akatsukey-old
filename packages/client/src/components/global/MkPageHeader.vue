@@ -1,34 +1,34 @@
 <template>
-<div v-if="show" ref="el" :class="[$style.root]" :style="{ background: bg }">
-	<div :class="[$style.upper, { [$style.slim]: narrow, [$style.thin]: thin_ }]">
-		<div v-if="!thin_ && narrow && props.displayMyAvatar && $i" class="_button" :class="$style.buttonsLeft" @click="openAccountMenu">
-			<MkAvatar :class="$style.avatar" :user="$i"/>
+<div v-if="show" ref="el" class="fdidabkb" :style="{ background: bg }">
+	<div class="upper" :class="{ slim: narrow, thin: thin_ }">
+		<div v-if="!thin_ && narrow && props.displayMyAvatar && $i" class="_button buttons left" @click="openAccountMenu">
+			<MkAvatar class="avatar" :user="$i" :disable-preview="true"/>
 		</div>
-		<div v-else-if="!thin_ && narrow && !hideTitle" :class="$style.buttonsLeft"/>
+		<div v-else-if="!thin_ && narrow && !hideTitle" class="buttons left"></div>
 
 		<template v-if="metadata">
-			<div v-if="!hideTitle" :class="$style.titleContainer" @click="top">
-				<MkAvatar v-if="metadata.avatar" :class="$style.titleAvatar" :user="metadata.avatar" indicator/>
-				<i v-else-if="metadata.icon" :class="[$style.titleIcon, metadata.icon]"></i>
+			<div v-if="!hideTitle" class="titleContainer" @click="top">
+				<MkAvatar v-if="metadata.avatar" class="avatar" :user="metadata.avatar" :disable-preview="true" :show-indicator="true"/>
+				<i v-else-if="metadata.icon" class="icon" :class="metadata.icon"></i>
 
-				<div :class="$style.title">
+				<div class="title">
 					<MkUserName v-if="metadata.userName" :user="metadata.userName" :nowrap="true"/>
 					<div v-else-if="metadata.title">{{ metadata.title }}</div>
-					<div v-if="metadata.subtitle" :class="$style.subtitle">
+					<div v-if="metadata.subtitle" class="subtitle">
 						{{ metadata.subtitle }}
 					</div>
 				</div>
 			</div>
-			<XTabs v-if="!narrow || hideTitle" :class="$style.tabs" :tab="tab" :tabs="tabs" :root-el="el" @update:tab="key => emit('update:tab', key)" @tab-click="onTabClick"/>
+			<XTabs v-if="!narrow || hideTitle" class="tabs" :tab="tab" :tabs="tabs" :root-el="el" @update:tab="key => emit('update:tab', key)" @tab-click="onTabClick"/>
 		</template>
-		<div v-if="(!thin_ && narrow && !hideTitle) || (actions && actions.length > 0)" :class="$style.buttonsRight">
+		<div v-if="(!thin_ && narrow && !hideTitle) || (actions && actions.length > 0)" class="buttons right">
 			<template v-for="action in actions">
-				<button v-tooltip.noDelay="action.text" class="_button" :class="[$style.button, { [$style.highlighted]: action.highlighted }]" @click.stop="action.handler" @touchstart="preventDrag"><i :class="action.icon"></i></button>
+				<button v-tooltip.noDelay="action.text" class="_button button" :class="{ highlighted: action.highlighted }" @click.stop="action.handler" @touchstart="preventDrag"><i :class="action.icon"></i></button>
 			</template>
 		</div>
 	</div>
-	<div v-if="(narrow && !hideTitle) && hasTabs" :class="[$style.lower, { [$style.slim]: narrow, [$style.thin]: thin_ }]">
-		<XTabs :class="$style.tabs" :tab="tab" :tabs="tabs" :root-el="el" @update:tab="key => emit('update:tab', key)" @tab-click="onTabClick"/>
+	<div v-if="(narrow && !hideTitle) && hasTabs" class="lower" :class="{ slim: narrow, thin: thin_ }">
+		<XTabs class="tabs" :tab="tab" :tabs="tabs" :root-el="el" @update:tab="key => emit('update:tab', key)" @tab-click="onTabClick"/>
 	</div>
 </div>
 </template>
@@ -125,169 +125,168 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss" module>
-.root {
+<style lang="scss" scoped>
+.fdidabkb {
 	-webkit-backdrop-filter: var(--blur, blur(15px));
 	backdrop-filter: var(--blur, blur(15px));
 	border-bottom: solid 0.5px var(--divider);
 	width: 100%;
-}
 
-.upper,
-.lower {
-	width: 100%;
-	background: transparent;
-}
+	> .upper {
+		--height: 50px;
+		width: 100%;
+		display: flex;
+		gap: var(--margin);
+		height: var(--height);
+		background: transparent;
 
-.upper {
-	--height: 50px;
-	display: flex;
-	gap: var(--margin);
-	height: var(--height);
+		> .tabs:first-child {
+			margin-left: auto;
+			padding: 0 12px;
+		}
 
-	.tabs:first-child {
-		margin-left: auto;
-		padding: 0 12px;
-	}
-	.tabs {
-		margin-right: auto;
-	}
+		> .tabs {
+			margin-right: auto;
+		}
 
-	&.thin {
-		--height: 42px;
+		&.thin {
+			--height: 42px;
+
+			> .buttons {
+				> .button {
+					font-size: 0.9em;
+				}
+			}
+		}
+
+		&.slim {
+			text-align: center;
+			gap: 0;
+
+			> .tabs:first-child {
+				margin-left: 0;
+			}
+
+			> .titleContainer {
+				margin: 0 auto;
+				max-width: 100%;
+			}
+		}
 
 		> .buttons {
+			--margin: 8px;
+			display: flex;
+			align-items: center;
+			min-width: var(--height);
+			height: var(--height);
+
+			&:empty {
+				width: var(--height);
+			}
+
+			&.left {
+				margin: 0 var(--margin) 0 0;
+
+				> .avatar {
+					$size: 32px;
+					display: inline-block;
+					width: $size;
+					height: $size;
+					vertical-align: bottom;
+					margin: 0 8px;
+				}
+			}
+
+			&.right {
+				margin: 0 0 0 var(--margin);
+			}
+
 			> .button {
-				font-size: 0.9em;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: var(--height);
+				width: calc(var(--height) - (var(--margin)));
+				box-sizing: border-box;
+				position: relative;
+				border-radius: 5px;
+
+				&:hover {
+					background: rgba(0, 0, 0, 0.05);
+				}
+
+				&.highlighted {
+					color: var(--accent);
+				}
+			}
+
+			.fullButton {
+				& + .fullButton {
+					margin-left: 12px;
+				}
+			}
+		}
+
+		> .titleContainer {
+			display: flex;
+			align-items: center;
+			max-width: min(30vw, 400px);
+			overflow: auto;
+			white-space: nowrap;
+			text-align: left;
+			font-weight: bold;
+			flex-shrink: 1;
+			margin-left: 24px;
+
+			> .avatar {
+				$size: 32px;
+				display: inline-block;
+				width: $size;
+				height: $size;
+				vertical-align: bottom;
+				margin: 0 8px;
+				pointer-events: none;
+			}
+
+			> .icon {
+				margin-right: 8px;
+				width: 16px;
+				text-align: center;
+			}
+
+			> .title {
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				line-height: 1.1;
+
+				> .subtitle {
+					opacity: 0.6;
+					font-size: 0.8em;
+					font-weight: normal;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					&.activeTab {
+						text-align: center;
+
+						> .chevron {
+							display: inline-block;
+							margin-left: 6px;
+						}
+					}
+				}
 			}
 		}
 	}
 
-	&.slim {
-		text-align: center;
-		gap: 0;
-
-		.tabs:first-child {
-			margin-left: 0;
-		}
-		> .titleContainer {
-			margin: 0 auto;
-			max-width: 100%;
-		}
-	}
-}
-
-.lower {
-	--height: 40px;
-	height: var(--height);
-}
-
-.buttons {
-	--margin: 8px;
-	display: flex;
-	align-items: center;
-	min-width: var(--height);
-	height: var(--height);
-	&:empty {
-		width: var(--height);
-	}
-}
-
-.buttonsLeft {
-	composes: buttons;
-	margin: 0 var(--margin) 0 0;
-}
-
-.buttonsRight {
-	composes: buttons;
-	margin: 0 0 0 var(--margin);
-}
-
-.avatar {
-	$size: 32px;
-	display: inline-block;
-	width: $size;
-	height: $size;
-	vertical-align: bottom;
-	margin: 0 8px;
-}
-
-.button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: var(--height);
-	width: calc(var(--height) - (var(--margin)));
-	box-sizing: border-box;
-	position: relative;
-	border-radius: 5px;
-
-	&:hover {
-		background: rgba(0, 0, 0, 0.05);
-	}
-
-	&.highlighted {
-		color: var(--accent);
-	}
-}
-
-.fullButton {
-	& + .fullButton {
-		margin-left: 12px;
-	}
-}
-
-.titleContainer {
-	display: flex;
-	align-items: center;
-	max-width: min(30vw, 400px);
-	overflow: auto;
-	white-space: nowrap;
-	text-align: left;
-	font-weight: bold;
-	flex-shrink: 1;
-	margin-left: 24px;
-}
-
-.titleAvatar {
-	$size: 32px;
-	display: inline-block;
-	width: $size;
-	height: $size;
-	vertical-align: bottom;
-	margin: 0 8px;
-	pointer-events: none;
-}
-
-.titleIcon {
-	margin-right: 8px;
-	width: 16px;
-	text-align: center;
-}
-
-.title {
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	line-height: 1.1;
-}
-
-.subtitle {
-	opacity: 0.6;
-	font-size: 0.8em;
-	font-weight: normal;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-
-	&.activeTab {
-		text-align: center;
-
-		> .chevron {
-			display: inline-block;
-			margin-left: 6px;
-		}
+	> .lower {
+		--height: 40px;
+		width: 100%;
+		height: var(--height);
+		background: transparent;
 	}
 }
 </style>
