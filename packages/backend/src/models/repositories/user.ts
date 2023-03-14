@@ -218,25 +218,25 @@ export const UserRepository = db.getRepository(User).extend({
 
 	async getAvatarUrl(user: User): Promise<string> {
 		if (user.avatar) {
-			return DriveFiles.getPublicUrl(user.avatar, true) || this.getIdenticonUrl(user);
+			return DriveFiles.getPublicUrl(user.avatar, true) || this.getIdenticonUrl(user.id);
 		} else if (user.avatarId) {
 			const avatar = await DriveFiles.findOneByOrFail({ id: user.avatarId });
-			return DriveFiles.getPublicUrl(avatar, true) || this.getIdenticonUrl(user);
+			return DriveFiles.getPublicUrl(avatar, true) || this.getIdenticonUrl(user.id);
 		} else {
-			return this.getIdenticonUrl(user);
+			return this.getIdenticonUrl(user.id);
 		}
 	},
 
 	getAvatarUrlSync(user: User): string {
 		if (user.avatar) {
-			return DriveFiles.getPublicUrl(user.avatar, true) || this.getIdenticonUrl(user);
+			return DriveFiles.getPublicUrl(user.avatar, true) || this.getIdenticonUrl(user.id);
 		} else {
-			return this.getIdenticonUrl(user);
+			return this.getIdenticonUrl(user.id);
 		}
 	},
 
-	getIdenticonUrl(user: User): string {
-		return `${config.url}/identicon/${user.usernameLower}@${user.host ?? config.host}`;
+	getIdenticonUrl(userId: User['id']): string {
+		return `${config.url}/identicon/${userId}`;
 	},
 
 	async pack<ExpectsMe extends boolean | null = null, D extends boolean = false>(
