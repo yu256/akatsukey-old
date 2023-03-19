@@ -8,6 +8,14 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.6
+- enhance(backend): 配送先が410 Goneで応答してきた場合配送停止するように
+- perf: use overflow: clip instead of overflow: hidden
+- enhance(frontend): メインカラムが無い場合の挙動を調整
+- refactor/perf(frontend): 未使用のimportを削除 / v-bind:keyを記述
+- Update pnpm
+- node v18.15.0
+
 # akatsukey v3.5
 - プロフィールのUIを変更
 - fix(frontend): ポップアップメニューのクリック判定が貫通する
@@ -27,7 +35,6 @@ You should also include the user name that made the change.
 
 # akatsukey v3.3
 - 文字数制限を3000から8000にする
-- enhance(server): make identicon same between local and remote
 - chore(client): tweak custom emoji size
 - perf: deepClone
 
