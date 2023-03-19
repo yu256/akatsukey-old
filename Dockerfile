@@ -1,4 +1,4 @@
-FROM node:18.14.1-bullseye AS builder
+FROM node:18.15.0-bullseye AS builder
 
 ARG NODE_ENV=production
 
