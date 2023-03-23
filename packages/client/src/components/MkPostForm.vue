@@ -43,9 +43,8 @@
 			<button v-tooltip="i18n.ts.attachFile" class="_button" @click="chooseFileFrom"><i class="ti ti-photo-plus"></i></button>
 			<button v-tooltip="i18n.ts.poll" class="_button" :class="{ active: poll }" @click="togglePoll"><i class="ti ti-chart-arrows"></i></button>
 			<button v-tooltip="i18n.ts.useCw" class="_button" :class="{ active: useCw }" @click="useCw = !useCw"><i class="ti ti-eye-off"></i></button>
-			<button v-tooltip="i18n.ts.mention" class="_button" @click="insertMention"><i class="ti ti-at"></i></button>
 			<button v-tooltip="i18n.ts.hashtags" class="_button" :class="{ active: withHashtags }" @click="withHashtags = !withHashtags"><i class="ti ti-hash"></i></button>
-			<button v-if="$store.state.postFormFooterEmojiIconEnabled" v-tooltip="i18n.ts.emoji" class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
+			<button v-tooltip="i18n.ts.emoji" class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
 			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugin" class="_button" @click="showActions"><i class="ti ti-plug"></i></button>
 			<button ref="visibilityButton" v-tooltip="i18n.ts.visibility" class="_button visibility" :disabled="channel != null" @click="setVisibility">
 				<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
@@ -55,7 +54,6 @@
 			</button>
 			<button v-tooltip="i18n.ts.previewNoteText" class="_button preview" :class="{ active: showPreview }" @click="showPreview = !showPreview"><i class="ti ti-eye"></i></button>
 		</footer>
-		<MkEmojiPicker v-if="$store.state.postFormEmojiPickerNewStyleEnabled" @chosen="emojiChosen"></MkEmojiPicker>
 		<datalist id="hashtags">
 			<option v-for="hashtag in recentHashtags" :key="hashtag" :value="hashtag"/>
 		</datalist>
@@ -70,13 +68,11 @@ import * as misskey from 'misskey-js';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { length } from 'stringz';
 import { toASCII } from 'punycode/';
-import * as Acct from 'misskey-js/built/acct';
 import { throttle } from 'throttle-debounce';
 import XNoteSimple from '@/components/MkNoteSimple.vue';
 import XNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
 import XPollEditor from '@/components/MkPollEditor.vue';
-import MkEmojiPicker from '@/components/MkEmojiPicker.vue';
 import { host, url } from '@/config';
 import { erase, unique } from '@/scripts/array';
 import { extractMentions } from '@/scripts/extract-mentions';
@@ -144,7 +140,6 @@ let visibleUsers = $ref([]);
 if (props.initialVisibleUsers) {
 	props.initialVisibleUsers.forEach(pushVisibleUser);
 }
-let autocomplete = $ref(null);
 let draghover = $ref(false);
 let quoteId = $ref(null);
 let hasNotSpecifiedMentions = $ref(false);
@@ -340,9 +335,6 @@ function togglePoll() {
 	}
 }
 
-function addTag(tag: string) {
-	insertTextAtCursor(textareaEl, ` #${tag} `);
-}
 
 function focus() {
 	if (textareaEl) {
@@ -620,11 +612,6 @@ function cancel() {
 	emit('cancel');
 }
 
-function insertMention() {
-	os.selectUser().then(user => {
-		insertTextAtCursor(textareaEl, '@' + Acct.toString(user) + ' ');
-	});
-}
 
 async function insertEmoji(ev: MouseEvent) {
 	os.openEmojiPicker(ev.currentTarget ?? ev.target, {}, textareaEl);
@@ -714,10 +701,6 @@ onMounted(() => {
 		nextTick(() => watchForDraft());
 	});
 });
-
-function emojiChosen(emoji: any) {
-	insertTextAtCursor(textareaEl, emoji);
-}
 </script>
 
 <style lang="scss" scoped>
@@ -760,7 +743,6 @@ function emojiChosen(emoji: any) {
 			> .text-count {
 				opacity: 0.7;
 				line-height: 66px;
-				margin-right: 12px;
 			}
 
 			> .visibility {
@@ -996,17 +978,5 @@ function emojiChosen(emoji: any) {
 			}
 		}
 	}
-}
-.omfetrab.w1,.omfetrab.w2,.omfetrab.w3 {
-	width: 100%; 
-}
-.body {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--eachSize), auto));
-}
-.body button {
-  width: 100%;
-  display: flex !important;
-  justify-content: center;
 }
 </style>
