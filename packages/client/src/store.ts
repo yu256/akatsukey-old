@@ -287,14 +287,6 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: true,
 	},
-	postFormEmojiPickerNewStyleEnabled: { 
-		where: 'device',
-		default: false,
-	},
-	postFormFooterEmojiIconEnabled: { 
-		where: 'device',
-		default: true,
-	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
