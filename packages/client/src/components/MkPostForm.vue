@@ -743,6 +743,7 @@ onMounted(() => {
 			> .text-count {
 				opacity: 0.7;
 				line-height: 66px;
+				margin-right: 12px;
 			}
 
 			> .visibility {
