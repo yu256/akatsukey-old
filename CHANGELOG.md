@@ -8,6 +8,16 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.7
+- fix(frontend): Safariでプラグインが複数ある場合に正常に読み込まれない問題を修正
+- fix types, use arrow functions 
+- update .eslintrc.cjs
+- 絵文字ピッカーのオプトイン式の設定を削除
+- PostFormからメンションボタンを削除
+- enhance(frontend): ノートのインスタンス情報の表示位置
+- enhance(frontend): パクる・数字引用を強化・RenoteButtonに移動 
+- update dependencies
+
 # akatsukey v3.6
 - enhance(backend): 配送先が410 Goneで応答してきた場合配送停止するように
 - perf: use overflow: clip instead of overflow: hidden
