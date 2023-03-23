@@ -289,7 +289,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	instanceTickerPosition: {
 		where: 'device',
-		default: 'leftedge' as 'normal' | 'leftedge' | 'rightedge' | 'bottomleft' | 'bottomright',
+		default: 'bottomleft' as 'normal' | 'leftedge' | 'rightedge' | 'bottomleft' | 'bottomright',
 	},
 	UsePakuru: {
 		where: 'device',

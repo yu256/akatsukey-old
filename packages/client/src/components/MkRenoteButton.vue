@@ -83,13 +83,13 @@ const renote = (viaKeyboard = false) => {
 
 	const pakuruMenu = [
 		defaultStore.state.UsePakuru ? {
-			text: 'パクる',
+			text: i18n.ts.pakuru,
 			icon: 'ti ti-swipe',
 			action: () => pakuru(props.note),
 		} : undefined,
 		defaultStore.state.UseNumberquote ? {
 			text: '数字引用する',
-			icon: 'ti ti-exposure-plus-1',
+			icon: i18n.ts.nextNumeric,
 			action: () => numberquote(props.note),
 		} : undefined,
 	];
