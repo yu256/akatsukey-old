@@ -1,6 +1,5 @@
 import { defineAsyncComponent, Ref } from 'vue';
 import * as misskey from 'misskey-js';
-import { getTextLastNumeric, getTextWithoutEndingNumeric } from './get-note-last-numeric';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
@@ -145,9 +144,6 @@ export function getNoteMenu(props: {
 			noteId: appearNote.id,
 		});
 
-		const nextNumeric = getTextLastNumeric(appearNote.text ?? '') + 1;
-		const nextNumericOnesPlace = nextNumeric % 10;
-
 		menu = [
 			...(
 				props.currentClipPage?.value.userId === $i.id ? [{
@@ -160,30 +156,6 @@ export function getNoteMenu(props: {
 				icon: 'ti ti-users',
 				text: i18n.ts.reactions,
 				action: showReactions,
-			}, {
-				icon: `ti ti-box-multiple-${nextNumericOnesPlace}`,
-				text: i18n.ts.nextNumeric,
-				action: () => {
-					if (!appearNote.text) return;
-					let baseText = getTextWithoutEndingNumeric(appearNote.text);
-					if (baseText.endsWith('</center>')) baseText += '\n';
-					os.api('notes/create', {
-						text: baseText + nextNumeric,
-						visibility: appearNote.visibility,
-					});
-				},
-			}, {
-				icon: 'ti ti-copy',
-				text: i18n.ts.pakuru,
-				action: () => {
-					if (!appearNote.text) return;
-					os.api('notes/create', {
-						text: appearNote.text,
-						cw: appearNote.cw ? appearNote.cw || '' : undefined,
-						localOnly: appearNote.localOnly,
-						visibility: appearNote.visibility,
-					});
-				},
 			}, {
 				icon: 'ti ti-clipboard',
 				text: i18n.ts.copyContent,

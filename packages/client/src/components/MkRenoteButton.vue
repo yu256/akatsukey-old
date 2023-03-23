@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, shallowRef } from 'vue';
+import { computed, shallowRef } from 'vue';
 import * as misskey from 'misskey-js';
 import XDetails from '@/components/MkUsersTooltip.vue';
 import { pleaseLogin } from '@/scripts/please-login';
@@ -22,6 +22,8 @@ import * as os from '@/os';
 import { $i } from '@/account';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { i18n } from '@/i18n';
+import { pakuru, numberquote } from '@/scripts/pakuru';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
@@ -31,8 +33,11 @@ const props = defineProps<{
 const buttonRef = shallowRef<HTMLElement>();
 
 const canRenote = computed(() => ['public', 'home'].includes(props.note.visibility) || props.note.userId === $i.id);
+const canPakuru = computed(() => defaultStore.state.UsePakuru || defaultStore.state.UseNumberquote);
 
 useTooltip(buttonRef, async (showing) => {
+	if (!canRenote.value) return;
+
 	const renotes = await os.api('notes/renotes', {
 		noteId: props.note.id,
 		limit: 11,
@@ -51,44 +56,51 @@ useTooltip(buttonRef, async (showing) => {
 });
 
 const renote = (viaKeyboard = false) => {
+	if (!canRenote.value && !canPakuru.value) return;
+
 	pleaseLogin();
-	os.popupMenu([{
-		text: i18n.ts.renote,
-		icon: 'ti ti-repeat',
-		action: () => {
-			os.api('notes/create', {
-				renoteId: props.note.id,
-			});
+
+	const renoteMenu = [
+		{
+			text: i18n.ts.renote,
+			icon: 'ti ti-repeat',
+			action: () => {
+				os.api('notes/create', {
+					renoteId: props.note.id,
+				});
+			},
 		},
-	},{
-		text: i18n.ts.renoteinHome,
-		icon: 'ti ti-home',
-		action: () => {
-			os.api('notes/create', {
-				renoteId: props.note.id,
-				visibility: 'home'
-			});
-		}
-	},{
-		text: i18n.ts.renoteFollowerOnly,
-		icon: 'ti ti-lock',
-		action: () => {
-			os.api('notes/create', {
-				renoteId: props.note.id,
-				visibility: 'followers'
-			});
-		}
-	},{
-		text: i18n.ts.quote,
-		icon: 'ti ti-quote',
-		action: () => {
-			os.post({
-				renote: props.note,
-			});
+		{
+			text: i18n.ts.quote,
+			icon: 'ti ti-quote',
+			action: () => {
+				os.post({
+					renote: props.note,
+				});
+			},
 		},
-	}], buttonRef.value, {
-		viaKeyboard,
-	});
+	];
+
+	const pakuruMenu = [
+		defaultStore.state.UsePakuru ? {
+			text: 'パクる',
+			icon: 'ti ti-swipe',
+			action: () => pakuru(props.note),
+		} : undefined,
+		defaultStore.state.UseNumberquote ? {
+			text: '数字引用する',
+			icon: 'ti ti-exposure-plus-1',
+			action: () => numberquote(props.note),
+		} : undefined,
+	];
+
+	const menu = [
+		...canRenote.value ? renoteMenu : [],
+		canRenote.value && canPakuru.value ? null : undefined,
+		...canPakuru.value ? pakuruMenu : [],
+	];
+
+	os.popupMenu(menu, buttonRef.value, { viaKeyboard });
 };
 </script>
 

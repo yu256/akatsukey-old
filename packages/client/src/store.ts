@@ -291,6 +291,14 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 'leftedge' as 'normal' | 'leftedge' | 'rightedge' | 'bottomleft' | 'bottomright',
 	},
+	UsePakuru: {
+		where: 'device',
+		default: false,
+	},
+	UseNumberquote: {
+		where: 'device',
+		default: false,
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
@@ -311,7 +319,6 @@ type Plugin = {
  */
 import lightTheme from '@/themes/l-light.json5';
 import darkTheme from '@/themes/d-green-lime.json5';
-import formatRelativeWithOptions from 'date-fns/esm/fp/formatRelativeWithOptions';
 
 export class ColdDeviceStorage {
 	public static default = {
