@@ -88,8 +88,8 @@ const renote = (viaKeyboard = false) => {
 			action: () => pakuru(props.note),
 		} : undefined,
 		defaultStore.state.UseNumberquote ? {
-			text: '数字引用する',
-			icon: i18n.ts.nextNumeric,
+			text: i18n.ts.nextNumeric,
+			icon: 'ti ti-exposure-plus-1',
 			action: () => numberquote(props.note),
 		} : undefined,
 	];
