@@ -41,6 +41,13 @@
 			<template #caption>モバイルのボトムナビゲーションにウィジェットを表示します。</template>
 		</FormSwitch>
 	</FormSection>
+	<FormInfo warn class="_formBlock">以下の設定はベータ版です。</FormInfo>
+	<FormSection>
+		<FormSwitch v-model="UseIsolatedfav" class="_formBlock">
+			独立したお気に入りボタンを追加
+			<template #caption>ノートメニューからノートフッターにお気に入りボタンを移動します。現状はお気に入り解除ができません。</template>
+		</FormSwitch>
+	</FormSection>
 </div>
 </template>
 
@@ -51,6 +58,7 @@ import FormInfo from '@/components/MkInfo.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import FormSelect from '@/components/form/select.vue';
 
+const UseIsolatedfav = computed(defaultStore.makeGetterSetter('UseIsolatedfav'));
 const UsePakuru = computed(defaultStore.makeGetterSetter('UsePakuru'));
 const UseNumberquote = computed(defaultStore.makeGetterSetter('UseNumberquote'));
 const InstanceTickerPosition = computed(defaultStore.makeGetterSetter('instanceTickerPosition'));

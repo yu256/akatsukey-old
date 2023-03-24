@@ -86,6 +86,9 @@
 				<button ref="menuButton" class="button _button" @click="menu()">
 					<i class="ti ti-dots"></i>
 				</button>
+				<button v-if="$store.reactiveState.UseIsolatedfav.value" ref="favButton" class="button _button" @mousedown="toggleFavorite(true)">
+					<i class="ti ti-star"></i>
+				</button>
 			</footer>
 		</div>
 	</article>
@@ -162,6 +165,7 @@ const menuButton = shallowRef<HTMLElement>();
 const renoteButton = shallowRef<InstanceType<typeof XRenoteButton>>();
 const renoteTime = shallowRef<HTMLElement>();
 const reactButton = shallowRef<HTMLElement>();
+const favButton = shallowRef<HTMLElement>();
 let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);
 const isMyRenote = $i && ($i.id === note.userId || $i.isModerator || $i.isAdmin);
 const showContent = ref(false);
@@ -181,6 +185,11 @@ const translation = ref(null);
 const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
+function toggleFavorite(favorite: boolean): void {
+	os.apiWithDialog(favorite ? 'notes/favorites/create' : 'notes/favorites/delete', {
+		noteId: appearNote.id,
+	});
+}
 
 const keymap = {
 	'r': () => reply(true),
@@ -554,7 +563,7 @@ function readPromo() {
 					opacity: 0.7;
 
 					&:not(:last-child) {
-						margin-right: 28px;
+						margin-right: 22px;
 					}
 
 					&:hover {
@@ -617,7 +626,7 @@ function readPromo() {
 				> .footer {
 					> .button {
 						&:not(:last-child) {
-							margin-right: 18px;
+							margin-right: 12px;
 						}
 					}
 				}
@@ -636,7 +645,7 @@ function readPromo() {
 				> .footer {
 					> .button {
 						&:not(:last-child) {
-							margin-right: 12px;
+							margin-right: 8px;
 						}
 					}
 				}

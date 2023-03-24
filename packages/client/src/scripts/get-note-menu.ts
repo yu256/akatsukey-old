@@ -1,4 +1,4 @@
-import { defineAsyncComponent, Ref } from 'vue';
+import { defineAsyncComponent, Ref, computed } from 'vue';
 import * as misskey from 'misskey-js';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
@@ -6,7 +6,7 @@ import { instance } from '@/instance';
 import * as os from '@/os';
 import copyToClipboard from '@/scripts/copy-to-clipboard';
 import { url } from '@/config';
-import { noteActions } from '@/store';
+import { noteActions, defaultStore } from '@/store';
 import { getUserMenu } from '@/scripts/get-user-menu';
 
 export function getNoteMenu(props: {
@@ -25,6 +25,7 @@ export function getNoteMenu(props: {
 	);
 
 	const appearNote = isRenote ? props.note.renote as misskey.entities.Note : props.note;
+	const UseIsolatedfav = computed(() => defaultStore.state.UseIsolatedfav);
 
 	function del(): void {
 		os.confirm({
@@ -182,14 +183,22 @@ export function getNoteMenu(props: {
 				action: translate,
 			} : undefined,
 			null,
-			statePromise.then(state => state.isFavorited ? {
-				icon: 'ti ti-star',
-				text: i18n.ts.unfavorite,
-				action: () => toggleFavorite(false),
-			} : {
-				icon: 'ti ti-star',
-				text: i18n.ts.favorite,
-				action: () => toggleFavorite(true),
+			statePromise.then(state => {
+				if (UseIsolatedfav.value) {
+					return null;
+				} else if (state?.isFavorited) {
+					return {
+						icon: 'ti ti-star',
+						text: i18n.ts.unfavorite,
+						action: (): void => toggleFavorite(false),
+					};
+				} else {
+					return {
+						icon: 'ti ti-star',
+						text: i18n.ts.favorite,
+						action: (): void => toggleFavorite(true),
+					};
+				}
 			}),
 			{
 				type: 'parent',
