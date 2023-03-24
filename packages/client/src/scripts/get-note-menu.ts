@@ -182,7 +182,7 @@ export function getNoteMenu(props: {
 				text: i18n.ts.translate,
 				action: translate,
 			} : undefined,
-			null,
+			UseIsolatedfav.value ? undefined : null,
 			statePromise.then(state => {
 				if (UseIsolatedfav.value) {
 					return null;
