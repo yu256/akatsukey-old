@@ -83,11 +83,11 @@
 				<button v-if="appearNote.myReaction != null" ref="reactButton" class="button _button reacted" @click="undoReact(appearNote)">
 					<i class="ti ti-minus"></i>
 				</button>
+				<button v-if="$store.reactiveState.UseIsolatedfav.value" ref="favButton" class="button _button" :class="{ reacted: isFavorited }" @click="toggleFavorite()">
+					<i class="ti" :class="{ 'ti-star': !isFavorited, 'ti-star-filled': isFavorited }"></i>
+				</button>
 				<button ref="menuButton" class="button _button" @click="menu()">
 					<i class="ti ti-dots"></i>
-				</button>
-				<button v-if="$store.reactiveState.UseIsolatedfav.value" ref="favButton" class="button _button" @mousedown="toggleFavorite(true)">
-					<i class="ti ti-star"></i>
 				</button>
 			</footer>
 		</div>
@@ -185,11 +185,19 @@ const translation = ref(null);
 const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
-function toggleFavorite(favorite: boolean): void {
-	os.apiWithDialog(favorite ? 'notes/favorites/create' : 'notes/favorites/delete', {
+const isFavorited = ref(false);
+
+onMounted(async (): Promise<void> => {
+	const noteState = await os.api('notes/state', { noteId: appearNote.id }) as { isFavorited: boolean, isWatching: boolean, isMutedThread: boolean };
+	isFavorited.value = noteState.isFavorited;
+});
+
+const toggleFavorite = (): void => {
+	isFavorited.value = !isFavorited.value;
+	os.apiWithDialog(isFavorited.value ? 'notes/favorites/create' : 'notes/favorites/delete', {
 		noteId: appearNote.id,
 	});
-}
+};
 
 const keymap = {
 	'r': () => reply(true),
