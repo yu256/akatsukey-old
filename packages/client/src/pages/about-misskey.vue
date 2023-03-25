@@ -20,9 +20,51 @@
 				<FormSection>
 					<div class="_formLinks">
 						<FormLink to="https://github.com/yu256/akatsukey" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							{{ i18n.ts._aboutMisskey.source }}
+							<template #suffix>akatsukey</template>
+						</FormLink>
+						<FormLink to="https://github.com/rca-fedi/yoiyami" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							フォーク元
+							<template #suffix>yoiyami</template>
+						</FormLink>
+					</div>
+				</FormSection>
+				<FormSection>
+					<template #label>引用元</template>
+					<div class="_formLinks">
+						<FormLink to="https://github.com/taiyme/misskey" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							{{ i18n.ts._aboutMisskey.source }}
+							<template #suffix>taiyme/misskey</template>
+						</FormLink>
+						<FormLink to="https://github.com/sim1222/misskey" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							{{ i18n.ts._aboutMisskey.source }}
+							<template #suffix>simkey</template>
+						</FormLink>
+						<FormLink to="https://github.com/mei23/misskey-v12" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							{{ i18n.ts._aboutMisskey.source }}
+							<template #suffix>mei23/misskey-v12</template>
+						</FormLink>
+					</div>
+				</FormSection>
+				<FormSection>
+					<template #label>コントリビューター</template>
+					<div class="_formLinks">
+						<FormLink to="https://github.com/yu256" external>@yu256</FormLink>
+						<FormLink to="https://github.com/cffnpwr" external>@cffnpwr</FormLink>
+					</div>
+				</FormSection>
+				<FormSection>
+					<template #label>Misskey</template>
+					<div class="_formLinks">
+						<FormLink to="https://github.com/misskey-dev/misskey" external>
 							<template #icon><i class="ti ti-code"></i></template>
 							{{ i18n.ts._aboutMisskey.source }}
-							<template #suffix>yu256/akatsukey</template>
+							<template #suffix>misskey</template>
 						</FormLink>
 						<FormLink to="https://crowdin.com/project/misskey" external>
 							<template #icon><i class="ti ti-language-hiragana"></i></template>
