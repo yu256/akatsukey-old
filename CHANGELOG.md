@@ -8,6 +8,27 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.8
+- お気に入りボタンを独立させるオプションを追加
+- about-misskeyに機能の引用元とコントリビューターを追加　
+- refactor(frontend): Use Clipboard API
+- refactor(frontend): parseObject / parseArray (wrapper function for JSON.parse)
+- fix(frontend/backend): deepCloneの戻り値にundefinedを含まないように
+- enhance(frontend): ウィンドウの絵文字ピッカーをリサイズ可能にする
+- refactor(frontend): use KeyboardEvent.key (+ fix types)
+- fix(frontend): ダイアログなどのボタンにフォーカスされない
+- enhance: tms: ノートの操作部をホバー時のみ表示するオプション
+- enhance: tms: ノートのリアクションを見やすくするオプション
+- enhance: フォローリクエストのUI改善
+- chore: tms: インスタンスティッカーの調整
+- change/fix: ノートのショートカットキーに関する調整
+ - (KeyS): 廃止(検索のショートカットキーがどこでも使えるように)
+ - (KeyQ): Renoteメニューが正常に開かない問題を修正
+- fix: 通知のサブアイコンが若干ズレる問題
+- fix: 上向きのページネーションが壊れている
+- リファクタリングなど
+- Update pnpm
+
 # akatsukey v3.7
 - fix(frontend): Safariでプラグインが複数ある場合に正常に読み込まれない問題を修正
 - fix types, use arrow functions 
