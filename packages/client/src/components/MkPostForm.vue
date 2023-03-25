@@ -592,7 +592,7 @@ const post = async (): Promise<void> => {
 	// plugin
 	if (notePostInterruptors.length > 0) {
 		for (const interruptor of notePostInterruptors) {
-			postData = await interruptor.handler(deepClone(postData));
+			postData = await interruptor.handler(deepClone(postData)) as typeof postData;
 		}
 	}
 
