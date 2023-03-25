@@ -49,13 +49,24 @@
 							{{ i18n.ts._aboutMisskey.source }}
 							<template #suffix>mei23/misskey-v12</template>
 						</FormLink>
+						<FormLink to="https://github.com/xFlest/misskey" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							{{ i18n.ts._aboutMisskey.source }}
+							<template #suffix>flestudio</template>
+						</FormLink>
 					</div>
 				</FormSection>
 				<FormSection>
 					<template #label>コントリビューター</template>
 					<div class="_formLinks">
-						<FormLink to="https://github.com/yu256" external>@yu256</FormLink>
-						<FormLink to="https://github.com/cffnpwr" external>@cffnpwr</FormLink>
+						<FormLink to="https://github.com/yu256" external>
+							@yu256
+							<template #suffix>ゆー</template>
+						</FormLink>
+						<FormLink to="https://github.com/cffnpwr" external>
+							@cffnpwr
+							<template #suffix>かふぇいんぱわぁ</template>
+						</FormLink>
 					</div>
 				</FormSection>
 				<FormSection>
