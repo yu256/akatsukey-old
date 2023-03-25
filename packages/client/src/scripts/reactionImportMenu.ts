@@ -2,7 +2,7 @@ import { defineAsyncComponent } from 'vue';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import * as os from '@/os';
-import copyToClipboard from '@/scripts/copy-to-clipboard';
+import { copyText } from '@/scripts/tms/clipboard';
 import { MenuItem } from '@/types/menu';
 
 export async function openReactionImportMenu(ev: MouseEvent, reaction: string, noteId: string): Promise<void> {
@@ -79,7 +79,7 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 		icon: 'fas fa-copy',
 		text: i18n.ts.copy,
 		action: (): void => {
-			copyToClipboard(isCustom ? `:${name}:` : reaction);
+			copyText(isCustom ? `:${name}:` : reaction);
 		},
 	}];
 
