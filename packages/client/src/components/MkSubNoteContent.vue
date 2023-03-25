@@ -2,7 +2,7 @@
 <div class="wrmlmaau" :class="{ collapsed }">
 	<div class="body">
 		<span v-if="note.isHidden" style="opacity: 0.5">({{ i18n.ts.private }})</span>
-		<span v-if="note.deletedAt" style="opacity: 0.5">({{ i18n.ts.deleted }})</span>
+		<!-- <span v-if="note.deletedAt" style="opacity: 0.5">({{ i18n.ts.deleted }})</span> -->
 		<MkA v-if="note.replyId" class="reply" :to="`/notes/${note.replyId}`"><i class="ti ti-arrow-back-up"></i></MkA>
 		<Mfm v-if="note.text" :text="note.text" :author="note.user" :i="$i" :custom-emojis="note.emojis"/>
 		<MkA v-if="note.renoteId" class="rp" :to="`/notes/${note.renoteId}`">RN: ...</MkA>
@@ -27,6 +27,7 @@ import * as misskey from 'misskey-js';
 import XMediaList from '@/components/MkMediaList.vue';
 import XPoll from '@/components/MkPoll.vue';
 import { i18n } from '@/i18n';
+import { $i } from '@/account';
 
 const props = defineProps<{
 	note: misskey.entities.Note;

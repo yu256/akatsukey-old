@@ -24,7 +24,18 @@
 			<template #caption>Renoteメニューに「数字引用する」を追加します。</template>
 		</FormSwitch>
 	</FormSection>
+	<FormSection>
+		<FormSwitch v-model="UseEasyReactionsViewer" class="_formBlock">
+			ノートのリアクションを見やすくする
+			<template #caption>ノートのリアクションを見やすくします。リアクションの背景色は白固定になります。</template>
+		</FormSwitch>
 
+		<FormSwitch v-model="ShowActionsOnlyOnHover" class="_formBlock">
+			ノートの操作部をホバー時のみ表示する
+			<template v-if="!isTouchUsing && deviceKind !== 'smartphone'" #caption>タイムライン上のノートにカーソルを合わせたときのみ、操作部を表示するようにします。</template>
+			<template v-else #caption>スマートフォンなどのタッチデバイスでは、このオプションは無効になります。</template>
+		</FormSwitch>
+	</FormSection>
 	<FormSection>
 		<FormSwitch v-model="navBarChatIcon" class="_formBlock">
 			チャットを表示
@@ -45,7 +56,7 @@
 	<FormSection>
 		<FormSwitch v-model="UseIsolatedfav" class="_formBlock">
 			独立したお気に入りボタンを追加
-			<template #caption>ノートメニューからノートフッターにお気に入りボタンを移動します。現状はお気に入り解除ができません。</template>
+			<template #caption>ノートメニューからノートフッターにお気に入りボタンを移動します。設定変更後すぐにリロードしてください。</template>
 		</FormSwitch>
 	</FormSection>
 </div>
@@ -57,7 +68,11 @@ import { defaultStore } from '@/store';
 import FormInfo from '@/components/MkInfo.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import FormSelect from '@/components/form/select.vue';
+import { isTouchUsing } from '@/scripts/touch';
+import { deviceKind } from '@/scripts/device-kind';
 
+const UseEasyReactionsViewer = computed(defaultStore.makeGetterSetter('UseEasyReactionsViewer'));
+const ShowActionsOnlyOnHover = computed(defaultStore.makeGetterSetter('ShowActionsOnlyOnHover'));
 const UseIsolatedfav = computed(defaultStore.makeGetterSetter('UseIsolatedfav'));
 const UsePakuru = computed(defaultStore.makeGetterSetter('UsePakuru'));
 const UseNumberquote = computed(defaultStore.makeGetterSetter('UseNumberquote'));

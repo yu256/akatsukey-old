@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ComputedRef } from 'vue';
+import { computed, ComputedRef, unref } from 'vue';
 import { instanceName } from '@/config';
 import { instance as Instance } from '@/instance';
 import { getProxiedImageUrlNullable } from '@/scripts/media-proxy';
@@ -14,9 +14,9 @@ import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	instance?: {
-		faviconUrl?: string
-		name: string
-		themeColor?: string
+		faviconUrl?: string | null;
+		name: string | null;
+		themeColor?: string | null;
 	}
 	forceType?: typeof defaultStore.state.instanceTickerPosition | ComputedRef<typeof defaultStore.state.instanceTickerPosition>;
 }>();
@@ -28,9 +28,7 @@ const instance = props.instance ?? {
 	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement).content,
 };
 
-const position = computed(() => {
-	return typeof props.forceType === 'string' ? props.forceType : props.forceType?.value ?? defaultStore.state.instanceTickerPosition;
-});
+const position = computed(() => unref(props.forceType) ?? defaultStore.state.instanceTickerPosition);
 
 const hexToRgb = (hex: string): {
 	r: number;
@@ -161,7 +159,7 @@ const tickerColor = {
 
 		> .icon {
 			display: block;
-			height: 2em;
+			height: 1.5em;
 			opacity: 0.8;
 		}
 

@@ -4,7 +4,7 @@
 	ref="buttonRef"
 	v-ripple="canToggle"
 	class="hkzvhatu _button"
-	:class="{ reacted: note.myReaction == reaction, canToggle }"
+	:class="[{ reacted: note.myReaction == reaction, canToggle }, useEasyReactionsViewer ? 'easy' : 'normal']"
 	@click="toggleReaction"
 	@contextmenu.stop="onContextmenu"
 >
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, onMounted, ref, shallowRef, watch } from 'vue';
+import { computed, onMounted, shallowRef, watch } from 'vue';
 import * as misskey from 'misskey-js';
 import XDetails from '@/components/MkReactionsViewer.details.vue';
 import XReactionIcon from '@/components/MkReactionIcon.vue';
@@ -22,6 +22,7 @@ import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { $i } from '@/account';
 import { openReactionImportMenu } from '@/scripts/reactionImportMenu';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	reaction: string;
@@ -29,6 +30,8 @@ const props = defineProps<{
 	isInitial: boolean;
 	note: misskey.entities.Note;
 }>();
+
+const useEasyReactionsViewer = computed(() => defaultStore.state.UseEasyReactionsViewer);
 
 const buttonRef = shallowRef<HTMLElement>();
 
@@ -102,44 +105,85 @@ const onContextmenu = (e: MouseEvent) => {
 
 <style lang="scss" scoped>
 .hkzvhatu {
-	display: inline-block;
-	height: 32px;
-	margin: 2px;
-	padding: 0 6px;
-	border-radius: 4px;
+	&.normal {
+		display: inline-block;
+		height: 32px;
+		padding: 0 6px;
+		border-radius: 4px;
 
-	&.canToggle {
-		background: rgba(0, 0, 0, 0.05);
+		&.canToggle {
+			background: rgba(0, 0, 0, 0.05);
 
-		&:hover {
-			background: rgba(0, 0, 0, 0.1);
+			&:hover {
+				background: rgba(0, 0, 0, 0.1);
+			}
 		}
-	}
 
 	//&:not(.canToggle) {
 	//	cursor: default;
 	//}
 
-	&.reacted {
-		background: var(--accent);
-
-		&:hover {
+		&.reacted {
 			background: var(--accent);
+
+			&:hover {
+				background: var(--accent);
+			}
+
+			> .count {
+				color: var(--fgOnAccent);
+			}
+
+			> .icon {
+				filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+			}
 		}
 
 		> .count {
-			color: var(--fgOnAccent);
-		}
-
-		> .icon {
-			filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+			font-size: 0.9em;
+			line-height: 32px;
+			margin: 0 0 0 4px;
 		}
 	}
 
-	> .count {
-		font-size: 0.9em;
-		line-height: 32px;
-		margin: 0 0 0 4px;
+	&.easy {
+		color: var(--fgTransparentWeak);
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-template-rows: 32px;
+		border-radius: 4px;
+		box-shadow: 0 5px 15px -5px var(--shadow);
+		align-items: center;
+		overflow: hidden;
+
+		&.canToggle {
+			box-shadow: 0 5px 15px -5px var(--shadow), 0 0 0 1px var(--divider); // SEE: https://dskd.jp/archives/73.html
+		}
+
+		&.canToggle:hover,
+		&.reacted {
+			background-color: var(--accent);
+			color: var(--fgOnAccent);
+		}
+
+		&:not(.canToggle) {
+			cursor: default;
+		}
+
+		> .icon {
+			background-color: #fff;
+			box-sizing: border-box;
+			padding: 4px;
+			max-width: 100%; // はみ出し防止
+			height: 100% !important; // MkEmojiのheight上書き
+		}
+
+		> .count {
+			box-sizing: border-box;
+			padding: 0 6px;
+			font-size: 0.9em;
+		}
 	}
 }
 </style>

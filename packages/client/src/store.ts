@@ -299,6 +299,14 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	UseEasyReactionsViewer: {
+		where: 'device',
+		default: true,
+	},
+	ShowActionsOnlyOnHover: {
+		where: 'device',
+		default: false,
+	},
 	UseIsolatedfav: {
 		where: 'device',
 		default: false,
