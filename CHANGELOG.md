@@ -8,6 +8,10 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.8.1
+- お気に入りカラムが表示されない問題の修正
+- リアクション一覧詳細ダイアログでユーザーが表示されない問題の修正
+
 # akatsukey v3.8
 - お気に入りボタンを独立させるオプションを追加
 - about-misskeyに機能の引用元とコントリビューターを追加　
