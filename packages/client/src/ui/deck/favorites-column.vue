@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 import XColumn from './column.vue';
 import { Column } from './deck-store';
 import MkPagination from '@/components/MkPagination.vue';
