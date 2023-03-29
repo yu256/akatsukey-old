@@ -30,6 +30,36 @@ withDefaults(defineProps<{
 	}
 }
 
+.mfm-ff-serif {
+	display: inline-block;
+	font-family: serif;
+}
+
+.mfm-ff-monospace {
+	display: inline-block;
+	font-family: monospace;
+}
+
+.mfm-ff-cursive {
+	display: inline-block;
+	font-family: cursive;
+}
+
+.mfm-ff-fantasy {
+	display: inline-block;
+	font-family: fantasy;
+}
+
+.mfm-ff-emoji {
+	display: inline-block;
+	font-family: emoji;
+}
+
+.mfm-ff-math {
+	display: inline-block;
+	font-family: math;
+}
+
 .mfm-x2 {
 	--mfm-zoom-size: 200%;
 }
