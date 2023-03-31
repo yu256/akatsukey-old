@@ -8,6 +8,17 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v3.9
+- fix(frontend): もっと見るボタンがセンタリングされない
+- enhance(frontend): MkDriveをGridレイアウトにする 
+- perf(backend): improve performance of timeline apis
+- feat: oEmbedのサポート
+- 見やすいリアクション関連 / MkReactionsViewerをv13仕様に 
+- refactor(frontend): use uuid v4
+- change(frontend): タッチデバイスでのコンテキストメニューを無効化 
+- fix(frontend): もっと見るを閉じるボタンがボトムメニューに隠れてしまう問題の修正・z-indexを追加
+- hotfix(frontend/MkPagination): 通知などが表示されなくなる問題 
+
 # akatsukey v3.8.1
 - お気に入りカラムが表示されない問題の修正
 - リアクション一覧詳細ダイアログでユーザーが表示されない問題の修正
