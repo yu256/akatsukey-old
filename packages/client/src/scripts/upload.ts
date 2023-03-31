@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue';
 import * as Misskey from 'misskey-js';
+import { v4 as uuid } from 'uuid';
 import { readAndCompressImage } from 'browser-image-resizer';
 import { getCompressionConfig } from './upload/compress-config';
 import { defaultStore } from '@/store';
@@ -34,7 +35,7 @@ export function uploadFile(
 	if (folder && typeof folder === 'object') folder = folder.id;
 
 	return new Promise((resolve, reject) => {
-		const id = Math.random().toString();
+		const id = uuid();
 
 		const reader = new FileReader();
 		reader.onload = async (): Promise<void> => {

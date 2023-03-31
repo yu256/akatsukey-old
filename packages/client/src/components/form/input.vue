@@ -36,6 +36,7 @@
 <script lang="ts" setup>
 import { onMounted, nextTick, ref, shallowRef, watch, computed, toRefs } from 'vue';
 import { debounce } from 'throttle-debounce';
+import { v4 as uuid } from 'uuid';
 import MkButton from '@/components/MkButton.vue';
 import { useInterval } from '@/scripts/use-interval';
 import { i18n } from '@/i18n';
@@ -69,7 +70,7 @@ const emit = defineEmits<{
 
 const { modelValue, type, autofocus } = toRefs(props);
 const v = ref(modelValue.value);
-const id = Math.random().toString(); // TODO: uuid?
+const id = uuid();
 const focused = ref(false);
 const changed = ref(false);
 const invalid = ref(false);
