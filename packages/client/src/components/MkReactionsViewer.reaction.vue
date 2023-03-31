@@ -112,10 +112,10 @@ const onContextmenu = (e: MouseEvent) => {
 		border-radius: 4px;
 
 		&.canToggle {
-			background: rgba(0, 0, 0, 0.05);
+			background-color: rgba(0, 0, 0, 0.05);
 
 			&:hover {
-				background: rgba(0, 0, 0, 0.1);
+				background-color: rgba(0, 0, 0, 0.1);
 			}
 		}
 
@@ -124,10 +124,10 @@ const onContextmenu = (e: MouseEvent) => {
 	//}
 
 		&.reacted {
-			background: var(--accent);
+			background-color: var(--accent);
 
 			&:hover {
-				background: var(--accent);
+				background-color: var(--accent);
 			}
 
 			> .count {
@@ -147,18 +147,19 @@ const onContextmenu = (e: MouseEvent) => {
 	}
 
 	&.easy {
+		background-color: var(--panel);
 		color: var(--fgTransparentWeak);
 		box-sizing: border-box;
 		display: grid;
 		grid-template-columns: auto auto;
 		grid-template-rows: 32px;
-		border-radius: 4px;
-		box-shadow: 0 5px 15px -5px var(--shadow);
 		align-items: center;
+		border-radius: 4px;
+		box-shadow: 0 4px 14px -8px var(--shadow);
 		overflow: hidden;
 
 		&.canToggle {
-			box-shadow: 0 5px 15px -5px var(--shadow), 0 0 0 1px var(--divider); // SEE: https://dskd.jp/archives/73.html
+			box-shadow: 0 4px 14px -8px var(--shadow), 0 0 0 1px var(--divider); // SEE: https://dskd.jp/archives/73.html
 		}
 
 		&.canToggle:hover,
@@ -176,7 +177,7 @@ const onContextmenu = (e: MouseEvent) => {
 			box-sizing: border-box;
 			padding: 4px;
 			max-width: 100%; // はみ出し防止
-			height: 100% !important; // MkEmojiのheight上書き
+			height: 32px !important; // MkEmojiのheight上書き, 100%を指定するとGeckoエンジンで描画がバグる
 		}
 
 		> .count {
