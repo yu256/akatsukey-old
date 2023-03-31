@@ -19,6 +19,7 @@ import { defineComponent, defineAsyncComponent } from 'vue';
 import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
+import { isTouchUsing } from '@/scripts/touch';
 
 export default defineComponent({
 	components: {
@@ -127,6 +128,7 @@ export default defineComponent({
 		},
 
 		showFileMenu(file, ev: MouseEvent) {
+			if (isTouchUsing) return;
 			if (this.menu) return;
 			this.menu = os.popupMenu([{
 				text: this.$ts.renameFile,
