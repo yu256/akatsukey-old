@@ -8,6 +8,12 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v4.0
+- feat(frontend): 検索画面の統一とピックアップ機能
+- fix(frontend): コンテキストメニュー無効化用の変数を定義
+- fix(frontend): バックアップ削除ボタンのi18nが定義されていない
+- hotfix(frontend): 投稿フォームの添付ファイルの操作ができない
+
 # akatsukey v3.9
 - fix(frontend): もっと見るボタンがセンタリングされない
 - enhance(frontend): MkDriveをGridレイアウトにする 
