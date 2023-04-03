@@ -137,7 +137,7 @@ import { i18n } from '@/i18n';
 import { getNoteMenu } from '@/scripts/get-note-menu';
 import { useNoteCapture } from '@/scripts/use-note-capture';
 import { deepClone } from '@/scripts/clone';
-import { isTouchUsing } from '@/scripts/touch';
+import { isTouchUsing, disableContextmenu } from '@/scripts/touch';
 import { deviceKind } from '@/scripts/device-kind';
 import { isPureRenote } from '@/scripts/tms/is-pure-renote';
 
@@ -251,7 +251,7 @@ const undoReact = (note_: misskey.entities.Note): void => {
 const currentClipPage = inject<Ref<misskey.entities.Clip> | null>('currentClipPage', null);
 
 const onContextmenu = (ev: MouseEvent): void => {
-	if (isTouchUsing) return;
+	if (disableContextmenu) return;
 	const isLink = (elem: HTMLElement): boolean => {
 		if (elem.tagName === 'A') return true;
 		if (elem.parentElement) {
