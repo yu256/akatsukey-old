@@ -1,5 +1,5 @@
 <template>
-<MkPagination :pagination="pagination">
+<MkPagination ref="pagingComponent" :pagination="pagination">
 	<template #empty>
 		<div class="_fullinfo">
 			<img src="https://xn--931a.moe/assets/info.jpg" class="_ghost"/>
@@ -16,15 +16,21 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import MkUserInfo from '@/components/MkUserInfo.vue';
 import MkPagination, { Paging } from '@/components/MkPagination.vue';
 import { i18n } from '@/i18n';
 
-const props = defineProps<{
+defineProps<{
 	pagination: Paging;
 	noGap?: boolean;
 }>();
+
+const pagingComponent = ref<InstanceType<typeof MkPagination>>();
+
+defineExpose({
+	pagingComponent,
+});
 </script>
 
 <style lang="scss" scoped>

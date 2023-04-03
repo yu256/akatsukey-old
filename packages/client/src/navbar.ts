@@ -1,6 +1,5 @@
 import { computed, reactive } from 'vue';
 import { $i } from './account';
-import { search } from '@/scripts/search';
 import { openInstanceMenu } from './ui/_common_/common';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
@@ -49,7 +48,7 @@ export const navbarItemDef = reactive({
 	search: {
 		title: 'search',
 		icon: 'ti ti-search',
-		action: () => search(),
+		to: '/search',
 	},
 	lists: {
 		title: 'lists',
@@ -99,29 +98,30 @@ export const navbarItemDef = reactive({
 	ui: {
 		title: 'switchUi',
 		icon: 'ti ti-devices',
-		action: (ev) => {
+		action: (ev: MouseEvent) => {
+			const el = ev.currentTarget ?? ev.target;
 			os.popupMenu([{
 				text: i18n.ts.default,
 				active: ui === 'default' || ui === null,
-				action: () => {
+				action: (): void => {
 					localStorage.setItem('ui', 'default');
 					unisonReload();
 				},
 			}, {
 				text: i18n.ts.deck,
 				active: ui === 'deck',
-				action: () => {
+				action: (): void => {
 					localStorage.setItem('ui', 'deck');
 					unisonReload();
 				},
 			}, {
 				text: i18n.ts.classic,
 				active: ui === 'classic',
-				action: () => {
+				action: (): void => {
 					localStorage.setItem('ui', 'classic');
 					unisonReload();
 				},
-			}], ev.currentTarget ?? ev.target);
+			}], el instanceof HTMLElement ? el : undefined);
 		},
 	},
 	about: {
@@ -134,7 +134,7 @@ export const navbarItemDef = reactive({
 	reload: {
 		title: 'reload',
 		icon: 'ti ti-refresh',
-		action: (ev) => {
+		action: () => {
 			location.reload();
 		},
 	},
