@@ -41,8 +41,6 @@ const props = withDefaults(defineProps<{
 	page: 'home',
 });
 
-const router = useRouter();
-
 let tab = $ref(props.page);
 let user = $ref<null | misskey.entities.UserDetailed>(null);
 let error = $ref(null);
