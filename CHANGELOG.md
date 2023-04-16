@@ -8,6 +8,11 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v4.0.5
+- fix(frontend): URLプレビューのポップアップが左上に表示されることがある
+- hotfix(frontend): numberquote/_nqadd
+- es2017 => es2021
+
 # akatsukey v4.0
 - feat(frontend): 検索画面の統一とピックアップ機能
 - fix(frontend): コンテキストメニュー無効化用の変数を定義
@@ -38,10 +43,10 @@ You should also include the user name that made the change.
 - enhance(frontend): ウィンドウの絵文字ピッカーをリサイズ可能にする
 - refactor(frontend): use KeyboardEvent.key (+ fix types)
 - fix(frontend): ダイアログなどのボタンにフォーカスされない
-- enhance: tms: ノートの操作部をホバー時のみ表示するオプション
-- enhance: tms: ノートのリアクションを見やすくするオプション
+- enhance: ノートの操作部をホバー時のみ表示するオプション
+- enhance: ノートのリアクションを見やすくするオプション
 - enhance: フォローリクエストのUI改善
-- chore: tms: インスタンスティッカーの調整
+- chore: インスタンスティッカーの調整
 - change/fix: ノートのショートカットキーに関する調整
  - (KeyS): 廃止(検索のショートカットキーがどこでも使えるように)
  - (KeyQ): Renoteメニューが正常に開かない問題を修正
