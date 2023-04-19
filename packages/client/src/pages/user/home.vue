@@ -78,8 +78,7 @@
 								<i class="ti ti-calendar ti-fw"></i> {{ i18n.ts.registeredDate }}
 							</dt>
 							<dd class="value">
-								{{ dateString(user.createdAt) }} (
-								<MkTime :time="user.createdAt"/>)
+								{{ dateString(user.createdAt) }} (<MkTime :time="user.createdAt"/>)
 							</dd>
 						</dl>
 					</div>
