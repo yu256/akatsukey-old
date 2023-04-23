@@ -2,10 +2,6 @@
 <MkSpacer :content-max="narrow ? 800 : 1100">
 	<div ref="rootEl" v-size="{ max: [500] }" class="ftskorzw" :class="{ wide: !narrow }">
 		<div class="main">
-			<!-- TODO -->
-			<!-- <div class="punished" v-if="user.isSuspended"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSuspended }}</div> -->
-			<!-- <div class="punished" v-if="user.isSilenced"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div> -->
-
 			<div class="profile">
 				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn"/>
 
@@ -32,12 +28,12 @@
 					<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
 					<div class="title">
 						<MkUserName :user="user" :nowrap="false" class="name"/>
+						<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
+						<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 						<div class="bottom">
 							<span class="username"><MkAcct :user="user" :detail="true"/></span>
 							<span v-if="user.isAdmin" class="administrator">Administrator</span>
 							<span v-if="user.isModerator" class="moderator">Moderator</span>
-							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
-							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 						</div>
 					</div>
 					<div class="description">
@@ -200,7 +196,7 @@ onUnmounted(() => {
 
 			> .main {
 				position: relative;
-				overflow: clip;;
+				overflow: clip;
 
 				> .banner-container {
 					position: relative;
