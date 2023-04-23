@@ -76,7 +76,7 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 		text: reaction,
 	}, {
 		type: 'button',
-		icon: 'fas fa-copy',
+		icon: 'ti ti-copy',
 		text: i18n.ts.copy,
 		action: (): void => {
 			copyText(isCustom ? `:${name}:` : reaction);
@@ -93,7 +93,7 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 	) {
 		menuItems.push({
 			type: 'button',
-			icon: 'fas fa-check',
+			icon: 'ti ti-check',
 			text: 'リアクションする',
 			action: async () => {
 				const duplication: boolean = await os.api('meta').then(meta => {
@@ -120,7 +120,7 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 			},
 		}, {
 			type: 'button',
-			icon: 'fas fa-download',
+			icon: 'ti ti-download',
 			text: i18n.ts.import,
 			action: async () => {
 				const duplication: boolean = await os.api('meta').then(meta => {
