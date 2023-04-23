@@ -16,48 +16,32 @@
 						<div class="title">
 							<MkUserName class="name" :user="user" :nowrap="true"/>
 							<div class="bottom">
-								<span class="username">
-									<MkAcct :user="user" :detail="true"/>
-								</span>
-								<!-- <span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
-								<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
-								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
-								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span> -->
-								<span v-if="user.isModerator" class="moderator">Moderator</span>
+								<span class="username"><MkAcct :user="user" :detail="true"/></span>
 								<span v-if="user.isAdmin" class="administrator">Administrator</span>
+								<span v-if="user.isModerator" class="moderator">Moderator</span>
+								<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
+								<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 							</div>
 						</div>
-						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{
-							i18n.ts.followsYou
-						}}</span>
+						<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ i18n.ts.followsYou }}</span>
 						<div v-if="$i" class="actions">
 							<button class="menu _button" @click="menu"><i class="ti ti-dots"></i></button>
-							<MkFollowButton
-								v-if="$i.id != user.id" :user="user" :inline="true" :transparent="false"
-								:full="true" class="koudoku"
-							/>
+							<MkFollowButton v-if="$i.id != user.id" :user="user" :inline="true" :transparent="false" :full="true" class="koudoku"/>
 						</div>
 					</div>
 					<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
 					<div class="title">
 						<MkUserName :user="user" :nowrap="false" class="name"/>
 						<div class="bottom">
-							<span class="username">
-								<MkAcct :user="user" :detail="true"/>
-							</span>
-							<!-- <span v-if="user.isAdmin" :title="i18n.ts.isAdmin" style="color: var(--badge);"><i class="ti ti-shield"></i></span>
-							<span v-if="!user.isAdmin && user.isModerator" :title="i18n.ts.isModerator" style="color: var(--badge);"><i class="ti ti-shield"></i></span> -->
-							<span v-if="user.isModerator" class="moderator">Moderator</span>
+							<span class="username"><MkAcct :user="user" :detail="true"/></span>
 							<span v-if="user.isAdmin" class="administrator">Administrator</span>
+							<span v-if="user.isModerator" class="moderator">Moderator</span>
 							<span v-if="user.isLocked" :title="i18n.ts.isLocked"><i class="ti ti-lock"></i></span>
 							<span v-if="user.isBot" :title="i18n.ts.isBot"><i class="ti ti-robot"></i></span>
 						</div>
 					</div>
 					<div class="description">
-						<Mfm 
-							v-if="user.description" :text="user.description" :is-note="false" :author="user"
-							:i="$i" :custom-emojis="user.emojis"
-						/>
+						<Mfm v-if="user.description" :text="user.description" :is-note="false" :author="user" :i="$i" :custom-emojis="user.emojis"/>
 						<p v-else class="empty">{{ i18n.ts.noAccountDescription }}</p>
 					</div>
 					<div class="fields system">
@@ -67,34 +51,20 @@
 						</dl>
 						<dl v-if="user.birthday" class="field">
 							<dt class="name"><i class="ti ti-cake ti-fw"></i> {{ i18n.ts.birthday }}</dt>
-							<dd class="value">
-								{{ user.birthday.replace('-', '/').replace('-', '/') }} ({{
-									$t('yearsOld', { age })
-								}})
-							</dd>
+							<dd class="value">{{ user.birthday.replace('-', '/').replace('-', '/') }} ({{ $t('yearsOld', { age }) }})</dd>
 						</dl>
 						<dl class="field">
-							<dt class="name">
-								<i class="ti ti-calendar ti-fw"></i> {{ i18n.ts.registeredDate }}
-							</dt>
-							<dd class="value">
-								{{ dateString(user.createdAt) }} (<MkTime :time="user.createdAt"/>)
-							</dd>
+							<dt class="name"><i class="ti ti-calendar ti-fw"></i> {{ i18n.ts.registeredDate }}</dt>
+							<dd class="value">{{ dateString(user.createdAt) }} (<MkTime :time="user.createdAt"/>)</dd>
 						</dl>
 					</div>
 					<div v-if="user.fields.length > 0" class="fields">
 						<dl v-for="(field, i) in user.fields" :key="i" class="field">
 							<dt class="name">
-								<Mfm 
-									:text="field.name" :plain="true" :custom-emojis="user.emojis"
-									:colored="false"
-								/>
+								<Mfm :text="field.name" :plain="true" :custom-emojis="user.emojis" :colored="false"/>
 							</dt>
 							<dd class="value">
-								<Mfm 
-									:text="field.value" :author="user" :i="$i" :custom-emojis="user.emojis"
-									:colored="false"
-								/>
+								<Mfm :text="field.value" :author="user" :i="$i" :custom-emojis="user.emojis" :colored="false"/>
 							</dd>
 						</dl>
 					</div>
@@ -103,17 +73,11 @@
 							<b>{{ number(user.notesCount) }}</b>
 							<span>{{ i18n.ts.notes }}</span>
 						</MkA>
-						<MkA 
-							v-click-anime :to="userPage(user, 'following')"
-							:class="{ active: page === 'following' }"
-						>
+						<MkA v-click-anime :to="userPage(user, 'following')" :class="{ active: page === 'following' }">
 							<b>{{ number(user.followingCount) }}</b>
 							<span>{{ i18n.ts.following }}</span>
 						</MkA>
-						<MkA 
-							v-click-anime :to="userPage(user, 'followers')"
-							:class="{ active: page === 'followers' }"
-						>
+						<MkA v-click-anime :to="userPage(user, 'followers')" :class="{ active: page === 'followers' }">
 							<b>{{ number(user.followersCount) }}</b>
 							<span>{{ i18n.ts.followers }}</span>
 						</MkA>
@@ -123,10 +87,7 @@
 
 			<div class="contents">
 				<div v-if="user.pinnedNotes.length > 0" class="_gap">
-					<XNote
-						v-for="note in user.pinnedNotes" :key="note.id" class="note _block" :note="note"
-						:pinned="true"
-					/>
+					<XNote v-for="note in user.pinnedNotes" :key="note.id" class="note _block" :note="note" :pinned="true"/>
 				</div>
 				<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
 				<template v-if="narrow">
@@ -183,7 +144,7 @@ let bannerEl = $ref<null | HTMLElement>(null);
 const style = $computed(() => {
 	if (props.user.bannerUrl == null) return {};
 	return {
-		backgroundImage: `url(${props.user.bannerUrl})`,
+		backgroundImage: `url(${ props.user.bannerUrl })`,
 	};
 });
 
@@ -228,27 +189,27 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .ftskorzw {
 
-	>.main {
+	> .main {
 
-		>.punished {
+		> .punished {
 			font-size: 0.8em;
 			padding: 16px;
 		}
 
-		>.profile {
+		> .profile {
 
-			>.main {
+			> .main {
 				position: relative;
-				overflow: clip;
+				overflow: clip;;
 
-				>.banner-container {
+				> .banner-container {
 					position: relative;
 					height: 250px;
 					overflow: clip;
 					background-size: cover;
 					background-position: center;
 
-					>.banner {
+					> .banner {
 						height: 100%;
 						background-color: #4c5e6d;
 						background-size: cover;
@@ -257,7 +218,7 @@ onUnmounted(() => {
 						will-change: background-position;
 					}
 
-					>.fade {
+					> .fade {
 						position: absolute;
 						bottom: 0;
 						left: 0;
@@ -266,7 +227,7 @@ onUnmounted(() => {
 						background: linear-gradient(transparent, rgba(#000, 0.7));
 					}
 
-					>.followed {
+					> .followed {
 						position: absolute;
 						top: 12px;
 						left: 12px;
@@ -277,7 +238,7 @@ onUnmounted(() => {
 						border-radius: 6px;
 					}
 
-					>.actions {
+					> .actions {
 						position: absolute;
 						top: 12px;
 						right: 12px;
@@ -287,7 +248,7 @@ onUnmounted(() => {
 						padding: 8px;
 						border-radius: 24px;
 
-						>.menu {
+						> .menu {
 							vertical-align: bottom;
 							height: 31px;
 							width: 31px;
@@ -296,13 +257,13 @@ onUnmounted(() => {
 							font-size: 16px;
 						}
 
-						>.koudoku {
+						> .koudoku {
 							margin-left: 4px;
 							vertical-align: bottom;
 						}
 					}
 
-					>.title {
+					> .title {
 						position: absolute;
 						bottom: 0;
 						left: 0;
@@ -311,7 +272,7 @@ onUnmounted(() => {
 						box-sizing: border-box;
 						color: #fff;
 
-						>.name {
+						> .name {
 							display: block;
 							margin: 0;
 							line-height: 32px;
@@ -320,8 +281,8 @@ onUnmounted(() => {
 							text-shadow: 0 0 8px #000;
 						}
 
-						>.bottom {
-							>* {
+						> .bottom {
+							> * {
 								display: inline-block;
 								margin-right: 16px;
 								line-height: 20px;
@@ -330,21 +291,20 @@ onUnmounted(() => {
 								&.username {
 									font-weight: bold;
 								}
-
 							}
 						}
 					}
 				}
 
-				>.title {
+				> .title {
 					display: none;
 					text-align: center;
 					padding: 50px 8px 16px 8px;
 					font-weight: bold;
 					border-bottom: solid 0.5px var(--divider);
 
-					>.bottom {
-						>* {
+					> .bottom {
+						> * {
 							display: inline-block;
 							margin-right: 8px;
 							opacity: 0.8;
@@ -352,7 +312,7 @@ onUnmounted(() => {
 					}
 				}
 
-				>.avatar {
+				> .avatar {
 					display: block;
 					position: absolute;
 					top: 170px;
@@ -363,22 +323,22 @@ onUnmounted(() => {
 					box-shadow: 1px 1px 3px rgba(#000, 0.2);
 				}
 
-				>.description {
+				> .description {
 					padding: 24px 24px 24px 154px;
 					font-size: 0.95em;
 
-					>.empty {
+					> .empty {
 						margin: 0;
 						opacity: 0.5;
 					}
 				}
 
-				>.fields {
+				> .fields {
 					padding: 24px;
 					font-size: 0.9em;
 					border-top: solid 0.5px var(--divider);
 
-					>.field {
+					> .field {
 						display: flex;
 						padding: 0;
 						margin: 0;
@@ -388,7 +348,7 @@ onUnmounted(() => {
 							margin-bottom: 8px;
 						}
 
-						>.name {
+						> .name {
 							width: 30%;
 							overflow: hidden;
 							white-space: nowrap;
@@ -397,7 +357,7 @@ onUnmounted(() => {
 							text-align: center;
 						}
 
-						>.value {
+						> .value {
 							width: 70%;
 							overflow: hidden;
 							white-space: nowrap;
@@ -407,12 +367,12 @@ onUnmounted(() => {
 					}
 				}
 
-				>.status {
+				> .status {
 					display: flex;
 					padding: 24px;
 					border-top: solid 0.5px var(--divider);
 
-					>a {
+					> a {
 						flex: 1;
 						text-align: center;
 
@@ -424,12 +384,12 @@ onUnmounted(() => {
 							text-decoration: none;
 						}
 
-						>b {
+						> b {
 							display: block;
 							line-height: 16px;
 						}
 
-						>span {
+						> span {
 							font-size: 70%;
 						}
 					}
@@ -437,29 +397,29 @@ onUnmounted(() => {
 			}
 		}
 
-		>.contents {
-			>.content {
+		> .contents {
+			> .content {
 				margin-bottom: var(--margin);
 			}
 		}
 	}
 
 	&.max-width_500px {
-		>.main {
-			>.profile>.main {
-				>.banner-container {
+		> .main {
+			> .profile > .main {
+				> .banner-container {
 					height: 140px;
 
-					>.fade {
+					> .fade {
 						display: none;
 					}
 
-					>.title {
+					> .title {
 						display: none;
 					}
 				}
 
-				>.title {
+				> .title {
 					display: block;
 					padding-top: 16px;
 					text-align: left;
@@ -468,7 +428,7 @@ onUnmounted(() => {
 					margin-left: unquote("calc(5% + 92px)"); //コンパイルエラー対策
 				}
 
-				>.avatar {
+				> .avatar {
 					top: 110px;
 					left: 0;
 					right: 0;
@@ -477,23 +437,23 @@ onUnmounted(() => {
 					margin-left: 5%;
 				}
 
-				>.description {
+				> .description {
 					padding: 16px;
 					text-align: center;
 					border-top: solid 0.5px var(--divider);
 				}
 
-				>.fields {
+				> .fields {
 					padding: 16px;
 				}
 
-				>.status {
+				> .status {
 					padding: 16px;
 				}
 			}
 
-			>.contents {
-				>.nav {
+			> .contents {
+				> .nav {
 					font-size: 80%;
 				}
 			}
@@ -504,12 +464,12 @@ onUnmounted(() => {
 		display: flex;
 		width: 100%;
 
-		>.main {
+		> .main {
 			width: 100%;
 			min-width: 0;
 		}
 
-		>.sub {
+		> .sub {
 			max-width: 350px;
 			min-width: 350px;
 			margin-left: var(--margin);
@@ -526,7 +486,6 @@ onUnmounted(() => {
 	color: var(--error);
 	border-color: var(--error);
 }
-
 .moderator {
 	display: inline-block;
 	border: solid 1px;
