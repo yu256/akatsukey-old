@@ -8,6 +8,13 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v4.1
+- fix(server): 1:1ではない画像のリアクション通知バッジが左や上に寄ってしまっていたのを中央に来るように修正
+- refactor
+- 登録日の括弧内に空白が含まれているのを修正
+- 500px以上のときプロフィール画面に鍵,Botアイコンが表示されないのを修正
+- reactionImportMenuをTabler Iconsに
+
 # akatsukey v4.0.5
 - fix(frontend): URLプレビューのポップアップが左上に表示されることがある
 - hotfix(frontend): numberquote/_nqadd
