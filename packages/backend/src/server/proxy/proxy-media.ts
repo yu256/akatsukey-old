@@ -42,7 +42,8 @@ export async function proxyMedia(ctx: Koa.Context) {
 
 			const mask = sharp(path)
 				.resize(96, 96, {
-					fit: 'inside',
+					fit: 'contain',
+					position: 'centre',
 					withoutEnlargement: false,
 				})
 				.greyscale()
