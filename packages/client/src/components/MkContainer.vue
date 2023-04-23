@@ -1,7 +1,7 @@
 <template>
-<div v-size="{ max: [380] }" class="ukygtjoj _panel" :class="{ naked, thin, hideHeader: !showHeader, scrollable, closed: !showBody }">
+<div ref="rootEl" v-size="{ max: [380] }" class="ukygtjoj _panel" :class="{ naked, thin, hideHeader: !showHeader, scrollable, closed: !showBody }">
 	<header v-if="showHeader" ref="header">
-		<div class="title"><slot name="header"></slot></div>
+		<div class="title"><slot name="headerEl"></slot></div>
 		<div class="sub">
 			<slot name="func"></slot>
 			<button v-if="foldable" class="_button" @click="() => showBody = !showBody">
@@ -17,7 +17,7 @@
 		@leave="leave"
 		@after-leave="afterLeave"
 	>
-		<div v-show="showBody" ref="content" class="content" :class="{ omitted }">
+		<div v-show="showBody" ref="contentEl" class="content" :class="{ omitted }">
 			<slot></slot>
 			<button v-if="omitted" class="fade _button" @click="() => { ignoreOmit = true; omitted = false; }">
 				<span>{{ $ts.showMore }}</span>
@@ -27,105 +27,68 @@
 </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { onMounted, ref, shallowRef, watch } from 'vue';
 
-export default defineComponent({
-	props: {
-		showHeader: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		thin: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		naked: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		foldable: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		expanded: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		scrollable: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		maxHeight: {
-			type: Number,
-			required: false,
-			default: null,
-		},
-	},
-	data() {
-		return {
-			showBody: this.expanded,
-			omitted: null,
-			ignoreOmit: false,
-		};
-	},
-	mounted() {
-		this.$watch('showBody', showBody => {
-			const headerHeight = this.showHeader ? this.$refs.header.offsetHeight : 0;
-			this.$el.style.minHeight = `${headerHeight}px`;
-			if (showBody) {
-				this.$el.style.flexBasis = 'auto';
-			} else {
-				this.$el.style.flexBasis = `${headerHeight}px`;
-			}
-		}, {
-			immediate: true,
-		});
-
-		this.$el.style.setProperty('--maxHeight', this.maxHeight + 'px');
-
-		const calcOmit = () => {
-			if (this.omitted || this.ignoreOmit || this.maxHeight == null) return;
-			const height = this.$refs.content.offsetHeight;
-			this.omitted = height > this.maxHeight;
-		};
-
+const props = withDefaults(defineProps<{
+	showHeader?: boolean;
+	thin?: boolean;
+	naked?: boolean;
+	foldable?: boolean;
+	scrollable?: boolean;
+	expanded?: boolean;
+	maxHeight?: number | null;
+}>(), {
+	expanded: true,
+	showHeader: true,
+	maxHeight: null,
+});
+const rootEl = shallowRef<HTMLElement>();
+const contentEl = shallowRef<HTMLElement>();
+const headerEl = shallowRef<HTMLElement>();
+const showBody = ref(props.expanded);
+const ignoreOmit = ref(false);
+const omitted = ref(false);
+function enter(el) {
+	const elementHeight = el.getBoundingClientRect().height;
+	el.style.height = 0;
+	el.offsetHeight; // reflow
+	el.style.height = Math.min(elementHeight, props.maxHeight ?? Infinity) + 'px';
+}
+function afterEnter(el) {
+	el.style.height = null;
+}
+function leave(el) {
+	const elementHeight = el.getBoundingClientRect().height;
+	el.style.height = elementHeight + 'px';
+	el.offsetHeight; // reflow
+	el.style.height = 0;
+}
+function afterLeave(el) {
+	el.style.height = null;
+}
+const calcOmit = () => {
+	if (omitted.value || ignoreOmit.value || props.maxHeight == null) return;
+	const height = contentEl.value.offsetHeight;
+	omitted.value = height > props.maxHeight;
+};
+onMounted(() => {
+	watch(showBody, v => {
+		const headerHeight = props.showHeader ? headerEl.value.offsetHeight : 0;
+		rootEl.value.style.minHeight = `${headerHeight}px`;
+		if (v) {
+			rootEl.value.style.flexBasis = 'auto';
+		} else {
+			rootEl.value.style.flexBasis = `${headerHeight}px`;
+		}
+	}, {
+		immediate: true,
+	});
+	rootEl.value.style.setProperty('--maxHeight', props.maxHeight + 'px');
+	calcOmit();
+	new ResizeObserver((entries, observer) => {
 		calcOmit();
-		new ResizeObserver((entries, observer) => {
-			calcOmit();
-		}).observe(this.$refs.content);
-	},
-	methods: {
-		toggleContent(show: boolean) {
-			if (!this.foldable) return;
-			this.showBody = show;
-		},
-
-		enter(el) {
-			const elementHeight = el.getBoundingClientRect().height;
-			el.style.height = 0;
-			el.offsetHeight; // reflow
-			el.style.height = elementHeight + 'px';
-		},
-		afterEnter(el) {
-			el.style.height = null;
-		},
-		leave(el) {
-			const elementHeight = el.getBoundingClientRect().height;
-			el.style.height = elementHeight + 'px';
-			el.offsetHeight; // reflow
-			el.style.height = 0;
-		},
-		afterLeave(el) {
-			el.style.height = null;
-		},
-	},
+	}).observe(contentEl.value);
 });
 </script>
 
@@ -239,9 +202,6 @@ export default defineComponent({
 				padding: 8px 10px;
 				font-size: 0.9em;
 			}
-		}
-
-		> .content {
 		}
 	}
 }

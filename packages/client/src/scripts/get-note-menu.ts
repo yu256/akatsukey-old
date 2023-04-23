@@ -177,22 +177,15 @@ export function getNoteMenu(props: {
 				action: translate,
 			} : undefined,
 			UseIsolatedfav.value ? undefined : null,
-			statePromise.then(state => {
-				if (UseIsolatedfav.value) {
-					return null;
-				} else if (state?.isFavorited) {
-					return {
-						icon: 'ti ti-star',
-						text: i18n.ts.unfavorite,
-						action: (): void => toggleFavorite(false),
-					};
-				} else {
-					return {
-						icon: 'ti ti-star',
-						text: i18n.ts.favorite,
-						action: (): void => toggleFavorite(true),
-					};
-				}
+			statePromise.then(state => UseIsolatedfav.value ? null
+			: state?.isFavorited ? {
+				icon: 'ti ti-star',
+				text: i18n.ts.unfavorite,
+				action: (): void => toggleFavorite(false),
+			} : {
+				icon: 'ti ti-star',
+				text: i18n.ts.favorite,
+				action: (): void => toggleFavorite(true),
 			}),
 			{
 				type: 'parent',
