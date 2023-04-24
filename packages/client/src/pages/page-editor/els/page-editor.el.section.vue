@@ -33,8 +33,8 @@ const props = withDefaults(defineProps<{
 }>(), {
 	value: {
 		title: null,
-		children: []
-	}
+		children: [],
+	},
 });
 
 const getPageBlockList = inject<(any) => any>('getPageBlockList');

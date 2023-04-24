@@ -113,9 +113,6 @@ function resolve() {
 		}
 	}
 
-	> .report {
-	}
-
 	> .detail {
 		> * {
 			margin-bottom: 0;

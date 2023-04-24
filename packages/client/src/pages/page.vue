@@ -5,11 +5,6 @@
 		<Transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
 			<div v-if="page" :key="page.id" v-size="{ max: [450] }" class="xcukqgmh">
 				<div class="_block main">
-					<!--
-				<div class="header">
-					<h1>{{ page.title }}</h1>
-				</div>
-				-->
 					<div class="banner">
 						<img v-if="page.eyeCatchingImageId" :src="page.eyeCatchingImage.url"/>
 					</div>

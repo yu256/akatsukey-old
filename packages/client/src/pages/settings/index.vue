@@ -269,11 +269,6 @@ definePageMetadata(INFO);
 				}
 			}
 		}
-
-		> .main {
-			.bkzroven {
-			}
-		}
 	}
 
 	&.wide {

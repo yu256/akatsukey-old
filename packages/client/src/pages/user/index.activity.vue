@@ -21,7 +21,7 @@ import MkChart from '@/components/MkChart.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	user: misskey.entities.User;
 	limit?: number;
 }>(), {

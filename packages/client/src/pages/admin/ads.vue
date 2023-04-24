@@ -17,14 +17,6 @@
 					<option value="horizontal">horizontal</option>
 					<option value="horizontal-big">horizontal-big</option>
 				</FormRadios>
-				<!--
-			<div style="margin: 32px 0;">
-				{{ i18n.ts.priority }}
-				<MkRadio v-model="ad.priority" value="high">{{ i18n.ts.high }}</MkRadio>
-				<MkRadio v-model="ad.priority" value="middle">{{ i18n.ts.middle }}</MkRadio>
-				<MkRadio v-model="ad.priority" value="low">{{ i18n.ts.low }}</MkRadio>
-			</div>
-			-->
 				<FormSplit>
 					<MkInput v-model="ad.ratio" type="number">
 						<template #label>{{ i18n.ts.ratio }}</template>
@@ -47,7 +39,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XHeader from './_header_.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/form/input.vue';

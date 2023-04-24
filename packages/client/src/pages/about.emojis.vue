@@ -4,12 +4,6 @@
 		<MkInput v-model="q" class="" :placeholder="$ts.search">
 			<template #prefix><i class="ti ti-search"></i></template>
 		</MkInput>
-
-		<!-- たくさんあると邪魔
-		<div class="tags">
-			<span class="tag _button" v-for="tag in tags" :key="tag" :class="{ active: selectedTags.has(tag) }" @click="toggleTag(tag)">{{ tag }}</span>
-		</div>
-		-->
 	</div>
 
 	<MkFolder v-if="searchEmojis" class="emojis">

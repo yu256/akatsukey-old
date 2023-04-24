@@ -18,8 +18,6 @@
 			<button class="_button _acrylic menu" @click="showMenu"><i class="ti ti-dots"></i></button>
 			<div class="fg">
 				<h1>
-					<!-- 背景色によってはロゴが見えなくなるのでとりあえず無効に -->
-					<!-- <img class="logo" v-if="meta.logoImageUrl" :src="meta.logoImageUrl"><span v-else class="text">{{ instanceName }}</span> -->
 					<span class="text">{{ instanceName }}</span>
 				</h1>
 				<div class="about">
@@ -46,7 +44,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XTimeline from './welcome.timeline.vue';
 import MarqueeText from '@/components/MkMarquee.vue';
 import XSigninDialog from '@/components/MkSigninDialog.vue';

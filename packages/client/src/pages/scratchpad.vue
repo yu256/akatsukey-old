@@ -107,10 +107,6 @@ function highlighter(code) {
 	return highlight(code, languages.js, 'javascript');
 }
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata({
 	title: i18n.ts.scratchpad,
 	icon: 'ti ti-terminal-2',

@@ -52,9 +52,7 @@ provide('shouldOmitHeaderTitle', false);
 let INFO = $ref(indexInfo);
 let childInfo = $ref(null);
 let narrow = $ref(false);
-let view = $ref(null);
 let el = $ref(null);
-let pageProps = $ref({});
 let noMaintainerInformation = isEmpty(instance.maintainerName) || isEmpty(instance.maintainerEmail);
 let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha && !instance.enableRecaptcha;
 let noEmailServer = !instance.enableEmail;
@@ -193,7 +191,6 @@ const menuDef = $computed(() => [{
 	}],
 }]);
 
-
 watch(narrow, () => {
 	if (currentPage?.route.name == null && !narrow) {
 		router.push('/admin/overview');
@@ -262,10 +259,6 @@ const lookup = (ev) => {
 		},
 	}], ev.currentTarget ?? ev.target);
 };
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(INFO);
 

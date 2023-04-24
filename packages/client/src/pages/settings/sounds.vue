@@ -23,12 +23,9 @@ import { computed, ref } from 'vue';
 import XSound from './sounds.sound.vue';
 import FormRange from '@/components/form/range.vue';
 import FormButton from '@/components/MkButton.vue';
-import FormLink from '@/components/form/link.vue';
 import FormSection from '@/components/form/section.vue';
 import FormFolder from '@/components/form/folder.vue';
-import * as os from '@/os';
 import { ColdDeviceStorage } from '@/store';
-import { playFile } from '@/scripts/sound';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 
@@ -40,8 +37,6 @@ const masterVolume = computed({
 		ColdDeviceStorage.set('sound_masterVolume', value);
 	},
 });
-
-const volumeIcon = computed(() => masterVolume.value === 0 ? 'ti ti-volume-3' : 'ti ti-volume');
 
 const sounds = ref({
 	note: ColdDeviceStorage.get('sound_note'),
@@ -70,10 +65,6 @@ function reset() {
 		sounds.value[sound] = v;
 	}
 }
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.sounds,

@@ -39,7 +39,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkSignin from '@/components/MkSignin.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
@@ -85,7 +84,3 @@ function onLogin(res): void {
 	login(res.i);
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

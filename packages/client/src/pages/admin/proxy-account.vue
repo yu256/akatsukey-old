@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkKeyValue from '@/components/MkKeyValue.vue';
 import FormButton from '@/components/MkButton.vue';
 import MkInfo from '@/components/MkInfo.vue';

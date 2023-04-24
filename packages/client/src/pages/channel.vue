@@ -51,13 +51,6 @@ const props = defineProps<{
 
 let channel = $ref(null);
 let showBanner = $ref(true);
-const pagination = {
-	endpoint: 'channels/timeline' as const,
-	limit: 10,
-	params: computed(() => ({
-		channelId: props.channelId,
-	})),
-};
 
 watch(() => props.channelId, async () => {
 	channel = await os.api('channels/show', {

@@ -47,12 +47,6 @@
 							<template #caption>{{ i18n.ts._sensitiveMediaDetection.setSensitiveFlagAutomaticallyDescription }}</template>
 						</FormSwitch>
 
-						<!-- 現状 false positive が多すぎて実用に耐えない
-						<FormSwitch v-model="disallowUploadWhenPredictedAsPorn" class="_formBlock">
-							<template #label>{{ i18n.ts._sensitiveMediaDetection.disallowUploadWhenPredictedAsPorn }}</template>
-						</FormSwitch>
-						-->
-
 						<FormButton primary class="_formBlock" @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</FormButton>
 					</div>
 				</FormFolder>
@@ -101,7 +95,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XBotProtection from './bot-protection.vue';
 import XHeader from './_header_.vue';
 import FormFolder from '@/components/form/folder.vue';
@@ -118,7 +111,6 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 let summalyProxy: string = $ref('');
 let enableHcaptcha: boolean = $ref(false);
-let enableRecaptcha: boolean = $ref(false);
 let sensitiveMediaDetection: string = $ref('none');
 let sensitiveMediaDetectionSensitivity: number = $ref(0);
 let setSensitiveFlagAutomatically: boolean = $ref(false);

@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import FormSelect from '@/components/form/select.vue';
 import FormButton from '@/components/MkButton.vue';
 import FormRange from '@/components/form/range.vue';

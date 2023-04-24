@@ -10,7 +10,6 @@
 		<option value="sideFull">{{ i18n.ts._menuDisplay.sideFull }}</option>
 		<option value="sideIcon">{{ i18n.ts._menuDisplay.sideIcon }}</option>
 		<option value="top">{{ i18n.ts._menuDisplay.top }}</option>
-		<!-- <MkRadio v-model="menuDisplay" value="hide" disabled>{{ i18n.ts._menuDisplay.hide }}</MkRadio>--> <!-- TODO: サイドバーを完全に隠せるようにすると、別途ハンバーガーボタンのようなものをUIに表示する必要があり面倒 -->
 	</FormRadios>
 
 	<FormButton danger class="_formBlock" @click="reset()"><i class="ti ti-reload"></i> {{ i18n.ts.default }}</FormButton>
@@ -75,10 +74,6 @@ watch(items, async () => {
 watch(menuDisplay, async () => {
 	await reloadAsk();
 });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.navbar,

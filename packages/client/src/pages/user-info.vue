@@ -329,25 +329,6 @@ async function toggleSuspend(v) {
 	}
 }
 
-async function deleteAllFiles() {
-	const confirm = await os.confirm({
-		type: 'warning',
-		text: i18n.ts.deleteAllFilesConfirm,
-	});
-	if (confirm.canceled) return;
-	const process = async () => {
-		await os.api('admin/delete-all-files-of-a-user', { userId: user.id });
-		os.success();
-	};
-	await process().catch(err => {
-		os.alert({
-			type: 'error',
-			text: err.toString(),
-		});
-	});
-	await refreshUser();
-}
-
 async function applyDriveCapacityOverride() {
 	let driveCapOrMb = driveCapacityOverrideMb;
 	if (driveCapacityOverrideMb && driveCapacityOverrideMb < 0) {

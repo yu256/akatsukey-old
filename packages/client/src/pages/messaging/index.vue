@@ -57,7 +57,6 @@ import { $i } from '@/account';
 const router = useRouter();
 
 let fetching = $ref(true);
-let moreFetching = $ref(false);
 let messages = $ref([]);
 let connection = $ref(null);
 
@@ -184,9 +183,6 @@ definePageMetadata({
 				.avatar {
 					filter: saturate(200%);
 				}
-			}
-
-			&:active {
 			}
 
 			&.isRead,

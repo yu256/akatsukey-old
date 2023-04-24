@@ -25,8 +25,8 @@ const props = withDefaults(defineProps<{
 	value: any
 }>(), {
 	value: {
-		fileId: null
-	}
+		fileId: null,
+	},
 });
 
 let file: any = $ref(null);

@@ -15,7 +15,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import JSON5 from 'json5';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
@@ -69,6 +68,3 @@ definePageMetadata({
 	icon: 'ti ti-adjustments',
 });
 </script>
-
-<style lang="scss" scoped>
-</style>

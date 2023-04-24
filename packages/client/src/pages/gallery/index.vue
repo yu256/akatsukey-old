@@ -57,7 +57,6 @@ const props = defineProps<{
 }>();
 
 let tab = $ref('explore');
-let tags = $ref([]);
 let tagsRef = $ref();
 
 const recentPostsPagination = {
@@ -76,16 +75,6 @@ const likedPostsPagination = {
 	endpoint: 'i/gallery/likes' as const,
 	limit: 5,
 };
-
-const tagUsersPagination = $computed(() => ({
-	endpoint: 'hashtags/users' as const,
-	limit: 30,
-	params: {
-		tag: this.tag,
-		origin: 'combined',
-		sort: '+follower',
-	},
-}));
 
 watch(() => props.tag, () => {
 	if (tagsRef) tagsRef.tags.toggleContent(props.tag == null);
@@ -125,9 +114,5 @@ definePageMetadata({
 	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 	grid-gap: 12px;
 	margin: 0 var(--margin);
-
-	> .post {
-
-	}
 }
 </style>

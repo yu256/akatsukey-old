@@ -105,10 +105,6 @@ onMounted(() => {
 	});
 });
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata({
 	title: i18n.ts.email,
 	icon: 'ti ti-mail',

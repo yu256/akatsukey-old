@@ -4,7 +4,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import * as Acct from 'misskey-js/built/acct';
 import * as os from '@/os';
 import { mainRouter } from '@/router';

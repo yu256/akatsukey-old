@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import * as os from '@/os';
 import { copyText } from '@/scripts/tms/clipboard';
 import { i18n } from '@/i18n';

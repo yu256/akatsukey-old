@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XModalWindow from '@/components/MkModalWindow.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/form/input.vue';

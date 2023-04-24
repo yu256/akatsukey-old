@@ -42,8 +42,8 @@ const props = withDefaults(defineProps<{
 }>(), {
 	value: {
 		children: [],
-		var: null
-	}
+		var: null,
+	},
 });
 
 const getPageBlockList = inject<(any) => any>('getPageBlockList');

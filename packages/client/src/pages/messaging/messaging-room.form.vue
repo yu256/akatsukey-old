@@ -30,7 +30,6 @@
 import { onMounted, watch } from 'vue';
 import * as Misskey from 'misskey-js';
 import autosize from 'autosize';
-//import insertTextAtCursor from 'insert-text-at-cursor';
 import { throttle } from 'throttle-debounce';
 import { formatTimeString } from '@/scripts/format-time-string';
 import { selectFile } from '@/scripts/select-file';
@@ -38,7 +37,6 @@ import * as os from '@/os';
 import { stream } from '@/stream';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
-//import { Autocomplete } from '@/scripts/autocomplete';
 import { uploadFile } from '@/scripts/upload';
 import { parseObject } from '@/scripts/tms/parse';
 

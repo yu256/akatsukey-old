@@ -1,11 +1,10 @@
 <template>
-<div class="">
+<div>
 	<XAntenna v-if="antenna" :antenna="antenna" @updated="onAntennaUpdated"/>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XAntenna from './editor.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
@@ -28,16 +27,8 @@ os.api('antennas/show', { antennaId: props.antennaId }).then((antennaResponse) =
 	antenna = antennaResponse;
 });
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata({
 	title: i18n.ts.manageAntennas,
 	icon: 'ti ti-antenna',
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>

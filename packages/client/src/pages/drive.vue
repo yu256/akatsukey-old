@@ -12,10 +12,6 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 let folder = $ref(null);
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata(computed(() => ({
 	title: folder ? folder.name : i18n.ts.drive,
 	icon: 'ti ti-cloud',

@@ -24,7 +24,6 @@
 <script lang="ts" setup>
 // SPECIFICATION: https://misskey-hub.net/docs/features/share-form.html
 
-import { } from 'vue';
 import { noteVisibilities } from 'misskey-js';
 import * as Acct from 'misskey-js/built/acct';
 import * as Misskey from 'misskey-js';
@@ -162,7 +161,7 @@ definePageMetadata({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .close {
 	margin: 16px auto;
 }

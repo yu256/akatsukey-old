@@ -26,16 +26,8 @@ onMounted(async () => {
 	login(res.i, '/');
 });
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata({
 	title: i18n.ts.signup,
 	icon: 'ti ti-user',
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>

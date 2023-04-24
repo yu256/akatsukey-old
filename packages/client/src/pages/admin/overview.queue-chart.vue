@@ -56,8 +56,6 @@ const alpha = (hex, a) => {
 
 const chartEl = shallowRef<HTMLCanvasElement>(null);
 
-const gridColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-
 // フォントカラー
 Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
 
@@ -203,7 +201,3 @@ onUnmounted(() => {
 	props.connection.off('statsLog', onStatsLog);
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>

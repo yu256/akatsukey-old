@@ -39,11 +39,7 @@ const XTutorial = defineAsyncComponent(() => import('./timeline.tutorial.vue'));
 
 const isLocalTimelineAvailable = !instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin));
 const isGlobalTimelineAvailable = !instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin));
-const keymap = {
-	't': focus,
-};
 
-const tlComponent = $shallowRef<InstanceType<typeof XTimeline>>();
 const rootEl = $shallowRef<HTMLElement>();
 
 let queue = $ref(0);
@@ -98,19 +94,6 @@ function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global'): void {
 		...defaultStore.state.tl,
 		src: newSrc,
 	});
-}
-
-async function timetravel(): Promise<void> {
-	const { canceled, result: date } = await os.inputDate({
-		title: i18n.ts.date,
-	});
-	if (canceled) return;
-
-	tlComponent.timetravel(date);
-}
-
-function focus(): void {
-	tlComponent.focus();
 }
 
 const headerActions = $computed(() => []);

@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';

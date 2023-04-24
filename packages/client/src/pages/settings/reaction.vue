@@ -120,10 +120,6 @@ watch($$(reactions), () => {
 	deep: true,
 });
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata({
 	title: i18n.ts.reaction,
 	icon: 'ti ti-mood-happy',

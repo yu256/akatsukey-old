@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
@@ -53,14 +52,6 @@ async function create() {
 
 	os.apiWithDialog('clips/create', result);
 
-	pagingComponent.reload();
-}
-
-function onClipCreated() {
-	pagingComponent.reload();
-}
-
-function onClipDeleted() {
 	pagingComponent.reload();
 }
 
