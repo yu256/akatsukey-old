@@ -38,7 +38,7 @@ provide('shouldOmitHeaderTitle', true);
 const XTutorial = defineAsyncComponent(() => import('./timeline.tutorial.vue'));
 
 const isLocalTimelineAvailable = !instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin));
-const isGlobalTimelineAvailable = !instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin));
+const isGlobalTimelineAvailable = !instance.disableGlobalTimeline;
 
 const rootEl = $shallowRef<HTMLElement>();
 
