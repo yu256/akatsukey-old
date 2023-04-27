@@ -1,7 +1,7 @@
 <template>
 <div ref="rootEl" v-size="{ max: [380] }" class="ukygtjoj _panel" :class="{ naked, thin, hideHeader: !showHeader, scrollable, closed: !showBody }">
-	<header v-if="showHeader" ref="header">
-		<div class="title"><slot name="headerEl"></slot></div>
+	<header v-if="showHeader" ref="headerEl">
+		<div class="title"><slot name="header"></slot></div>
 		<div class="sub">
 			<slot name="func"></slot>
 			<button v-if="foldable" class="_button" @click="() => showBody = !showBody">
