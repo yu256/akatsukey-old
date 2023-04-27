@@ -64,7 +64,7 @@ const thumbWidth = computed(() => {
 	return thumbEl.value!.offsetWidth;
 });
 const thumbPosition = ref(0);
-const calcThumbPosition = () => {
+const calcThumbPosition = (): void => {
 	if (containerEl.value == null) {
 		thumbPosition.value = 0;
 	} else {
@@ -76,7 +76,7 @@ watch([steppedRawValue, containerEl], calcThumbPosition);
 let ro: ResizeObserver | undefined;
 
 onMounted(() => {
-	ro = new ResizeObserver((entries, observer) => {
+	ro = new ResizeObserver(() => {
 		calcThumbPosition();
 	});
 	ro.observe(containerEl.value);
@@ -94,7 +94,7 @@ const steps = computed(() => {
 	}
 });
 
-const onMousedown = (ev: MouseEvent | TouchEvent) => {
+const onMousedown = (ev: MouseEvent | TouchEvent): void => {
 	ev.preventDefault();
 
 	const tooltipShowing = ref(true);
@@ -110,7 +110,7 @@ const onMousedown = (ev: MouseEvent | TouchEvent) => {
 	style.appendChild(document.createTextNode('* { cursor: grabbing !important; } body * { pointer-events: none !important; }'));
 	document.head.appendChild(style);
 
-	const onDrag = (ev: MouseEvent | TouchEvent) => {
+	const onDrag = (ev: MouseEvent | TouchEvent): void => {
 		ev.preventDefault();
 		const containerRect = containerEl.value!.getBoundingClientRect();
 		const pointerX = ev.touches && ev.touches.length > 0 ? ev.touches[0].clientX : ev.clientX;
@@ -120,7 +120,7 @@ const onMousedown = (ev: MouseEvent | TouchEvent) => {
 
 	let beforeValue = finalValue.value;
 
-	const onMouseup = () => {
+	const onMouseup = (): void => {
 		document.head.removeChild(style);
 		tooltipShowing.value = false;
 		window.removeEventListener('mousemove', onDrag);

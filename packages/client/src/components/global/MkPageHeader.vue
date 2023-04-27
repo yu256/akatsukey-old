@@ -77,9 +77,7 @@ const show = $computed(() => {
 	return !hideTitle || hasTabs || hasActions;
 });
 
-const preventDrag = (ev: TouchEvent): void => {
-	ev.stopPropagation();
-};
+const preventDrag = (ev: TouchEvent): void => ev.stopPropagation();
 
 const top = (): void => {
 	if (el) {
@@ -93,9 +91,7 @@ const openAccountMenu = (ev: MouseEvent): void => {
 	}, ev);
 };
 
-const onTabClick = (): void => {
-	top();
-};
+const onTabClick = (): void => top();
 
 const calcBg = (): void => {
 	const rawBg = 'var(--bg)';

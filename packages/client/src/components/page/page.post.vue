@@ -25,11 +25,11 @@ export default defineComponent({
 	props: {
 		block: {
 			type: Object as PropType<PostBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		}
 	},
 	data() {
@@ -44,7 +44,7 @@ export default defineComponent({
 			handler() {
 				this.text = this.hpml.interpolate(this.block.text);
 			},
-			deep: true
+			deep: true,
 		}
 	},
 	methods: {
@@ -81,8 +81,8 @@ export default defineComponent({
 			}).then(() => {
 				this.posted = true;
 			});
-		}
-	}
+		},
+	},
 });
 </script>
 

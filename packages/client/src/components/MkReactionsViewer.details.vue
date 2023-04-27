@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkTooltip from './MkTooltip.vue';
 import XReactionIcon from '@/components/MkReactionIcon.vue';
 import { getEmojiName } from '@/scripts/emojilist';

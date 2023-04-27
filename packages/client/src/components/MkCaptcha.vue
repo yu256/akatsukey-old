@@ -73,11 +73,11 @@ if (loaded) {
 		.addEventListener('load', () => available.value = true);
 }
 
-function reset() {
+const reset = (): void => {
 	if (captcha.value.reset) captcha.value.reset();
-}
+};
 
-function requestRender() {
+const requestRender = (): void => {
 	if (captcha.value.render && captchaEl.value instanceof Element) {
 		captcha.value.render(captchaEl.value, {
 			sitekey: props.sitekey,
@@ -89,11 +89,11 @@ function requestRender() {
 	} else {
 		window.setTimeout(requestRender, 1);
 	}
-}
+};
 
-function callback(response?: string) {
+const callback = (response?: string): void => {
 	emit('update:modelValue', typeof response === 'string' ? response : null);
-}
+};
 
 onMounted(() => {
 	if (available.value) {

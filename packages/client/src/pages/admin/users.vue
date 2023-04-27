@@ -1,7 +1,7 @@
 <template>
 <div>
 	<MkStickyContainer>
-		<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+		<template #header><XHeader :actions="headerActions"/></template>
 		<MkSpacer :content-max="900">
 			<div class="lknzcolw">
 				<div class="users">
@@ -85,13 +85,13 @@ const pagination = {
 	offsetMode: true,
 };
 
-function searchUser() {
+const searchUser = (): void => {
 	os.selectUser().then(user => {
 		show(user);
 	});
-}
+};
 
-async function addUser() {
+const addUser = async (): Promise<void> => {
 	const { canceled: canceled1, result: username } = await os.inputText({
 		title: i18n.ts.username,
 	});
@@ -106,14 +106,12 @@ async function addUser() {
 	os.apiWithDialog('admin/accounts/create', {
 		username: username,
 		password: password,
-	}).then(res => {
-		paginationComponent.reload();
+	}).then(() => {
+		paginationComponent?.reload();
 	});
-}
+};
 
-function show(user) {
-	os.pageWindow(`/user-info/${user.id}`);
-}
+const show = (user): void => os.pageWindow(`/user-info/${user.id}`);
 
 const headerActions = $computed(() => [{
 	icon: 'ti ti-search',
@@ -130,8 +128,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.lookup,
 	handler: lookupUser,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.users,

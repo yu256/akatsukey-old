@@ -101,9 +101,9 @@ Chart.register(
 	//gradient,
 );
 
-const sum = (...arr) => arr.reduce((r, a) => r.map((b, i) => a[i] + b));
-const negate = arr => arr.map(x => -x);
-const alpha = (hex, a) => {
+const sum = (...arr: number[][]) => arr.reduce((r, a) => r.map((b: any, i: string | number) => a[i] + b));
+const negate = (arr: any[]) => arr.map((x: number) => -x);
+const alpha = (hex: string, a: number) => {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)!;
 	const r = parseInt(result[1], 16);
 	const g = parseInt(result[2], 16);
@@ -122,7 +122,7 @@ const colors = {
 	cyan: '#00e0e0',
 };
 const colorSets = [colors.blue, colors.green, colors.yellow, colors.red, colors.purple];
-const getColor = (i) => {
+const getColor = (i: number): string => {
 	return colorSets[i % colorSets.length];
 };
 
@@ -145,7 +145,7 @@ let chartData: {
 const chartEl = shallowRef<HTMLCanvasElement>(null);
 const fetching = ref(true);
 
-const getDate = (ago: number) => {
+const getDate = (ago: number): Date => {
 	const y = now.getFullYear();
 	const m = now.getMonth();
 	const d = now.getDate();
@@ -154,8 +154,8 @@ const getDate = (ago: number) => {
 	return props.span === 'day' ? new Date(y, m, d - ago) : new Date(y, m, d, h - ago);
 };
 
-const format = (arr) => {
-	return arr.map((v, i) => ({
+const format = (arr: any[]) => {
+	return arr.map((v: any, i: number) => ({
 		x: getDate(i).getTime(),
 		y: v,
 	}));
@@ -163,7 +163,7 @@ const format = (arr) => {
 
 const { handler: externalTooltipHandler } = useChartTooltip();
 
-const render = () => {
+const render = (): void => {
 	if (chartInstance) {
 		chartInstance.destroy();
 	}
@@ -173,8 +173,6 @@ const render = () => {
 
 	// フォントカラー
 	Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
-
-	const maxes = chartData.series.map((x, i) => Math.max(...x.data.map(d => d.y)));
 
 	chartInstance = new Chart(chartEl.value, {
 		type: props.bar ? 'bar' : 'line',
@@ -192,15 +190,6 @@ const render = () => {
 				borderJoinStyle: 'round',
 				borderRadius: props.bar ? 3 : undefined,
 				backgroundColor: props.bar ? (x.color ? x.color : getColor(i)) : alpha(x.color ? x.color : getColor(i), 0.1),
-				/*gradient: props.bar ? undefined : {
-					backgroundColor: {
-						axis: 'y',
-						colors: {
-							0: alpha(x.color ? x.color : getColor(i), 0),
-							[maxes[i]]: alpha(x.color ? x.color : getColor(i), 0.2),
-						},
-					},
-				},*/
 				barPercentage: 0.9,
 				categoryPercentage: 0.9,
 				fill: x.type === 'area',
@@ -316,7 +305,7 @@ const render = () => {
 		},
 		plugins: [{
 			id: 'vLine',
-			beforeDraw(chart, args, options) {
+			beforeDraw(chart): void {
 				if (chart.tooltip?._active?.length) {
 					const activePoint = chart.tooltip._active[0];
 					const ctx = chart.ctx;
@@ -336,10 +325,6 @@ const render = () => {
 			},
 		}],
 	});
-};
-
-const exportData = () => {
-	// TODO
 };
 
 const fetchFederationChart = async (): Promise<typeof chartData> => {
@@ -790,11 +775,11 @@ const fetchPerUserFollowersChart = async (): Promise<typeof chartData> => {
 		series: [{
 			name: 'Local',
 			type: 'area',
-			data: format(raw.local.followers.total),
+			data: format(raw?.local.followers.total),
 		}, {
 			name: 'Remote',
 			type: 'area',
-			data: format(raw.remote.followers.total),
+			data: format(raw?.remote.followers.total),
 		}],
 	};
 };
@@ -814,7 +799,7 @@ const fetchPerUserDriveChart = async (): Promise<typeof chartData> => {
 	};
 };
 
-const fetchAndRender = async () => {
+const fetchAndRender = async (): Promise<void> => {
 	const fetchData = () => {
 		switch (props.src) {
 			case 'federation': return fetchFederationChart();

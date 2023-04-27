@@ -8,14 +8,6 @@
 </div>
 </template>
 
-<script lang="ts" setup>
-import { } from 'vue';
-
-function focus() {
-	// TODO
-}
-</script>
-
 <style lang="scss" scoped>
 .adhpbeou {
 	> .label {

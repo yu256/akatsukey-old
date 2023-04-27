@@ -27,9 +27,9 @@ os.apiGet('charts/instance', { host: props.instance.host, limit: 16 + 1, span: '
 	chartValues = res.requests.received;
 });
 
-function getInstanceIcon(instance): string {
+const getInstanceIcon = (instance): string => {
 	return getProxiedImageUrlNullable(instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(instance.faviconUrl, 'preview') ?? '/client-assets/dummy.png';
-}
+};
 </script>
 
 <style lang="scss" module>

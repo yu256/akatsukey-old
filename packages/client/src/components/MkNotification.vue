@@ -145,22 +145,22 @@ onUnmounted(() => {
 const followRequestDone = ref(false);
 const groupInviteDone = ref(false);
 
-const acceptFollowRequest = () => {
+const acceptFollowRequest = (): void => {
 	followRequestDone.value = true;
 	os.api('following/requests/accept', { userId: props.notification.user.id });
 };
 
-const rejectFollowRequest = () => {
+const rejectFollowRequest = (): void => {
 	followRequestDone.value = true;
 	os.api('following/requests/reject', { userId: props.notification.user.id });
 };
 
-const acceptGroupInvitation = () => {
+const acceptGroupInvitation = (): void => {
 	groupInviteDone.value = true;
 	os.apiWithDialog('users/groups/invitations/accept', { invitationId: props.notification.invitation.id });
 };
 
-const rejectGroupInvitation = () => {
+const rejectGroupInvitation = (): void => {
 	groupInviteDone.value = true;
 	os.api('users/groups/invitations/reject', { invitationId: props.notification.invitation.id });
 };

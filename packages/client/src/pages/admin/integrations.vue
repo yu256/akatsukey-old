@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<FormFolder class="_formBlock">
@@ -40,16 +40,12 @@ let enableTwitterIntegration: boolean = $ref(false);
 let enableGithubIntegration: boolean = $ref(false);
 let enableDiscordIntegration: boolean = $ref(false);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	enableTwitterIntegration = meta.enableTwitterIntegration;
 	enableGithubIntegration = meta.enableGithubIntegration;
 	enableDiscordIntegration = meta.enableDiscordIntegration;
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+};
 
 definePageMetadata({
 	title: i18n.ts.integration,

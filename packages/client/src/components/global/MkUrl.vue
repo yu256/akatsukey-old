@@ -56,7 +56,7 @@ useTooltip(el, (showing) => {
 });
 </script>
 
-<style lang="scss" module>
+<style module>
 .root {
 	word-break: break-all;
 }

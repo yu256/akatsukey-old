@@ -27,7 +27,7 @@ const align = 'left';
 
 const SCROLLBAR_THICKNESS = 16;
 
-function setPosition() {
+const setPosition = (): void => {
 	const rootRect = props.rootElement.getBoundingClientRect();
 	const parentRect = props.targetElement.getBoundingClientRect();
 	const myRect = el.value.getBoundingClientRect();
@@ -42,21 +42,21 @@ function setPosition() {
 	}
 	el.value.style.left = left + 'px';
 	el.value.style.top = top + 'px';
-}
+};
 
-function onChildClosed(actioned?: boolean) {
+const onChildClosed = (actioned?: boolean): void => {
 	if (actioned) {
 		emit('actioned');
 	} else {
 		emit('closed');
 	}
-}
+};
 
 watch(() => props.targetElement, () => {
 	setPosition();
 });
 
-const ro = new ResizeObserver((entries, observer) => {
+const ro = new ResizeObserver(() => {
 	setPosition();
 });
 
@@ -79,7 +79,7 @@ defineExpose({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .sfhdhdhr {
 	position: absolute;
 }

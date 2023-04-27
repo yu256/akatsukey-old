@@ -27,18 +27,16 @@ const props = withDefaults(defineProps<{
 const canvas = $shallowRef<HTMLCanvasElement>();
 let loaded = $ref(false);
 
-function draw() {
+const draw = (): void => {
 	if (props.hash == null) return;
 	const pixels = decode(props.hash, props.size, props.size);
 	const ctx = canvas.getContext('2d');
 	const imageData = ctx!.createImageData(props.size, props.size);
 	imageData.data.set(pixels);
 	ctx!.putImageData(imageData, 0, 0);
-}
+};
 
-function onLoad() {
-	loaded = true;
-}
+const onLoad = (): boolean => loaded = true;
 
 onMounted(() => {
 	draw();

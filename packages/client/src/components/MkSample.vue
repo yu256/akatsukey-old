@@ -95,22 +95,22 @@ export default defineComponent({
 		async openMenu(ev) {
 			os.popupMenu([{
 				type: 'label',
-				text: 'Fruits'
+				text: 'Fruits',
 			}, {
 				text: 'Create some apples',
-				action: () => {},
+				action: (): void => {},
 			}, {
 				text: 'Read some oranges',
-				action: () => {},
+				action: (): void => {},
 			}, {
 				text: 'Update some melons',
-				action: () => {},
+				action: (): void => {},
 			}, null, {
 				text: 'Delete some bananas',
 				danger: true,
-				action: () => {},
+				action: (): void => {},
 			}], ev.currentTarget ?? ev.target);
 		},
-	}
+	},
 });
 </script>

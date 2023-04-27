@@ -106,7 +106,7 @@ const remotePagination = {
 	})),
 };
 
-const selectAll = () => {
+const selectAll = (): void => {
 	if (selectedEmojis.value.length > 0) {
 		selectedEmojis.value = [];
 	} else {
@@ -114,7 +114,7 @@ const selectAll = () => {
 	}
 };
 
-const toggleSelect = (emoji) => {
+const toggleSelect = (emoji: { id: string; }): void => {
 	if (selectedEmojis.value.includes(emoji.id)) {
 		selectedEmojis.value = selectedEmojis.value.filter(x => x !== emoji.id);
 	} else {
@@ -122,7 +122,7 @@ const toggleSelect = (emoji) => {
 	}
 };
 
-const add = async (ev: MouseEvent) => {
+const add = async (ev: MouseEvent): Promise<void> => {
 	const files = await selectFiles(ev.currentTarget ?? ev.target, null);
 
 	const promise = Promise.all(files.map(file => os.api('admin/emoji/add', {
@@ -134,11 +134,11 @@ const add = async (ev: MouseEvent) => {
 	os.promiseDialog(promise);
 };
 
-const edit = (emoji) => {
+const edit = (emoji: { id: string; }) => {
 	os.popup(defineAsyncComponent(() => import('./emoji-edit-dialog.vue')), {
 		emoji: emoji,
 	}, {
-		done: result => {
+		done: (result: { updated: { [x: string]: any; id: any; createdAt?: string; _shouldInsertAd_?: boolean | undefined; }; deleted: any; }) => {
 			if (result.updated) {
 				emojisPaginationComponent.value.updateItem(result.updated.id, (oldEmoji: any) => ({
 					...oldEmoji,
@@ -151,28 +151,28 @@ const edit = (emoji) => {
 	}, 'closed');
 };
 
-const im = (emoji) => {
+const im = (emoji: { id: any; }) => {
 	os.apiWithDialog('admin/emoji/copy', {
 		emojiId: emoji.id,
 	});
 };
 
-const remoteMenu = (emoji, ev: MouseEvent) => {
+const remoteMenu = (emoji: { name: string; }, ev: MouseEvent) => {
 	os.popupMenu([{
 		type: 'label',
 		text: ':' + emoji.name + ':',
 	}, {
 		text: i18n.ts.import,
 		icon: 'ti ti-plus',
-		action: () => { im(emoji); },
+		action: (): void => { im(emoji); },
 	}], ev.currentTarget ?? ev.target);
 };
 
-const menu = (ev: MouseEvent) => {
+const menu = (ev: MouseEvent): void => {
 	os.popupMenu([{
 		icon: 'ti ti-download',
 		text: i18n.ts.export,
-		action: async () => {
+		action: async (): Promise<void> => {
 			os.api('export-custom-emojis', {
 			})
 				.then(() => {
@@ -190,7 +190,7 @@ const menu = (ev: MouseEvent) => {
 	}, {
 		icon: 'ti ti-upload',
 		text: i18n.ts.import,
-		action: async () => {
+		action: async (): Promise<void> => {
 			const file = await selectFile(ev.currentTarget ?? ev.target);
 			os.api('admin/emoji/import-zip', {
 				fileId: file.id,
@@ -210,7 +210,7 @@ const menu = (ev: MouseEvent) => {
 	}], ev.currentTarget ?? ev.target);
 };
 
-const setCategoryBulk = async () => {
+const setCategoryBulk = async (): Promise<void> => {
 	const { canceled, result } = await os.inputText({
 		title: 'Category',
 	});
@@ -222,7 +222,7 @@ const setCategoryBulk = async () => {
 	emojisPaginationComponent.value.reload();
 };
 
-const addTagBulk = async () => {
+const addTagBulk = async (): Promise<void> => {
 	const { canceled, result } = await os.inputText({
 		title: 'Tag',
 	});
@@ -234,7 +234,7 @@ const addTagBulk = async () => {
 	emojisPaginationComponent.value.reload();
 };
 
-const removeTagBulk = async () => {
+const removeTagBulk = async (): Promise<void> => {
 	const { canceled, result } = await os.inputText({
 		title: 'Tag',
 	});
@@ -246,7 +246,7 @@ const removeTagBulk = async () => {
 	emojisPaginationComponent.value.reload();
 };
 
-const setTagBulk = async () => {
+const setTagBulk = async (): Promise<void> => {
 	const { canceled, result } = await os.inputText({
 		title: 'Tag',
 	});
@@ -258,7 +258,7 @@ const setTagBulk = async () => {
 	emojisPaginationComponent.value.reload();
 };
 
-const delBulk = async () => {
+const delBulk = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.ts.deleteConfirm,

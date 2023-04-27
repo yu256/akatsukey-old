@@ -1,5 +1,6 @@
 <template>
-<XModalWindow ref="dialog"
+<XModalWindow
+	ref="dialog"
 	:width="370"
 	:height="400"
 	@close="dialog.close()"
@@ -32,7 +33,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XModalWindow from '@/components/MkModalWindow.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/form/input.vue';
@@ -51,7 +51,7 @@ let username = $ref('');
 let email = $ref('');
 let processing = $ref(false);
 
-async function onSubmit() {
+const onSubmit = async (): Promise<void> => {
 	processing = true;
 	await os.apiWithDialog('request-reset-password', {
 		username,
@@ -59,7 +59,7 @@ async function onSubmit() {
 	});
 	emit('done');
 	dialog.close();
-}
+};
 </script>
 
 <style lang="scss" scoped>

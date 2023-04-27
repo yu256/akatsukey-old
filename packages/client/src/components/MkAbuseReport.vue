@@ -52,14 +52,14 @@ const emit = defineEmits<{
 
 let forward = $ref(props.report.forwarded);
 
-function resolve() {
+const resolve = (): void => {
 	os.apiWithDialog('admin/resolve-abuse-user-report', {
 		forward: forward,
 		reportId: props.report.id,
 	}).then(() => {
 		emit('resolved', props.report.id);
 	});
-}
+};
 </script>
 
 <style lang="scss" scoped>

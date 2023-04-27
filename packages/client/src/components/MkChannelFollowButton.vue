@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<{
 const isFollowing = ref<boolean>(props.channel.isFollowing);
 const wait = ref(false);
 
-async function onClick() {
+const onClick = async (): Promise<void> => {
 	wait.value = true;
 
 	try {
@@ -54,7 +54,7 @@ async function onClick() {
 	} finally {
 		wait.value = false;
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

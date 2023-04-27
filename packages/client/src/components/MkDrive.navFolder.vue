@@ -1,5 +1,6 @@
 <template>
-<div class="drylbebk"
+<div 
+	class="drylbebk"
 	:class="{ draghover }"
 	@click="onClick"
 	@dragover.prevent.stop="onDragover"
@@ -31,22 +32,11 @@ const emit = defineEmits<{
 	(ev: 'removeFolder', v: Misskey.entities.DriveFolder['id']): void;
 }>();
 
-const hover = ref(false);
 const draghover = ref(false);
 
-function onClick() {
-	emit('move', props.folder);
-}
+const onClick = (): void => emit('move', props.folder);
 
-function onMouseover() {
-	hover.value = true;
-}
-
-function onMouseout() {
-	hover.value = false;
-}
-
-function onDragover(ev: DragEvent) {
+const onDragover = (ev: DragEvent): boolean | undefined => {
 	if (!ev.dataTransfer) return;
 
 	// このフォルダがルートかつカレントディレクトリならドロップ禁止
@@ -80,17 +70,17 @@ function onDragover(ev: DragEvent) {
 	}
 
 	return false;
-}
+};
 
-function onDragenter() {
+const onDragenter = (): void => {
 	if (props.folder || props.parentFolder) draghover.value = true;
-}
+};
 
-function onDragleave() {
+const onDragleave = (): void => {
 	if (props.folder || props.parentFolder) draghover.value = false;
-}
+};
 
-function onDrop(ev: DragEvent) {
+const onDrop = (ev: DragEvent): void => {
 	draghover.value = false;
 
 	if (!ev.dataTransfer) return;
@@ -128,7 +118,7 @@ function onDrop(ev: DragEvent) {
 		});
 	}
 	//#endregion
-}
+};
 </script>
 
 <style lang="scss" scoped>

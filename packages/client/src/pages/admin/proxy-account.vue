@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<MkInfo class="_formBlock">{{ i18n.ts.proxyAccountDescription }}</MkInfo>
@@ -28,33 +28,29 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 let proxyAccount: any = $ref(null);
 let proxyAccountId: any = $ref(null);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	proxyAccountId = meta.proxyAccountId;
 	if (proxyAccountId) {
 		proxyAccount = await os.api('users/show', { userId: proxyAccountId });
 	}
-}
+};
 
-function chooseProxyAccount() {
+const chooseProxyAccount = (): void => {
 	os.selectUser().then(user => {
 		proxyAccount = user;
 		proxyAccountId = user.id;
 		save();
 	});
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		proxyAccountId: proxyAccountId,
 	}).then(() => {
 		fetchInstance();
 	});
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+};
 
 definePageMetadata({
 	title: i18n.ts.proxyAccount,

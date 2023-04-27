@@ -33,7 +33,7 @@ import { onMounted } from 'vue';
 import * as misskey from 'misskey-js';
 import { ColdDeviceStorage } from '@/store';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	media: misskey.entities.DriveFile;
 }>(), {
 });
@@ -41,9 +41,9 @@ const props = withDefaults(defineProps<{
 const audioEl = $shallowRef<HTMLAudioElement | null>();
 let hide = $ref(true);
 
-function volumechange() {
+const volumechange = (): void => {
 	if (audioEl) ColdDeviceStorage.set('mediaVolume', audioEl.volume);
-}
+};
 
 onMounted(() => {
 	if (audioEl) audioEl.volume = ColdDeviceStorage.get('mediaVolume');

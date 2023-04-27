@@ -15,10 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import ImgWithBlurhash from '@/components/MkImgWithBlurhash.vue';
 
-const props = defineProps<{
+defineProps<{
 	post: any;
 }>();
 </script>

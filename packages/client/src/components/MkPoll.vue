@@ -54,7 +54,7 @@ const showResult = ref(props.readOnly || isVoted.value);
 
 // 期限付きアンケート
 if (props.note.poll.expiresAt) {
-	const tick = () => {
+	const tick = (): void => {
 		remaining.value = Math.floor(Math.max(new Date(props.note.poll.expiresAt).getTime() - Date.now(), 0) / 1000);
 		if (remaining.value === 0) {
 			showResult.value = true;
@@ -67,7 +67,7 @@ if (props.note.poll.expiresAt) {
 	});
 }
 
-const vote = async (id) => {
+const vote = async (id): Promise<void> => {
 	pleaseLogin();
 
 	if (props.readOnly || closed.value || isVoted.value) return;
@@ -82,7 +82,7 @@ const vote = async (id) => {
 		noteId: props.note.id,
 		choice: id,
 	});
-	if (!showResult.value) showResult.value = !props.note.poll.multiple;
+	if (!showResult.value) showResult.value = !props.note.poll?.multiple;
 };
 </script>
 

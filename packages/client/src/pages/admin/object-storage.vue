@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><XHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<div class="_formRoot">
@@ -93,7 +93,7 @@ let objectStorageUseProxy: boolean = $ref(false);
 let objectStorageSetPublicRead: boolean = $ref(false);
 let objectStorageS3ForcePathStyle: boolean = $ref(true);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	useObjectStorage = meta.useObjectStorage;
 	objectStorageBaseUrl = meta.objectStorageBaseUrl;
@@ -108,9 +108,9 @@ async function init() {
 	objectStorageUseProxy = meta.objectStorageUseProxy;
 	objectStorageSetPublicRead = meta.objectStorageSetPublicRead;
 	objectStorageS3ForcePathStyle = meta.objectStorageS3ForcePathStyle;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		useObjectStorage,
 		objectStorageBaseUrl,
@@ -128,7 +128,7 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
+};
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
@@ -136,8 +136,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.save,
 	handler: save,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.objectStorage,

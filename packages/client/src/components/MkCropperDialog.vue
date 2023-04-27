@@ -57,7 +57,7 @@ let cropper: Cropper | null = null;
 let loading = $ref(true);
 let highDefinition = props.highDefinition ?? false; //もともとのコードでは存在しないので
 
-const ok = async () => {
+const ok = async (): Promise<void> => {
 	const promise = new Promise<misskey.entities.DriveFile>(async (res) => { 
 		let croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
 		if ( highDefinition ) { //TODO: 2回も取得してるの効率悪すぎるのでなんとかする
@@ -94,15 +94,15 @@ const ok = async () => {
 	const f = await promise;
 
 	emit('ok', f);
-	dialogEl.close();
+	dialogEl?.close();
 };
 
-const cancel = () => {
+const cancel = (): void => {
 	emit('cancel');
-	dialogEl.close();
+	dialogEl?.close();
 };
 
-const onImageLoad = () => {
+const onImageLoad = (): void => {
 	loading = false;
 
 	if (cropper) {

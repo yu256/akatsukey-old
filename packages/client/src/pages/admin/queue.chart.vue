@@ -63,7 +63,7 @@ const props = defineProps<{
 	domain: string;
 }>();
 
-const onStats = (stats) => {
+const onStats = (stats): void => {
 	activeSincePrevTick.value = stats[props.domain].activeSincePrevTick;
 	active.value = stats[props.domain].active;
 	delayed.value = stats[props.domain].delayed;
@@ -75,7 +75,7 @@ const onStats = (stats) => {
 	chartWaiting.pushData(stats[props.domain].waiting);
 };
 
-const onStatsLog = (statsLog) => {
+const onStatsLog = (statsLog): void => {
 	const dataProcess = [];
 	const dataActive = [];
 	const dataDelayed = [];

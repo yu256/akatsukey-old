@@ -28,7 +28,7 @@ const widthHistory = [null, null] as [number | null, number | null];
 const heightHistory = [null, null] as [number | null, number | null];
 const shouldSpacerMin = inject('shouldSpacerMin', false);
 
-const adjust = (rect: { width: number; height: number; }) => {
+const adjust = (rect: { width: number; height: number; }): void => {
 	if (shouldSpacerMin || deviceKind === 'smartphone') {
 		margin = props.marginMin;
 		return;
@@ -42,7 +42,7 @@ const adjust = (rect: { width: number; height: number; }) => {
 };
 
 onMounted(() => {
-	ro = new ResizeObserver((entries) => {
+	ro = new ResizeObserver(() => {
 		/* iOSが対応していない
 		adjust({
 			width: entries[0].borderBoxSize[0].inlineSize,
@@ -59,7 +59,6 @@ onMounted(() => {
 		widthHistory.unshift(width);
 		const pastHeight = heightHistory.pop();
 		heightHistory.unshift(height);
-
 
 		if (pastWidth === width && pastHeight === height) {
 			return;

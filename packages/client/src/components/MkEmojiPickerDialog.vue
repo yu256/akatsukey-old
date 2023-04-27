@@ -51,15 +51,15 @@ const emit = defineEmits<{
 const modal = shallowRef<InstanceType<typeof MkModal>>();
 const picker = shallowRef<InstanceType<typeof MkEmojiPicker>>();
 
-function chosen(emoji: any) {
+const chosen = (emoji: any): void => {
 	emit('done', emoji);
 	modal.value?.close();
-}
+};
 
-function opening() {
+const opening = (): void => {
 	picker.value?.reset();
 	picker.value?.focus();
-}
+};
 </script>
 
 <style lang="scss" scoped>

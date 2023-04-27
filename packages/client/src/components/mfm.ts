@@ -5,7 +5,6 @@ import MkUrl from '@/components/global/MkUrl.vue';
 import MkLink from '@/components/MkLink.vue';
 import MkMention from '@/components/MkMention.vue';
 import MkEmoji from '@/components/global/MkEmoji.vue';
-import { concat } from '@/scripts/array';
 import MkFormula from '@/components/MkFormula.vue';
 import MkCode from '@/components/MkCode.vue';
 import MkGoogle from '@/components/MkGoogle.vue';
@@ -59,7 +58,7 @@ export default defineComponent({
 
 		const ast = (this.plain ? mfm.parseSimple : mfm.parse)(this.text);
 
-		const validTime = (t: string | null | undefined) => {
+		const validTime = (t: string | null | undefined): string | null => {
 			if (t == null) return null;
 			return t.match(/^[0-9.]+s$/) ? t : null;
 		};

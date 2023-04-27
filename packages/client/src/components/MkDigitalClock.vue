@@ -39,7 +39,7 @@ watch(showColon, (v) => {
 	}
 });
 
-const tick = () => {
+const tick = (): void => {
 	const now = new Date();
 	now.setMinutes(now.getMinutes() + (new Date().getTimezoneOffset() + props.offset));
 	hh.value = now.getHours().toString().padStart(2, '0');

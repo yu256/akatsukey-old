@@ -21,7 +21,6 @@ import 'photoswipe/style.css';
 import XBanner from '@/components/MkMediaBanner.vue';
 import XImage from '@/components/MkMediaImage.vue';
 import XVideo from '@/components/MkMediaVideo.vue';
-import * as os from '@/os';
 import { FILE_TYPE_BROWSERSAFE } from '@/const';
 
 const props = defineProps<{
@@ -30,7 +29,6 @@ const props = defineProps<{
 }>();
 
 const gallery = ref(null);
-const pswpZIndex = os.claimZIndex('middle');
 const count = $computed(() => props.mediaList.filter(media => previewable(media)).length);
 
 onMounted(() => {
@@ -203,8 +201,6 @@ const previewable = (file: misskey.entities.DriveFile): boolean => {
 
 <style lang="scss">
 .pswp {
-	// なぜか機能しない
-  //z-index: v-bind(pswpZIndex);
 	z-index: 2000000;
 	--pswp-bg: var(--modalBg);
 }

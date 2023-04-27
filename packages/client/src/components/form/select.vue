@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs, VNode, useSlots } from 'vue';
+import { onMounted, nextTick, ref, watch, toRefs, VNode, useSlots } from 'vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
 import { useInterval } from '@/scripts/use-interval';
@@ -58,7 +58,6 @@ const v = ref(modelValue.value);
 const focused = ref(false);
 const changed = ref(false);
 const invalid = ref(false);
-const filled = computed(() => v.value !== '' && v.value != null);
 const inputEl = ref(null);
 const prefixEl = ref(null);
 const suffixEl = ref(null);
@@ -68,13 +67,13 @@ const height =
 	props.large ? 40 :
 	38;
 
-const focus = () => inputEl.value.focus();
-const onInput = (ev) => {
+const focus = (): void => inputEl.value?.focus();
+const onInput = (ev): void => {
 	changed.value = true;
 	emit('change', ev);
 };
 
-const updated = () => {
+const updated = (): void => {
 	changed.value = false;
 	emit('update:modelValue', v.value);
 };
@@ -83,12 +82,12 @@ watch(modelValue, newValue => {
 	v.value = newValue;
 });
 
-watch(v, newValue => {
+watch(v, () => {
 	if (!props.manualSave) {
 		updated();
 	}
 
-	invalid.value = inputEl.value.validity.badInput;
+	invalid.value = inputEl.value?.validity.badInput;
 });
 
 // このコンポーネントが作成された時、非表示状態である場合がある
@@ -117,7 +116,7 @@ onMounted(() => {
 	});
 });
 
-const onClick = (ev: MouseEvent) => {
+const onClick = (): void => {
 	focused.value = true;
 
 	const menu = [];
@@ -157,7 +156,7 @@ const onClick = (ev: MouseEvent) => {
 	scanOptions(options);
 
 	os.popupMenu(menu, container.value, {
-		width: container.value.offsetWidth,
+		width: container.value?.offsetWidth,
 	}).then(() => {
 		focused.value = false;
 	});

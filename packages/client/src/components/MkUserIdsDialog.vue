@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import * as misskey from 'misskey-js';
 import MkModalWindow from '@/components/MkModalWindow.vue';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';

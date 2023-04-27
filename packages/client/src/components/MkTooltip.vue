@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, onUnmounted, ref, shallowRef } from 'vue';
+import { nextTick, onMounted, onUnmounted, shallowRef } from 'vue';
 import * as os from '@/os';
 import { calcPopupPosition } from '@/scripts/popup-position';
 
@@ -37,7 +37,7 @@ const emit = defineEmits<{
 const el = shallowRef<HTMLElement>();
 const zIndex = os.claimZIndex('high');
 
-function setPosition() {
+const setPosition = (): void => {
 	const data = calcPopupPosition(el.value, {
 		anchorElement: props.targetElement,
 		direction: props.direction,
@@ -46,19 +46,20 @@ function setPosition() {
 		x: props.x,
 		y: props.y,
 	});
+	if (el.value) {
+		el.value.style.transformOrigin = data.transformOrigin;
+		el.value.style.left = data.left + 'px';
+		el.value.style.top = data.top + 'px';
+	}
+};
 
-	el.value.style.transformOrigin = data.transformOrigin;
-	el.value.style.left = data.left + 'px';
-	el.value.style.top = data.top + 'px';
-}
-
-let loopHandler;
+let loopHandler: number;
 
 onMounted(() => {
 	nextTick(() => {
 		setPosition();
 
-		const loop = () => {
+		const loop = (): void => {
 			loopHandler = window.requestAnimationFrame(() => {
 				setPosition();
 				loop();

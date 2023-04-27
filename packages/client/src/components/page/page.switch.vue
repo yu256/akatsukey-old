@@ -12,33 +12,33 @@ import { SwitchVarBlock } from '@/scripts/hpml/block';
 
 export default defineComponent({
 	components: {
-		MkSwitch
+		MkSwitch,
 	},
 	props: {
 		block: {
 			type: Object as PropType<SwitchVarBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup(props, ctx) {
+	setup(props) {
 		const value = computed(() => {
 			return props.hpml.vars.value[props.block.name];
 		});
 
-		function updateValue(newValue: boolean) {
+		const updateValue = (newValue: boolean): void => {
 			props.hpml.updatePageVar(props.block.name, newValue);
 			props.hpml.eval();
-		}
+		};
 
 		return {
 			value,
-			updateValue
+			updateValue,
 		};
-	}
+	},
 });
 </script>
 

@@ -36,16 +36,16 @@ export default defineComponent({
 		},
 	},
 
-	setup(props, { slots, expose }) {
+	setup(props, { slots }) {
 		const $style = useCssModule();
-		function getDateText(time: string) {
+		const getDateText = (time: string): string => {
 			const date = new Date(time).getDate();
 			const month = new Date(time).getMonth() + 1;
 			return i18n.t('monthAndDay', {
 				month: month.toString(),
 				day: date.toString(),
 			});
-		}
+		};
 
 		if (props.items.length === 0) return;
 
@@ -113,11 +113,11 @@ export default defineComponent({
 			return children;
 		};
 
-		function onBeforeLeave(el: HTMLElement) {
+		const onBeforeLeave = (el: HTMLElement): void => {
 			el.style.top = `${el.offsetTop}px`;
 			el.style.left = `${el.offsetLeft}px`;
-		}
-		function onLeaveCanceled(el: HTMLElement) {
+		};
+		const onLeaveCanceled = (el: HTMLElement): void => {
 			el.style.top = '';
 			el.style.left = '';
 		}

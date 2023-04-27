@@ -3,10 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import * as misskey from 'misskey-js';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	user: misskey.entities.User;
 	nowrap?: boolean;
 }>(), {

@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import getPasswordStrength from 'syuilo-password-strength';
 import { toUnicode } from 'punycode/';
 import MkButton from './MkButton.vue';
@@ -220,8 +219,8 @@ const onSubmit = (): void => {
 		}
 	}).catch(() => {
 		submitting = false;
-		hcaptcha.reset?.();
-		recaptcha.reset?.();
+		hcaptcha?.reset?.();
+		recaptcha?.reset?.();
 
 		os.alert({
 			type: 'error',

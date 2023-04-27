@@ -70,11 +70,11 @@ watch($$(localOnly), () => {
 	emit('changeLocalOnly', localOnly);
 });
 
-function choose(visibility: typeof misskey.noteVisibilities[number]): void {
+const choose = (visibility: typeof misskey.noteVisibilities[number]): void => {
 	v = visibility;
 	emit('changeVisibility', visibility);
 	nextTick(() => {
-		modal.close();
+		modal?.close();
 	});
 }
 </script>

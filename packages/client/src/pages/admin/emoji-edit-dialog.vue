@@ -51,11 +51,9 @@ const emit = defineEmits<{
 	(ev: 'closed'): void
 }>();
 
-function ok() {
-	update();
-}
+const ok = (): Promise<void> => update();
 
-async function update() {
+const update = async (): Promise<void> => {
 	await os.apiWithDialog('admin/emoji/update', {
 		id: props.emoji.id,
 		name,
@@ -73,9 +71,9 @@ async function update() {
 	});
 
 	dialog.close();
-}
+};
 
-async function del() {
+const del = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: name }),
@@ -90,7 +88,7 @@ async function del() {
 		});
 		dialog.close();
 	});
-}
+};
 </script>
 
 <style lang="scss" scoped>

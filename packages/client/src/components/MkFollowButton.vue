@@ -57,14 +57,14 @@ if (props.user.isFollowing == null) {
 		.then(onFollowChange);
 }
 
-function onFollowChange(user: Misskey.entities.UserDetailed) {
+const onFollowChange = (user: Misskey.entities.UserDetailed): void => {
 	if (user.id === props.user.id) {
 		isFollowing = user.isFollowing;
 		hasPendingFollowRequestFromYou = user.hasPendingFollowRequestFromYou;
 	}
-}
+};
 
-async function onClick() {
+const onClick = async (): Promise<void> => {
 	wait = true;
 
 	try {
@@ -97,7 +97,7 @@ async function onClick() {
 	} finally {
 		wait = false;
 	}
-}
+};
 
 onMounted(() => {
 	connection.on('follow', onFollowChange);

@@ -18,7 +18,7 @@ import MkPageHeader from './global/MkPageHeader.vue';
 import MkSpacer from './global/MkSpacer.vue';
 import MkStickyContainer from './global/MkStickyContainer.vue';
 
-export default function(app: App) {
+export default function(app: App): void {
 	app.component('I18n', I18n);
 	app.component('RouterView', RouterView);
 	app.component('Mfm', Mfm);

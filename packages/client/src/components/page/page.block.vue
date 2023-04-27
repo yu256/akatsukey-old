@@ -29,15 +29,15 @@ export default defineComponent({
 	props: {
 		block: {
 			type: Object as PropType<Block>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		},
 		h: {
 			type: Number,
-			required: true
+			required: true,
 		}
 	},
 });

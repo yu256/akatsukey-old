@@ -91,7 +91,7 @@ Chart.register(
 	Filler,
 );
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	chartLimit?: number;
 	detailed?: boolean;
 }>(), {
@@ -106,7 +106,7 @@ let pubDoughnutEl = $shallowRef<HTMLCanvasElement>();
 const { handler: externalTooltipHandler1 } = useChartTooltip();
 const { handler: externalTooltipHandler2 } = useChartTooltip();
 
-function createDoughnut(chartEl, tooltip, data) {
+const createDoughnut = (chartEl, tooltip, data) => {
 	const chartInstance = new Chart(chartEl, {
 		type: 'doughnut',
 		data: {
@@ -160,7 +160,7 @@ onMounted(() => {
 			name: x.host,
 			color: x.themeColor,
 			value: x.followersCount,
-			onClick: () => {
+			onClick: (): void => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
 		})).concat([{ name: '(other)', color: '#80808080', value: fedStats.otherFollowersCount }]));
@@ -169,7 +169,7 @@ onMounted(() => {
 			name: x.host,
 			color: x.themeColor,
 			value: x.followingCount,
-			onClick: () => {
+			onClick: (): void => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
 		})).concat([{ name: '(other)', color: '#80808080', value: fedStats.otherFollowingCount }]));

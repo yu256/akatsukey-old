@@ -39,7 +39,7 @@ export default defineComponent({
 				class: 'body',
 			}, options.map(option => h(MkRadio, {
 				key: option.key,
-				value: option.props.value,
+				value: option.props?.value,
 				modelValue: this.value,
 				'onUpdate:modelValue': value => this.value = value,
 			}, option.children)),

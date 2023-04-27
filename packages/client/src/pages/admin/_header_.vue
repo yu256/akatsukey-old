@@ -70,7 +70,7 @@ const hasTabs = computed(() => {
 	return props.tabs && props.tabs.length > 0;
 });
 
-const showTabsPopup = (ev: MouseEvent) => {
+const showTabsPopup = (ev: MouseEvent): void => {
 	if (!hasTabs.value) return;
 	ev.preventDefault();
 	ev.stopPropagation();
@@ -78,22 +78,18 @@ const showTabsPopup = (ev: MouseEvent) => {
 		text: tab.title,
 		icon: tab.icon,
 		active: tab.key != null && tab.key === props.tab,
-		action: (ev) => {
+		action: (ev): void => {
 			onTabClick(tab, ev);
 		},
 	}));
 	popupMenu(menu, ev.currentTarget ?? ev.target);
 };
 
-const preventDrag = (ev: TouchEvent) => {
-	ev.stopPropagation();
-};
+const preventDrag = (ev: TouchEvent): void => ev.stopPropagation();
 
-const onClick = () => {
-	scrollToTop(el.value, { behavior: 'smooth' });
-};
+const onClick = (): void => scrollToTop(el.value, { behavior: 'smooth' });
 
-function onTabMousedown(tab: Tab, ev: MouseEvent): void {
+function onTabMousedown(tab: Tab): void {
 	// ユーザビリティの観点からmousedown時にはonClickは呼ばない
 	if (tab.key) {
 		emit('update:tab', tab.key);
@@ -111,7 +107,7 @@ function onTabClick(tab: Tab, ev: MouseEvent): void {
 	}
 }
 
-const calcBg = () => {
+const calcBg = (): void => {
 	const rawBg = metadata?.bg || 'var(--bg)';
 	const tinyBg = tinycolor(rawBg.startsWith('var(') ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
 	tinyBg.setAlpha(0.85);

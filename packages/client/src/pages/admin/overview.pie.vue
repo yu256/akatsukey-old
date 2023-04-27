@@ -77,7 +77,7 @@ onMounted(() => {
 					bottom: 16,
 				},
 			},
-			onClick: (ev) => {
+			onClick: (ev): void => {
 				const hit = chartInstance.getElementsAtEventForMode(ev, 'nearest', { intersect: true }, false)[0];
 				if (hit && props.data[hit.index].onClick) {
 					props.data[hit.index].onClick();

@@ -44,10 +44,6 @@ defineEmits<{
 
 const router = new Router(routes, props.initialPath);
 
-router.addListener('push', ctx => {
-	
-});
-
 let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
 let rootEl = $ref();
 let modal = $shallowRef<InstanceType<typeof MkModal>>();
@@ -79,42 +75,40 @@ const contextmenu = $computed(() => {
 	}, null, {
 		icon: 'ti ti-external-link',
 		text: i18n.ts.openInNewTab,
-		action: () => {
+		action: (): void => {
 			window.open(pageUrl, '_blank');
-			modal.close();
+			modal?.close();
 		},
 	}, {
 		icon: 'ti ti-link',
 		text: i18n.ts.copyLink,
-		action: () => {
+		action: (): void => {
 			copyText(pageUrl);
 		},
 	}];
 });
 
-function navigate(path, record = true) {
+const navigate = (path, record = true): void => {
 	if (record) history.push(router.getCurrentPath());
 	router.push(path);
-}
+};
 
-function back() {
-	navigate(history.pop(), false);
-}
+const back = (): void => navigate(history.pop(), false);
 
-function expand() {
+const expand = (): void => {
 	mainRouter.push(path);
-	modal.close();
-}
+	modal?.close();
+};
 
-function popout() {
+const popout = (): void => {
 	_popout(path, rootEl);
-	modal.close();
-}
+	modal?.close();
+};
 
-function onContextmenu(ev: MouseEvent) {
+const onContextmenu = (ev: MouseEvent): void => {
 	if (disableContextmenu) return;
 	os.contextMenu(contextmenu, ev);
-}
+};
 </script>
 
 <style lang="scss" scoped>

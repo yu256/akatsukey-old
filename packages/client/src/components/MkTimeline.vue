@@ -26,7 +26,7 @@ provide('inChannel', computed(() => props.src === 'channel'));
 
 const tlComponent: InstanceType<typeof XNotes> = $ref();
 
-const prepend = note => {
+const prepend = (note): void => {
 	tlComponent.pagingComponent?.prepend(note);
 
 	emit('note');
@@ -36,15 +36,11 @@ const prepend = note => {
 	}
 };
 
-const onUserAdded = () => {
-	tlComponent.pagingComponent?.reload();
-};
+const onUserAdded = (): Promise<void> | undefined => tlComponent.pagingComponent?.reload();
 
-const onUserRemoved = () => {
-	tlComponent.pagingComponent?.reload();
-};
+const onUserRemoved = (): Promise<void> | undefined => tlComponent.pagingComponent?.reload();
 
-const onChangeFollowing = () => {
+const onChangeFollowing = (): void => {
 	if (!tlComponent.pagingComponent?.backed) {
 		tlComponent.pagingComponent?.reload();
 	}
@@ -93,7 +89,7 @@ if (props.src === 'antenna') {
 	query = {
 		visibility: 'specified',
 	};
-	const onNote = note => {
+	const onNote = (note): void => {
 		if (note.visibility === 'specified') {
 			prepend(note);
 		}
@@ -132,11 +128,4 @@ onUnmounted(() => {
 	connection.dispose();
 	if (connection2) connection2.dispose();
 });
-
-/* TODO
-const timetravel = (date?: Date) => {
-	this.date = date;
-	this.$refs.tl.reload();
-};
-*/
 </script>

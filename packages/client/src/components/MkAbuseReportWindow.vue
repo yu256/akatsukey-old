@@ -43,22 +43,22 @@ const emit = defineEmits<{
 const uiWindow = shallowRef<InstanceType<typeof XWindow>>();
 const comment = ref(props.initialComment || '');
 
-function send() {
+const send = (): void => {
 	os.apiWithDialog('users/report-abuse', {
 		userId: props.user.id,
 		comment: comment.value,
-	}, undefined).then(res => {
+	}, undefined).then(() => {
 		os.alert({
 			type: 'success',
-			text: i18n.ts.abuseReported
+			text: i18n.ts.abuseReported,
 		});
 		uiWindow.value?.close();
 		emit('closed');
 	});
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .dpvffvvy {
 	--root-margin: 16px;
 }

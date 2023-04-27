@@ -1,3 +1,1 @@
-export const notePage = note => {
-	return `/notes/${note.id}`;
-};
+export const notePage = (note): string => `/notes/${note.id}`;

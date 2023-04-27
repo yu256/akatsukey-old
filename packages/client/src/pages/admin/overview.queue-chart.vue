@@ -21,7 +21,6 @@ import {
 	SubTitle,
 	Filler,
 } from 'chart.js';
-import { defaultStore } from '@/store';
 import { useChartTooltip } from '@/scripts/use-chart-tooltip';
 
 Chart.register(
@@ -46,7 +45,7 @@ const props = defineProps<{
 	connection: any;
 }>();
 
-const alpha = (hex, a) => {
+const alpha = (hex: string, a: number): string => {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)!;
 	const r = parseInt(result[1], 16);
 	const g = parseInt(result[2], 16);
@@ -63,7 +62,7 @@ const { handler: externalTooltipHandler } = useChartTooltip();
 
 let chartInstance: Chart;
 
-const onStats = (stats) => {
+const onStats = (stats): void => {
 	chartInstance.data.labels.push('');
 	chartInstance.data.datasets[0].data.push(stats[props.domain].activeSincePrevTick);
 	chartInstance.data.datasets[1].data.push(stats[props.domain].active);
@@ -79,7 +78,7 @@ const onStats = (stats) => {
 	chartInstance.update();
 };
 
-const onStatsLog = (statsLog) => {
+const onStatsLog = (statsLog): void => {
 	for (const stats of [...statsLog].reverse()) {
 		chartInstance.data.labels.push('');
 		chartInstance.data.datasets[0].data.push(stats[props.domain].activeSincePrevTick);

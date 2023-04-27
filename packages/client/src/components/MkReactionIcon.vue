@@ -3,9 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-
-const props = defineProps<{
+defineProps<{
 	reaction: string;
 	customEmojis?: any[]; // TODO
 	noStyle?: boolean;

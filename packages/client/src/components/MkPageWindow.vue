@@ -100,40 +100,36 @@ const contextmenu = $computed(() => ([{
 }, {
 	icon: 'ti ti-external-link',
 	text: i18n.ts.openInNewTab,
-	action: () => {
+	action: (): void => {
 		window.open(url + router.getCurrentPath(), '_blank');
-		windowEl.close();
+		windowEl?.close();
 	},
 }, {
 	icon: 'ti ti-link',
 	text: i18n.ts.copyLink,
-	action: () => {
+	action: (): void => {
 		copyText(url + router.getCurrentPath());
 	},
 }]));
 
-function back() {
+const back = (): void => {
 	history.pop();
 	router.replace(history[history.length - 1].path, history[history.length - 1].key);
-}
+};
 
-function reload() {
-	reloadCount++;
-}
+const reload = (): number => reloadCount++;
 
-function close() {
-	windowEl.close();
-}
+const close = (): void => windowEl?.close();
 
-function expand() {
+const expand = (): void => {
 	mainRouter.push(router.getCurrentPath(), 'forcePage');
-	windowEl.close();
-}
+	windowEl?.close();
+};
 
-function popout() {
-	_popout(router.getCurrentPath(), windowEl.$el);
-	windowEl.close();
-}
+const popout = (): void => {
+	_popout(router.getCurrentPath(), windowEl?.$el);
+	windowEl?.close();
+};
 
 defineExpose({
 	close,

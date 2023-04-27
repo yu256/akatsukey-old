@@ -1,7 +1,7 @@
 <template>
 <div>
 	<MkStickyContainer>
-		<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+		<template #header><XHeader :actions="headerActions"/></template>
 		<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 			<FormSuspense :p="init">
 				<div class="_formRoot">
@@ -186,7 +186,7 @@ let swPrivateKey: any = $ref(null);
 let deeplAuthKey: string = $ref('');
 let deeplIsPro: boolean = $ref(false);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	name = meta.name;
 	description = meta.description;
@@ -212,9 +212,9 @@ async function init() {
 	swPrivateKey = meta.swPrivateKey;
 	deeplAuthKey = meta.deeplAuthKey;
 	deeplIsPro = meta.deeplIsPro;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		name,
 		description,
@@ -243,7 +243,7 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
+};
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
@@ -251,8 +251,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.save,
 	handler: save,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.general,

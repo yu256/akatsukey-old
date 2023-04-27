@@ -115,34 +115,35 @@ watch(() => props.items, () => {
 let childMenu = ref<MenuItem[] | null>();
 let childTarget = $shallowRef<HTMLElement | null>();
 
-function closeChild() {
+const closeChild = (): void => {
 	childMenu.value = null;
 	childShowingItem = null;
-}
+};
 
-function childActioned() {
+const childActioned = (): void => {
 	closeChild();
 	close(true);
-}
+};
 
-function onGlobalMousedown(event: MouseEvent) {
+const onGlobalMousedown = (event: MouseEvent): void => {
 	if (childTarget && (event.target === childTarget || childTarget.contains(event.target))) return;
 	if (child && child.checkHit(event)) return;
 	closeChild();
-}
+};
 
 let childCloseTimer: null | number = null;
-function onItemMouseEnter(item) {
+const onItemMouseEnter = (): void => {
 	childCloseTimer = window.setTimeout(() => {
 		closeChild();
 	}, 300);
-}
-function onItemMouseLeave(item) {
+};
+
+const onItemMouseLeave = (): void => {
 	if (childCloseTimer) window.clearTimeout(childCloseTimer);
-}
+};
 
 let childrenCache = new WeakMap();
-async function showChildren(item: MenuItem, ev: MouseEvent) {
+const showChildren = async (item: MenuItem, ev: MouseEvent): Promise<void> => {
 	const children = ref([]);
 	if (childrenCache.has(item)) {
 		children.value = childrenCache.get(item);
@@ -168,7 +169,7 @@ async function showChildren(item: MenuItem, ev: MouseEvent) {
 		childMenu = children;
 		childShowingItem = item;
 	}
-}
+};
 
 const onParentClicked = (item: MenuItem, ev: MouseEvent): void => {
 	if (isTouchUsing) showChildren(item, ev);
@@ -178,22 +179,16 @@ const onParentMouseEnter = (item: MenuItem, ev: MouseEvent): void => {
 	if (!isTouchUsing) showChildren(item, ev);
 };
 
-function clicked(fn: MenuAction, ev: MouseEvent) {
+const clicked = (fn: MenuAction, ev: MouseEvent): void => {
 	fn(ev);
 	close(true);
-}
+};
 
-function close(actioned = false) {
-	emit('close', actioned);
-}
+const close = (actioned = false): void => emit('close', actioned);
 
-function focusUp() {
-	focusPrev(document.activeElement);
-}
+const focusUp = (): void => focusPrev(document.activeElement);
 
-function focusDown() {
-	focusNext(document.activeElement);
-}
+const focusDown = (): void => focusNext(document.activeElement);
 
 onMounted(() => {
 	if (props.viaKeyboard) {

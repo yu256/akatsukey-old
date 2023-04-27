@@ -39,9 +39,9 @@ const url = $computed(() => defaultStore.state.disableShowingAnimatedImages
 	? getStaticImageUrl(props.user.avatarUrl)
 	: props.user.avatarUrl);
 
-function onClick(ev: MouseEvent) {
+const onClick = (ev: MouseEvent): void => {
 	emit('click', ev);
-}
+};
 
 let color = $ref();
 

@@ -55,7 +55,7 @@ useTooltip(buttonRef, async (showing) => {
 	}, {}, 'closed');
 });
 
-const renote = (viaKeyboard = false) => {
+const renote = (viaKeyboard = false): void => {
 	if (!canRenote.value && !canPakuru.value) return;
 
 	pleaseLogin();
@@ -64,7 +64,7 @@ const renote = (viaKeyboard = false) => {
 		{
 			text: i18n.ts.renote,
 			icon: 'ti ti-repeat',
-			action: () => {
+			action: (): void => {
 				os.api('notes/create', {
 					renoteId: props.note.id,
 				});
@@ -73,7 +73,7 @@ const renote = (viaKeyboard = false) => {
 		{
 			text: i18n.ts.quote,
 			icon: 'ti ti-quote',
-			action: () => {
+			action: (): void => {
 				os.post({
 					renote: props.note,
 				});

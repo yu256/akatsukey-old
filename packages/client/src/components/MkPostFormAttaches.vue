@@ -133,23 +133,23 @@ export default defineComponent({
 			this.menu = os.popupMenu([{
 				text: this.$ts.renameFile,
 				icon: 'ti ti-forms',
-				action: () => { this.rename(file); },
+				action: (): void => { this.rename(file); },
 			}, {
 				text: file.isSensitive ? this.$ts.unmarkAsSensitive : this.$ts.markAsSensitive,
 				icon: file.isSensitive ? 'ti ti-eye-off' : 'ti ti-eye',
-				action: () => { this.toggleSensitive(file); },
+				action: (): void => { this.toggleSensitive(file); },
 			}, {
 				text: this.$ts.cropImageFile,
 				icon: 'ti ti-crop',
-				action: () => { this.cropImage(file); },
+				action: (): void => { this.cropImage(file); },
 			}, {
 				text: this.$ts.describeFile,
 				icon: 'ti ti-forms',
-				action: () => { this.describe(file); },
+				action: (): void => { this.describe(file); },
 			}, {
 				text: this.$ts.attachCancel,
 				icon: 'ti ti-circle-x',
-				action: () => { this.detachMedia(file.id); },
+				action: (): void => { this.detachMedia(file.id); },
 			}], ev.currentTarget ?? ev.target).then(() => this.menu = null);
 		},
 	},

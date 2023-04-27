@@ -192,7 +192,6 @@ Chart.register(
 	Tooltip,
 	SubTitle,
 	Filler,
-	//gradient,
 );
 
 const rootEl = $shallowRef<HTMLElement>();
@@ -221,12 +220,12 @@ const filesPagination = {
 
 const { handler: externalTooltipHandler } = useChartTooltip();
 
-async function renderChart() {
+const renderChart = async (): Promise<void> => {
 	if (chartInstance) {
 		chartInstance.destroy();
 	}
 
-	const getDate = (ago: number) => {
+	const getDate = (ago: number): Date => {
 		const y = now.getFullYear();
 		const m = now.getMonth();
 		const d = now.getDate();
@@ -234,7 +233,7 @@ async function renderChart() {
 		return new Date(y, m, d - ago);
 	};
 
-	const format = (arr) => {
+	const format = (arr): void => {
 		return arr.map((v, i) => ({
 			x: getDate(i).getTime(),
 			y: v,
@@ -243,7 +242,6 @@ async function renderChart() {
 
 	const raw = await os.api('charts/active-users', { limit: chartLimit, span: 'day' });
 
-	const gridColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 	const vLineColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)';
 
 	// フォントカラー
@@ -254,7 +252,6 @@ async function renderChart() {
 	chartInstance = new Chart(chartEl, {
 		type: 'bar',
 		data: {
-			//labels: new Array(props.limit).fill(0).map((_, i) => getDate(i).toLocaleString()).slice().reverse(),
 			datasets: [{
 				parsing: false,
 				label: 'a',
@@ -265,15 +262,6 @@ async function renderChart() {
 				borderJoinStyle: 'round',
 				borderRadius: 3,
 				backgroundColor: color,
-				/*gradient: props.bar ? undefined : {
-					backgroundColor: {
-						axis: 'y',
-						colors: {
-							0: alpha(x.color ? x.color : getColor(i), 0),
-							[maxes[i]]: alpha(x.color ? x.color : getColor(i), 0.2),
-						},
-					},
-				},*/
 				barPercentage: 0.9,
 				categoryPercentage: 0.9,
 				clip: 8,
@@ -321,7 +309,6 @@ async function renderChart() {
 					},
 					ticks: {
 						display: false,
-						//mirror: true,
 					},
 				},
 			},
@@ -348,12 +335,11 @@ async function renderChart() {
 					},
 					external: externalTooltipHandler,
 				},
-				//gradient,
 			},
 		},
 		plugins: [{
 			id: 'vLine',
-			beforeDraw(chart, args, options) {
+			beforeDraw(chart): void {
 				if (chart.tooltip?._active?.length) {
 					const activePoint = chart.tooltip._active[0];
 					const ctx = chart.ctx;
@@ -375,21 +361,9 @@ async function renderChart() {
 	});
 }
 
-function onInstanceClick(i) {
-	os.pageWindow(`/instance-info/${i.host}`);
-}
+const onInstanceClick = (i): void => os.pageWindow(`/instance-info/${i.host}`);
 
 onMounted(async () => {
-	/*
-	const magicGrid = new MagicGrid({
-		container: rootEl,
-		static: true,
-		animate: true,
-	});
-
-	magicGrid.listen();
-	*/
-
 	renderChart();
 
 	os.api('stats', {}).then(statsResponse => {
@@ -416,7 +390,7 @@ onMounted(async () => {
 			name: x.host,
 			color: x.themeColor,
 			value: x.followersCount,
-			onClick: () => {
+			onClick: (): void => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
 		})).concat([{ name: '(other)', color: '#80808080', value: res.otherFollowersCount }]);
@@ -424,7 +398,7 @@ onMounted(async () => {
 			name: x.host,
 			color: x.themeColor,
 			value: x.followingCount,
-			onClick: () => {
+			onClick: (): void => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
 		})).concat([{ name: '(other)', color: '#80808080', value: res.otherFollowingCount }]);

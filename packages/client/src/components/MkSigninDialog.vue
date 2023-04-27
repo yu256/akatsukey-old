@@ -13,12 +13,11 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkSignin from '@/components/MkSignin.vue';
 import XModalWindow from '@/components/MkModalWindow.vue';
 import { i18n } from '@/i18n';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	autoSet?: boolean;
 	message?: string,
 }>(), {
@@ -34,13 +33,13 @@ const emit = defineEmits<{
 
 const dialog = $shallowRef<InstanceType<typeof XModalWindow>>();
 
-function onClose() {
+const onClose = (): void => {
 	emit('cancelled');
-	dialog.close();
-}
+	dialog?.close();
+};
 
-function onLogin(res) {
+const onLogin = (res): void => {
 	emit('done', res);
-	dialog.close();
-}
+	dialog?.close();
+};
 </script>

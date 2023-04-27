@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><XHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="900">
 		<div class="ztgjmzrw">
 			<section v-for="announcement in announcements" :key="announcement.id" class="_card _gap announcements">
@@ -41,16 +41,16 @@ os.api('admin/announcements/list').then(announcementResponse => {
 	announcements = announcementResponse;
 });
 
-function add() {
+const add = (): void => {
 	announcements.unshift({
 		id: null,
 		title: '',
 		text: '',
 		imageUrl: null,
 	});
-}
+};
 
-function remove(announcement) {
+const remove = (announcement): void => {
 	os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: announcement.title }),
@@ -59,9 +59,9 @@ function remove(announcement) {
 		announcements = announcements.filter(x => x !== announcement);
 		os.api('admin/announcements/delete', announcement);
 	});
-}
+};
 
-function save(announcement) {
+const save = (announcement): void => {
 	if (announcement.id == null) {
 		os.api('admin/announcements/create', announcement).then(() => {
 			os.alert({
@@ -87,7 +87,7 @@ function save(announcement) {
 			});
 		});
 	}
-}
+};
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
@@ -95,8 +95,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.add,
 	handler: add,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.announcements,

@@ -45,7 +45,7 @@ const props = defineProps<{
 	type: string;
 }>();
 
-const alpha = (hex, a) => {
+const alpha = (hex: string, a: number): string => {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)!;
 	const r = parseInt(result[1], 16);
 	const g = parseInt(result[2], 16);
@@ -64,7 +64,7 @@ const { handler: externalTooltipHandler } = useChartTooltip();
 
 let chartInstance: Chart;
 
-function setData(values) {
+const setData = (values): void => {
 	if (chartInstance == null) return;
 	for (const value of values) {
 		chartInstance.data.labels.push('');
@@ -75,9 +75,9 @@ function setData(values) {
 		}
 	}
 	chartInstance.update();
-}
+};
 
-function pushData(value) {
+const pushData = (value): void => {
 	if (chartInstance == null) return;
 	chartInstance.data.labels.push('');
 	chartInstance.data.datasets[0].data.push(value);
@@ -86,7 +86,7 @@ function pushData(value) {
 		chartInstance.data.datasets[0].data.shift();
 	}
 	chartInstance.update();
-}
+};
 
 const label =
 	props.type === 'process' ? 'Process' :

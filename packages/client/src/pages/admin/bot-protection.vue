@@ -62,7 +62,7 @@ let hcaptchaSecretKey: string | null = $ref(null);
 let recaptchaSiteKey: string | null = $ref(null);
 let recaptchaSecretKey: string | null = $ref(null);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	hcaptchaSiteKey = meta.hcaptchaSiteKey;
 	hcaptchaSecretKey = meta.hcaptchaSecretKey;
@@ -70,9 +70,9 @@ async function init() {
 	recaptchaSecretKey = meta.recaptchaSecretKey;
 
 	provider = meta.enableHcaptcha ? 'hcaptcha' : meta.enableRecaptcha ? 'recaptcha' : null;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		enableHcaptcha: provider === 'hcaptcha',
 		hcaptchaSiteKey,
@@ -83,5 +83,5 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
+};
 </script>

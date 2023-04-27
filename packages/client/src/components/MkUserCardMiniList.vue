@@ -38,6 +38,3 @@ const props = withDefaults(defineProps<{
 
 const pagingComponent = ref<InstanceType<typeof MkPagination>>();
 </script>
-
-<style lang="scss" scoped>
-</style>

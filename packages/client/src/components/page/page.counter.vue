@@ -12,32 +12,32 @@ import { Hpml } from '@/scripts/hpml/evaluator';
 
 export default defineComponent({
 	components: {
-		MkButton
+		MkButton,
 	},
 	props: {
 		block: {
 			type: Object as PropType<CounterVarBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		}
 	},
-	setup(props, ctx) {
+	setup(props) {
 		const value = computed(() => {
 			return props.hpml.vars.value[props.block.name];
 		});
 
-		function click() {
+		const click = (): void => {
 			props.hpml.updatePageVar(props.block.name, value.value + (props.block.inc || 1));
 			props.hpml.eval();
-		}
+		};
 
 		return {
-			click
+			click,
 		};
-	}
+	},
 });
 </script>
 

@@ -39,15 +39,15 @@ let enableGithubIntegration: boolean = $ref(false);
 let githubClientId: string | null = $ref(null);
 let githubClientSecret: string | null = $ref(null);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	uri = meta.uri;
 	enableGithubIntegration = meta.enableGithubIntegration;
 	githubClientId = meta.githubClientId;
 	githubClientSecret = meta.githubClientSecret;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		enableGithubIntegration,
 		githubClientId,
@@ -55,5 +55,5 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
+};
 </script>

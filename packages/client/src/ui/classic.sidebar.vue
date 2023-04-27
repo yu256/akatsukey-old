@@ -1,6 +1,6 @@
 <template>
 <div class="npcljfve" :class="{ iconOnly }">
-	<button v-click-anime class="item _button account" @click="openAccountMenu">
+	<button class="item _button account" @click="openAccountMenu">
 		<MkAvatar :user="$i" class="avatar"/><MkAcct class="text" :user="$i"/>
 	</button>
 	<div class="post" data-cy-open-post-form @click="post">
@@ -9,30 +9,30 @@
 		</MkButton>
 	</div>
 	<div class="divider"></div>
-	<MkA v-click-anime class="item index" active-class="active" to="/" exact>
+	<MkA class="item index" active-class="active" to="/" exact>
 		<i class="ti ti-home ti-fw"></i><span class="text">{{ $ts.timeline }}</span>
 	</MkA>
 	<template v-for="item in menu" :key="item">
 		<div v-if="item === '-'" class="divider"></div>
-		<component :is="navbarItemDef[item].to ? 'MkA' : 'button'" v-else-if="navbarItemDef[item] && (navbarItemDef[item].show !== false)" v-click-anime class="item _button" :class="item" active-class="active" :to="navbarItemDef[item].to" v-on="navbarItemDef[item].action ? { click: navbarItemDef[item].action } : {}">
+		<component :is="navbarItemDef[item].to ? 'MkA' : 'button'" v-else-if="navbarItemDef[item] && (navbarItemDef[item].show !== false)" class="item _button" :class="item" active-class="active" :to="navbarItemDef[item].to" v-on="navbarItemDef[item].action ? { click: navbarItemDef[item].action } : {}">
 			<i class="ti-fw" :class="navbarItemDef[item].icon"></i><span class="text">{{ $ts[navbarItemDef[item].title] }}</span>
 			<span v-if="navbarItemDef[item].indicated" class="indicator"><i class="_indicatorCircle"></i></span>
 		</component>
 	</template>
 	<div class="divider"></div>
-	<MkA v-if="$i.isAdmin || $i.isModerator" v-click-anime class="item" active-class="active" to="/admin" :behavior="settingsWindowed ? 'modalWindow' : null">
+	<MkA v-if="$i.isAdmin || $i.isModerator" class="item" active-class="active" to="/admin" :behavior="settingsWindowed ? 'modalWindow' : null">
 		<i class="ti ti-dashboard ti-fw"></i><span class="text">{{ $ts.controlPanel }}</span>
 	</MkA>
-	<button v-click-anime class="item _button" @click="more">
+	<button class="item _button" @click="more">
 		<i class="ti ti-dots ti-fw"></i><span class="text">{{ $ts.more }}</span>
 		<span v-if="otherNavItemIndicated" class="indicator"><i class="_indicatorCircle"></i></span>
 	</button>
-	<MkA v-click-anime class="item" active-class="active" to="/settings" :behavior="settingsWindowed ? 'modalWindow' : null">
+	<MkA class="item" active-class="active" to="/settings" :behavior="settingsWindowed ? 'modalWindow' : null">
 		<i class="ti ti-settings ti-fw"></i><span class="text">{{ $ts.settings }}</span>
 	</MkA>
 	<div class="divider"></div>
 	<div class="about">
-		<MkA v-click-anime class="link" to="/about">
+		<MkA class="link" to="/about">
 			<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="_ghost"/>
 		</MkA>
 	</div>

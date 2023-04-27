@@ -6,7 +6,7 @@ const mountings = new Map<Element, {
 	fn: (w: number, h: number) => void;
 }>();
 
-function calc(src: Element) {
+const calc = (src: Element): void => {
 	const info = mountings.get(src);
 	const height = src.clientHeight;
 	const width = src.clientWidth;
@@ -30,11 +30,11 @@ function calc(src: Element) {
 	}
 
 	info.fn(width, height);
-}
+};
 
 export default {
-	mounted(src, binding, vn) {
-		const resize = new ResizeObserver((entries, observer) => {
+	mounted(src, binding) {
+		const resize = new ResizeObserver(() => {
 			calc(src);
 		});
 		resize.observe(src);
@@ -43,12 +43,12 @@ export default {
 		calc(src);
 	},
 
-	unmounted(src, binding, vn) {
+	unmounted(src, binding) {
 		binding.value(0, 0);
 		const info = mountings.get(src);
 		if (!info) return;
 		info.resize.disconnect();
 		if (info.intersection) info.intersection.disconnect();
 		mountings.delete(src);
-	}
+	},
 } as Directive<Element, (w: number, h: number) => void>;

@@ -13,32 +13,32 @@ import { RadioButtonVarBlock } from '@/scripts/hpml/block';
 
 export default defineComponent({
 	components: {
-		MkRadio
+		MkRadio,
 	},
 	props: {
 		block: {
 			type: Object as PropType<RadioButtonVarBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		}
 	},
-	setup(props, ctx) {
+	setup(props) {
 		const value = computed(() => {
 			return props.hpml.vars.value[props.block.name];
 		});
 
-		function updateValue(newValue: string) {
+		const updateValue = (newValue: string): void => {
 			props.hpml.updatePageVar(props.block.name, newValue);
 			props.hpml.eval();
-		}
+		};
 
 		return {
 			value,
-			updateValue
+			updateValue,
 		};
-	}
+	},
 });
 </script>

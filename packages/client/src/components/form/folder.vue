@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<{
 let opened = $ref(props.defaultOpen);
 let openedAtLeastOnce = $ref(props.defaultOpen);
 
-const toggle = () => {
+const toggle = (): void => {
 	opened = !opened;
 	if (opened) {
 		openedAtLeastOnce = true;

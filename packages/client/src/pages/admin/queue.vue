@@ -21,7 +21,7 @@ const headerActions = $computed(() => [{
 	asFullButton: true,
 	icon: 'ti ti-external-link',
 	text: i18n.ts.dashboard,
-	handler: () => {
+	handler: (): void => {
 		window.open(config.url + '/queue', '_blank');
 	},
 }]);

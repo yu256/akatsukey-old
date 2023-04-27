@@ -1,5 +1,5 @@
 <template>
-<MkModal ref="modal" :z-priority="'middle'" @click="modal.close()" @closed="emit('closed')">
+<MkModal ref="modal" :z-priority="'middle'" @click="modal?.close()" @closed="emit('closed')">
 	<div class="xubzgfga">
 		<header>{{ image.name }}</header>
 		<img :src="image.url" :alt="image.comment" :title="image.comment" @click="modal.close()"/>
@@ -13,13 +13,12 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import * as misskey from 'misskey-js';
 import bytes from '@/filters/bytes';
 import number from '@/filters/number';
 import MkModal from '@/components/MkModal.vue';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	image: misskey.entities.DriveFile;
 }>(), {
 });

@@ -86,10 +86,6 @@ function attachSticky(el) {
 	}, { passive: true });
 }
 
-function top() {
-	window.scroll({ top: 0, behavior: 'smooth' });
-}
-
 function onContextmenu(ev: MouseEvent) {
 	if (disableContextmenu) return;
 	const isLink = (el: HTMLElement) => {
@@ -108,20 +104,16 @@ function onContextmenu(ev: MouseEvent) {
 	}, {
 		icon: fullView ? 'ti ti-minimize' : 'ti ti-maximize',
 		text: fullView ? i18n.ts.quitFullView : i18n.ts.fullView,
-		action: () => {
+		action: (): void => {
 			fullView = !fullView;
 		},
 	}, {
 		icon: 'ti ti-window-maximize',
 		text: i18n.ts.openInWindow,
-		action: () => {
+		action: (): void => {
 			os.pageWindow(path);
 		},
 	}], ev);
-}
-
-function onAiClick(ev) {
-	//if (this.live2d) this.live2d.click(ev);
 }
 
 if (window.innerWidth < 1024) {

@@ -16,9 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	inline?: boolean;
 	colored?: boolean;
 	mini?: boolean;

@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><XHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="900">
 		<div class="uqshojas">
 			<div v-for="ad in ads" :key="ad.id" class="_panel _formRoot ad">
@@ -55,7 +55,7 @@ os.api('admin/ad/list').then(adsResponse => {
 	ads = adsResponse;
 });
 
-function add() {
+const add = (): void => {
 	ads.unshift({
 		id: null,
 		memo: '',
@@ -66,9 +66,9 @@ function add() {
 		imageUrl: null,
 		expiresAt: null,
 	});
-}
+};
 
-function remove(ad) {
+const remove = (ad): void => {
 	os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: ad.url }),
@@ -79,9 +79,9 @@ function remove(ad) {
 			id: ad.id,
 		});
 	});
-}
+};
 
-function save(ad) {
+const save = (ad): void => {
 	if (ad.id == null) {
 		os.apiWithDialog('admin/ad/create', {
 			...ad,
@@ -93,7 +93,7 @@ function save(ad) {
 			expiresAt: new Date(ad.expiresAt).getTime(),
 		});
 	}
-}
+};
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
@@ -101,8 +101,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.add,
 	handler: add,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.ads,

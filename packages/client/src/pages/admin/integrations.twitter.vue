@@ -39,15 +39,15 @@ let enableTwitterIntegration: boolean = $ref(false);
 let twitterConsumerKey: string | null = $ref(null);
 let twitterConsumerSecret: string | null = $ref(null);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	uri = meta.uri;
 	enableTwitterIntegration = meta.enableTwitterIntegration;
 	twitterConsumerKey = meta.twitterConsumerKey;
 	twitterConsumerSecret = meta.twitterConsumerSecret;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		enableTwitterIntegration,
 		twitterConsumerKey,
@@ -55,5 +55,5 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
+};
 </script>

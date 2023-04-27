@@ -39,15 +39,15 @@ let enableDiscordIntegration: boolean = $ref(false);
 let discordClientId: string | null = $ref(null);
 let discordClientSecret: string | null = $ref(null);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	uri = meta.uri;
 	enableDiscordIntegration = meta.enableDiscordIntegration;
 	discordClientId = meta.discordClientId;
 	discordClientSecret = meta.discordClientSecret;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		enableDiscordIntegration,
 		discordClientId,
@@ -55,5 +55,5 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
+};
 </script>

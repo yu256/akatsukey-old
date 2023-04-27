@@ -9,7 +9,7 @@ const start = isTouchUsing ? 'touchstart' : 'mouseover';
 const end = isTouchUsing ? 'touchend' : 'mouseleave';
 
 export default {
-	mounted(el: HTMLElement, binding, vn) {
+	mounted(el: HTMLElement, binding) {
 		const delay = binding.modifiers.noDelay ? 0 : 100;
 
 		const self = (el as any)._tooltipDirective_ = {} as any;
@@ -20,7 +20,7 @@ export default {
 		self.hideTimer = null;
 		self.checkTimer = null;
 
-		self.close = () => {
+		self.close = (): void => {
 			if (self._close) {
 				window.clearInterval(self.checkTimer);
 				self._close();
@@ -40,7 +40,7 @@ export default {
 			});
 		}
 
-		self.show = () => {
+		self.show = (): void => {
 			if (!document.body.contains(el)) return;
 			if (self._close) return;
 			if (self.text == null) return;
@@ -54,7 +54,7 @@ export default {
 				targetElement: el,
 			}, {}, 'closed');
 
-			self._close = () => {
+			self._close = (): void => {
 				showing.value = false;
 			};
 		};
@@ -86,7 +86,7 @@ export default {
 		self.text = binding.value as string;
 	},
 
-	unmounted(el, binding, vn) {
+	unmounted(el) {
 		const self = el._tooltipDirective_;
 		window.clearInterval(self.checkTimer);
 	},

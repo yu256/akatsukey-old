@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, shallowRef, watch } from 'vue';
+import { computed, shallowRef } from 'vue';
 import * as misskey from 'misskey-js';
 import XDetails from '@/components/MkReactionsViewer.details.vue';
 import XReactionIcon from '@/components/MkReactionIcon.vue';
@@ -37,7 +37,7 @@ const buttonRef = shallowRef<HTMLElement>();
 
 const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
 
-const toggleReaction = (e: MouseEvent) => {
+const toggleReaction = (e: MouseEvent): void => {
 	if (!canToggle.value) {
 		openReactionImportMenu(e, props.reaction, props.note.id);
 		return;
@@ -63,20 +63,6 @@ const toggleReaction = (e: MouseEvent) => {
 	}
 };
 
-const anime = () => {
-	if (document.hidden) return;
-
-	// TODO: 新しくリアクションが付いたことが視覚的に分かりやすいアニメーション
-};
-
-watch(() => props.count, (newCount, oldCount) => {
-	if (oldCount < newCount) anime();
-});
-
-onMounted(() => {
-	if (!props.isInitial) anime();
-});
-
 useTooltip(buttonRef, async (showing) => {
 	const reactions = await os.apiGet('notes/reactions', {
 		noteId: props.note.id,
@@ -97,7 +83,7 @@ useTooltip(buttonRef, async (showing) => {
 	}, {}, 'closed');
 }, 100);
 
-const onContextmenu = (e: MouseEvent) => {
+const onContextmenu = (e: MouseEvent): void => {
 	e.preventDefault();
 	openReactionImportMenu(e, props.reaction, props.note.id);
 };

@@ -37,7 +37,7 @@ import { lookupInstance } from '@/scripts/lookup-instance';
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver } from '@/scripts/page-metadata';
 
-const isEmpty = (x: string | null) => x == null || x === '';
+const isEmpty = (x: string | null): boolean => x == null || x === '';
 
 const router = useRouter();
 
@@ -67,7 +67,7 @@ os.api('admin/abuse-user-reports', {
 });
 
 const NARROW_THRESHOLD = 600;
-const ro = new ResizeObserver((entries, observer) => {
+const ro = new ResizeObserver((entries) => {
 	if (entries.length === 0) return;
 	narrow = entries[0].borderBoxSize[0].inlineSize < NARROW_THRESHOLD;
 });
@@ -122,7 +122,7 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.announcements,
 		to: '/admin/announcements',
 		active: currentPage?.route.name === 'announcements',
-	}] : []),  ...($i?.isAdmin ? [{
+	}] : []), ...($i?.isAdmin ? [{
 		icon: 'ti ti-ad',
 		text: i18n.ts.ads,
 		to: '/admin/ads',
@@ -218,7 +218,7 @@ provideMetadataReceiver((info) => {
 	}
 });
 
-const invite = () => {
+const invite = (): void => {
 	os.api('admin/invite').then(x => {
 		os.alert({
 			type: 'info',
@@ -232,29 +232,29 @@ const invite = () => {
 	});
 };
 
-const lookup = (ev) => {
+const lookup = (ev): void => {
 	os.popupMenu([{
 		text: i18n.ts.user,
 		icon: 'ti ti-user',
-		action: () => {
+		action: (): void => {
 			lookupUser();
 		},
 	}, {
 		text: i18n.ts.note,
 		icon: 'ti ti-pencil',
-		action: () => {
+		action: (): void => {
 			lookupNote();
 		},
 	}, {
 		text: i18n.ts.file,
 		icon: 'ti ti-cloud',
-		action: () => {
+		action: (): void => {
 			lookupFile();
 		},
 	}, {
 		text: i18n.ts.instance,
 		icon: 'ti ti-planet',
-		action: () => {
+		action: (): void => {
 			lookupInstance();
 		},
 	}], ev.currentTarget ?? ev.target);

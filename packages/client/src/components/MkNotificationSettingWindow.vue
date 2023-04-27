@@ -6,7 +6,7 @@
 	:with-ok-button="true"
 	:ok-button-disabled="false"
 	@ok="ok()"
-	@close="dialog.close()"
+	@close="dialog?.close()"
 	@closed="emit('closed')"
 >
 	<template #header>{{ i18n.ts.notificationSetting }}</template>
@@ -28,7 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import { notificationTypes } from 'misskey-js';
 import MkSwitch from './form/switch.vue';
 import MkInfo from './MkInfo.vue';
@@ -60,7 +59,7 @@ for (const ntype of notificationTypes) {
 	typesMap[ntype] = includingTypes.includes(ntype);
 }
 
-function ok() {
+const ok = (): void => {
 	if (useGlobalSetting) {
 		emit('done', { includingTypes: null });
 	} else {
@@ -70,18 +69,18 @@ function ok() {
 		});
 	}
 
-	dialog.close();
-}
+	dialog?.close();
+};
 
-function disableAll() {
+const disableAll = (): void => {
 	for (const type in typesMap) {
 		typesMap[type as typeof notificationTypes[number]] = false;
 	}
-}
+};
 
-function enableAll() {
+const enableAll = (): void => {
 	for (const type in typesMap) {
 		typesMap[type as typeof notificationTypes[number]] = true;
 	}
-}
+};
 </script>

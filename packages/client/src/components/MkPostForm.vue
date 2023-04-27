@@ -9,7 +9,7 @@
 >
 	<header>
 		<button v-if="!fixed" class="cancel _button" @click="cancel"><i class="ti ti-x"></i></button>
-		<button v-click-anime v-tooltip="i18n.ts.switchAccount" class="account _button" @click="openAccountMenu">
+		<button v-tooltip="i18n.ts.switchAccount" class="account _button" @click="openAccountMenu">
 			<MkAvatar :user="postAccount ?? $i" class="avatar"/>
 		</button>
 		<div class="right">
@@ -340,7 +340,7 @@ const addMissingMention = (): void => {
 	}
 };
 
-const togglePoll= (): void => {
+const togglePoll = (): void => {
 	if (poll) {
 		poll = null;
 	} else {
@@ -388,7 +388,7 @@ const updateFileToCropped = (file: misskey.entities.DriveFile, cropped): void =>
 	files[files.findIndex(x => x.id === file.id)] = cropped;
 };
 
-const upload = (file: File, name?: string):void => {
+const upload = (file: File, name?: string): void => {
 	uploadFile(file, defaultStore.state.uploadFolder, name).then(res => {
 		files.push(res);
 	});

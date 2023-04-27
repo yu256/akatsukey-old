@@ -31,13 +31,13 @@ export default defineComponent({
 		},
 	},
 
-	setup(props, context) {
+	setup(props) {
 		const pending = ref(true);
 		const resolved = ref(false);
 		const rejected = ref(false);
 		const result = ref(null);
 
-		const process = () => {
+		const process = (): void => {
 			if (props.p == null) {
 				return;
 			}
@@ -62,7 +62,7 @@ export default defineComponent({
 			immediate: true,
 		});
 
-		const retry = () => {
+		const retry = (): void => {
 			process();
 		};
 

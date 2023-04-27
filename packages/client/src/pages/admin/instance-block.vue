@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><XHeader/></template>
 	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<FormTextarea v-model="blockedHosts" class="_formBlock">
@@ -15,7 +15,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XHeader from './_header_.vue';
 import FormButton from '@/components/MkButton.vue';
 import FormTextarea from '@/components/form/textarea.vue';
@@ -27,22 +26,18 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 let blockedHosts: string = $ref('');
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	blockedHosts = meta.blockedHosts.join('\n');
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		blockedHosts: blockedHosts.split('\n') || [],
 	}).then(() => {
 		fetchInstance();
 	});
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+};
 
 definePageMetadata({
 	title: i18n.ts.instanceBlocking,

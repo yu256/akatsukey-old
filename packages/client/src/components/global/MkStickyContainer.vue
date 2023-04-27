@@ -27,7 +27,7 @@ let childStickyTop = $ref(0);
 const parentStickyTop = inject<Ref<number>>(CURRENT_STICKY_TOP, ref(0));
 provide(CURRENT_STICKY_TOP, $$(childStickyTop));
 
-const calc = () => {
+const calc = (): void => {
 	childStickyTop = parentStickyTop.value + headerEl.offsetHeight;
 	headerHeight = headerEl.offsetHeight.toString();
 };
@@ -60,7 +60,3 @@ onUnmounted(() => {
 	observer.disconnect();
 });
 </script>
-
-<style lang="scss" module>
-
-</style>

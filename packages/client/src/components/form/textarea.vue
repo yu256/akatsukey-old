@@ -113,12 +113,12 @@ export default defineComponent({
 		const filled = computed(() => v.value !== '' && v.value != null);
 		const inputEl = ref(null);
 
-		const focus = () => inputEl.value.focus();
-		const onInput = (ev) => {
+		const focus = (): void => inputEl.value?.focus();
+		const onInput = (ev): void => {
 			changed.value = true;
 			context.emit('change', ev);
 		};
-		const onKeydown = (ev: KeyboardEvent) => {
+		const onKeydown = (ev: KeyboardEvent): void => {
 			if (ev.isComposing || ev.key === 'Process' || ev.keyCode === 229) return;
 			
 			context.emit('keydown', ev);
@@ -128,7 +128,7 @@ export default defineComponent({
 			}
 		};
 
-		const updated = () => {
+		const updated = (): void => {
 			changed.value = false;
 			context.emit('update:modelValue', v.value);
 		};
@@ -139,7 +139,7 @@ export default defineComponent({
 			v.value = newValue;
 		});
 
-		watch(v, newValue => {
+		watch(v, () => {
 			if (!props.manualSave) {
 				if (props.debounce) {
 					debouncedUpdated();
@@ -148,7 +148,7 @@ export default defineComponent({
 				}
 			}
 
-			invalid.value = inputEl.value.validity.badInput;
+			invalid.value = inputEl.value?.validity.badInput;
 		});
 
 		onMounted(() => {

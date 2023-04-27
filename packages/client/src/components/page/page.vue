@@ -15,15 +15,15 @@ import { defaultStore } from '@/store';
 
 export default defineComponent({
 	components: {
-		XBlock
+		XBlock,
 	},
 	props: {
 		page: {
 			type: Object as PropType<Record<string, any>>,
-			required: true
+			required: true,
 		},
 	},
-	setup(props, ctx) {
+	setup(props) {
 		const hpml = new Hpml(props.page, {
 			randomSeed: Math.random().toString(),
 			visitor: $i,

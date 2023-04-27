@@ -75,7 +75,6 @@ for (const x of lib) {
 		}
 	}
 }
-
 emjdb.sort((a, b) => a.name.length - b.name.length);
 
 //#region Construct Emoji DB
@@ -87,7 +86,7 @@ for (const x of customEmojis) {
 		name: x.name,
 		emoji: `:${x.name}:`,
 		url: x.url,
-		isCustomEmoji: true
+		isCustomEmoji: true,
 	});
 
 	if (x.aliases) {
@@ -143,7 +142,7 @@ const mfmTags = ref<string[]>([]);
 const select = ref(-1);
 const zIndex = os.claimZIndex('high');
 
-function complete(type: string, value: any) {
+const complete = (type: string, value: any): void => {
 	emit('done', { type, value });
 	emit('closed');
 	if (type === 'emoji') {
@@ -154,7 +153,7 @@ function complete(type: string, value: any) {
 	}
 }
 
-function setPosition() {
+const setPosition = (): void => {
 	if (!rootEl.value) return;
 	if (props.x + rootEl.value.offsetWidth > window.innerWidth) {
 		rootEl.value.style.left = (window.innerWidth - rootEl.value.offsetWidth) + 'px';
@@ -170,7 +169,7 @@ function setPosition() {
 	}
 }
 
-function exec() {
+const exec = (): void => {
 	select.value = -1;
 	if (suggests.value) {
 		for (const el of Array.from(items.value)) {
@@ -264,12 +263,12 @@ function exec() {
 	}
 }
 
-function onMousedown(event: Event) {
+const onMousedown = (event: Event): void => {
 	if (!contains(rootEl.value, event.target) && (rootEl.value !== event.target)) props.close();
-}
+};
 
-function onKeydown(event: KeyboardEvent) {
-	const cancel = () => {
+const onKeydown = (event: KeyboardEvent): void => {
+	const cancel = (): void => {
 		event.preventDefault();
 		event.stopPropagation();
 	};
@@ -308,20 +307,20 @@ function onKeydown(event: KeyboardEvent) {
 			event.stopPropagation();
 			props.textarea.focus();
 	}
-}
+};
 
-function selectNext() {
+const selectNext = (): void => {
 	if (++select.value >= items.value.length) select.value = 0;
 	if (items.value.length === 0) select.value = -1;
 	applySelect();
-}
+};
 
-function selectPrev() {
+const selectPrev = (): void => {
 	if (--select.value < 0) select.value = items.value.length - 1;
 	applySelect();
-}
+};
 
-function applySelect() {
+const applySelect = (): void => {
 	for (const el of Array.from(items.value)) {
 		el.removeAttribute('data-selected');
 	}
@@ -330,15 +329,15 @@ function applySelect() {
 		items.value[select.value].setAttribute('data-selected', 'true');
 		(items.value[select.value] as any).focus();
 	}
-}
+};
 
-function chooseUser() {
+const chooseUser = (): void => {
 	props.close();
 	os.selectUser().then(user => {
 		complete('user', user);
 		props.textarea.focus();
 	});
-}
+};
 
 onUpdated(() => {
 	setPosition();

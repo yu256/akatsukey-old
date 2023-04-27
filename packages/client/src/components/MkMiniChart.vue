@@ -42,11 +42,10 @@ let polylinePoints = $ref('');
 let polygonPoints = $ref('');
 let headX = $ref<number | null>(null);
 let headY = $ref<number | null>(null);
-let clock = $ref<number | null>(null);
 const accent = tinycolor(getComputedStyle(document.documentElement).getPropertyValue('--accent'));
 const color = accent.toRgbString();
 
-function draw(): void {
+const draw = (): void => {
 	const stats = props.src.slice().reverse();
 	const peak = Math.max.apply(null, stats) || 1;
 
@@ -61,7 +60,7 @@ function draw(): void {
 
 	headX = _polylinePoints[_polylinePoints.length - 1][0];
 	headY = _polylinePoints[_polylinePoints.length - 1][1];
-}
+};
 
 watch(() => props.src, draw, { immediate: true });
 

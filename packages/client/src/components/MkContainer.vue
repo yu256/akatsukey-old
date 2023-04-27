@@ -43,50 +43,57 @@ const props = withDefaults(defineProps<{
 	showHeader: true,
 	maxHeight: null,
 });
+
 const rootEl = shallowRef<HTMLElement>();
 const contentEl = shallowRef<HTMLElement>();
 const headerEl = shallowRef<HTMLElement>();
 const showBody = ref(props.expanded);
 const ignoreOmit = ref(false);
 const omitted = ref(false);
-function enter(el) {
-	const elementHeight = el.getBoundingClientRect().height;
-	el.style.height = 0;
+
+const enter = (el: HTMLElement): void => {
+	const { height: elementHeight } = el.getBoundingClientRect();
+	el.style.height = '0';
 	el.offsetHeight; // reflow
-	el.style.height = Math.min(elementHeight, props.maxHeight ?? Infinity) + 'px';
-}
-function afterEnter(el) {
-	el.style.height = null;
-}
-function leave(el) {
-	const elementHeight = el.getBoundingClientRect().height;
-	el.style.height = elementHeight + 'px';
+	el.style.height = `${elementHeight}px`;
+};
+const afterEnter = (el: HTMLElement): void => {
+	el.style.height = '';
+};
+const leave = (el: HTMLElement): void => {
+	const { height: elementHeight } = el.getBoundingClientRect();
+	el.style.height = `${elementHeight}px`;
 	el.offsetHeight; // reflow
-	el.style.height = 0;
-}
-function afterLeave(el) {
-	el.style.height = null;
-}
-const calcOmit = () => {
+	el.style.height = '0';
+};
+const afterLeave = (el: HTMLElement): void => {
+	el.style.height = '';
+};
+const calcOmit = (): void => {
 	if (omitted.value || ignoreOmit.value || props.maxHeight == null) return;
-	const height = contentEl.value.offsetHeight;
+	const height = contentEl.value?.offsetHeight ?? 0;
 	omitted.value = height > props.maxHeight;
 };
+
 onMounted(() => {
 	watch(showBody, v => {
-		const headerHeight = props.showHeader ? headerEl.value.offsetHeight : 0;
-		rootEl.value.style.minHeight = `${headerHeight}px`;
-		if (v) {
-			rootEl.value.style.flexBasis = 'auto';
-		} else {
-			rootEl.value.style.flexBasis = `${headerHeight}px`;
+		const headerHeight = props.showHeader ? headerEl.value?.offsetHeight : 0;
+		if (rootEl.value) {
+			rootEl.value.style.minHeight = `${headerHeight}px`;
+			if (v) {
+				rootEl.value.style.flexBasis = 'auto';
+			} else {
+				rootEl.value.style.flexBasis = `${headerHeight}px`;
+			}
 		}
 	}, {
 		immediate: true,
 	});
-	rootEl.value.style.setProperty('--maxHeight', props.maxHeight + 'px');
+	if (rootEl.value && props.maxHeight != null) {
+		rootEl.value.style.setProperty('--maxHeight', props.maxHeight + 'px');
+	}
 	calcOmit();
-	new ResizeObserver((entries, observer) => {
+	if (contentEl.value) new ResizeObserver(() => {
 		calcOmit();
 	}).observe(contentEl.value);
 });

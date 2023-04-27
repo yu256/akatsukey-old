@@ -29,7 +29,7 @@ const label = computed(() => {
 	] as string[][]).join(' / ');
 });
 
-const toggle = () => {
+const toggle = (): void => {
 	emit('update:modelValue', !props.modelValue);
 };
 </script>

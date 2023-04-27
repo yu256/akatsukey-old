@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><XHeader/></template>
 	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<div class="_formRoot">
@@ -118,7 +118,7 @@ let enableSensitiveMediaDetectionForVideos: boolean = $ref(false);
 let enableIpLogging: boolean = $ref(false);
 let enableActiveEmailValidation: boolean = $ref(false);
 
-async function init() {
+const init = async (): Promise<void> => {
 	const meta = await os.api('admin/meta');
 	summalyProxy = meta.summalyProxy;
 	enableHcaptcha = meta.enableHcaptcha;
@@ -134,9 +134,9 @@ async function init() {
 	enableSensitiveMediaDetectionForVideos = meta.enableSensitiveMediaDetectionForVideos;
 	enableIpLogging = meta.enableIpLogging;
 	enableActiveEmailValidation = meta.enableActiveEmailValidation;
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('admin/update-meta', {
 		summalyProxy,
 		sensitiveMediaDetection,
@@ -154,11 +154,7 @@ function save() {
 	}).then(() => {
 		fetchInstance();
 	});
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+};
 
 definePageMetadata({
 	title: i18n.ts.security,

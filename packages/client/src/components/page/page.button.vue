@@ -13,17 +13,17 @@ import { Hpml } from '@/scripts/hpml/evaluator';
 
 export default defineComponent({
 	components: {
-		MkButton
+		MkButton,
 	},
 	props: {
 		block: {
 			type: Object as PropType<ButtonBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
-		}
+			required: true,
+		},
 	},
 	methods: {
 		click() {
@@ -40,23 +40,23 @@ export default defineComponent({
 					pageId: this.hpml.page.id,
 					event: this.block.event,
 					...(this.block.var ? {
-						var: unref(this.hpml.vars)[this.block.var]
-					} : {})
+						var: unref(this.hpml.vars)[this.block.var],
+					} : {}),
 				});
 
 				os.alert({
 					type: 'success',
-					text: this.hpml.interpolate(this.block.message)
+					text: this.hpml.interpolate(this.block.message),
 				});
 			} else if (this.block.action === 'callAiScript') {
 				this.hpml.callAiScript(this.block.fn);
 			}
-		}
-	}
+		},
+	},
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .kudkigyw {
 	display: inline-block;
 	min-width: 200px;

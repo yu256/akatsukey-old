@@ -14,37 +14,37 @@ import { TextInputVarBlock } from '@/scripts/hpml/block';
 
 export default defineComponent({
 	components: {
-		MkInput
+		MkInput,
 	},
 	props: {
 		block: {
 			type: Object as PropType<TextInputVarBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		}
 	},
-	setup(props, ctx) {
+	setup(props) {
 		const value = computed(() => {
 			return props.hpml.vars.value[props.block.name];
 		});
 
-		function updateValue(newValue) {
+		const updateValue = (newValue): void => {
 			props.hpml.updatePageVar(props.block.name, newValue);
 			props.hpml.eval();
-		}
+		};
 
 		return {
 			value,
-			updateValue
+			updateValue,
 		};
-	}
+	},
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .kudkigyw {
 	display: inline-block;
 	min-width: 300px;

@@ -19,8 +19,8 @@ import { i18n } from '@/i18n';
 
 const modal = shallowRef<InstanceType<typeof MkModal>>();
 
-const whatIsNew = () => {
-	modal.value.close();
+const whatIsNew = (): void => {
+	modal.value?.close();
 	window.open(`https://misskey-hub.net/docs/releases.html#_${version.replace(/\./g, '-')}`, '_blank');
 };
 </script>

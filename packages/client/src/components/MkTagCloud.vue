@@ -47,7 +47,7 @@ watch($$(available), () => {
 });
 
 onMounted(() => {
-	width = rootEl.offsetWidth;
+	width = rootEl?.offsetWidth;
 
 	if (loaded) {
 		available = true;

@@ -61,23 +61,15 @@ const isDragging = ref(false);
 
 const title = computed(() => props.folder.name);
 
-function checkboxClicked() {
-	emit('chosen', props.folder);
-}
+const checkboxClicked = (): void => emit('chosen', props.folder);
 
-function onClick() {
-	emit('move', props.folder);
-}
+const onClick = (): void => emit('move', props.folder);
 
-function onMouseover() {
-	hover.value = true;
-}
+const onMouseover = (): boolean => hover.value = true;
 
-function onMouseout() {
-	hover.value = false;
-}
+const onMouseout = (): boolean => hover.value = false;
 
-function onDragover(ev: DragEvent) {
+const onDragover = (ev: DragEvent): void => {
 	if (!ev.dataTransfer) return;
 
 	// 自分自身がドラッグされている場合
@@ -111,17 +103,15 @@ function onDragover(ev: DragEvent) {
 	} else {
 		ev.dataTransfer.dropEffect = 'none';
 	}
-}
+};
 
-function onDragenter() {
+const onDragenter = (): void => {
 	if (!isDragging.value) draghover.value = true;
-}
+};
 
-function onDragleave() {
-	draghover.value = false;
-}
+const onDragleave = (): boolean => draghover.value = false;
 
-function onDrop(ev: DragEvent) {
+const onDrop = (ev: DragEvent): void => {
 	draghover.value = false;
 
 	if (!ev.dataTransfer) return;
@@ -177,9 +167,9 @@ function onDrop(ev: DragEvent) {
 		});
 	}
 	//#endregion
-}
+};
 
-function onDragstart(ev: DragEvent) {
+const onDragstart = (ev: DragEvent): void => {
 	if (!ev.dataTransfer) return;
 
 	ev.dataTransfer.effectAllowed = 'move';
@@ -189,18 +179,14 @@ function onDragstart(ev: DragEvent) {
 	// 親ブラウザに対して、ドラッグが開始されたフラグを立てる
 	// (=あなたの子供が、ドラッグを開始しましたよ)
 	emit('dragstart');
-}
+};
 
-function onDragend() {
+const onDragend = (): void => {
 	isDragging.value = false;
 	emit('dragend');
-}
+};
 
-function go() {
-	emit('move', props.folder.id);
-}
-
-function rename() {
+const rename = (): void => {
 	os.inputText({
 		title: i18n.ts.renameFolder,
 		placeholder: i18n.ts.inputNewFolderName,
@@ -212,9 +198,9 @@ function rename() {
 			name: name,
 		});
 	});
-}
+};
 
-function deleteFolder() {
+const deleteFolder = (): void => {
 	os.api('drive/folders/delete', {
 		folderId: props.folder.id,
 	}).then(() => {
@@ -237,13 +223,9 @@ function deleteFolder() {
 				});
 		}
 	});
-}
+};
 
-function setAsUploadFolder() {
-	defaultStore.set('uploadFolder', props.folder.id);
-}
-
-function onContextmenu(ev: MouseEvent) {
+const onContextmenu = (ev: MouseEvent): void => {
 	if (disableContextmenu) return;
 	os.contextMenu([{
 		text: i18n.ts.openInWindow,
@@ -264,7 +246,7 @@ function onContextmenu(ev: MouseEvent) {
 		danger: true,
 		action: deleteFolder,
 	}], ev);
-}
+};
 </script>
 
 <style lang="scss" scoped>

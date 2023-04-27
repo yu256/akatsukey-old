@@ -116,7 +116,7 @@ const onLogin = (res) => {
 	}
 };
 
-const queryKey = () => {
+const queryKey = (): Promise<void | undefined> => {
 	queryingKey = true;
 	return navigator.credentials.get({
 		publicKey: {

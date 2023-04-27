@@ -3,10 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MfmCore from '@/components/mfm';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
 	text: string;
 	plain?: boolean;
 	nowrap?: boolean;

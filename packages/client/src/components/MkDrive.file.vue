@@ -61,7 +61,7 @@ const isDragging = ref(false);
 
 const title = computed(() => `${props.file.name}\n${props.file.type} ${bytes(props.file.size)}`);
 
-function getMenu() {
+const getMenu = () => {
 	return [{
 		text: i18n.ts.rename,
 		icon: 'ti ti-forms',
@@ -91,22 +91,22 @@ function getMenu() {
 		danger: true,
 		action: deleteFile,
 	}];
-}
+};
 
-function onClick(ev: MouseEvent) {
+const onClick = (ev: MouseEvent): void => {
 	if (props.selectMode) {
 		emit('chosen', props.file);
 	} else {
 		os.popupMenu(getMenu(), (ev.currentTarget ?? ev.target ?? undefined) as HTMLElement | undefined);
 	}
-}
+};
 
-function onContextmenu(ev: MouseEvent) {
+const onContextmenu = (ev: MouseEvent): void => {
 	if (disableContextmenu) return;
 	os.contextMenu(getMenu(), ev);
-}
+};
 
-function onDragstart(ev: DragEvent) {
+const onDragstart = (ev: DragEvent): void => {
 	if (ev.dataTransfer) {
 		ev.dataTransfer.effectAllowed = 'move';
 		ev.dataTransfer.setData(_DATA_TRANSFER_DRIVE_FILE_, JSON.stringify(props.file));
@@ -114,14 +114,14 @@ function onDragstart(ev: DragEvent) {
 	isDragging.value = true;
 
 	emit('dragstart');
-}
+};
 
-function onDragend() {
+const onDragend = (): void => {
 	isDragging.value = false;
 	emit('dragend');
-}
+};
 
-function rename() {
+const rename = (): void => {
 	os.inputText({
 		title: i18n.ts.renameFile,
 		placeholder: i18n.ts.inputNewFileName,
@@ -133,9 +133,9 @@ function rename() {
 			name: name,
 		});
 	});
-}
+};
 
-function describe() {
+const describe = (): void => {
 	os.popup(defineAsyncComponent(() => import('@/components/MkMediaCaption.vue')), {
 		title: i18n.ts.describeFile,
 		input: {
@@ -153,25 +153,21 @@ function describe() {
 			});
 		},
 	}, 'closed');
-}
+};
 
-function toggleSensitive() {
+const toggleSensitive = (): void => {
 	os.api('drive/files/update', {
 		fileId: props.file.id,
 		isSensitive: !props.file.isSensitive,
 	});
 }
 
-function copyUrl() {
+const copyUrl = (): void => {
 	copyText(props.file.url);
 	os.success();
-}
-/*
-function addApp() {
-	alert('not implemented yet');
-}
-*/
-async function deleteFile() {
+};
+
+const deleteFile = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('driveFileDeleteConfirm', { name: props.file.name }),
@@ -181,7 +177,7 @@ async function deleteFile() {
 	os.api('drive/files/delete', {
 		fileId: props.file.id,
 	});
-}
+};
 </script>
 
 <style lang="scss" scoped>

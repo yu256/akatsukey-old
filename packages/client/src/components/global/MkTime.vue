@@ -36,7 +36,7 @@ const relative = $computed(() => {
 		i18n.ts._ago.future);
 });
 
-function tick() {
+const tick = (): void => {
 	now = new Date();
 	const ago = (now.getTime() - _time.getTime()) / 1000/*ms*/;
 	const next = ago < 60 ? 10000 : ago < 3600 ? 60000 : 180000;
@@ -44,7 +44,7 @@ function tick() {
 	tickId = window.setTimeout(() => {
 		window.requestAnimationFrame(tick);
 	}, next);
-}
+};
 
 let tickId: number;
 

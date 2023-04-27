@@ -107,12 +107,12 @@ const modal = shallowRef<InstanceType<typeof MkModal>>();
 const inputValue = ref(props.input?.default || null);
 const selectedValue = ref(props.select?.default || null);
 
-function done(canceled: boolean, result?) {
+const done = (canceled: boolean, result?: undefined): void => {
 	emit('done', { canceled, result });
 	modal.value?.close();
-}
+};
 
-async function ok() {
+const ok = async (): Promise<void> => {
 	if (!props.showOkButton) return;
 
 	const result =
@@ -120,27 +120,21 @@ async function ok() {
 		props.select ? selectedValue.value :
 		true;
 	done(false, result);
-}
+};
 
-function cancel() {
-	done(true);
-}
-/*
-function onBgClick() {
-	if (props.cancelableByBgClick) cancel();
-}
-*/
-function onKeydown(evt: KeyboardEvent) {
+const cancel = (): void => done(true);
+
+const onKeydown = (evt: KeyboardEvent): void => {
 	if (evt.key === 'Escape') cancel();
-}
+};
 
-function onInputKeydown(evt: KeyboardEvent) {
+const onInputKeydown = (evt: KeyboardEvent): void => {
 	if (evt.key === 'Enter') {
 		evt.preventDefault();
 		evt.stopPropagation();
 		ok();
 	}
-}
+};
 
 onMounted(() => {
 	document.addEventListener('keydown', onKeydown);

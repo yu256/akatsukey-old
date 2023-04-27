@@ -20,15 +20,15 @@ export default defineComponent({
 	props: {
 		block: {
 			type: Object as PropType<SectionBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		},
 		h: {
-			required: true
-		}
+			required: true,
+		},
 	},
 });
 </script>
@@ -50,10 +50,6 @@ export default defineComponent({
 	> h4 {
 		font-size: 1em;
 		margin: 0 0 0.5em 0;
-	}
-
-	> .children {
-		//padding 16px
 	}
 }
 </style>

@@ -3,12 +3,12 @@
 	<div class="szkkfdyq _popup _shadow" :class="{ asDrawer: type === 'drawer' }" :style="{ maxHeight: maxHeight ? maxHeight + 'px' : '' }">
 		<div class="main">
 			<template v-for="item in items" :key="item.text">
-				<button v-if="item.action" v-click-anime class="_button" @click="$event => { item.action($event); close(); }">
+				<button v-if="item.action" class="_button" @click="$event => { item.action($event); close(); }">
 					<i class="icon" :class="item.icon"></i>
 					<div class="text">{{ item.text }}</div>
 					<span v-if="item.indicate" class="indicator"><i class="_indicatorCircle"></i></span>
 				</button>
-				<MkA v-else v-click-anime :to="item.to" @click.passive="close()">
+				<MkA v-else :to="item.to" @click.passive="close()">
 					<i class="icon" :class="item.icon"></i>
 					<div class="text">{{ item.text }}</div>
 					<span v-if="item.indicate" class="indicator"><i class="_indicatorCircle"></i></span>
@@ -20,7 +20,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkModal from '@/components/MkModal.vue';
 import { navbarItemDef } from '@/navbar';
 import { defaultStore } from '@/store';
@@ -59,9 +58,7 @@ const items = Object.keys(navbarItemDef).filter(k => !menu.includes(k)).map(k =>
 	indicate: def.indicated,
 }));
 
-function close() {
-	modal.close();
-}
+const close = (): void => modal?.close();
 </script>
 
 <style lang="scss" scoped>

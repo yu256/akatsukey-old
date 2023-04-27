@@ -59,7 +59,7 @@ const pagination = {
 	})),
 };
 
-function clear() {
+const clear = (): void => {
 	os.confirm({
 		type: 'warning',
 		text: i18n.ts.clearCachedFilesConfirm,
@@ -68,12 +68,12 @@ function clear() {
 
 		os.apiWithDialog('admin/drive/clean-remote-files', {});
 	});
-}
+};
 
 const headerActions = $computed(() => [{
 	text: i18n.ts.lookup,
 	icon: 'ti ti-search',
-	handler: () => {
+	handler: (): void => {
 		lookupFile();
 	},
 }, {
@@ -82,15 +82,13 @@ const headerActions = $computed(() => [{
 	handler: clear,
 }]);
 
-const headerTabs = $computed(() => []);
-
 definePageMetadata(computed(() => ({
 	title: i18n.ts.files,
 	icon: 'ti ti-cloud',
 })));
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .xrmjdkdw {
 	margin: var(--margin);
 }

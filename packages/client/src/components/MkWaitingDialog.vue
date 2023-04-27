@@ -25,10 +25,10 @@ const emit = defineEmits<{
 	(ev: 'closed');
 }>();
 
-function done() {
+const done = (): void => {
 	emit('done');
-	modal.value.close();
-}
+	modal.value?.close();
+};
 
 watch(() => props.showing, () => {
 	if (!props.showing) done();

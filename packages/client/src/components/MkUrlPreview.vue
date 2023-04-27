@@ -156,14 +156,14 @@ window.fetch(`/url?url=${encodeURIComponent(requestUrl.href)}&lang=${versatileLa
 	});
 });
 
-function adjustTweetHeight(message: MessageEvent): void {
+const adjustTweetHeight = (message: MessageEvent): void => {
 	if (message.origin !== 'https://platform.twitter.com') return;
 	const embed = message.data?.['twttr.embed'];
 	if (embed?.method !== 'twttr.private.resize') return;
 	if (embed?.id !== embedId) return;
 	const height = embed?.params[0]?.height;
 	if (height) tweetHeight = height;
-}
+};
 
 const openPlayer = (): void => {
 	os.popup(defineAsyncComponent(() => import('@/components/MkYoutubePlayer.vue')), {

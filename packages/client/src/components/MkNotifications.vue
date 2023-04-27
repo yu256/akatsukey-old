@@ -44,7 +44,7 @@ const pagination: Paging = {
 	})),
 };
 
-const onNotification = (notification) => {
+const onNotification = (notification): void => {
 	const isMuted = props.includeTypes ? !props.includeTypes.includes(notification.type) : $i.mutingNotificationTypes.includes(notification.type);
 	if (isMuted || document.visibilityState === 'visible') {
 		stream.send('readNotification', {

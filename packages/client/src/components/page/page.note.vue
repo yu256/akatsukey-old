@@ -20,10 +20,10 @@ export default defineComponent({
 	props: {
 		block: {
 			type: Object as PropType<NoteBlock>,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup(props, ctx) {
+	setup(props) {
 		const note: Ref<Record<string, any> | null> = ref(null);
 
 		onMounted(() => {
@@ -34,13 +34,13 @@ export default defineComponent({
 		});
 
 		return {
-			note
+			note,
 		};
-	}
+	},
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .voxdxuby {
 	margin: 1em 0;
 }

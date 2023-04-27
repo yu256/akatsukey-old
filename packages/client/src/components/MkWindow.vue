@@ -45,15 +45,15 @@ import { disableContextmenu } from '@/scripts/touch';
 const minHeight = 50;
 const minWidth = 250;
 
-function dragListen(fn: (ev: MouseEvent) => void) {
+const dragListen = (fn: (ev: MouseEvent) => void): void => {
 	window.addEventListener('mousemove', fn);
 	window.addEventListener('touchmove', fn);
 	window.addEventListener('mouseleave', dragClear.bind(null, fn));
 	window.addEventListener('mouseup', dragClear.bind(null, fn));
 	window.addEventListener('touchend', dragClear.bind(null, fn));
-}
+};
 
-function dragClear(fn) {
+const dragClear = (fn): void => {
 	window.removeEventListener('mousemove', fn);
 	window.removeEventListener('touchmove', fn);
 	window.removeEventListener('mouseleave', dragClear);
@@ -98,33 +98,33 @@ let unMaximizedLeft = '';
 let unMaximizedWidth = '';
 let unMaximizedHeight = '';
 
-function close() {
+const close = (): void => {
 	showing = false;
-}
+};
 
-function onKeydown(evt: KeyboardEvent) {
+const onKeydown = (evt: KeyboardEvent): void => {
 	if (evt.key === 'Escape' || evt.key === 'Esc') {
 		evt.preventDefault();
 		evt.stopPropagation();
 		close();
 	}
-}
+};
 
-function onContextmenu(ev: MouseEvent) {
+const onContextmenu = (ev: MouseEvent): void => {
 	if (disableContextmenu) return;
 	if (props.contextmenu) {
 		os.contextMenu(props.contextmenu, ev);
 	}
-}
+};
 
 // 最前面へ移動
-function top() {
+const top = (): void => {
 	if (rootEl) {
 		rootEl.style.zIndex = os.claimZIndex(props.front ? 'middle' : 'low');
 	}
-}
+};
 
-function maximize() {
+const maximize = (): void => {
 	maximized = true;
 	unMaximizedTop = rootEl.style.top;
 	unMaximizedLeft = rootEl.style.left;
@@ -134,25 +134,25 @@ function maximize() {
 	rootEl.style.left = '0';
 	rootEl.style.width = '100%';
 	rootEl.style.height = '100%';
-}
+};
 
-function unMaximize() {
+const unMaximize = (): void => {
 	maximized = false;
 	rootEl.style.top = unMaximizedTop;
 	rootEl.style.left = unMaximizedLeft;
 	rootEl.style.width = unMaximizedWidth;
 	rootEl.style.height = unMaximizedHeight;
-}
+};
 
-function onBodyMousedown() {
+const onBodyMousedown = (): void => {
 	top();
-}
+};
 
-function onDblClick() {
+const onDblClick = (): void => {
 	maximize();
-}
+};
 
-function onHeaderMousedown(evt: MouseEvent) {
+const onHeaderMousedown = (evt: MouseEvent): void => {
 	// 右クリックはコンテキストメニューを開こうとした可能性が高いため無視
 	if (evt.button === 2) return;
 
@@ -188,7 +188,7 @@ function onHeaderMousedown(evt: MouseEvent) {
 	const windowWidth = main.offsetWidth;
 	const windowHeight = main.offsetHeight;
 
-	function move(x: number, y: number) {
+	const move = (x: number, y: number): void => {
 		let moveLeft = x - moveBaseX;
 		let moveTop = y - moveBaseY;
 
@@ -206,7 +206,7 @@ function onHeaderMousedown(evt: MouseEvent) {
 
 		rootEl.style.left = moveLeft + 'px';
 		rootEl.style.top = moveTop + 'px';
-	}
+	};
 
 	if (beforeMaximized) {
 		move(clickX, clickY);
@@ -219,10 +219,10 @@ function onHeaderMousedown(evt: MouseEvent) {
 
 		move(x, y);
 	});
-}
+};
 
 // 上ハンドル掴み時
-function onTopHandleMousedown(evt) {
+const onTopHandleMousedown = (evt): void => {
 	const main = rootEl;
 	// どういうわけかnullになることがある
 	if (main == null) return;
@@ -247,10 +247,10 @@ function onTopHandleMousedown(evt) {
 			applyTransformTop(0);
 		}
 	});
-}
+};
 
 // 右ハンドル掴み時
-function onRightHandleMousedown(evt) {
+const onRightHandleMousedown = (evt): void => {
 	const main = rootEl;
 	if (main == null) return;
 
@@ -272,10 +272,10 @@ function onRightHandleMousedown(evt) {
 			applyTransformWidth(browserWidth - left);
 		}
 	});
-}
+};
 
 // 下ハンドル掴み時
-function onBottomHandleMousedown(evt) {
+const onBottomHandleMousedown = (evt): void => {
 	const main = rootEl;
 	if (main == null) return;
 
@@ -297,10 +297,10 @@ function onBottomHandleMousedown(evt) {
 			applyTransformHeight(browserHeight - top);
 		}
 	});
-}
+};
 
 // 左ハンドル掴み時
-function onLeftHandleMousedown(evt) {
+const onLeftHandleMousedown = (evt): void => {
 	const main = rootEl;
 	if (main == null) return;
 
@@ -324,55 +324,55 @@ function onLeftHandleMousedown(evt) {
 			applyTransformLeft(0);
 		}
 	});
-}
+};
 
 // 左上ハンドル掴み時
-function onTopLeftHandleMousedown(evt) {
+const onTopLeftHandleMousedown = (evt): void => {
 	onTopHandleMousedown(evt);
 	onLeftHandleMousedown(evt);
-}
+};
 
 // 右上ハンドル掴み時
-function onTopRightHandleMousedown(evt) {
+const onTopRightHandleMousedown = (evt): void => {
 	onTopHandleMousedown(evt);
 	onRightHandleMousedown(evt);
-}
+};
 
 // 右下ハンドル掴み時
-function onBottomRightHandleMousedown(evt) {
+const onBottomRightHandleMousedown = (evt): void => {
 	onBottomHandleMousedown(evt);
 	onRightHandleMousedown(evt);
-}
+};
 
 // 左下ハンドル掴み時
-function onBottomLeftHandleMousedown(evt) {
+const onBottomLeftHandleMousedown = (evt): void => {
 	onBottomHandleMousedown(evt);
 	onLeftHandleMousedown(evt);
-}
+};
 
 // 高さを適用
-function applyTransformHeight(height) {
+const applyTransformHeight = (height): void => {
 	if (height > window.innerHeight) height = window.innerHeight;
 	rootEl.style.height = height + 'px';
-}
+};
 
 // 幅を適用
-function applyTransformWidth(width) {
+const applyTransformWidth = (width): void => {
 	if (width > window.innerWidth) width = window.innerWidth;
 	rootEl.style.width = width + 'px';
 }
 
 // Y座標を適用
-function applyTransformTop(top) {
+const applyTransformTop = (top): void => {
 	rootEl.style.top = top + 'px';
-}
+};
 
 // X座標を適用
-function applyTransformLeft(left) {
+const applyTransformLeft = (left): void => {
 	rootEl.style.left = left + 'px';
-}
+};
 
-function onBrowserResize() {
+const onBrowserResize = (): void => {
 	const main = rootEl;
 	if (main == null) return;
 
@@ -385,7 +385,7 @@ function onBrowserResize() {
 	if (position.top + windowHeight > browserHeight) main.style.top = browserHeight - windowHeight + 'px'; // 下はみ出し
 	if (position.left + windowWidth > browserWidth) main.style.left = browserWidth - windowWidth + 'px'; // 右はみ出し
 	if (position.top < 0) main.style.top = '0'; // 上はみ出し
-}
+};
 
 onMounted(() => {
 	if (props.initialWidth) applyTransformWidth(props.initialWidth);

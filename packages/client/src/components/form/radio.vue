@@ -19,8 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-
 const props = defineProps<{
 	modelValue: any;
 	value: any;

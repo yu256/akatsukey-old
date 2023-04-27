@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><XHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="800">
 		<div v-for="relay in relays" :key="relay.inbox" class="relaycxt _panel _block" style="padding: 16px;">
 			<div>{{ relay.inbox }}</div>
@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XHeader from './_header_.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
@@ -26,7 +25,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 let relays: any[] = $ref([]);
 
-async function addRelay() {
+const addRelay = async (): Promise<void> => {
 	const { canceled, result: inbox } = await os.inputText({
 		title: i18n.ts.addRelay,
 		type: 'url',
@@ -35,7 +34,7 @@ async function addRelay() {
 	if (canceled) return;
 	os.api('admin/relays/add', {
 		inbox,
-	}).then((relay: any) => {
+	}).then(() => {
 		refresh();
 	}).catch((err: any) => {
 		os.alert({
@@ -43,9 +42,9 @@ async function addRelay() {
 			text: err.message || err,
 		});
 	});
-}
+};
 
-function remove(inbox: string) {
+const remove = (inbox: string): void => {
 	os.api('admin/relays/remove', {
 		inbox,
 	}).then(() => {
@@ -56,13 +55,13 @@ function remove(inbox: string) {
 			text: err.message || err,
 		});
 	});
-}
+};
 
-function refresh() {
+const refresh = (): void => {
 	os.api('admin/relays/list').then((relayList: any) => {
 		relays = relayList;
 	});
-}
+};
 
 refresh();
 
@@ -72,8 +71,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.addRelay,
 	handler: addRelay,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.relays,
