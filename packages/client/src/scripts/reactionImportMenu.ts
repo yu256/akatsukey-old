@@ -5,7 +5,7 @@ import * as os from '@/os';
 import { copyText } from '@/scripts/tms/clipboard';
 import { MenuItem } from '@/types/menu';
 
-export async function openReactionImportMenu(ev: MouseEvent, reaction: string, noteId: string): Promise<void> {
+export const openReactionImportMenu = async (ev: MouseEvent, reaction: string, noteId: string): Promise<void> => {
 	if (!reaction) return;
 
 	const host = reaction.match(/(?<=@).*\.*(?=:)/g)?.[0];
@@ -71,6 +71,13 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 		});
 	};
 
+	const duplication: boolean = await os.api('meta').then(meta => {
+		const emojis = meta.emojis;
+		return emojis.some((emoji) => {
+			return (emoji.name === name);
+		});
+	});
+
 	const menuItems: MenuItem[] = [{
 		type: 'label',
 		text: reaction,
@@ -88,62 +95,47 @@ export async function openReactionImportMenu(ev: MouseEvent, reaction: string, n
 	if (
 		isCustom &&
 		emojiId &&
-		($i?.isAdmin || $i?.isModerator) &&
-		!isLocal
+		!isLocal &&
+		duplication
 	) {
 		menuItems.push({
 			type: 'button',
 			icon: 'ti ti-check',
 			text: 'リアクションする',
-			action: async () => {
-				const duplication: boolean = await os.api('meta').then(meta => {
-					const emojis = meta.emojis;
-					return emojis.some((emoji) => {
-						return (emoji.name === name);
-					});
+			action: (): void => {
+				os.api('notes/reactions/create', {
+					noteId: noteId,
+					reaction: `:${name}:`,
 				});
-				if (await duplication) {
-					os.api('notes/reactions/create', {
-						noteId: noteId,
-						reaction: `:${name}:`,
-					});
-				} else {
-					await importEmoji(true).then(() => {
-						setTimeout(() => {
-							os.api('notes/reactions/create', {
-								noteId: noteId,
-								reaction: `:${name}:`,
-							});
-						}, 2000); // インポートしてからバックエンドに浸透するのが遅いので2秒待つ
-					});
-				}
-			},
+			} });
+	}	else if (
+		isCustom &&
+		emojiId &&
+		($i?.isAdmin || $i?.isModerator) &&
+		!isLocal
+	)	{
+		menuItems.push({
+			type: 'button',
+			icon: 'ti ti-check',
+			text: 'リアクションする',
+			action: async () =>	{	
+				await importEmoji(true).then(() => {
+					setTimeout(() => {
+						os.api('notes/reactions/create', {
+							noteId: noteId,
+							reaction: `:${name}:`,
+						});
+					}, 2000); // インポートしてからバックエンドに浸透するのが遅いので2秒待つ
+				});},
 		}, {
 			type: 'button',
 			icon: 'ti ti-download',
 			text: i18n.ts.import,
-			action: async () => {
-				const duplication: boolean = await os.api('meta').then(meta => {
-					const emojis = meta.emojis;
-					return emojis.some((emoji) => {
-						return (emoji.name === name);
-					});
-				});
-
-				if (await duplication) {
-					os.confirm({
-						type: 'warning',
-						text: i18n.ts.duplicateEmoji,
-					}).then(res => {
-						if (res.canceled) return;
-						importEmoji(false);
-					});
-				} else {
-					importEmoji(false);
-				}
+			action: () => {
+				importEmoji(false);
 			},
 		});
 	}
 
 	os.contextMenu(menuItems, ev);
-}
+};

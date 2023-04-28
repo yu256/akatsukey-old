@@ -901,7 +901,6 @@ account: "Account"
 move: "Move"
 pakuru: "Crack"
 nextNumeric: "Quote by the following numbers"
-duplicateEmoji: "An emoji with the same name exists. Do you want to import it?"
 windowMaximize: "Maximize"
 windowRestore: "Restore"
 _sensitiveMediaDetection:

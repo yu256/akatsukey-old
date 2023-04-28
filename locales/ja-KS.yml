@@ -899,7 +899,6 @@ account: "アカウント"
 move: "移動するで"
 pakuru: "パクる"
 nextNumeric: "数字引用する"
-duplicateEmoji: "同じ名前の絵文字が存在します。インポートしますか？"
 windowMaximize: "最大化"
 windowRestore: "元に戻す"
 _sensitiveMediaDetection:
