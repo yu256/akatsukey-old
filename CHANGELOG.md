@@ -8,6 +8,14 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v4.2
+- デッキUIのウィンドウが無限にリサイズループしないように
+- 存在する絵文字であればadmin/moderatorでなくてもリアクションできるように・存在していればインポートボタンを表示しないように
+- グローバルタイムラインが無効の場合はAdmin/ModeratorでもheaderTabsに表示しないように　
+- 500px未満のときは鍵,Botアイコンを名前の右に表示するように
+- fix UserPage UI
+- refactor（fix types, function → arrow function, remove unused variable, remove unused import, remove unused argument, remove click-anime, Options API → Composition API）
+
 # akatsukey v4.1
 - fix(server): 1:1ではない画像のリアクション通知バッジが左や上に寄ってしまっていたのを中央に来るように修正
 - refactor
