@@ -116,8 +116,6 @@ mainRouter.on('change', (ctx) => {
 	const prevURL = ctx.beforePath.replace(/[#\?].*$/, '');
 	const newURL = ctx.path.replace(/[#\?].*$/, '');
 
-	console.log(prevURL, newURL, ctx);
-
 	if (prevURL !== newURL) {
 		if (!(ctx.path.endsWith('widgets') || ctx.path.endsWith('menu'))) {
 			drawerMenuShowing = false;
@@ -171,19 +169,6 @@ const closeWidgets = (): void => {
 	widgetsShowing = false;
 };
 
-const openDrawerMenu = (): void => {
-	window.addEventListener('popstate', () => {
-		if (!window.location.hash.endsWith('menu')) {
-			drawerMenuShowing = false;
-			return;
-		}
-	});
-
-	drawerMenuShowing = true;
-
-	history.pushState(null, '', pushHash(window.location.hash, 'menu'));
-};
-
 const closeDrawerMenu = (): void => {
 	if (window.location.hash.endsWith('menu')) {
 		trimHash();
@@ -192,9 +177,9 @@ const closeDrawerMenu = (): void => {
 	drawerMenuShowing = false;
 };
 
-const onContextmenu = (ev) => {
+const onContextmenu = (ev: MouseEvent): void => {
 	if (disableContextmenu) return;
-	const isLink = (el: HTMLElement) => {
+	const isLink = (el: HTMLElement): void | boolean => {
 		if (el.tagName === 'A') return true;
 		if (el.parentElement) {
 			return isLink(el.parentElement);
@@ -202,7 +187,7 @@ const onContextmenu = (ev) => {
 	};
 
 	if (isLink(ev.target)) return;
-	if (['INPUT', 'TEXTAREA', 'IMG', 'VIDEO', 'CANVAS'].includes(ev.target.tagName) || ev.target.attributes['contenteditable']) return;
+	if (['INPUT', 'TEXTAREA', 'IMG', 'VIDEO', 'CANVAS'].includes(ev.target?.tagName) || ev.target?.attributes['contenteditable']) return;
 	if (window.getSelection()?.toString() !== '') return;
 
 	const path = mainRouter.getCurrentPath();
@@ -212,28 +197,24 @@ const onContextmenu = (ev) => {
 	}, {
 		icon: 'ti ti-window-maximize',
 		text: i18n.ts.openInWindow,
-		action: () => {
+		action: (): void => {
 			os.pageWindow(path);
 		},
 	}], ev);
 };
 
-const attachSticky = (el) => {
+const attachSticky = (): void => {
 	const sticky = new StickySidebar(widgetsEl);
 	window.addEventListener('scroll', () => {
 		sticky.calc(window.scrollY);
 	}, { passive: true });
 };
 
-function top() {
-	window.scroll({ top: 0, behavior: 'smooth' });
-}
+const top = (): void => window.scroll({ top: 0, behavior: 'smooth' });
 
 const wallpaper = localStorage.getItem('wallpaper') != null;
 
-function reloadPage() {
-  window.location.reload();
-}
+const reloadPage = (): void => window.location.reload();
 
 const hasDisconnected = ref(false);
 
