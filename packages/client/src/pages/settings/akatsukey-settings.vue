@@ -53,8 +53,8 @@
 		</FormSwitch>
 
 		<FormInput v-model="mediaProxy">
-			<template #label>{{ i18n.ts.mediaProxy }}</template>
-			<template #caption>{{ i18n.ts.mediaProxyInfo }}</template>
+			<template #label>{{ i18n.ts.localMediaProxy }}</template>
+			<template #caption>{{ i18n.ts.localMediaProxyInfo }}</template>
 		</FormInput>
 	</FormSection>
 	<FormInfo warn class="_formBlock">以下の設定はベータ版です。</FormInfo>
