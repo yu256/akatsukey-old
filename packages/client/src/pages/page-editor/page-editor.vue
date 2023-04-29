@@ -349,7 +349,7 @@ const setEyeCatchingImage = (img): void => {
 
 const removeEyeCatchingImage = (): null => eyeCatchingImageId = null;
 
-const init = (): void => {
+const init = async (): Promise<void> => {
 	hpml = new HpmlTypeChecker();
 
 	watch($$(variables), () => {

@@ -76,7 +76,7 @@ const reactionPickerUseDrawerForMobile = $computed(defaultStore.makeGetterSetter
 
 const save = (): void => defaultStore.set('reactions', reactions);
 
-const remove => (reaction, ev: MouseEvent): void => {
+const remove = (reaction, ev: MouseEvent): void => {
 	os.popupMenu([{
 		text: i18n.ts.remove,
 		action: () => {
@@ -85,7 +85,7 @@ const remove => (reaction, ev: MouseEvent): void => {
 	}], ev.currentTarget ?? ev.target);
 };
 
-const preview(ev: MouseEvent): void => {
+const preview = (ev: MouseEvent): void => {
 	os.popup(defineAsyncComponent(() => import('@/components/MkEmojiPickerDialog.vue')), {
 		asReactionPicker: true,
 		src: ev.currentTarget ?? ev.target,
@@ -102,7 +102,7 @@ const setDefault = async (): Promise<void> => {
 	reactions = deepClone(defaultStore.def.reactions.default);
 };
 
-const chooseEmoji(ev: MouseEvent): void => {
+const chooseEmoji = (ev: MouseEvent): void => {
 	os.pickEmoji(ev.currentTarget ?? ev.target, {
 		showPinned: false,
 	}).then(emoji => {

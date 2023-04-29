@@ -105,7 +105,7 @@ const lang = ref(localStorage.getItem('lang'));
 const fontSize = ref(localStorage.getItem('fontSize'));
 const useSystemFont = ref(localStorage.getItem('useSystemFont') != null);
 
-coonst reloadAsk = async (): Promise<void> => {
+const reloadAsk = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'info',
 		text: i18n.ts.reloadToApplySetting,

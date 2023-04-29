@@ -97,7 +97,7 @@ const renameList = async (): Promise<void> => {
 		name: name,
 	});
 
-	list?.name = name;
+	list.name = name;
 };
 
 const deleteList = async (): Promise<void> => {

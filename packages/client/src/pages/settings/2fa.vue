@@ -140,7 +140,7 @@ const registerKey = (): void => {
 		attestationObject: hexify(registration.value.credential.response.attestationObject),
 	}).then(key => {
 		registration.value = null;
-		key?.lastUsed = new Date();
+		key.lastUsed = new Date();
 		os.success();
 	});
 };
