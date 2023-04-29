@@ -25,9 +25,9 @@
 			<button class="button nav _button" @click="drawerMenuShowing = true"><i class="ti ti-menu-2"></i><span v-if="menuIndicated" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
 			<button class="button home _button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i class="ti ti-home"></i></button>
 			<button class="button notifications _button" @click="mainRouter.push('/my/notifications')"><i class="ti ti-bell"></i><span v-if="$i?.hasUnreadNotification" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
-			<button class="button messaging _button" @click="mainRouter.push('/my/messaging')" v-if="$store.state.navBarChatIcon"><i class="ti ti-messages"></i><span v-if="$i?.hasUnreadMessagingMessage" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
-			<button class="button widget _button" @click="widgetsShowing = true" v-if="$store.state.navBarWidgetIcon"><i class="ti ti-apps"></i></button>
-			<button class="button reload _button" @click="reloadPage()" v-if="$store.state.navBarReloadIcon"><i class="ti ti-refresh"></i><span v-if="hasDisconnected" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
+			<button v-if="defaultStore.state.navBarChatIcon" class="button messaging _button" @click="mainRouter.push('/my/messaging')"><i class="ti ti-messages"></i><span v-if="$i?.hasUnreadMessagingMessage" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
+			<button v-if="defaultStore.state.navBarWidgetIcon" class="button widget _button" @click="widgetsShowing = true"><i class="ti ti-apps"></i></button>
+			<button v-if="defaultStore.state.navBarReloadIcon" class="button reload _button" @click="reloadPage()"><i class="ti ti-refresh"></i><span v-if="hasDisconnected" class="indicator navbar"><i class="_indicatorCircle"></i></span></button>
 		</div>
 		<div class="post_area">
 			<div class="post_button">
@@ -39,19 +39,19 @@
 		</div>
 	</div>
 
-	<Transition :name="$store.state.animation ? 'menuDrawer-back' : ''">
+	<Transition :name="defaultStore.state.animation ? 'menuDrawer-back' : ''">
 		<div v-if="drawerMenuShowing" class="menuDrawer-back _modalBg" @click="closeDrawerMenu()" @touchstart.passive="closeDrawerMenu()"></div>
 	</transition>
 
-	<Transition :name="$store.state.animation ? 'menuDrawer' : ''">
+	<Transition :name="defaultStore.state.animation ? 'menuDrawer' : ''">
 		<XDrawerMenu v-if="drawerMenuShowing" class="menuDrawer"/>
 	</transition>
 
-	<Transition :name="$store.state.animation ? 'widgetsDrawer-back' : ''">
+	<Transition :name="defaultStore.state.animation ? 'widgetsDrawer-back' : ''">
 		<div v-if="widgetsShowing" class="widgetsDrawer-back _modalBg" @click="closeWidgets()" @touchstart.passive="closeWidgets()"></div>
 	</transition>
 
-	<Transition :name="$store.state.animation ? 'widgetsDrawer' : ''">
+	<Transition :name="defaultStore.state.animation ? 'widgetsDrawer' : ''">
 		<XWidgets v-if="widgetsShowing" class="widgetsDrawer"/>
 	</transition>
 
@@ -383,10 +383,14 @@ stream.on('_disconnected_', async () => {
 			height: 100%;
 			color: var(--bg);
 			width: 100%;
-      text-align: center;
+			text-align: center;
+			background-color: transparent;
 		}
 
 		.button {
+			background-color: var(--bg);
+			border-radius: 3em;
+			filter: drop-shadow(5px 5px 5px var(--bg));
 			&.nav {
 				padding: 12px;
 				font-size: 1.2em;
