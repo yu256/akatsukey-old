@@ -56,7 +56,7 @@ const instances = ref([]);
 const charts = ref([]);
 const fetching = ref(true);
 
-const fetch = async () => {
+const fetch = async (): Promise<void> => {
 	const fetchedInstances = await os.api('federation/instances', {
 		sort: '+lastCommunicatedAt',
 		limit: 5,

@@ -59,7 +59,7 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 const activity = ref(null);
 const fetching = ref(true);
 
-const toggleView = () => {
+const toggleView = (): void => {
 	if (widgetProps.view === 1) {
 		widgetProps.view = 0;
 	} else {

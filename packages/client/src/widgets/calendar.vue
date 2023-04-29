@@ -70,7 +70,7 @@ const yearP = ref(0);
 const monthP = ref(0);
 const dayP = ref(0);
 const isHoliday = ref(false);
-const tick = () => {
+const tick = (): void => {
 	const now = new Date();
 	const nd = now.getDate();
 	const nm = now.getMonth();

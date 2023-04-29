@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import { GetFormResultType } from '@/scripts/form';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
+import { GetFormResultType } from '@/scripts/form';
 import XPostForm from '@/components/MkPostForm.vue';
 
 const name = 'postForm';

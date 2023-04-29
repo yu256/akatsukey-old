@@ -70,7 +70,7 @@ const fetchEndpoint = computed(() => {
 });
 let intervalClear = $ref<(() => void) | undefined>();
 
-const tick = () => {
+const tick = (): void => {
 	if (document.visibilityState === 'hidden' && rawItems.value.length !== 0) return;
 
 	window.fetch(fetchEndpoint.value, {})

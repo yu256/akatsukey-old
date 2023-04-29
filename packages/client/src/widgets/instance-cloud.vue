@@ -1,6 +1,6 @@
 <template>
 <MkContainer :naked="widgetProps.transparent" :show-header="false" class="mkw-instance-cloud">
-	<div class="">
+	<div>
 		<MkTagCloud v-if="activeInstances">
 			<li v-for="instance in activeInstances" :key="instance.id">
 				<a @click.prevent="onInstanceClick(instance)">
@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
@@ -48,9 +47,9 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 let cloud = $shallowRef<InstanceType<typeof MkTagCloud> | null>();
 let activeInstances = $shallowRef(null);
 
-function onInstanceClick(i) {
+const onInstanceClick = (i): void => {
 	os.pageWindow(`/instance-info/${i.host}`);
-}
+};
 
 useInterval(() => {
 	os.api('federation/instances', {
@@ -65,9 +64,9 @@ useInterval(() => {
 	afterMounted: true,
 });
 
-function getInstanceIcon(instance): string {
+const getInstanceIcon = (instance): string => {
 	return getProxiedImageUrlNullable(instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(instance.faviconUrl, 'preview') ?? '/client-assets/dummy.png';
-}
+};
 
 defineExpose<WidgetComponentExpose>({
 	name,
@@ -75,7 +74,3 @@ defineExpose<WidgetComponentExpose>({
 	id: props.widget ? props.widget.id : null,
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>

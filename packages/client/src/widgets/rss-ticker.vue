@@ -102,7 +102,7 @@ let intervalClear = $ref<(() => void) | undefined>();
 
 let key = $ref(0);
 
-const tick = () => {
+const tick = (): void => {
 	if (document.visibilityState === 'hidden' && rawItems.value.length !== 0) return;
 
 	window.fetch(fetchEndpoint.value, {})

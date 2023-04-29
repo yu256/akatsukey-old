@@ -47,24 +47,24 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-const run = async () => {
+const run = async (): Promise<void> => {
 	const aiscript = new AiScript(createAiScriptEnv({
 		storageKey: 'widget',
 		token: $i?.token,
 	}), {
-		in: (q) => {
+		in: (q): Promise<unknown> => {
 			return new Promise(ok => {
 				os.inputText({
 					title: q,
-				}).then(({ canceled, result: a }) => {
+				}).then(({ result: a }) => {
 					ok(a);
 				});
 			});
 		},
-		out: (value) => {
+		out: (): void => {
 			// nop
 		},
-		log: (type, params) => {
+		log: (): void => {
 			// nop
 		},
 	});
@@ -95,8 +95,3 @@ defineExpose<WidgetComponentExpose>({
 	id: props.widget ? props.widget.id : null,
 });
 </script>
-
-<style lang="scss" scoped>
-.mkw-button {
-}
-</style>

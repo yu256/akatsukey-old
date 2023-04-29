@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import { timezones } from '@/scripts/timezones';

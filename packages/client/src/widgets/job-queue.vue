@@ -104,7 +104,7 @@ for (const domain of ['inbox', 'deliver']) {
 	prev[domain] = deepClone(current[domain]);
 }
 
-const onStats = (stats) => {
+const onStats = (stats): void => {
 	for (const domain of ['inbox', 'deliver']) {
 		prev[domain] = deepClone(current[domain]);
 		current[domain].activeSincePrevTick = stats[domain].activeSincePrevTick;
@@ -118,7 +118,7 @@ const onStats = (stats) => {
 	}
 };
 
-const onStatsLog = (statsLog) => {
+const onStatsLog = (statsLog): void => {
 	for (const stats of [...statsLog].reverse()) {
 		onStats(stats);
 	}

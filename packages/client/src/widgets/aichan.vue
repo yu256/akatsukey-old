@@ -1,6 +1,6 @@
 <template>
 <MkContainer :naked="widgetProps.transparent" :show-header="false" class="mkw-aichan">
-	<iframe ref="live2d" class="dedjhjmo" src="https://misskey-dev.github.io/mascot-web/?scale=1.5&y=1.1&eyeY=100" @click="touched"></iframe>
+	<iframe ref="live2d" class="dedjhjmo" src="https://misskey-dev.github.io/mascot-web/?scale=1.5&y=1.1&eyeY=100"></iframe>
 </MkContainer>
 </template>
 
@@ -34,10 +34,6 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 
 const live2d = shallowRef<HTMLIFrameElement>();
 
-const touched = () => {
-	//if (this.live2d) this.live2d.changeExpression('gurugurume');
-};
-
 const onMousemove = (ev: MouseEvent) => {
 	const iframeRect = live2d.value.getBoundingClientRect();
 	live2d.value.contentWindow.postMessage({
@@ -64,7 +60,7 @@ defineExpose<WidgetComponentExpose>({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .dedjhjmo {
 	width: 100%;
 	height: 350px;

@@ -20,9 +20,9 @@ const props = defineProps<{
 
 let usage: number = $ref(0);
 
-function onStats(stats) {
+const onStats = (stats): void => {
 	usage = stats.cpu;
-}
+};
 
 onMounted(() => {
 	props.connection.on('stats', onStats);

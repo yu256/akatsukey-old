@@ -39,7 +39,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 
 const onlineUsersCount = ref(0);
 
-const tick = () => {
+const tick = (): void => {
 	os.api('get-online-users-count').then(res => {
 		onlineUsersCount.value = res.count;
 	});

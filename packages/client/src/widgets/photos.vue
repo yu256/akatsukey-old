@@ -57,7 +57,7 @@ const connection = stream.useChannel('main');
 const images = ref([]);
 const fetching = ref(true);
 
-const onDriveFileCreated = (file) => {
+const onDriveFileCreated = (file): void => {
 	if (/^image\/.+$/.test(file.type)) {
 		images.value.unshift(file);
 		if (images.value.length > 9) images.value.pop();

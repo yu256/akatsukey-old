@@ -44,12 +44,12 @@ const text = ref<string | null>(defaultStore.state.memo);
 const changed = ref(false);
 let timeoutId;
 
-const saveMemo = () => {
+const saveMemo = (): void => {
 	defaultStore.set('memo', text.value);
 	changed.value = false;
 };
 
-const onChange = () => {
+const onChange = (): void => {
 	changed.value = true;
 	window.clearTimeout(timeoutId);
 	timeoutId = window.setTimeout(saveMemo, 1000);

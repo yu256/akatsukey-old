@@ -71,7 +71,7 @@ const change = () => {
 	}, 1000);
 };
 
-const fetch = () => {
+const fetch = (): void => {
 	fetching.value = true;
 
 	os.api('drive/files', {
@@ -87,7 +87,7 @@ const fetch = () => {
 	});
 };
 
-const choose = () => {
+const choose = (): void => {
 	os.selectDriveFolder(false).then(folder => {
 		if (folder == null) {
 			return;

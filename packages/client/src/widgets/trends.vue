@@ -53,7 +53,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 const stats = ref([]);
 const fetching = ref(true);
 
-const fetch = () => {
+const fetch = (): void => {
 	os.api('hashtags/trend').then(res => {
 		stats.value = res;
 		fetching.value = false;

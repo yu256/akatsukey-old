@@ -80,7 +80,7 @@ onBeforeUnmount(() => {
 	props.connection.off('statsLog', onStatsLog);
 });
 
-function onStats(connStats) {
+const onStats = (connStats): void => {
 	stats.push(connStats);
 	if (stats.length > 50) stats.shift();
 
@@ -102,13 +102,13 @@ function onStats(connStats) {
 
 	inRecent = connStats.net.rx;
 	outRecent = connStats.net.tx;
-}
+};
 
-function onStatsLog(statsLog) {
+const onStatsLog = (statsLog): void => {
 	for (const revStats of [...statsLog].reverse()) {
 		onStats(revStats);
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

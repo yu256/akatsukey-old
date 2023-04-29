@@ -72,7 +72,7 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 
 const menuOpened = ref(false);
 
-const setSrc = (src) => {
+const setSrc = (src): void => {
 	widgetProps.src = src;
 	save();
 };

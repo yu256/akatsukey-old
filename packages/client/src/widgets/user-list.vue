@@ -18,8 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
+import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
 import * as os from '@/os';
@@ -59,7 +58,7 @@ let list = $ref();
 let users = $ref([]);
 let fetching = $ref(true);
 
-async function chooseList() {
+const chooseList = async (): Promise<void> => {
 	const lists = await os.api('users/lists/list');
 	const { canceled, result: list } = await os.select({
 		title: i18n.ts.selectList,
@@ -73,9 +72,9 @@ async function chooseList() {
 	widgetProps.listId = list.id;
 	save();
 	fetch();
-}
+};
 
-const fetch = () => {
+const fetch = (): void => {
 	if (widgetProps.listId == null) {
 		fetching = false;
 		return;

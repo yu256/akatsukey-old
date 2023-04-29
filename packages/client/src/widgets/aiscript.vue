@@ -59,7 +59,7 @@ const logs = ref<{
 	print: boolean;
 }[]>([]);
 
-const run = async () => {
+const run = async (): Promise<void> => {
 	logs.value = [];
 	const aiscript = new AiScript(createAiScriptEnv({
 		storageKey: 'widget',
@@ -69,19 +69,19 @@ const run = async () => {
 			return new Promise(ok => {
 				os.inputText({
 					title: q,
-				}).then(({ canceled, result: a }) => {
+				}).then(({ result: a }) => {
 					ok(a);
 				});
 			});
 		},
-		out: (value) => {
+		out: (value): void => {
 			logs.value.push({
 				id: uuid(),
 				text: value.type === 'str' ? value.value : utils.valToString(value),
 				print: true,
 			});
 		},
-		log: (type, params) => {
+		log: (type, params): void => {
 			switch (type) {
 				case 'end': logs.value.push({
 					id: uuid(),

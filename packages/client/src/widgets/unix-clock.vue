@@ -65,7 +65,7 @@ watch(showColon, (v) => {
 	}
 });
 
-const tick = () => {
+const tick = (): void => {
 	const now = new Date();
 	ss.value = Math.floor(now.getTime() / 1000).toString();
 	ms.value = Math.floor(now.getTime() % 1000 / 10).toString().padStart(2, '0');

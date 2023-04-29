@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
 	props.connection.off('statsLog', onStatsLog);
 });
 
-function onStats(connStats) {
+const onStats = (connStats): void => {
 	stats.push(connStats);
 	if (stats.length > 50) stats.shift();
 
@@ -128,13 +128,13 @@ function onStats(connStats) {
 
 	cpuP = (connStats.cpu * 100).toFixed(0);
 	memP = (connStats.mem.active / props.meta.mem.total * 100).toFixed(0);
-}
+};
 
-function onStatsLog(statsLog) {
+const onStatsLog = (statsLog): void => {
 	for (const revStats of [...statsLog].reverse()) {
 		onStats(revStats);
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

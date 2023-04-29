@@ -35,7 +35,7 @@ export const useWidgetPropsManager = <F extends Form & Record<string, { default:
 } => {
 	const widgetProps = reactive(props.widget ? deepClone(props.widget.data) : {});
 
-	const mergeProps = () => {
+	const mergeProps = (): void => {
 		for (const prop of Object.keys(propsDef)) {
 			if (typeof widgetProps[prop] === 'undefined') {
 				widgetProps[prop] = propsDef[prop].default;
