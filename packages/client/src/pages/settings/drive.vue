@@ -93,7 +93,7 @@ if (defaultStore.state.uploadFolder) {
 	});
 }
 
-function chooseUploadFolder() {
+const chooseUploadFolder = (): void => {
 	os.selectDriveFolder(false).then(async folder => {
 		defaultStore.set('uploadFolder', folder ? folder.id : null);
 		os.success();
@@ -105,14 +105,14 @@ function chooseUploadFolder() {
 			uploadFolder.value = null;
 		}
 	});
-}
+};
 
-function saveProfile() {
+const saveProfile = (): void => {
 	os.api('i/update', {
 		alwaysMarkNsfw: !!alwaysMarkNsfw,
 		autoSensitive: !!autoSensitive,
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.drive,

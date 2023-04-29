@@ -46,16 +46,16 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 const plugins = ref(ColdDeviceStorage.get('plugins'));
 
-function uninstall(plugin) {
+const uninstall = (plugin): void => {
 	ColdDeviceStorage.set('plugins', plugins.value.filter(x => x.id !== plugin.id));
 	os.success();
 	nextTick(() => {
 		unisonReload();
 	});
-}
+};
 
 // TODO: この処理をstore側にactionとして移動し、設定画面を開くAiScriptAPIを実装できるようにする
-async function config(plugin) {
+const config = async (plugin): Promise<void> => {
 	const config = plugin.config;
 	for (const key in plugin.configData) {
 		config[key].default = plugin.configData[key];
@@ -71,9 +71,9 @@ async function config(plugin) {
 	nextTick(() => {
 		location.reload();
 	});
-}
+};
 
-function changeActive(plugin, active) {
+const changeActive = (plugin, active): void => {
 	const coldPlugins = ColdDeviceStorage.get('plugins');
 	coldPlugins.find(p => p.id === plugin.id)!.active = active;
 	ColdDeviceStorage.set('plugins', coldPlugins);
@@ -81,7 +81,7 @@ function changeActive(plugin, active) {
 	nextTick(() => {
 		location.reload();
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.plugins,

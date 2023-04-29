@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="1000" :margin-min="16" :margin-max="32">
 		<div class="_root">
 			<Transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
@@ -83,7 +83,7 @@ const otherPostsPagination = {
 	})),
 };
 
-function fetchPost() {
+const fetchPost = (): void => {
 	post = null;
 	os.api('gallery/posts/show', {
 		postId: props.postId,
@@ -92,32 +92,32 @@ function fetchPost() {
 	}).catch(_error => {
 		error = _error;
 	});
-}
+};
 
-function share() {
+const share = (): void => {
 	navigator.share({
 		title: post.title,
 		text: post.description,
 		url: `${url}/gallery/${post.id}`,
 	});
-}
+};
 
-function shareWithNote() {
+const shareWithNote = (): void => {
 	os.post({
 		initialText: `${post.title} ${url}/gallery/${post.id}`,
 	});
-}
+};
 
-function like() {
+const like = (): void => {
 	os.apiWithDialog('gallery/posts/like', {
 		postId: props.postId,
 	}).then(() => {
 		post.isLiked = true;
 		post.likedCount++;
 	});
-}
+};
 
-async function unlike() {
+const unlike = async (): Promise<void> => {
 	const confirm = await os.confirm({
 		type: 'warning',
 		text: i18n.ts.unlikeConfirm,
@@ -129,11 +129,9 @@ async function unlike() {
 		post.isLiked = false;
 		post.likedCount--;
 	});
-}
+};
 
-function edit() {
-	router.push(`/gallery/${post.id}/edit`);
-}
+const edit = (): void => router.push(`/gallery/${post.id}/edit`);
 
 watch(() => props.postId, fetchPost, { immediate: true });
 
@@ -142,8 +140,6 @@ const headerActions = $computed(() => [{
 	text: i18n.ts.edit,
 	handler: edit,
 }]);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => post ? {
 	title: post.title,

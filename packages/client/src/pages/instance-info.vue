@@ -158,44 +158,44 @@ const usersPagination = {
 	offsetMode: true,
 };
 
-async function fetch() {
+const fetch = async (): Promise<void> => {
 	instance = await os.api('federation/show-instance', {
 		host: props.host,
 	});
 	suspended = instance.isSuspended;
 	isBlocked = instance.isBlocked;
 	faviconUrl = getProxiedImageUrlNullable(instance.faviconUrl, 'preview') ?? getProxiedImageUrlNullable(instance.iconUrl, 'preview');
-}
+};
 
-async function toggleBlock(ev) {
+const toggleBlock = async (): Promise<void> => {
 	if (meta == null) return;
 	await os.api('admin/update-meta', {
 		blockedHosts: isBlocked ? meta.blockedHosts.concat([instance.host]) : meta.blockedHosts.filter(x => x !== instance.host),
 	});
-}
+};
 
-async function toggleSuspend(v) {
+const toggleSuspend = async (): Promise<void> => {
 	await os.api('admin/federation/update-instance', {
 		host: instance.host,
 		isSuspended: suspended,
 	});
-}
+};
 
-function refreshMetadata() {
+const refreshMetadata = (): void => {
 	os.api('admin/federation/refresh-remote-instance-metadata', {
 		host: instance.host,
 	});
 	os.alert({
 		text: 'Refresh requested',
 	});
-}
+};
 
 fetch();
 
 const headerActions = $computed(() => [{
 	text: `https://${props.host}`,
 	icon: 'ti ti-external-link',
-	handler: () => {
+	handler: (): void => {
 		window.open(`https://${props.host}`, '_blank');
 	},
 }]);

@@ -95,24 +95,24 @@ watch(() => profile, () => {
 
 const fields = reactive($i.fields.map(field => ({ name: field.name, value: field.value })));
 
-function addField() {
+const addField = (): void => {
 	fields.push({
 		name: '',
 		value: '',
 	});
-}
+};
 
 while (fields.length < 4) {
 	addField();
 }
 
-function saveFields() {
+const saveFields = (): void => {
 	os.apiWithDialog('i/update', {
 		fields: fields.filter(field => field.name !== '' && field.value !== ''),
 	});
-}
+};
 
-function save() {
+const save = (): void => {
 	os.apiWithDialog('i/update', {
 		name: profile.name || null,
 		description: profile.description || null,
@@ -123,9 +123,9 @@ function save() {
 		isCat: !!profile.isCat,
 		showTimelineReplies: !!profile.showTimelineReplies,
 	});
-}
+};
 
-function changeAvatar(ev) {
+const changeAvatar = (ev): void => {
 	selectFile(ev.currentTarget ?? ev.target, i18n.ts.avatar).then(async (file) => {
 		let originalOrCropped = file;
 
@@ -146,9 +146,9 @@ function changeAvatar(ev) {
 		$i.avatarId = i.avatarId;
 		$i.avatarUrl = i.avatarUrl;
 	});
-}
+};
 
-function changeBanner(ev) {
+const changeBanner = (ev): void => {
 	selectFile(ev.currentTarget ?? ev.target, i18n.ts.banner).then(async (file) => {
 		let originalOrCropped = file;
 
@@ -169,7 +169,7 @@ function changeBanner(ev) {
 		$i.bannerId = i.bannerId;
 		$i.bannerUrl = i.bannerUrl;
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.profile,

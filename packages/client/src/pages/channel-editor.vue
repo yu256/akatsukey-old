@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700">
 		<div class="_formRoot">
 			<MkInput v-model="name" class="_formBlock">
@@ -59,7 +59,7 @@ watch(() => bannerId, async () => {
 	}
 });
 
-async function fetchChannel() {
+const fetchChannel = async (): Promise<void> => {
 	if (props.channelId == null) return;
 
 	channel = await os.api('channels/show', {
@@ -70,11 +70,11 @@ async function fetchChannel() {
 	description = channel.description;
 	bannerId = channel.bannerId;
 	bannerUrl = channel.bannerUrl;
-}
+};
 
 fetchChannel();
 
-function save() {
+const save = (): void => {
 	const params = {
 		name: name,
 		description: description,
@@ -92,21 +92,15 @@ function save() {
 			router.push(`/channels/${created.id}`);
 		});
 	}
-}
+};
 
-function setBannerImage(evt) {
+const setBannerImage = (evt): void => {
 	selectFile(evt.currentTarget ?? evt.target, null).then(file => {
 		bannerId = file.id;
 	});
-}
+};
 
-function removeBannerImage() {
-	bannerId = null;
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+const removeBannerImage = (): null => bannerId = null;
 
 definePageMetadata(computed(() => props.channelId ? {
 	title: i18n.ts._channel.edit,
@@ -116,7 +110,3 @@ definePageMetadata(computed(() => props.channelId ? {
 	icon: 'ti ti-device-tv',
 }));
 </script>
-
-<style lang="scss" scoped>
-
-</style>

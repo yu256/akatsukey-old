@@ -19,19 +19,13 @@ import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 
-async function readAllUnreadNotes() {
-	await os.api('i/read-all-unread-notes');
-}
+const readAllUnreadNotes = async () => await os.api('i/read-all-unread-notes');
 
-async function readAllMessagingMessages() {
-	await os.api('i/read-all-messaging-messages');
-}
+const readAllMessagingMessages = async () => await os.api('i/read-all-messaging-messages');
 
-async function readAllNotifications() {
-	await os.api('notifications/mark-all-as-read');
-}
+const readAllNotifications = async () => await os.api('notifications/mark-all-as-read');
 
-function configure() {
+const configure = (): void => {
 	const includingTypes = notificationTypes.filter(x => !$i!.mutingNotificationTypes.includes(x));
 	os.popup(defineAsyncComponent(() => import('@/components/MkNotificationSettingWindow.vue')), {
 		includingTypes,
@@ -46,7 +40,7 @@ function configure() {
 			});
 		},
 	}, 'closed');
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.notifications,

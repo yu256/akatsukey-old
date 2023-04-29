@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="600" :margin-min="16">
 		<FormSplit>
 			<MkKeyValue class="_formBlock">
@@ -45,15 +45,15 @@ const scope = $computed(() => props.path.split('/'));
 
 let keys = $ref(null);
 
-function fetchKeys() {
+const fetchKeys = (): void => {
 	os.api('i/registry/keys-with-type', {
 		scope: scope,
 	}).then(res => {
 		keys = Object.entries(res).sort((a, b) => a[0].localeCompare(b[0]));
 	});
-}
+};
 
-async function createKey() {
+const createKey = async (): Promise<void> => {
 	const { canceled, result } = await os.form(i18n.ts._registry.createKey, {
 		key: {
 			type: 'string',
@@ -81,10 +81,6 @@ async function createKey() {
 }
 
 watch(() => props.path, fetchKeys, { immediate: true });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.registry,

@@ -1,7 +1,7 @@
 <!-- eslint-disable-line vue/multi-word-component-names -->
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
 		<FormInput v-model="searchQuery" :large="true" :autofocus="true" :debounce="true" type="search" style="margin-bottom: var(--margin);" @update:model-value="search()">
 			<template #prefix><i class="ti ti-search"></i></template>
@@ -177,10 +177,6 @@ const userPagination = {
 		origin: searchOrigin,
 	})),
 };
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
 	title: searchQuery ? i18n.t('searchWith', { q: searchQuery }) : i18n.ts.search,

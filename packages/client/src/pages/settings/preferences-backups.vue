@@ -208,7 +208,7 @@ function loadFile(): void {
 	const input = document.createElement('input');
 	input.type = 'file';
 	input.multiple = false;
-	input.onchange = async () => {
+	input.onchange = async (): Promise<void> => {
 		if (!profiles) return;
 		if (!input.files || input.files.length === 0) return;
 
@@ -373,7 +373,7 @@ async function rename(id: string): Promise<void> {
 	await os.apiWithDialog('i/registry/set', { scope, key: id, value: registry });
 }
 
-function menu(ev: MouseEvent, profileId: string) {
+const menu = async (ev: MouseEvent, profileId: string): Promise<void> => {
 	if (disableContextmenu && ev.type === 'contextmenu') return;
 	if (!profiles) return;
 
@@ -401,7 +401,7 @@ function menu(ev: MouseEvent, profileId: string) {
 		action: () => deleteProfile(profileId),
 		danger: true,
 	}], ev.currentTarget ?? ev.target);
-}
+};
 
 onMounted(() => {
 	// streamingのuser storage updateイベントを監視して更新

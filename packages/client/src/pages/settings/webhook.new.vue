@@ -52,7 +52,7 @@ let event_renote = $ref(true);
 let event_reaction = $ref(true);
 let event_mention = $ref(true);
 
-async function create(): Promise<void> {
+const create = async (): Promise<void> => {
 	const events = [];
 	if (event_follow) events.push('follow');
 	if (event_followed) events.push('followed');
@@ -68,7 +68,7 @@ async function create(): Promise<void> {
 		secret,
 		on: events,
 	});
-}
+};
 
 definePageMetadata({
 	title: 'Create new webhook',

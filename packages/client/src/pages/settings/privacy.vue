@@ -76,7 +76,7 @@ let defaultNoteLocalOnly = $computed(defaultStore.makeGetterSetter('defaultNoteL
 let rememberNoteVisibility = $computed(defaultStore.makeGetterSetter('rememberNoteVisibility'));
 let keepCw = $computed(defaultStore.makeGetterSetter('keepCw'));
 
-function save() {
+const save = (): void => {
 	os.api('i/update', {
 		isLocked: !!isLocked,
 		autoAcceptFollowed: !!autoAcceptFollowed,
@@ -86,7 +86,7 @@ function save() {
 		publicReactions: !!publicReactions,
 		ffVisibility: ffVisibility,
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.privacy,

@@ -49,7 +49,7 @@ watch(
 	},
 );
 
-async function fetch() {
+const fetch = async (): Promise<void> => {
 	os.api('users/groups/show', {
 		groupId: props.groupId,
 	}).then((gp) => {
@@ -61,29 +61,29 @@ async function fetch() {
 			users.value = us;
 		});
 	});
-}
+};
 
 fetch();
 
-function invite() {
+const invite = (): void => {
 	os.selectUser().then((user) => {
 		os.apiWithDialog('users/groups/invite', {
 			groupId: group.value.id,
 			userId: user.id,
 		});
 	});
-}
+};
 
-function removeUser(user) {
+const removeUser = (user): void => {
 	os.api('users/groups/pull', {
 		groupId: group.value.id,
 		userId: user.id,
 	}).then(() => {
 		users.value = users.value.filter((x) => x.id !== user.id);
 	});
-}
+};
 
-async function renameGroup() {
+const renameGroup = async (): Promise<void> => {
 	const { canceled, result: name } = await os.inputText({
 		title: i18n.ts.groupName,
 		default: group.value.name,
@@ -97,18 +97,18 @@ async function renameGroup() {
 	});
 
 	group.value.name = name;
-}
+};
 
-function transfer() {
+const transfer = (): void => {
 	os.selectUser().then((user) => {
 		os.apiWithDialog('users/groups/transfer', {
 			groupId: group.value.id,
 			userId: user.id,
 		});
 	});
-}
+};
 
-async function deleteGroup() {
+const deleteGroup = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: group.value.name }),
@@ -121,7 +121,7 @@ async function deleteGroup() {
 	});
 
 	router.push('/my/groups');
-}
+};
 
 definePageMetadata(
 	computed(() => ({

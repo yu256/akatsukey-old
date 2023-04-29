@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="700">
 		<div v-if="channel">
 			<div class="wpgynlbz _panel _gap" :class="{ hide: !showBanner }">
@@ -58,17 +58,13 @@ watch(() => props.channelId, async () => {
 	});
 }, { immediate: true });
 
-function edit() {
-	router.push(`/channels/${channel.id}/edit`);
-}
+const edit = (): void => router.push(`/channels/${channel.id}/edit`);
 
 const headerActions = $computed(() => channel && channel.userId ? [{
 	icon: 'ti ti-settings',
 	text: i18n.ts.edit,
 	handler: edit,
 }] : null);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => channel ? {
 	title: channel.name,

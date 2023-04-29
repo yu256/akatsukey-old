@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<div style="overflow: clip;">
 		<MkSpacer :content-max="600" :margin-min="20">
 			<div class="_formRoot znqjceqz">
@@ -214,9 +214,9 @@ let easterEggEmojis = $ref([]);
 let easterEggEngine = $ref(null);
 const containerEl = $shallowRef<HTMLElement>();
 
-function iconLoaded() {
+const iconLoaded = (): void => {
 	const emojis = defaultStore.state.reactions;
-	const containerWidth = containerEl.offsetWidth;
+	const containerWidth = containerEl?.offsetWidth;
 	for (let i = 0; i < 32; i++) {
 		easterEggEmojis.push({
 			id: i.toString(),
@@ -229,30 +229,26 @@ function iconLoaded() {
 	nextTick(() => {
 		easterEggReady = true;
 	});
-}
+};
 
-function gravity() {
+const gravity = (): void => {
 	if (!easterEggReady) return;
 	easterEggReady = false;
 	easterEggEngine = physics(containerEl);
-}
+};
 
-function iLoveMisskey() {
+const iLoveMisskey = (): void => {
 	os.post({
 		initialText: 'I $[jelly ❤] #Misskey',
 		instant: true,
 	});
-}
+};
 
 onBeforeUnmount(() => {
 	if (easterEggEngine) {
 		easterEggEngine.stop();
 	}
 });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.aboutMisskey,

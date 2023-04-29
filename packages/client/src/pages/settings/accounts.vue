@@ -32,7 +32,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 const storedAccounts = ref<any>(null);
 const accounts = ref<any>(null);
 
-const init = async () => {
+const init = async (): Promise<void> => {
 	getAccounts().then(accounts => {
 		storedAccounts.value = accounts.filter(x => x.id !== $i!.id);
 
@@ -47,7 +47,7 @@ const init = async () => {
 	});
 };
 
-function menu(account, ev) {
+const menu = (account, ev): void => {
 	os.popupMenu([{
 		text: i18n.ts.switch,
 		icon: 'ti ti-switch-horizontal',
@@ -58,49 +58,45 @@ function menu(account, ev) {
 		danger: true,
 		action: () => removeAccount(account),
 	}], ev.currentTarget ?? ev.target);
-}
+};
 
-function addAccount(ev) {
+const addAccount = (ev): void => {
 	os.popupMenu([{
 		text: i18n.ts.existingAccount,
-		action: () => { addExistingAccount(); },
+		action: (): void => { addExistingAccount(); },
 	}, {
 		text: i18n.ts.createAccount,
-		action: () => { createAccount(); },
+		action: (): void => { createAccount(); },
 	}], ev.currentTarget ?? ev.target);
-}
+};
 
-function removeAccount(account) {
-	_removeAccount(account.id);
-}
+const removeAccount = (account): void => _removeAccount(account.id);
 
-function addExistingAccount() {
+const addExistingAccount = (): void => {
 	os.popup(defineAsyncComponent(() => import('@/components/MkSigninDialog.vue')), {}, {
 		done: res => {
 			addAccounts(res.id, res.i);
 			os.success();
 		},
 	}, 'closed');
-}
+};
 
-function createAccount() {
+const createAccount = (): void => {
 	os.popup(defineAsyncComponent(() => import('@/components/MkSignupDialog.vue')), {}, {
 		done: res => {
 			addAccounts(res.id, res.i);
 			switchAccountWithToken(res.i);
 		},
 	}, 'closed');
-}
+};
 
-async function switchAccount(account: any) {
+const switchAccount = async (account: any): Promise<void> => {
 	const fetchedAccounts: any[] = await getAccounts();
 	const token = fetchedAccounts.find(x => x.id === account.id).token;
 	switchAccountWithToken(token);
-}
+};
 
-function switchAccountWithToken(token: string) {
-	login(token);
-}
+const switchAccountWithToken = (token: string): void => login(token);
 
 definePageMetadata({
 	title: i18n.ts.accounts,

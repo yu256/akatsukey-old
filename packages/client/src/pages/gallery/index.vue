@@ -83,7 +83,7 @@ watch(() => props.tag, () => {
 const headerActions = $computed(() => [{
 	icon: 'ti ti-plus',
 	text: i18n.ts.create,
-	handler: () => {
+	handler: (): void => {
 		router.push('/gallery/new');
 	},
 }]);

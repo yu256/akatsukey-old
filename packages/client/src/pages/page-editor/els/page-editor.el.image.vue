@@ -31,12 +31,12 @@ const props = withDefaults(defineProps<{
 
 let file: any = $ref(null);
 
-async function choose() {
+const choose = async (): Promise<void> => {
 	os.selectDriveFile(false).then((fileResponse: any) => {
 		file = fileResponse;
 		props.value.fileId = fileResponse.id;
 	});
-}
+};
 
 onMounted(async () => {
 	if (props.value.fileId == null) {

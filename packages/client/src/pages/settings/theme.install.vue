@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import JSON5 from 'json5';
 import FormTextarea from '@/components/form/textarea.vue';
 import FormButton from '@/components/MkButton.vue';
@@ -24,7 +23,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 let installThemeCode = $ref(null);
 
-function parseThemeCode(code: string) {
+const parseThemeCode = (code: string): boolean => {
 	let theme;
 
 	try {
@@ -52,14 +51,14 @@ function parseThemeCode(code: string) {
 	}
 
 	return theme;
-}
+};
 
-function preview(code: string): void {
+const preview = (code: string): void => {
 	const theme = parseThemeCode(code);
 	if (theme) applyTheme(theme, false);
-}
+};
 
-async function install(code: string): Promise<void> {
+const install = async (code: string): Promise<void> => {
 	const theme = parseThemeCode(code);
 	if (!theme) return;
 	await addTheme(theme);
@@ -67,7 +66,7 @@ async function install(code: string): Promise<void> {
 		type: 'success',
 		text: i18n.t('_theme.installed', { name: theme.name }),
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts._theme.install,

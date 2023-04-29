@@ -48,7 +48,7 @@ const sounds = ref({
 	channel: ColdDeviceStorage.get('sound_channel'),
 });
 
-async function updated(type, sound) {
+const updated = async (type, sound): Promise<void> => {
 	const v = {
 		type: sound.type,
 		volume: sound.volume,
@@ -56,15 +56,15 @@ async function updated(type, sound) {
 
 	ColdDeviceStorage.set('sound_' + type, v);
 	sounds.value[type] = v;
-}
+};
 
-function reset() {
+const reset = (): void => {
 	for (const sound of Object.keys(sounds.value)) {
 		const v = ColdDeviceStorage.default['sound_' + sound];
 		ColdDeviceStorage.set('sound_' + sound, v);
 		sounds.value[sound] = v;
 	}
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.sounds,

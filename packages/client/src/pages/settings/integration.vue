@@ -39,36 +39,24 @@ const githubForm = ref<Window | null>(null);
 
 const integrations = computed(() => $i!.integrations);
 
-function openWindow(service: string, type: string) {
+const openWindow = (service: string, type: string): Window | null => {
 	return window.open(`${apiUrl}/${type}/${service}`,
 		`${service}_${type}_window`,
 		'height=570, width=520',
 	);
-}
+};
 
-function connectTwitter() {
-	twitterForm.value = openWindow('twitter', 'connect');
-}
+const connectTwitter = (): Window | null => twitterForm.value = openWindow('twitter', 'connect');
 
-function disconnectTwitter() {
-	openWindow('twitter', 'disconnect');
-}
+const disconnectTwitter = (): Window | null => openWindow('twitter', 'disconnect');
 
-function connectDiscord() {
-	discordForm.value = openWindow('discord', 'connect');
-}
+const connectDiscord = (): Window | null => discordForm.value = openWindow('discord', 'connect');
 
-function disconnectDiscord() {
-	openWindow('discord', 'disconnect');
-}
+const disconnectDiscord = (): Window | null => openWindow('discord', 'disconnect');
 
-function connectGithub() {
-	githubForm.value = openWindow('github', 'connect');
-}
+const connectGithub = (): Window | null => githubForm.value = openWindow('github', 'connect');
 
-function disconnectGithub() {
-	openWindow('github', 'disconnect');
-}
+const disconnectGithub = (): Window | null => openWindow('github', 'disconnect');
 
 onMounted(() => {
 	document.cookie = `igi=${$i!.token}; path=/;` +

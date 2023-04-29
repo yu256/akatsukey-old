@@ -77,12 +77,12 @@ const pagination = {
 	})),
 };
 
-function getStatus(instance) {
+const getStatus = (instance): string => {
 	if (instance.isSuspended) return 'Suspended';
 	if (instance.isBlocked) return 'Blocked';
 	if (instance.isNotResponding) return 'Error';
 	return 'Alive';
-}
+};
 </script>
 
 <style lang="scss" scoped>

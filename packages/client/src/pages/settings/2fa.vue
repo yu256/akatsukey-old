@@ -83,7 +83,7 @@ const registration = ref<any>(null);
 const keyName = ref('');
 const token = ref(null);
 
-function register() {
+const register = (): void => {
 	os.inputText({
 		title: i18n.ts.password,
 		type: 'password',
@@ -95,9 +95,9 @@ function register() {
 			twoFactorData.value = data;
 		});
 	});
-}
+};
 
-function unregister() {
+const unregister = (): void => {
 	os.inputText({
 		title: i18n.ts.password,
 		type: 'password',
@@ -113,9 +113,9 @@ function unregister() {
 			$i!.twoFactorEnabled = false;
 		});
 	});
-}
+};
 
-function submit() {
+const submit = (): void => {
 	os.api('i/2fa/done', {
 		token: token.value,
 	}).then(() => {
@@ -127,9 +127,9 @@ function submit() {
 			text: err,
 		});
 	});
-}
+};
 
-function registerKey() {
+const registerKey = (): void => {
 	registration.value.saving = true;
 	os.api('i/2fa/key-done', {
 		password: registration.value.password,
@@ -140,12 +140,12 @@ function registerKey() {
 		attestationObject: hexify(registration.value.credential.response.attestationObject),
 	}).then(key => {
 		registration.value = null;
-		key.lastUsed = new Date();
+		key?.lastUsed = new Date();
 		os.success();
 	});
-}
+};
 
-function unregisterKey(key) {
+const unregisterKey = (key): void => {
 	os.inputText({
 		title: i18n.ts.password,
 		type: 'password',
@@ -161,9 +161,9 @@ function unregisterKey(key) {
 			os.success();
 		});
 	});
-}
+};
 
-function addSecurityKey() {
+const addSecurityKey = (): void => {
 	os.inputText({
 		title: i18n.ts.password,
 		type: 'password',
@@ -206,11 +206,11 @@ function addSecurityKey() {
 			registration.value.stage = -1;
 		});
 	});
-}
+};
 
-async function updatePasswordLessLogin() {
+const updatePasswordLessLogin = async (): Promise<void> => {
 	await os.api('i/2fa/password-less', {
 		value: !!usePasswordLessLogin.value,
 	});
-}
+};
 </script>

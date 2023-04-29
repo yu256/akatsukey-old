@@ -28,7 +28,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 const code = ref(null);
 
-function installPlugin({ id, meta, ast, token }) {
+const installPlugin = ({ id, meta, ast, token }): void => {
 	ColdDeviceStorage.set('plugins', ColdDeviceStorage.get('plugins').concat({
 		...meta,
 		id,
@@ -37,9 +37,9 @@ function installPlugin({ id, meta, ast, token }) {
 		token: token,
 		ast: ast,
 	}));
-}
+};
 
-async function install() {
+const install = async (): Promise<void> => {
 	let ast;
 	try {
 		ast = parse(code.value);
@@ -111,7 +111,7 @@ async function install() {
 	nextTick(() => {
 		unisonReload();
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts._plugin.install,

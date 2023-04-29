@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import XAntenna from './editor.vue';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
@@ -27,9 +26,7 @@ let draft = $ref({
 	notify: false,
 });
 
-function onAntennaCreated() {
-	router.push('/my/antennas');
-}
+const onAntennaCreated = (): void => router.push('/my/antennas');
 
 definePageMetadata({
 	title: i18n.ts.manageAntennas,

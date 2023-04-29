@@ -20,13 +20,13 @@ import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 
-function onChangeInjectFeaturedNote(v) {
+const onChangeInjectFeaturedNote = (v): void => {
 	os.api('i/update', {
 		injectFeaturedNote: v,
 	}).then((i) => {
 		$i!.injectFeaturedNote = i.injectFeaturedNote;
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.other,

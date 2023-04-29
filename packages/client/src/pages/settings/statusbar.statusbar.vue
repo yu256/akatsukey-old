@@ -126,14 +126,12 @@ watch(() => statusbar.type, () => {
 
 watch(statusbar, save);
 
-async function save() {
+const save = async (): Promise<void> => {
 	const i = defaultStore.state.statusbars.findIndex(x => x.id === props._id);
 	const statusbars = deepClone(defaultStore.state.statusbars);
 	statusbars[i] = deepClone(statusbar);
 	defaultStore.set('statusbars', statusbars);
-}
+};
 
-function del() {
-	defaultStore.set('statusbars', defaultStore.state.statusbars.filter(x => x.id !== props._id));
-}
+const del = (): void => defaultStore.set('statusbars', defaultStore.state.statusbars.filter(x => x.id !== props._id));
 </script>

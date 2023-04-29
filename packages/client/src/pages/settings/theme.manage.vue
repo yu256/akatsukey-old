@@ -55,17 +55,17 @@ const selectedThemeCode = computed(() => {
 	return JSON5.stringify(selectedTheme.value, null, '\t');
 });
 
-function copyThemeCode() {
+const copyThemeCode = (): void => {
 	copyText(selectedThemeCode.value);
 	os.success();
-}
+};
 
-function uninstall() {
+const uninstall = (): void => {
 	removeTheme(selectedTheme.value as Theme);
 	installedThemes.value = installedThemes.value.filter(t => t.id !== selectedThemeId.value);
 	selectedThemeId.value = null;
 	os.success();
-}
+};
 
 definePageMetadata({
 	title: i18n.ts._theme.manage,

@@ -42,7 +42,7 @@ import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 
-const render = (mutedWords) => mutedWords.map(x => {
+const render = (mutedWords): string => mutedWords.map(x => {
 	if (Array.isArray(x)) {
 		return x.join(' ');
 	} else {
@@ -68,8 +68,8 @@ watch(hardMutedWords, () => {
 	changed.value = true;
 });
 
-async function save() {
-	const parseMutes = (mutes, tab) => {
+const save = async (): Promise<void> => {
+	const parseMutes = (mutes, tab): void => {
 		// split into lines, remove empty lines and unnecessary whitespace
 		let lines = mutes.trim().split('\n').map(line => line.trim()).filter(line => line !== '');
 
@@ -115,7 +115,7 @@ async function save() {
 	});
 
 	changed.value = false;
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.wordMute,

@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader v-model:tab="tab" :tabs="headerTabs"/></template>
 	<MkSpacer v-if="tab === 'overview'" :content-max="600" :margin-min="20">
 		<div class="_formRoot">
 			<div class="_formBlock fwhjspax" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }">
@@ -108,8 +108,6 @@ const initStats = () => os.api('stats', {
 }).then((res) => {
 	stats = res;
 });
-
-const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
 	key: 'overview',

@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="600" :margin-min="16">
 		<FormInfo warn>{{ i18n.ts.editTheseSettingsMayBreakAccount }}</FormInfo>
 
@@ -59,7 +59,7 @@ const key = $computed(() => props.path.split('/').at(-1));
 let value = $ref(null);
 let valueForEditor = $ref(null);
 
-function fetchValue() {
+const fetchValue = (): void => {
 	os.api('i/registry/get-detail', {
 		scope,
 		key,
@@ -67,9 +67,9 @@ function fetchValue() {
 		value = res;
 		valueForEditor = JSON5.stringify(res.value, null, '\t');
 	});
-}
+};
 
-async function save() {
+const save = async (): Promise<void> => {
 	try {
 		JSON5.parse(valueForEditor);
 	} catch (err) {
@@ -90,9 +90,9 @@ async function save() {
 			value: JSON5.parse(valueForEditor),
 		});
 	});
-}
+};
 
-function del() {
+const del = (): void => {
 	os.confirm({
 		type: 'warning',
 		text: i18n.ts.deleteConfirm,
@@ -103,13 +103,9 @@ function del() {
 			key,
 		});
 	});
-}
+};
 
 watch(() => props.path, fetchValue, { immediate: true });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.registry,

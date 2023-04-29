@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700">
 		<Transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
 			<div v-if="page" :key="page.id" v-size="{ max: [450] }" class="xcukqgmh">
@@ -86,7 +86,7 @@ const otherPostsPagination = {
 };
 const path = $computed(() => props.username + '/' + props.pageName);
 
-function fetchPage() {
+const fetchPage = (): void => {
 	page = null;
 	os.api('pages/show', {
 		name: props.pageName,
@@ -96,32 +96,32 @@ function fetchPage() {
 	}).catch(err => {
 		error = err;
 	});
-}
+};
 
-function share() {
+const share = (): void => {
 	navigator.share({
 		title: page.title ?? page.name,
 		text: page.summary,
 		url: `${url}/@${page.user.username}/pages/${page.name}`,
 	});
-}
+};
 
-function shareWithNote() {
+const shareWithNote = (): void => {
 	os.post({
 		initialText: `${page.title || page.name} ${url}/@${page.user.username}/pages/${page.name}`,
 	});
-}
+};
 
-function like() {
+const like = (): void => {
 	os.apiWithDialog('pages/like', {
 		pageId: page.id,
 	}).then(() => {
 		page.isLiked = true;
 		page.likedCount++;
 	});
-}
+};
 
-async function unlike() {
+const unlike = async (): Promise<void> => {
 	const confirm = await os.confirm({
 		type: 'warning',
 		text: i18n.ts.unlikeConfirm,
@@ -133,19 +133,15 @@ async function unlike() {
 		page.isLiked = false;
 		page.likedCount--;
 	});
-}
+};
 
-function pin(pin) {
+const pin = (pin): void => {
 	os.apiWithDialog('i/update', {
 		pinnedPageId: pin ? page.id : null,
 	});
-}
+};
 
 watch(() => path, fetchPage, { immediate: true });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => page ? {
 	title: computed(() => page.title || page.name),

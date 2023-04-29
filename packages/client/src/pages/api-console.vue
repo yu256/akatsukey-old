@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700">
 		<div class="_formRoot">
 			<div class="_formBlock">
@@ -50,7 +50,7 @@ os.api('endpoints').then(endpointResponse => {
 	endpoints.value = endpointResponse;
 });
 
-function send() {
+const send = (): void => {
 	sending.value = true;
 	const requestBody = JSON5.parse(body.value);
 	os.api(endpoint.value as keyof Endpoints, requestBody, requestBody.i || (withCredential.value ? undefined : null)).then(resp => {
@@ -60,9 +60,9 @@ function send() {
 		sending.value = false;
 		res.value = JSON5.stringify(err, null, 2);
 	});
-}
+};
 
-function onEndpointChange() {
+const onEndpointChange = (): void => {
 	os.api('endpoint', { endpoint: endpoint.value }, withCredential.value ? undefined : null).then(resp => {
 		const endpointBody = {};
 		for (const p of resp.params) {
@@ -76,11 +76,7 @@ function onEndpointChange() {
 		}
 		body.value = JSON5.stringify(endpointBody, null, 2);
 	});
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+};
 
 definePageMetadata({
 	title: 'API console',

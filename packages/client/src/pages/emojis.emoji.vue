@@ -17,19 +17,19 @@ const props = defineProps<{
 	emoji: Record<string, unknown>; // TODO
 }>();
 
-function menu(ev) {
+const menu = (ev): void => {
 	os.popupMenu([{
 		type: 'label',
 		text: ':' + props.emoji.name + ':',
 	}, {
 		text: i18n.ts.copy,
 		icon: 'ti ti-copy',
-		action: () => {
+		action: (): void => {
 			copyText(`:${props.emoji.name}:`);
 			os.success();
-		}
+		},
 	}], ev.currentTarget ?? ev.target);
-}
+};
 </script>
 
 <style lang="scss" scoped>

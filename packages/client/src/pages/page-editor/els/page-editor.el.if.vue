@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<{
 
 const getPageBlockList = inject<(any) => any>('getPageBlockList');
 
-async function add() {
+const add = async (): Promise<void> => {
 	const { canceled, result: type } = await os.select({
 		title: i18n.ts._pages.chooseBlock,
 		groupedItems: getPageBlockList()
@@ -57,10 +57,10 @@ async function add() {
 
 	const id = uuid();
 	props.value.children.push({ id, type });
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .romcojzs {
 	padding: 0 16px 16px 16px;
 }

@@ -56,13 +56,13 @@ import { instance } from '@/instance';
 
 const emailAddress = ref($i!.email);
 
-const onChangeReceiveAnnouncementEmail = (v) => {
+const onChangeReceiveAnnouncementEmail = (v): void => {
 	os.api('i/update', {
 		receiveAnnouncementEmail: v,
 	});
 };
 
-const saveEmailAddress = () => {
+const saveEmailAddress = (): void => {
 	os.inputText({
 		title: i18n.ts.password,
 		type: 'password',
@@ -82,7 +82,7 @@ const emailNotification_follow = ref($i!.emailNotificationTypes.includes('follow
 const emailNotification_receiveFollowRequest = ref($i!.emailNotificationTypes.includes('receiveFollowRequest'));
 const emailNotification_groupInvited = ref($i!.emailNotificationTypes.includes('groupInvited'));
 
-const saveNotificationSettings = () => {
+const saveNotificationSettings = (): void => {
 	os.api('i/update', {
 		emailNotificationTypes: [
 			...[emailNotification_mention.value ? 'mention' : null],

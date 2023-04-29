@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader :actions="headerActions"/></template>
 	<div ref="rootEl" v-hotkey.global="keymap" v-size="{ min: [800] }" class="tqmomfks">
 		<div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ $ts.newNoteRecived }}</button></div>
 		<div class="tl _block">
@@ -40,30 +40,13 @@ const keymap = $computed(() => ({
 	't': focus,
 }));
 
-function queueUpdated(q) {
-	queue = q;
-}
+const queueUpdated = (q) => queue = q;
 
-function top() {
-	scroll(rootEl, { top: 0 });
-}
+const top = (): void => scroll(rootEl, { top: 0 });
 
-async function timetravel() {
-	const { canceled, result: date } = await os.inputDate({
-		title: i18n.ts.date,
-	});
-	if (canceled) return;
+const settings = (): void => router.push(`/my/antennas/${props.antennaId}`);
 
-	tlEl.timetravel(date);
-}
-
-function settings() {
-	router.push(`/my/antennas/${props.antennaId}`);
-}
-
-function focus() {
-	tlEl.focus();
-}
+const focus = (): void => tlEl.focus();
 
 watch(() => props.antennaId, async () => {
 	antenna = await os.api('antennas/show', {
@@ -72,16 +55,10 @@ watch(() => props.antennaId, async () => {
 }, { immediate: true });
 
 const headerActions = $computed(() => antenna ? [{
-	icon: 'ti ti-calendar-time',
-	text: i18n.ts.jumpToSpecifiedDate,
-	handler: timetravel,
-}, {
 	icon: 'ti ti-settings',
 	text: i18n.ts.settings,
 	handler: settings,
 }] : []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => antenna ? {
 	title: antenna.name,

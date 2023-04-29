@@ -86,15 +86,15 @@ const props = defineProps<{
 	fileId: string,
 }>();
 
-async function fetch() {
+const fetch = async (): Promise<void> => {
 	file = await os.api('drive/files/show', { fileId: props.fileId });
 	info = await os.api('admin/drive/show-file', { fileId: props.fileId });
 	isSensitive = file.isSensitive;
-}
+};
 
 fetch();
 
-async function del() {
+const del = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: file.name }),
@@ -104,17 +104,17 @@ async function del() {
 	os.apiWithDialog('drive/files/delete', {
 		fileId: file.id,
 	});
-}
+};
 
-async function toggleIsSensitive(v) {
+const toggleIsSensitive = async (v): Promise<void> => {
 	await os.api('drive/files/update', { fileId: props.fileId, isSensitive: v });
 	isSensitive = v;
-}
+};
 
 const headerActions = $computed(() => [{
 	text: i18n.ts.openInNewTab,
 	icon: 'ti ti-external-link',
-	handler: () => {
+	handler: (): void => {
 		window.open(file.url, '_blank');
 	},
 }]);

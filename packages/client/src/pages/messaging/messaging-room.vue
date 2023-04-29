@@ -88,12 +88,12 @@ const {
 
 let pagination: Paging | null = $ref(null);
 
-watch([() => props.userAcct, () => props.groupId], () => {
+watch([(): string | undefined => props.userAcct, (): string | undefined => props.groupId], () => {
 	if (connection) connection.dispose();
 	fetch();
 });
 
-async function fetch() {
+const fetch = async (): Promise<void> => {
 	fetching = true;
 
 	if (props.userAcct) {
@@ -146,9 +146,9 @@ async function fetch() {
 			fetching = false;
 		}, 300);
 	});
-}
+};
 
-function onDragover(ev: DragEvent) {
+const onDragover = (ev: DragEvent): void => {
 	if (!ev.dataTransfer) return;
 
 	const isFile = ev.dataTransfer.items[0].kind === 'file';
@@ -174,9 +174,9 @@ function onDragover(ev: DragEvent) {
 	} else {
 		ev.dataTransfer.dropEffect = 'none';
 	}
-}
+};
 
-function onDrop(ev: DragEvent): void {
+const onDrop = (ev: DragEvent): void => {
 	if (!ev.dataTransfer) return;
 
 	// ファイルだったら
@@ -198,9 +198,9 @@ function onDrop(ev: DragEvent): void {
 		formEl.file = file;
 	}
 	//#endregion
-}
+};
 
-function onMessage(message) {
+const onMessage = (message): void => {
 	sound.play('chat');
 
 	const _isBottom = isBottomVisible(rootEl, 64);
@@ -221,13 +221,13 @@ function onMessage(message) {
 		// Notify
 		notifyNewMessage();
 	}
-}
+};
 
-function onRead(x) {
+const onRead = (x): void => {
 	if (user) {
 		if (!Array.isArray(x)) x = [x];
 		for (const id of x) {
-			if (pagingComponent.items.some(y => y.id === id)) {
+			if (pagingComponent?.items.some(y => y.id === id)) {
 				const exist = pagingComponent.items.map(y => y.id).indexOf(id);
 				pagingComponent.items[exist] = {
 					...pagingComponent.items[exist],
@@ -237,7 +237,7 @@ function onRead(x) {
 		}
 	} else if (group) {
 		for (const id of x.ids) {
-			if (pagingComponent.items.some(y => y.id === id)) {
+			if (pagingComponent?.items.some(y => y.id === id)) {
 				const exist = pagingComponent.items.map(y => y.id).indexOf(id);
 				pagingComponent.items[exist] = {
 					...pagingComponent.items[exist],
@@ -246,36 +246,36 @@ function onRead(x) {
 			}
 		}
 	}
-}
+};
 
-function onDeleted(id) {
-	const msg = pagingComponent.items.find(m => m.id === id);
+const onDeleted = (id): void => {
+	const msg = pagingComponent?.items.find(m => m.id === id);
 	if (msg) {
 		pagingComponent.items = pagingComponent.items.filter(m => m.id !== msg.id);
 	}
-}
+};
 
-function thisScrollToBottom() {
+const thisScrollToBottom = (): void => {
 	scrollToBottom($$(rootEl).value, { behavior: 'smooth' });
-}
+};
 
-function onIndicatorClick() {
+const onIndicatorClick = (): void => {
 	showIndicator = false;
 	thisScrollToBottom();
 }
 
 let scrollRemove: (() => void) | null = $ref(null);
 
-function notifyNewMessage() {
+const notifyNewMessage = (): void => {
 	showIndicator = true;
 
 	scrollRemove = onScrollBottom(rootEl, () => {
 		showIndicator = false;
 		scrollRemove = null;
 	});
-}
+};
 
-function onVisibilitychange() {
+const onVisibilitychange = (): void => {
 	if (document.hidden) return;
 	for (const message of pagingComponent.items) {
 		if (message.userId !== $i?.id && !message.isRead) {
@@ -284,7 +284,7 @@ function onVisibilitychange() {
 			});
 		}
 	}
-}
+};
 
 onMounted(() => {
 	fetch();

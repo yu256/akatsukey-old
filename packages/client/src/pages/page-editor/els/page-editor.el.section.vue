@@ -39,16 +39,16 @@ const props = withDefaults(defineProps<{
 
 const getPageBlockList = inject<(any) => any>('getPageBlockList');
 
-async function rename() {
+const rename = async (): Promise<void> => {
 	const { canceled, result: title } = await os.inputText({
 		title: 'Enter title',
 		default: props.value.title
 	});
 	if (canceled) return;
 	props.value.title = title;
-}
+};
 
-async function add() {
+const add = async (): Promise<void> => {
 	const { canceled, result: type } = await os.select({
 		title: i18n.ts._pages.chooseBlock,
 		groupedItems: getPageBlockList()
@@ -57,7 +57,7 @@ async function add() {
 
 	const id = uuid();
 	props.value.children.push({ id, type });
-}
+};
 
 onMounted(() => {
 	if (props.value.title == null) {

@@ -47,11 +47,7 @@ os.api('meta', {
 	serverIsDead = true;
 });
 
-function reload() {
-	unisonReload();
-}
-
-
+const reload = (): void => unisonReload();
 
 definePageMetadata({
 	title: i18n.ts.error,

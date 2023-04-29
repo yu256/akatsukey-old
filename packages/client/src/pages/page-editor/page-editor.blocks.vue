@@ -33,7 +33,7 @@ export default defineComponent({
 	props: {
 		modelValue: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		hpml: {
 			required: true,
@@ -49,8 +49,8 @@ export default defineComponent({
 			},
 			set(value) {
 				this.$emit('update:modelValue', value);
-			}
-		}
+			},
+		},
 	},
 
 	methods: {
@@ -72,6 +72,6 @@ export default defineComponent({
 			];
 			this.$emit('update:modelValue', newValue);
 		},
-	}
+	},
 });
 </script>

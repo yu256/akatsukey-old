@@ -38,7 +38,7 @@ definePageMetadata({
 });
 </script>
 
-<style lang="scss" module>
+<style module>
 .note {
 	background: var(--panel);
 	border-radius: var(--radius);

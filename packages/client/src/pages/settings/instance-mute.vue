@@ -22,7 +22,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 const instanceMutes = ref($i!.mutedInstances.join('\n'));
 const changed = ref(false);
 
-async function save() {
+const save = async (): Promise<void> => {
 	let mutes = instanceMutes.value
 		.trim().split('\n')
 		.map(el => el.trim())
@@ -36,7 +36,7 @@ async function save() {
 
 	// Refresh filtered list to signal to the user how they've been saved
 	instanceMutes.value = mutes.join('\n');
-}
+};
 
 watch(instanceMutes, () => {
 	changed.value = true;

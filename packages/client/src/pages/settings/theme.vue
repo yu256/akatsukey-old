@@ -148,11 +148,11 @@ fetchThemes().then(() => {
 	installedThemes.value = getThemes();
 });
 
-function setWallpaper(event) {
+const setWallpaper = (event): void => {
 	selectFile(event.currentTarget ?? event.target, null).then(file => {
 		wallpaper.value = file.url;
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.theme,

@@ -92,7 +92,7 @@ watch(() => src, async () => {
 	}
 });
 
-async function saveAntenna() {
+const saveAntenna = async (): Promise<void> => {
 	const antennaData = {
 		name,
 		src,
@@ -115,9 +115,9 @@ async function saveAntenna() {
 		await os.apiWithDialog('antennas/update', antennaData);
 		emit('updated');
 	}
-}
+};
 
-async function deleteAntenna() {
+const deleteAntenna = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: props.antenna.name }),
@@ -130,15 +130,15 @@ async function deleteAntenna() {
 
 	os.success();
 	emit('deleted');
-}
+};
 
-function addUser() {
+const addUser = (): void => {
 	os.selectUser().then(user => {
 		users = users.trim();
 		users += '\n@' + Acct.toString(user as any);
 		users = users.trim();
 	});
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -57,7 +57,7 @@ const _permissions = props.permission.split(',');
 
 let state = $ref<string | null>(null);
 
-async function accept(): Promise<void> {
+const accept = async (): Promise<void> => {
 	state = 'waiting';
 	await os.api('miauth/gen-token', {
 		session: props.session,
@@ -74,13 +74,9 @@ async function accept(): Promise<void> {
 			session: props.session,
 		}));
 	}
-}
+};
 
-function deny(): void {
-	state = 'denied';
-}
+const deny = (): string => state = 'denied';
 
-function onLogin(res): void {
-	login(res.i);
-}
+const onLogin = (res): Promise<void> => login(res.i);
 </script>

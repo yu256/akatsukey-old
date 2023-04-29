@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700">
 		<div class="qtcaoidl">
 			<MkButton primary class="add" @click="create"><i class="ti ti-plus"></i> {{ i18n.ts.add }}</MkButton>
@@ -30,7 +30,7 @@ const pagination = {
 
 const pagingComponent = $shallowRef<InstanceType<typeof MkPagination>>();
 
-async function create() {
+const create = async (): Promise<void> => {
 	const { canceled, result } = await os.form(i18n.ts.createNewClip, {
 		name: {
 			type: 'string',
@@ -52,12 +52,8 @@ async function create() {
 
 	os.apiWithDialog('clips/create', result);
 
-	pagingComponent.reload();
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+	pagingComponent?.reload();
+};
 
 definePageMetadata({
 	title: i18n.ts.clip,

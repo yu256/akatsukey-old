@@ -34,11 +34,8 @@ const emit = defineEmits<{
 let type = $ref(props.type);
 let volume = $ref(props.volume);
 
-function listen() {
-	playFile(type, volume);
-}
+const listen = (): void => playFile(type, volume);
 
-function save() {
-	emit('update', { type, volume });
-}
+const save = (): void => emit('update', { type, volume });
 </script>
+

@@ -41,7 +41,7 @@ const directNotesPagination = {
 	},
 };
 
-function setFilter(ev) {
+const setFilter = (ev): void => {
 	const typeItems = notificationTypes.map(t => ({
 		text: i18n.t(`_notification._types.${t}`),
 		active: includeTypes && includeTypes.includes(t),
@@ -57,7 +57,7 @@ function setFilter(ev) {
 		},
 	}, null, ...typeItems] : typeItems;
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
-}
+};
 
 const headerActions = $computed(() => [tab === 'all' ? {
 	text: i18n.ts.filter,
@@ -67,7 +67,7 @@ const headerActions = $computed(() => [tab === 'all' ? {
 } : undefined, tab === 'all' ? {
 	text: i18n.ts.markAllAsRead,
 	icon: 'ti ti-check',
-	handler: () => {
+	handler: (): void => {
 		os.apiWithDialog('notifications/mark-all-as-read');
 	},
 } : undefined].filter(x => x !== undefined));

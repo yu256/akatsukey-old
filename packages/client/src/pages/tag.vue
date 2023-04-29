@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
 		<XNotes class="_content" :pagination="pagination"/>
 	</MkSpacer>
@@ -23,10 +23,6 @@ const pagination = {
 		tag: props.tag,
 	})),
 };
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
 	title: props.tag,

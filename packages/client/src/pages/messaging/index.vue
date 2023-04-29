@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
 		<div v-size="{ max: [400] }" class="yweeujhr">
 			<MkButton primary class="start" @click="start"><i class="ti ti-plus"></i> {{ $ts.startMessaging }}</MkButton>
@@ -62,11 +62,9 @@ let connection = $ref(null);
 
 const getAcct = Acct.toString;
 
-function isMe(message) {
-	return message.userId === $i.id;
-}
+const isMe = (message): boolean => message.userId === $i.id;
 
-function onMessage(message) {
+const onMessage = (message): void => {
 	if (message.recipientId) {
 		messages = messages.filter(m => !(
 			(m.recipientId === message.recipientId && m.userId === message.userId) ||
@@ -77,9 +75,9 @@ function onMessage(message) {
 		messages = messages.filter(m => m.groupId !== message.groupId);
 		messages.unshift(message);
 	}
-}
+};
 
-function onRead(ids) {
+const onRead = (ids): void => {
 	for (const id of ids) {
 		const found = messages.find(m => m.id === id);
 		if (found) {
@@ -90,27 +88,27 @@ function onRead(ids) {
 			}
 		}
 	}
-}
+};
 
-function start(ev) {
+const start = (ev): void => {
 	os.popupMenu([{
 		text: i18n.ts.messagingWithUser,
 		icon: 'ti ti-user',
-		action: () => { startUser(); },
+		action: (): void => { startUser(); },
 	}, {
 		text: i18n.ts.messagingWithGroup,
 		icon: 'ti ti-users',
-		action: () => { startGroup(); },
+		action: (): void => { startGroup(); },
 	}], ev.currentTarget ?? ev.target);
-}
+};
 
-async function startUser() {
+const startUser = async (): Promise<void> => {
 	os.selectUser().then(user => {
 		router.push(`/my/messaging/${Acct.toString(user)}`);
 	});
-}
+};
 
-async function startGroup() {
+const startGroup = async (): Promise<void> => {
 	const groups1 = await os.api('users/groups/owned');
 	const groups2 = await os.api('users/groups/joined');
 	if (groups1.length === 0 && groups2.length === 0) {
@@ -129,7 +127,7 @@ async function startGroup() {
 	});
 	if (canceled) return;
 	router.push(`/my/messaging/group/${group.id}`);
-}
+};
 
 onMounted(() => {
 	connection = markRaw(stream.useChannel('messagingIndex'));
@@ -150,10 +148,6 @@ onMounted(() => {
 onUnmounted(() => {
 	if (connection) connection.dispose();
 });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.messaging,

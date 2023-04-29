@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="600" :margin-min="16">
 		<MkButton primary @click="createKey">{{ i18n.ts._registry.createKey }}</MkButton>
 
@@ -25,13 +25,13 @@ import MkButton from '@/components/MkButton.vue';
 
 let scopes = $ref(null);
 
-function fetchScopes() {
+const fetchScopes = () : void => {
 	os.api('i/registry/scopes').then(res => {
 		scopes = res.slice().sort((a, b) => a.join('/').localeCompare(b.join('/')));
 	});
-}
+};
 
-async function createKey() {
+const createKey = async (): Promise<void> => {
 	const { canceled, result } = await os.form(i18n.ts._registry.createKey, {
 		key: {
 			type: 'string',
@@ -55,13 +55,9 @@ async function createKey() {
 	}).then(() => {
 		fetchScopes();
 	});
-}
+};
 
 fetchScopes();
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.registry,

@@ -19,7 +19,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 const localCustomCss = ref(localStorage.getItem('customCss') ?? '');
 
-async function apply() {
+const apply = async (): Promise<void> => {
 	localStorage.setItem('customCss', localCustomCss.value);
 
 	const { canceled } = await os.confirm({
@@ -29,7 +29,7 @@ async function apply() {
 	if (canceled) return;
 
 	unisonReload();
-}
+};
 
 watch(localCustomCss, async () => {
 	await apply();

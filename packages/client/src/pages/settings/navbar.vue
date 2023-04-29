@@ -33,7 +33,7 @@ const items = ref(defaultStore.state.menu.join('\n'));
 const split = computed(() => items.value.trim().split('\n').filter(x => x.trim() !== ''));
 const menuDisplay = computed(defaultStore.makeGetterSetter('menuDisplay'));
 
-async function reloadAsk() {
+const reloadAsk = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'info',
 		text: i18n.ts.reloadToApplySetting,
@@ -41,9 +41,9 @@ async function reloadAsk() {
 	if (canceled) return;
 
 	unisonReload();
-}
+};
 
-async function addItem() {
+const addItem = async (): Promise<void> => {
 	const menu = Object.keys(navbarItemDef).filter(k => !defaultStore.state.menu.includes(k));
 	const { canceled, result: item } = await os.select({
 		title: i18n.ts.addItem,
@@ -55,17 +55,17 @@ async function addItem() {
 	});
 	if (canceled) return;
 	items.value = [...split.value, item].join('\n');
-}
+};
 
-async function save() {
+const save = async (): Promise<void> => {
 	defaultStore.set('menu', split.value);
 	await reloadAsk();
-}
+};
 
-function reset() {
+const reset = (): void => {
 	defaultStore.reset('menu');
 	items.value = defaultStore.state.menu.join('\n');
-}
+};
 
 watch(items, async () => {
 	await save();

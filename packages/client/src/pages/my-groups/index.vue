@@ -100,7 +100,7 @@ definePageMetadata(
 	})),
 );
 
-async function create() {
+const create = async (): Promise<void> => {
 	const { canceled, result: name } = await os.inputText({
 		title: i18n.ts.groupName,
 	});
@@ -110,9 +110,9 @@ async function create() {
 	await os.api('users/groups/create', { name: name });
 	owned.value.reload();
 	os.success();
-}
+};
 
-async function leave(group) {
+const leave = async (group): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('leaveGroupConfirm', { name: group.name }),
@@ -125,9 +125,9 @@ async function leave(group) {
 	}).then(() => {
 		joined.value.reload();
 	});
-}
+};
 
-async function acceptInvite(invitation) {
+const acceptInvite = async (invitation): Promise<void> => {
 	os.api('users/groups/invitations/accept', {
 		invitationId: invitation.id,
 	}).then(() => {
@@ -135,15 +135,15 @@ async function acceptInvite(invitation) {
 		invitations.value.reload();
 		joined.value.reload();
 	});
-}
+};
 
-async function rejectInvite(invitation) {
+const rejectInvite = async (invitation): Promise<void> => {
 	os.api('users/groups/invitations/reject', {
 		invitationId: invitation.id,
 	}).then(() => {
 		invitations.value.reload();
 	});
-}
+};
 </script>
 
 <style lang="scss" scoped>

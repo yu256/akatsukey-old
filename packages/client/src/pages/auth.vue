@@ -68,7 +68,7 @@ export default defineComponent({
 			} else {
 				this.state = 'waiting';
 			}
-		}).catch(error => {
+		}).catch(() => {
 			this.state = 'fetch-session-error';
 			this.fetching = false;
 		});
@@ -87,7 +87,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>

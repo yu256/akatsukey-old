@@ -48,9 +48,7 @@ const ownedPagination = {
 	limit: 5,
 };
 
-function create() {
-	router.push('/channels/new');
-}
+const create = (): void => router.push('/channels/new');
 
 const headerActions = $computed(() => [{
 	icon: 'ti ti-plus',

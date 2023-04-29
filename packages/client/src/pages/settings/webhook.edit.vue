@@ -63,7 +63,7 @@ let event_renote = $ref(webhook.on.includes('renote'));
 let event_reaction = $ref(webhook.on.includes('reaction'));
 let event_mention = $ref(webhook.on.includes('mention'));
 
-async function save(): Promise<void> {
+const save = async (): Promise<void> => {
 	const events = [];
 	if (event_follow) events.push('follow');
 	if (event_followed) events.push('followed');
@@ -80,7 +80,7 @@ async function save(): Promise<void> {
 		on: events,
 		active,
 	});
-}
+};
 
 definePageMetadata({
 	title: 'Edit webhook',

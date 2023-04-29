@@ -30,7 +30,7 @@ onMounted(() => {
 	});
 });
 
-async function add() {
+const add = async (): Promise<void> => {
 	defaultStore.push('statusbars', {
 		id: uuid(),
 		type: null,

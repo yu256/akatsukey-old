@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
 		<MkPagination v-slot="{items}" :pagination="pagination" class="ruryvtyk _content">
 			<section v-for="(announcement, i) in items" :key="announcement.id" class="_card announcement">
@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
@@ -32,17 +31,13 @@ const pagination = {
 };
 
 // TODO: これは実質的に親コンポーネントから子コンポーネントのプロパティを変更してるのでなんとかしたい
-function read(items, announcement, i) {
+const read = (items, announcement, i): void => {
 	items[i] = {
 		...announcement,
 		isRead: true,
 	};
 	os.api('i/read-announcement', { announcementId: announcement.id });
-}
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
+};
 
 definePageMetadata({
 	title: i18n.ts.announcements,

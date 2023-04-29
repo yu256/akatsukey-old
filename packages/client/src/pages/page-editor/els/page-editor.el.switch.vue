@@ -26,7 +26,7 @@ withDefaults(defineProps<{
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .kjuadyyj {
 	padding: 0 16px 16px 16px;
 }

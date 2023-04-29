@@ -60,7 +60,7 @@ let canSend = $computed(() => (text != null && text !== '') || file != null);
 
 watch([$$(text), $$(file)], saveDraft);
 
-async function onPaste(ev: ClipboardEvent) {
+const onPaste = async (ev: ClipboardEvent): Promise<void> => {
 	if (!ev.clipboardData) return;
 
 	const clipboardData = ev.clipboardData;
@@ -83,9 +83,9 @@ async function onPaste(ev: ClipboardEvent) {
 			});
 		}
 	}
-}
+};
 
-function onDragover(ev: DragEvent) {
+const onDragover = (ev: DragEvent): void => {
 	if (!ev.dataTransfer) return;
 
 	const isFile = ev.dataTransfer.items[0].kind === 'file';
@@ -109,9 +109,9 @@ function onDragover(ev: DragEvent) {
 				break;
 		}
 	}
-}
+};
 
-function onDrop(ev: DragEvent): void {
+const onDrop = (ev: DragEvent): void => {
 	if (!ev.dataTransfer) return;
 
 	// ファイルだったら
@@ -135,36 +135,34 @@ function onDrop(ev: DragEvent): void {
 		ev.preventDefault();
 	}
 	//#endregion
-}
+};
 
-function onKeydown(ev: KeyboardEvent) {
+const onKeydown = (ev: KeyboardEvent): void => {
 	typing();
 	if ((ev.key === 'Enter') && (ev.ctrlKey || ev.metaKey) && canSend) {
 		send();
 	}
-}
+};
 
-function onCompositionUpdate() {
-	typing();
-}
+const onCompositionUpdate = (): void => typing();
 
-function chooseFile(ev: MouseEvent) {
+const chooseFile = (ev: MouseEvent): void => {
 	selectFile(ev.currentTarget ?? ev.target, i18n.ts.selectFile).then(selectedFile => {
 		file = selectedFile;
 	});
-}
+};
 
-function onChangeFile() {
+const onChangeFile = (): void => {
 	if (fileEl.files![0]) upload(fileEl.files[0]);
-}
+};
 
-function upload(fileToUpload: File, name?: string) {
+const upload = (fileToUpload: File, name?: string): void => {
 	uploadFile(fileToUpload, defaultStore.state.uploadFolder, name).then(res => {
 		file = res;
 	});
-}
+};
 
-function send() {
+const send = (): void => {
 	sending = true;
 	os.api('messaging/messages/create', {
 		userId: props.user ? props.user.id : undefined,
@@ -178,13 +176,13 @@ function send() {
 	}).then(() => {
 		sending = false;
 	});
-}
+};
 
-function clear() {
+const clear = (): void => {
 	text = '';
 	file = null;
 	deleteDraft();
-}
+};
 
 type DraftData = {
 	updatedAt: string;
@@ -194,7 +192,7 @@ type DraftData = {
 	};
 };
 
-function saveDraft() {
+const saveDraft = (): void => {
 	const drafts = parseObject<Record<string, DraftData>>(localStorage.getItem('message_drafts'));
 
 	drafts[draftKey] = {
@@ -207,19 +205,19 @@ function saveDraft() {
 	};
 
 	localStorage.setItem('message_drafts', JSON.stringify(drafts));
-}
+};
 
-function deleteDraft() {
+const deleteDraft = (): void => {
 	const drafts = parseObject<Record<string, DraftData>>(localStorage.getItem('message_drafts'));
 
 	delete drafts[draftKey];
 
 	localStorage.setItem('message_drafts', JSON.stringify(drafts));
-}
+};
 
-async function insertEmoji(ev: MouseEvent) {
+const insertEmoji = async (ev: MouseEvent): Promise<void> => {
 	os.openEmojiPicker(ev.currentTarget ?? ev.target, {}, textEl);
-}
+};
 
 onMounted(() => {
 	autosize(textEl);

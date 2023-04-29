@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<FormInput v-model="title">
@@ -55,17 +55,17 @@ let description = $ref(null);
 let title = $ref(null);
 let isSensitive = $ref(false);
 
-function selectFile(evt) {
+const selectFile = (evt): void => {
 	selectFiles(evt.currentTarget ?? evt.target, null).then(selected => {
 		files = files.concat(selected);
 	});
-}
+};
 
-function remove(file) {
+const remove = (file): void => {
 	files = files.filter(f => f.id !== file.id);
-}
+};
 
-async function save() {
+const save = async (): Promise<void> => {
 	if (props.postId) {
 		await os.apiWithDialog('gallery/posts/update', {
 			postId: props.postId,
@@ -84,9 +84,9 @@ async function save() {
 		});
 		router.push(`/gallery/${created.id}`);
 	}
-}
+};
 
-async function del() {
+const del = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.ts.deleteConfirm,
@@ -96,10 +96,10 @@ async function del() {
 		postId: props.postId,
 	});
 	router.push('/gallery');
-}
+};
 
 watch(() => props.postId, () => {
-	init = () => props.postId ? os.api('gallery/posts/show', {
+	init = (): Promise<void|null> => props.postId ? os.api('gallery/posts/show', {
 		postId: props.postId,
 	}).then(post => {
 		files = post.files;
@@ -108,10 +108,6 @@ watch(() => props.postId, () => {
 		isSensitive = post.isSensitive;
 	}) : Promise.resolve(null);
 }, { immediate: true });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => props.postId ? {
 	title: i18n.ts.edit,

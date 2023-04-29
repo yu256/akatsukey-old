@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader v-model:tab="tab" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="700">
 		<div class="jqqmcavi">
 			<MkButton v-if="pageId" class="button" inline link :to="`/@${ author.username }/pages/${ currentName }`"><i class="ti ti-external-link"></i> {{ $ts._pages.viewPage }}</MkButton>
@@ -84,7 +84,6 @@
 <script lang="ts" setup>
 import { defineAsyncComponent, computed, provide, watch } from 'vue';
 import 'prismjs';
-import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism-okaidia.css';
@@ -148,7 +147,7 @@ watch($$(eyeCatchingImageId), async () => {
 	}
 });
 
-function getSaveOptions() {
+const getSaveOptions = () => {
 	return {
 		title: title.trim(),
 		name: name.trim(),
@@ -161,12 +160,12 @@ function getSaveOptions() {
 		variables: variables,
 		eyeCatchingImageId: eyeCatchingImageId,
 	};
-}
+};
 
-function save() {
+const save = (): void => {
 	const options = getSaveOptions();
 
-	const onError = err => {
+	const onError = (err): void => {
 		if (err.id === '3d81ceae-475f-4600-b2a8-2bc116157532') {
 			if (err.info.param === 'name') {
 				os.alert({
@@ -186,7 +185,7 @@ function save() {
 	if (pageId) {
 		options.pageId = pageId;
 		os.api('pages/update', options)
-		.then(page => {
+		.then(() => {
 			currentName = name.trim();
 			os.alert({
 				type: 'success',
@@ -205,9 +204,9 @@ function save() {
 			mainRouter.push(`/pages/edit/${pageId}`);
 		}).catch(onError);
 	}
-}
+};
 
-function del() {
+const del = (): void => {
 	os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: title.trim() }),
@@ -223,9 +222,9 @@ function del() {
 			mainRouter.push('/pages');
 		});
 	});
-}
+};
 
-function duplicate() {
+const duplicate = (): void => {
 	title = title + ' - copy';
 	name = name + '-copy';
 	os.api('pages/create', getSaveOptions()).then(created => {
@@ -237,9 +236,9 @@ function duplicate() {
 		});
 		mainRouter.push(`/pages/edit/${pageId}`);
 	});
-}
+};
 
-async function add() {
+const add = async (): Promise<void> => {
 	const { canceled, result: type } = await os.select({
 		type: null,
 		title: i18n.ts._pages.chooseBlock,
@@ -249,9 +248,9 @@ async function add() {
 
 	const id = uuid();
 	content.push({ id, type });
-}
+};
 
-async function addVariable() {
+const addVariable = async (): Promise<void> => {
 	let { canceled, result: name } = await os.inputText({
 		title: i18n.ts._pages.enterVariableName,
 	});
@@ -269,13 +268,11 @@ async function addVariable() {
 
 	const id = uuid();
 	variables.push({ id, name, type: null });
-}
+};
 
-function removeVariable(v) {
-	variables = variables.filter(x => x.name !== v.name);
-}
+const removeVariable = (v): void => variables = variables.filter(x => x.name !== v.name);
 
-function getPageBlockList() {
+const getPageBlockList = () => {
 	return [{
 		label: i18n.ts._pages.contentBlocks,
 		items: [
@@ -304,9 +301,9 @@ function getPageBlockList() {
 			{ value: 'post', text: i18n.ts._pages.blocks.post },
 		],
 	}];
-}
+};
 
-function getScriptBlockList(type: string = null) {
+const getScriptBlockList = (type: string = null): never[] => {
 	const list = [];
 
 	const blocks = blockDefs.filter(block => type == null || block.out == null || block.out === type || typeof block.out === 'number');
@@ -344,21 +341,15 @@ function getScriptBlockList(type: string = null) {
 	return list;
 }
 
-function setEyeCatchingImage(img) {
+const setEyeCatchingImage = (img): void => {
 	selectFile(img.currentTarget ?? img.target, null).then(file => {
 		eyeCatchingImageId = file.id;
 	});
-}
+};
 
-function removeEyeCatchingImage() {
-	eyeCatchingImageId = null;
-}
+const removeEyeCatchingImage = (): null => eyeCatchingImageId = null;
 
-function highlighter(code) {
-	return highlight(code, languages.js, 'javascript');
-}
-
-async function init() {
+const init = (): void => {
 	hpml = new HpmlTypeChecker();
 
 	watch($$(variables), () => {
@@ -403,11 +394,9 @@ async function init() {
 			text: 'Hello World!',
 		}];
 	}
-}
+};
 
 init();
-
-const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
 	key: 'settings',
@@ -438,7 +427,7 @@ definePageMetadata(computed(() => {
 	return {
 		title: title,
 		icon: 'ti ti-pencil',
-		};
+	};
 }));
 </script>
 

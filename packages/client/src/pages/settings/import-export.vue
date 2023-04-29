@@ -83,32 +83,30 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 const excludeMutingUsers = ref(false);
 const excludeInactiveUsers = ref(false);
 
-const onExportSuccess = () => {
+const onExportSuccess = (): void => {
 	os.alert({
 		type: 'info',
 		text: i18n.ts.exportRequested,
 	});
 };
 
-const onImportSuccess = () => {
+const onImportSuccess = (): void => {
 	os.alert({
 		type: 'info',
 		text: i18n.ts.importRequested,
 	});
 };
 
-const onError = (ev) => {
+const onError = (ev): void => {
 	os.alert({
 		type: 'error',
 		text: ev.message,
 	});
 };
 
-const exportNotes = () => {
-	os.api('i/export-notes', {}).then(onExportSuccess).catch(onError);
-};
+const exportNotes = (): void => os.api('i/export-notes', {}).then(onExportSuccess).catch(onError);
 
-const exportFollowing = () => {
+const exportFollowing = (): void => {
 	os.api('i/export-following', {
 		excludeMuting: excludeMutingUsers.value,
 		excludeInactive: excludeInactiveUsers.value,
@@ -116,34 +114,28 @@ const exportFollowing = () => {
 		.then(onExportSuccess).catch(onError);
 };
 
-const exportBlocking = () => {
-	os.api('i/export-blocking', {}).then(onExportSuccess).catch(onError);
-};
+const exportBlocking = (): void => os.api('i/export-blocking', {}).then(onExportSuccess).catch(onError);
 
-const exportUserLists = () => {
-	os.api('i/export-user-lists', {}).then(onExportSuccess).catch(onError);
-};
+const exportUserLists = (): void => os.api('i/export-user-lists', {}).then(onExportSuccess).catch(onError);
 
-const exportMuting = () => {
-	os.api('i/export-mute', {}).then(onExportSuccess).catch(onError);
-};
+const exportMuting = (): void => os.api('i/export-mute', {}).then(onExportSuccess).catch(onError);
 
-const importFollowing = async (ev) => {
+const importFollowing = async (ev): Promise<void> => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
 	os.api('i/import-following', { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
-const importUserLists = async (ev) => {
+const importUserLists = async (ev): Promise<void> => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
 	os.api('i/import-user-lists', { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
-const importMuting = async (ev) => {
+const importMuting = async (ev): Promise<void> => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
 	os.api('i/import-muting', { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
-const importBlocking = async (ev) => {
+const importBlocking = async (ev): Promise<void> => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
 	os.api('i/import-blocking', { fileId: file.id }).then(onImportSuccess).catch(onError);
 };

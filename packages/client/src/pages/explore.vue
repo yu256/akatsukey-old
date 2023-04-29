@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader v-model:tab="tab" :tabs="headerTabs"/></template>
 	<div class="lznhrdub">
 		<div v-if="tab === 'featured'">
 			<XFeatured/>
@@ -33,8 +33,6 @@ let tagsEl = $shallowRef<InstanceType<typeof MkFolder>>();
 watch(() => props.tag, () => {
 	if (tagsEl) tagsEl.toggleContent(props.tag == null);
 });
-
-const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
 	key: 'featured',

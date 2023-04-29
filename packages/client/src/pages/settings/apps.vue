@@ -54,11 +54,11 @@ const pagination = {
 	},
 };
 
-function revoke(token) {
+const revoke = (token): void => {
 	os.api('i/revoke-token', { tokenId: token.id }).then(() => {
 		list.value.reload();
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.installedApps,

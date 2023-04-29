@@ -49,7 +49,7 @@ watch(code, () => {
 	localStorage.setItem('scratchpad', code.value);
 });
 
-async function run() {
+const run = async (): Promise<void> => {
 	logs.value = [];
 	const aiscript = new AiScript(createAiScriptEnv({
 		storageKey: 'scratchpad',
@@ -59,7 +59,7 @@ async function run() {
 			return new Promise(ok => {
 				os.inputText({
 					title: q,
-				}).then(({ canceled, result: a }) => {
+				}).then(({ result: a }) => {
 					ok(a);
 				});
 			});
@@ -101,7 +101,7 @@ async function run() {
 			text: error.message,
 		});
 	}
-}
+};
 
 function highlighter(code) {
 	return highlight(code, languages.js, 'javascript');

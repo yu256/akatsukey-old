@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="700">
 		<div class="mk-list-page">
 			<Transition :name="$store.state.animation ? 'zoom' : ''" mode="out-in">
@@ -52,7 +52,7 @@ const props = defineProps<{
 let list = $ref(null);
 let users = $ref([]);
 
-function fetchList() {
+const fetchList = (): void => {
 	os.api('users/lists/show', {
 		listId: props.listId,
 	}).then(_list => {
@@ -63,9 +63,9 @@ function fetchList() {
 			users = _users;
 		});
 	});
-}
+};
 
-function addUser() {
+const addUser = (): void => {
 	os.selectUser().then(user => {
 		os.apiWithDialog('users/lists/push', {
 			listId: list.id,
@@ -74,33 +74,33 @@ function addUser() {
 			users.push(user);
 		});
 	});
-}
+};
 
-function removeUser(user) {
+const removeUser = (user): void => {
 	os.api('users/lists/pull', {
 		listId: list.id,
 		userId: user.id,
 	}).then(() => {
 		users = users.filter(x => x.id !== user.id);
 	});
-}
+};
 
-async function renameList() {
+const renameList = async (): Promise<void> => {
 	const { canceled, result: name } = await os.inputText({
 		title: i18n.ts.enterListName,
-		default: list.name,
+		default: list?.name,
 	});
 	if (canceled) return;
 
 	await os.api('users/lists/update', {
-		listId: list.id,
+		listId: list?.id,
 		name: name,
 	});
 
-	list.name = name;
-}
+	list?.name = name;
+};
 
-async function deleteList() {
+const deleteList = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'warning',
 		text: i18n.t('removeAreYouSure', { x: list.name }),
@@ -112,13 +112,9 @@ async function deleteList() {
 	});
 	os.success();
 	mainRouter.push('/my/lists');
-}
+};
 
 watch(() => props.listId, fetchList, { immediate: true });
-
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => list ? {
 	title: list.name,

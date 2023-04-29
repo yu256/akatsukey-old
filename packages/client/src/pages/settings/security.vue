@@ -52,7 +52,7 @@ const pagination = {
 	limit: 5,
 };
 
-async function change() {
+const change = async (): Promise<void> => {
 	const { canceled: canceled1, result: currentPassword } = await os.inputText({
 		title: i18n.ts.currentPassword,
 		type: 'password',
@@ -83,9 +83,9 @@ async function change() {
 		currentPassword,
 		newPassword,
 	});
-}
+};
 
-function regenerateToken() {
+const regenerateToken = (): void => {
 	os.inputText({
 		title: i18n.ts.password,
 		type: 'password',
@@ -95,7 +95,7 @@ function regenerateToken() {
 			password: password,
 		});
 	});
-}
+};
 
 definePageMetadata({
 	title: i18n.ts.security,

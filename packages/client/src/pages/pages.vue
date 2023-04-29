@@ -50,9 +50,7 @@ const likedPagesPagination = {
 	limit: 5,
 };
 
-function create() {
-	router.push('/pages/new');
-}
+const create = (): void => router.push('/pages/new');
 
 const headerActions = $computed(() => [{
 	icon: 'ti ti-plus',

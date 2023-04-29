@@ -57,12 +57,12 @@ withDefaults(defineProps<{
 		message: null,
 		primary: false,
 		var: null,
-		fn: null
-	}
+		fn: null,
+	},
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .xfhsjczc {
 	padding: 0 16px 0 16px;
 }

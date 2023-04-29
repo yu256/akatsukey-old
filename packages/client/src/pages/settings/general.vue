@@ -105,7 +105,7 @@ const lang = ref(localStorage.getItem('lang'));
 const fontSize = ref(localStorage.getItem('fontSize'));
 const useSystemFont = ref(localStorage.getItem('useSystemFont') != null);
 
-async function reloadAsk() {
+coonst reloadAsk = async (): Promise<void> => {
 	const { canceled } = await os.confirm({
 		type: 'info',
 		text: i18n.ts.reloadToApplySetting,
@@ -113,7 +113,7 @@ async function reloadAsk() {
 	if (canceled) return;
 
 	unisonReload();
-}
+};
 
 const overridedDeviceKind = computed(defaultStore.makeGetterSetter('overridedDeviceKind'));
 const reduceAnimation = computed(defaultStore.makeGetterSetter('animation', v => !v, v => !v));

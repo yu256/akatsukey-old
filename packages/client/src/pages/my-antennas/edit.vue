@@ -19,9 +19,7 @@ const props = defineProps<{
 	antennaId: string
 }>();
 
-function onAntennaUpdated() {
-	router.push('/my/antennas');
-}
+const onAntennaUpdated = (): void => router.push('/my/antennas');
 
 os.api('antennas/show', { antennaId: props.antennaId }).then((antennaResponse) => {
 	antenna = antennaResponse;
