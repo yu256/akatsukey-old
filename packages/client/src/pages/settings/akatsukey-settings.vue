@@ -56,19 +56,17 @@
 			<template #label>{{ i18n.ts.localMediaProxy }}</template>
 			<template #caption>{{ i18n.ts.localMediaProxyInfo }}</template>
 		</FormInput>
-	</FormSection>
-	<FormInfo warn class="_formBlock">以下の設定はベータ版です。</FormInfo>
-	<FormSection>
+
 		<FormSwitch v-model="UseIsolatedfav" class="_formBlock">
 			独立したお気に入りボタンを追加
-			<template #caption>ノートメニューからノートフッターにお気に入りボタンを移動します。設定変更後すぐにリロードしてください。</template>
+			<template #caption>ノートメニューからノートフッターにお気に入りボタンを移動します。</template>
 		</FormSwitch>
 	</FormSection>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { defaultStore } from '@/store';
 import FormInfo from '@/components/MkInfo.vue';
 import FormSwitch from '@/components/form/switch.vue';
@@ -77,6 +75,7 @@ import FormInput from '@/components/form/input.vue';
 import { isTouchUsing } from '@/scripts/touch';
 import { deviceKind } from '@/scripts/device-kind';
 import { i18n } from '@/i18n';
+import { unisonReload } from '@/scripts/unison-reload';
 
 const UseEasyReactionsViewer = computed(defaultStore.makeGetterSetter('UseEasyReactionsViewer'));
 const ShowActionsOnlyOnHover = computed(defaultStore.makeGetterSetter('ShowActionsOnlyOnHover'));
@@ -88,4 +87,19 @@ const navBarChatIcon = computed(defaultStore.makeGetterSetter('navBarChatIcon'))
 const navBarReloadIcon = computed(defaultStore.makeGetterSetter('navBarReloadIcon'));
 const navBarWidgetIcon = computed(defaultStore.makeGetterSetter('navBarWidgetIcon'));
 const mediaProxy = computed(defaultStore.makeGetterSetter('mediaProxy'));
+
+watch([
+	UseEasyReactionsViewer,
+	ShowActionsOnlyOnHover,
+	UseIsolatedfav,
+	UsePakuru,
+	UseNumberquote,
+	InstanceTickerPosition,
+	navBarChatIcon,
+	navBarReloadIcon,
+	navBarWidgetIcon,
+], () => {
+	unisonReload();
+});
+
 </script>
