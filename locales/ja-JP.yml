@@ -905,8 +905,6 @@ nextNumeric: "数字引用する"
 windowMaximize: "最大化"
 windowRestore: "元に戻す"
 emailNotSupported: "このサーバーではメール配信はサポートされていません"
-localMediaProxy: "ローカルメディアプロキシ"
-localMediaProxyInfo: "クライアント側でメディアプロキシを指定します"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"
