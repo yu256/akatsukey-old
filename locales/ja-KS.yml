@@ -901,8 +901,6 @@ pakuru: "パクる"
 nextNumeric: "数字引用する"
 windowMaximize: "最大化"
 windowRestore: "元に戻す"
-localMediaProxy: "ローカルメディアプロキシ"
-localMediaProxyInfo: "クライアント側でメディアプロキシを指定するで"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出して、モデレーションに役立てることができるで。サーバーの負荷が少し増えてまうなあ。"

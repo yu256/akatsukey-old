@@ -52,9 +52,9 @@
 			<template #caption>モバイルのボトムナビゲーションにウィジェットを表示します。</template>
 		</FormSwitch>
 
-		<FormInput v-model="mediaProxy">
-			<template #label>{{ i18n.ts.localMediaProxy }}</template>
-			<template #caption>{{ i18n.ts.localMediaProxyInfo }}</template>
+		<FormInput v-model="mediaProxy" :placeholder="'URLを入力'">
+			<template #label>メディアプロキシ</template>
+			<template #caption>メディアプロキシを指定します。</template>
 		</FormInput>
 
 		<FormSwitch v-model="UseIsolatedfav" class="_formBlock">
@@ -74,7 +74,6 @@ import FormSelect from '@/components/form/select.vue';
 import FormInput from '@/components/form/input.vue';
 import { isTouchUsing } from '@/scripts/touch';
 import { deviceKind } from '@/scripts/device-kind';
-import { i18n } from '@/i18n';
 import { unisonReload } from '@/scripts/unison-reload';
 
 const UseEasyReactionsViewer = computed(defaultStore.makeGetterSetter('UseEasyReactionsViewer'));
