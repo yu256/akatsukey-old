@@ -35,7 +35,7 @@ const pagination = {
 };
 </script>
 
-<style lang="scss" module>
+<style module>
 .tab {
 	margin: calc(var(--margin) / 2) 0;
 	padding: calc(var(--margin) / 2) 0;

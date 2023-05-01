@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="1000">
 		<Transition name="fade" mode="out-in">
 			<div v-if="user">
@@ -44,10 +44,6 @@ watch(() => props.acct, fetchUser, {
 	immediate: true,
 });
 
-const headerActions = $computed(() => []);
-
-const headerTabs = $computed(() => []);
-
 definePageMetadata(computed(() => user ? {
 	icon: 'ti ti-user',
 	title: user.name ? `${user.name} (@${user.username})` : `@${user.username}`,
@@ -56,6 +52,3 @@ definePageMetadata(computed(() => user ? {
 	avatar: user,
 } : null));
 </script>
-
-<style lang="scss" scoped>
-</style>

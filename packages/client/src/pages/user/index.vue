@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader v-model:tab="tab" :tabs="headerTabs"/></template>
 	<div>
 		<Transition name="fade" mode="out-in">
 			<div v-if="user">
@@ -23,7 +23,6 @@ import * as Acct from 'misskey-js/built/acct';
 import * as misskey from 'misskey-js';
 import { acct as getAcct } from '@/filters/user';
 import * as os from '@/os';
-import { useRouter } from '@/router';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import { $i } from '@/account';
@@ -58,8 +57,6 @@ function fetchUser(): void {
 watch(() => props.acct, fetchUser, {
 	immediate: true,
 });
-
-const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => user ? [{
 	key: 'home',
@@ -96,7 +93,7 @@ definePageMetadata(computed(() => user ? {
 } : null));
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.125s ease;
