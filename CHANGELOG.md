@@ -8,6 +8,16 @@
 
 You should also include the user name that made the change.
 -->
+# akatsukey v4.3
+- refactor
+- モバイルのボトムバーのデザインを変更
+- feat: client side media proxy
+- feat(mfm): DLsiteのRJ番号をリンク化する
+- 一日以上前のノートの投稿日を絶対表示にする
+- フォークの設定の変更時にリロードを強制する
+- reactionImportMenuを廃止 / シングルクリックでリアクションするようにする
+- モデレーターでなくてもインポートできるようにして、絵文字名にmisskeyioが含まれている場合はインポートしないようにする
+
 # akatsukey v4.2
 - デッキUIのウィンドウが無限にリサイズループしないように
 - 存在する絵文字であればadmin/moderatorでなくてもリアクションできるように・存在していればインポートボタンを表示しないように
