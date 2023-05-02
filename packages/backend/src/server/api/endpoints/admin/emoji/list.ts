@@ -1,14 +1,14 @@
-import define from '../../../define.js';
-import { Emojis } from '@/models/index.js';
-import { makePaginationQuery } from '../../../common/make-pagination-query.js';
 import { Emoji } from '@/models/entities/emoji.js';
+import { Emojis } from '@/models/index.js';
+import define from '../../../define.js';
+import { makePaginationQuery } from '../../../common/make-pagination-query.js';
 //import { sqlLikeEscape } from '@/misc/sql-like-escape.js';
 
 export const meta = {
 	tags: ['admin'],
 
 	requireCredential: true,
-	requireModerator: true,
+	requireModerator: false,
 
 	res: {
 		type: 'array',
@@ -66,7 +66,7 @@ export const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
 	const q = makePaginationQuery(Emojis.createQueryBuilder('emoji'), ps.sinceId, ps.untilId)
-		.andWhere(`emoji.host IS NULL`);
+		.andWhere('emoji.host IS NULL');
 
 	let emojis: Emoji[];
 

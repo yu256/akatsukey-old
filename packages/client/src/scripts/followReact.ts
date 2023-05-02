@@ -1,5 +1,4 @@
 import { defineAsyncComponent } from 'vue';
-import { $i } from '@/account';
 import * as os from '@/os';
 
 export async function followReact(reaction: string, noteId: string): Promise<void> {
@@ -11,11 +10,6 @@ export async function followReact(reaction: string, noteId: string): Promise<voi
 	const isCustom = reaction.startsWith(':');
 
 	const getEmojiObject = (emojiId): Promise<Record<string, any> | null> => new Promise<Record<string, any> | null>(async resolve => {
-		if (!($i?.isAdmin || $i?.isModerator)) {
-			resolve(null);
-			return;
-		}
-
 		const sinceId = await os.api('admin/emoji/list', {
 			limit: 1,
 			untilId: emojiId.id,
@@ -42,7 +36,6 @@ export async function followReact(reaction: string, noteId: string): Promise<voi
 	const getEmojiId = async (): Promise<string | null> => {
 		if (isLocal) return null;
 		if (!host || !name) return null;
-		if (!($i?.isAdmin || $i?.isModerator)) return null;
 
 		const resList: Record<string, any>[] = await os.api('admin/emoji/list-remote', {
 			host,
@@ -57,7 +50,7 @@ export async function followReact(reaction: string, noteId: string): Promise<voi
 
 	const importEmoji = async (skip: boolean): Promise<void> => {
 		const emojiId = await getEmojiId();
-		if (!await emojiId) return;
+		if (!emojiId) return;
 		os.api('admin/emoji/copy', {
 			emojiId: emojiId,
 		}).then(async emoji => {
@@ -77,6 +70,8 @@ export async function followReact(reaction: string, noteId: string): Promise<voi
 
 	const emojiId = await getEmojiId() ? await getEmojiId() : reaction;
 
+	const isForbidden = name?.includes('misskeyio');
+
 	if (
 		isCustom &&
 		emojiId &&
@@ -90,8 +85,8 @@ export async function followReact(reaction: string, noteId: string): Promise<voi
 	} else if (
 		isCustom &&
 		emojiId &&
-		($i?.isAdmin || $i?.isModerator) &&
-		!isLocal
+		!isLocal &&
+		!isForbidden
 	)	{	
 		await importEmoji(true).then(() => {
 			setTimeout(() => {
@@ -104,7 +99,7 @@ export async function followReact(reaction: string, noteId: string): Promise<voi
 	} else {
 		os.confirm({
 			type: 'error',
-			text: `:${name}: is not found.`,
+			text: `:${name}: のインポートは禁止されています。`,
 		});
 	}
 }
