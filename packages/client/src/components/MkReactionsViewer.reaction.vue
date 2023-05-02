@@ -6,7 +6,7 @@
 	class="hkzvhatu _button"
 	:class="[{ reacted: note.myReaction == reaction, canToggle }, useEasyReactionsViewer ? 'easy' : 'normal']"
 	@click="toggleReaction"
-	@contextmenu.stop="onContextmenu"
+	@dblclick="togglefollowReaction"
 >
 	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis" :use-fallback-icon="true"/>
 	<span class="count">{{ count }}</span>
@@ -21,7 +21,7 @@ import XReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { $i } from '@/account';
-import { openReactionImportMenu } from '@/scripts/reactionImportMenu';
+import { followReact } from '@/scripts/followReact';
 import { defaultStore } from '@/store';
 
 const props = defineProps<{
@@ -37,9 +37,15 @@ const buttonRef = shallowRef<HTMLElement>();
 
 const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
 
-const toggleReaction = (e: MouseEvent): void => {
+const togglefollowReaction = (): void => {
 	if (!canToggle.value) {
-		openReactionImportMenu(e, props.reaction, props.note.id);
+		followReact(props.reaction, props.note.id);
+		return;
+	}
+};
+
+const toggleReaction = (): void => {
+	if (!canToggle.value) {
 		return;
 	}
 
@@ -83,10 +89,6 @@ useTooltip(buttonRef, async (showing) => {
 	}, {}, 'closed');
 }, 100);
 
-const onContextmenu = (e: MouseEvent): void => {
-	e.preventDefault();
-	openReactionImportMenu(e, props.reaction, props.note.id);
-};
 </script>
 
 <style lang="scss" scoped>

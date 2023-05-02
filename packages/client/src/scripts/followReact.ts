@@ -1,11 +1,8 @@
 import { defineAsyncComponent } from 'vue';
 import { $i } from '@/account';
-import { i18n } from '@/i18n';
 import * as os from '@/os';
-import { copyText } from '@/scripts/tms/clipboard';
-import { MenuItem } from '@/types/menu';
 
-export const openReactionImportMenu = async (ev: MouseEvent, reaction: string, noteId: string): Promise<void> => {
+export async function followReact(reaction: string, noteId: string): Promise<void> {
 	if (!reaction) return;
 
 	const host = reaction.match(/(?<=@).*\.*(?=:)/g)?.[0];
@@ -78,18 +75,6 @@ export const openReactionImportMenu = async (ev: MouseEvent, reaction: string, n
 		});
 	});
 
-	const menuItems: MenuItem[] = [{
-		type: 'label',
-		text: reaction,
-	}, {
-		type: 'button',
-		icon: 'ti ti-copy',
-		text: i18n.ts.copy,
-		action: (): void => {
-			copyText(isCustom ? `:${name}:` : reaction);
-		},
-	}];
-
 	const emojiId = await getEmojiId() ? await getEmojiId() : reaction;
 
 	if (
@@ -97,45 +82,29 @@ export const openReactionImportMenu = async (ev: MouseEvent, reaction: string, n
 		emojiId &&
 		!isLocal &&
 		duplication
-	) {
-		menuItems.push({
-			type: 'button',
-			icon: 'ti ti-check',
-			text: 'リアクションする',
-			action: (): void => {
-				os.api('notes/reactions/create', {
-					noteId: noteId,
-					reaction: `:${name}:`,
-				});
-			} });
-	}	else if (
+	) 	{
+		os.api('notes/reactions/create', {
+			noteId: noteId,
+			reaction: `:${name}:`,
+		});
+	} else if (
 		isCustom &&
 		emojiId &&
 		($i?.isAdmin || $i?.isModerator) &&
 		!isLocal
-	)	{
-		menuItems.push({
-			type: 'button',
-			icon: 'ti ti-check',
-			text: 'リアクションする',
-			action: async () =>	{	
-				await importEmoji(true).then(() => {
-					setTimeout(() => {
-						os.api('notes/reactions/create', {
-							noteId: noteId,
-							reaction: `:${name}:`,
-						});
-					}, 2000); // インポートしてからバックエンドに浸透するのが遅いので2秒待つ
-				});},
-		}, {
-			type: 'button',
-			icon: 'ti ti-download',
-			text: i18n.ts.import,
-			action: () => {
-				importEmoji(false);
-			},
+	)	{	
+		await importEmoji(true).then(() => {
+			setTimeout(() => {
+				os.api('notes/reactions/create', {
+					noteId: noteId,
+					reaction: `:${name}:`,
+				});
+			}, 2000);
+		});
+	} else {
+		os.confirm({
+			type: 'error',
+			text: `:${name}: is not found.`,
 		});
 	}
-
-	os.contextMenu(menuItems, ev);
-};
+}
