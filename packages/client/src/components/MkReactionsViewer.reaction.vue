@@ -6,7 +6,6 @@
 	class="hkzvhatu _button"
 	:class="[{ reacted: note.myReaction == reaction, canToggle }, useEasyReactionsViewer ? 'easy' : 'normal']"
 	@click="toggleReaction"
-	@dblclick="togglefollowReaction"
 >
 	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis" :use-fallback-icon="true"/>
 	<span class="count">{{ count }}</span>
@@ -37,15 +36,9 @@ const buttonRef = shallowRef<HTMLElement>();
 
 const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
 
-const togglefollowReaction = (): void => {
-	if (!canToggle.value) {
-		followReact(props.reaction, props.note.id);
-		return;
-	}
-};
-
 const toggleReaction = (): void => {
 	if (!canToggle.value) {
+		followReact(props.reaction, props.note.id);
 		return;
 	}
 
