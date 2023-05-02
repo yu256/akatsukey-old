@@ -3,8 +3,8 @@
 	<div class="ewlycnyt">
 		<div class="title"><MkSparkle>{{ i18n.ts.misskeyUpdated }}</MkSparkle></div>
 		<div class="version">✨{{ version }}🚀</div>
-		<MkButton primary full @click="whatIsNew">{{ i18n.ts.whatIsNew }}</MkButton>
-		<MkButton class="gotIt" full @click="$refs.modal.close()">{{ i18n.ts.gotIt }}</MkButton>
+		<MkButton full @click="whatIsNew">{{ i18n.ts.whatIsNew }}</MkButton>
+		<MkButton class="gotIt" primary full @click="$refs.modal.close()">{{ i18n.ts.gotIt }}</MkButton>
 	</div>
 </MkModal>
 </template>
