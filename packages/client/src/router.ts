@@ -176,6 +176,10 @@ export const routes = [{
 		path: '/akatsukey-settings',
 		name: 'akatsukey',
 		component: page(() => import('./pages/settings/akatsukey-settings.vue')),
+	}, {
+		path: '/mediaproxy',
+		name: 'mediaproxy',
+		component: page(() => import('./pages/settings/mediaproxy.vue')),
 	},{
 		path: '/other',
 		name: 'other',

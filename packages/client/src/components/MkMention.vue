@@ -27,7 +27,7 @@ const props = defineProps<{
 	host: string;
 }>();
 
-const imageUrl = defaultStore.state.mediaProxy ?
+const imageUrl = defaultStore.state.UseMediaProxy ?
 	defaultStore.state.mediaProxy + '?url=' + `${localUrl}/avatar/@${props.username}@${props.host}`
 	:
 	`${localUrl}/avatar/@${props.username}@${props.host}`;

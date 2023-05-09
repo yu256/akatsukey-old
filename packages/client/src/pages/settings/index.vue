@@ -129,6 +129,16 @@ const menuDef = computed(() => [{
 		text: i18n.ts.plugins,
 		to: '/settings/plugin',
 		active: currentPage?.route.name === 'plugin',
+	}, {
+		icon: 'ti ti-resize',
+		text: 'MediaProxy',
+		to: '/settings/mediaproxy',
+		active: currentPage?.route.name === 'mediaproxy',
+	}, {
+		icon: 'ti ti-git-fork',
+		text: 'akatsukey',
+		to: '/settings/akatsukey-settings',
+		active: currentPage?.route.name === 'akatsukey-settings',
 	}],
 }, {
 	title: i18n.ts.otherSettings,
@@ -196,13 +206,6 @@ const menuDef = computed(() => [{
 			signout();
 		},
 		danger: true,
-	}],
-}, {
-	items: [{
-		icon: 'ti ti-git-fork',
-		text: 'akatsukey',
-		to: '/settings/akatsukey-settings',
-		active: currentPage?.route.name === 'akatsukey-settings',
 	}],
 }]);
 

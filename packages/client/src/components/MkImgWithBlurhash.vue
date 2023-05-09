@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<{
 });
 
 const canvas = $shallowRef<HTMLCanvasElement>();
-const imgSrc = defaultStore.state.mediaProxy ?
+const imgSrc = defaultStore.state.UseMediaProxy ?
 	defaultStore.state.mediaProxy + '?url=' + props.src
 	:
 	props.src;

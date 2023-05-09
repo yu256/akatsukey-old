@@ -52,11 +52,6 @@
 			<template #caption>モバイルのボトムナビゲーションにウィジェットを表示します。</template>
 		</FormSwitch>
 
-		<FormInput v-model="mediaProxy" :placeholder="'URLを入力'">
-			<template #label>メディアプロキシ</template>
-			<template #caption>メディアプロキシを指定します。</template>
-		</FormInput>
-
 		<FormSwitch v-model="UseIsolatedfav" class="_formBlock">
 			独立したお気に入りボタンを追加
 			<template #caption>ノートメニューからノートフッターにお気に入りボタンを移動します。</template>
@@ -71,7 +66,6 @@ import { defaultStore } from '@/store';
 import FormInfo from '@/components/MkInfo.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import FormSelect from '@/components/form/select.vue';
-import FormInput from '@/components/form/input.vue';
 import { isTouchUsing } from '@/scripts/touch';
 import { deviceKind } from '@/scripts/device-kind';
 import { unisonReload } from '@/scripts/unison-reload';
@@ -85,7 +79,6 @@ const InstanceTickerPosition = computed(defaultStore.makeGetterSetter('instanceT
 const navBarChatIcon = computed(defaultStore.makeGetterSetter('navBarChatIcon'));
 const navBarReloadIcon = computed(defaultStore.makeGetterSetter('navBarReloadIcon'));
 const navBarWidgetIcon = computed(defaultStore.makeGetterSetter('navBarWidgetIcon'));
-const mediaProxy = computed(defaultStore.makeGetterSetter('mediaProxy'));
 
 watch([
 	UseEasyReactionsViewer,

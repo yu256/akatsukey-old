@@ -30,7 +30,7 @@ const instance = props.instance ?? {
 
 const position = computed(() => unref(props.forceType) ?? defaultStore.state.instanceTickerPosition);
 
-const faviconUrl = defaultStore.state.mediaProxy ?
+const faviconUrl = defaultStore.state.UseMediaProxy ?
 	defaultStore.state.mediaProxy + '?url=' + instance.faviconUrl
 	:
 	instance.faviconUrl ?? undefined;

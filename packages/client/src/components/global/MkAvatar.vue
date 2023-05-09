@@ -39,7 +39,7 @@ const imageSrc = defaultStore.state.disableShowingAnimatedImages
 	? getStaticImageUrl(props.user.avatarUrl)
 	: props.user.avatarUrl;
 
-const url = defaultStore.state.mediaProxy ?
+const url = defaultStore.state.UseMediaProxy ?
 	defaultStore.state.mediaProxy + '?url=' + imageSrc
 	:
 	imageSrc;

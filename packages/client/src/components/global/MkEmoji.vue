@@ -35,7 +35,7 @@ const imageSrc = defaultStore.state.disableShowingAnimatedImages
 const url = char.value ?
 	char2filePath(char.value)
 	:
-	defaultStore.state.mediaProxy ?
+	defaultStore.state.UseMediaProxy ?
 		defaultStore.state.mediaProxy + '?url=' + imageSrc
 		:
 		imageSrc;
