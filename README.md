@@ -1,4 +1,5 @@
 <div align="center">
+<p>This Project was forked from <a href="https://github.com/misskey-dev/misskey">Misskey</a></p>
 <a href="https://misskey-hub.net">
 	<img src="./assets/title_float.svg" alt="Misskey logo" style="border-radius:50%" width="400"/>
 </a>
