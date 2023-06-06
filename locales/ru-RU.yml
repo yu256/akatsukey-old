@@ -963,7 +963,6 @@ permissionDeniedError: "Операция запрещена"
 permissionDeniedErrorDescription: "У этой учетной записи нет разрешения на выполнение этой операции."
 preset: "Шаблоны"
 selectFromPresets: "Выбрать из шаблонов"
-achievements: "Достижения"
 gotInvalidResponseError: "Сервер ответил ошибкой"
 gotInvalidResponseErrorDescription: "Сервер временно не доступен. Возможно проводятся технические работы, или сервер отключен."
 thisPostMayBeAnnoying: "Это сообщение может быть неприятным."
@@ -1011,245 +1010,6 @@ renotesList: "Репосты"
 horizontal: "Сбоку"
 youFollowing: "Подписки"
 options: "Настройки ролей"
-_achievements:
-  earnedAt: "Разблокировано в"
-  _types:
-    _notes1:
-      title: "Первые шаги в Misskey"
-      description: "Опубликована первая заметка"
-      flavor: "Приятных дней с Misskey!"
-    _notes10:
-      title: "Несколько заметок"
-      description: "Опубликовано 10 заметок"
-    _notes100:
-      title: "Много заметок"
-      description: "Опубликовано 100 заметок"
-    _notes500:
-      title: "Всё в заметках"
-      description: "Опубликовано 500 заметок"
-    _notes1000:
-      title: "Гора заметок"
-      description: "Опубликовано 1000 заметок"
-    _notes5000:
-      title: "Заметки льются рекой"
-      description: "Опубликовано 5000 заметок"
-    _notes10000:
-      title: "Превосходство в заметках"
-      description: "Опубликовано 10 000 заметок"
-    _notes20000:
-      title: "Нужно больше заметок!"
-      description: "Опубликовано 20 000 заметок"
-    _notes30000:
-      title: "Заметки, заметки, заметки"
-      description: "Опубликовано 30 000 заметок"
-    _notes40000:
-      title: "Фабрика заметок"
-      description: "Опубликовано 40 000 заметок"
-    _notes50000:
-      title: "Планета заметок"
-      description: "Опубликовано 50 000 заметок"
-    _notes60000:
-      title: "Замет-квазар"
-      description: "Опубликовано 60 000 заметок"
-    _notes70000:
-      title: "Чёрная дыра из заметок"
-      description: "Опубликовано 70 000 заметок"
-    _notes80000:
-      title: "Галактика заметок"
-      description: "Опубликовано 80 000 заметок"
-    _notes90000:
-      title: "Вселенная заметок"
-      description: "Опубликовано 90 000 заметок"
-    _notes100000:
-      title: "ALL YOUR NOTE ARE BELONG TO US"
-      description: "Опубликовано 100 000 заметок"
-      flavor: "Вам правда нужно столько писать?"
-    _login3:
-      title: "Новичок Ⅰ"
-      description: "3 дня на сайте"
-      flavor: "С сегодняшнего дня зовите меня просто мискиец"
-    _login7:
-      title: "Новичок Ⅱ"
-      description: "Неделя на сайте"
-      flavor: "Кажется, вы начали свыкаться с этим, нет?"
-    _login15:
-      title: "Новичок Ⅲ"
-      description: "15 дней на сайте"
-    _login30:
-      title: "Мискиец Ⅰ"
-      description: "30 дней на сайте"
-    _login60:
-      title: "Мискиец Ⅱ"
-      description: "60 дней на сайте"
-    _login100:
-      title: "Мискиец Ⅲ"
-      description: "100 дней на сайте"
-      flavor: "Жестокий мискиец"
-    _login200:
-      title: "Завсегдатай Ⅰ"
-      description: "200 дней на сайте"
-    _login300:
-      title: "Завсегдатай Ⅱ"
-      description: "300 дней на сайте"
-    _login400:
-      title: "Завсегдатай Ⅲ"
-      description: "400 дней на сайте"
-    _login500:
-      title: "Ветеран Ⅰ"
-      description: "500 дней на сайте"
-      flavor: "Господа, я люблю заметки"
-    _login600:
-      title: "Ветеран Ⅱ"
-      description: "600 дней на сайте"
-    _login700:
-      title: "Ветеран Ⅲ"
-      description: "700 дней на сайте"
-    _login800:
-      title: "Повелитель заметок Ⅰ"
-      description: "800 дней на сайте"
-    _login900:
-      title: "Повелитель заметок Ⅱ"
-      description: "900 дней на сайте"
-    _login1000:
-      title: "Повелитель заметок Ⅲ"
-      description: "1000 дней на сайте"
-      flavor: "Спасибо, что пользуетесь Misskey!"
-    _noteClipped1:
-      title: "Нельзя не сохранить"
-      description: "Первая заметка в подборке"
-    _noteFavorited1:
-      title: "Смотрящий на звёзды"
-      description: "Первое добавление в избранное"
-    _myNoteFavorited1:
-      title: "В поиске звёзд"
-      description: "Кому-то понравилась ваша заметка"
-    _profileFilled:
-      title: "Приготовления закончены"
-      description: "Заполнен профиль"
-    _markedAsCat:
-      title: "Ваш покорный слуга кот"
-      description: "Включена опция «Аккаунт кота»"
-      flavor: "Позвольте представиться: я — кот, просто кот, у меня еще нет имени."
-    _following1:
-      title: "Я не один"
-      description: "Сделана первая подписка"
-    _following10:
-      title: "Не останавливайся… Не останавливайся…"
-      description: "Количество подписок достигло 10"
-    _following50:
-      title: "Много друзей"
-      description: "Количество подписок достигло 50"
-    _following100:
-      title: "Сотня друзей"
-      description: "Количество подписок достигло 100"
-    _following300:
-      title: "Друзья в избытке"
-      description: "Количество подписок достигло 300"
-    _followers1:
-      title: "Первый подписчик"
-      description: "Появился 1 подписчик"
-    _followers10:
-      title: "Следуй за мной!"
-      description: "Количество подписчиков достигло 10"
-    _followers50:
-      title: "Один за другим"
-      description: "Количество подписчиков достигло 50"
-    _followers100:
-      title: "Всеобщий любимец"
-      description: "Количество подписчиков достигло 100"
-    _followers300:
-      title: "В очередь!"
-      description: "Количество подписчиков достигло 300"
-    _followers500:
-      title: "Радиостанция"
-      description: "Количество подписчиков достигло 500"
-    _followers1000:
-      title: "Авторитет"
-      description: "Количество подписчиков достигло 1000"
-    _collectAchievements30:
-      title: "Достигатор"
-      description: "Получено 30 достижений"
-    _viewAchievements3min:
-      title: "Любовь к успехам"
-      description: "Более 3 минут любования достижениями"
-    _iLoveMisskey:
-      title: "Я люблю Misskey"
-      description: "Написана заметка «I ❤ #Misskey»"
-      flavor: "Спасибо за поддержку Misskey! Ваша команда разработчиков"
-    _foundTreasure:
-      title: "Охота за сокровищами"
-      description: "Найдено спрятанное сокровище"
-    _client30min:
-      title: "Перерыв на обед"
-      description: "Прошло 30 минут с момента запуска клиента"
-    _client60min:
-      title: "Не наглядеться на Misskey"
-      description: "Misskey был открыт 60 минут подряд"
-    _noteDeletedWithin1min:
-      title: "Ой, нет!"
-      description: "Заметка удалена через минуту после публикации"
-    _postedAtLateNight:
-      title: "Житель ночи"
-      description: "Заметка опубликована в глухую ночь"
-      flavor: "Вроде бы пора спать"
-    _postedAt0min0sec:
-      title: "Говорящие часы"
-      description: "Заметка опубликована ровно в 0 минут 0 секунд"
-      flavor: "Дин-дон дин-дон"
-    _selfQuote:
-      title: "Самовоспроизведение"
-      description: "Процитирована собственная заметка"
-    _htl20npm:
-      title: "В потоке"
-      description: "Достигнута скорость домашней ленты в 20 з/мин (заметок минуту)"
-    _viewInstanceChart:
-      title: "Аналитик"
-      description: "Просмотрены статистические диаграммы инстанса"
-    _outputHelloWorldOnScratchpad:
-      title: "Привет, мир!"
-      description: "Выведен текст «hello world» в Когтеточке"
-    _open3windows:
-      title: "Многооконный"
-      description: "Открыто одновременно 3 окна"
-    _driveFolderCircularReference:
-      title: "Циклическая ссылка"
-      description: "Попытка создать на «диске» рекурсивно вложенную папку"
-    _reactWithoutRead:
-      title: "Не читай @ отвечай!"
-      description: "На заметку более чем 100 знаков написан ответ в первые же 3 секунды с её появления."
-    _clickedClickHere:
-      title: "Нажмите здесь"
-      description: "Нажато здесь"
-    _justPlainLucky:
-      title: "Чистая удача"
-      description: "Может достаться с вероятностью 0,01% каждые 10 секунд."
-    _setNameToSyuilo:
-      title: "Комплекс бога"
-      description: "Установлено «syuilo» в качестве имени"
-    _passedSinceAccountCreated1:
-      title: "Первая годовщина"
-      description: "Прошёл 1 год с момента регистрации"
-    _passedSinceAccountCreated2:
-      title: "Вторая годовщина"
-      description: "Прошло 2 года с момента регистрации"
-    _passedSinceAccountCreated3:
-      title: "Третья годовщина"
-      description: "Прошло 3 года с момента регистрации"
-    _loggedInOnBirthday:
-      title: "С днём рождения!"
-      description: "Вход на сайт в свой день рождения"
-    _loggedInOnNewYearsDay:
-      title: "С Новым годом!"
-      description: "Вход на сайт в первый день года"
-      flavor: "Желаем отличного года на нашем сайте!"
-    _cookieClicked:
-      title: "Игра, в которой вы щёлкаете по печенькам"
-      description: "Нажато печенье"
-      flavor: "Стоп, вы вообще на том сайте-то?"
-    _brainDiver:
-      title: "Brain Diver"
-      description: "Опубликована ссылка на песню «Brain Diver»"
-      flavor: "Мисски-Мисски Ла-Ту-Ма"
 _role:
   new: "Новая роль"
   edit: "Изменить роль"
@@ -1836,7 +1596,6 @@ _notification:
   pollEnded: "Подведены окончательные итоги опроса"
   unreadAntennaNote: "Антенна {name}"
   emptyPushNotificationMessage: "Обновлены push-уведомления"
-  achievementEarned: "Получено достижение"
   _types:
     all: "Все"
     follow: "Подписки"
@@ -1848,7 +1607,6 @@ _notification:
     pollEnded: "Окончания опросов"
     receiveFollowRequest: "Получен запрос на подписку"
     followRequestAccepted: "Запрос на подписку одобрен"
-    achievementEarned: "Получение достижений"
     app: "Уведомления из приложений"
   _actions:
     followBack: "отвечает взаимной подпиской"

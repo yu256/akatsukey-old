@@ -148,11 +148,6 @@ export class UserProfile {
 	public noCrawle: boolean;
 
 	@Column('boolean', {
-		default: true,
-	})
-	public preventAiLearning: boolean;
-
-	@Column('boolean', {
 		default: false,
 	})
 	public alwaysMarkNsfw: boolean;
@@ -216,19 +211,6 @@ export class UserProfile {
 		default: [],
 	})
 	public mutingNotificationTypes: typeof notificationTypes[number][];
-
-	@Column('varchar', {
-		length: 32, array: true, default: '{}',
-	})
-	public loggedInDates: string[];
-
-	@Column('jsonb', {
-		default: [],
-	})
-	public achievements: {
-		name: string;
-		unlockedAt: number;
-	}[];
 
 	//#region Denormalized fields
 	@Index()

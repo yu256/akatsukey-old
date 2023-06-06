@@ -23,7 +23,7 @@ export const meta = {
 			id: 'e5b3b9f0-2b8f-4b9f-9c1f-8c5c1b2e1b1a',
 			kind: 'permission',
 		},
-	}
+	},
 } as const;
 
 export const paramDef = {
@@ -47,32 +47,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 		super(meta, paramDef, async (ps, user, token) => {
 			const isSecure = token == null;
 
-			const now = new Date();
-			const today = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
-
-			// 渡ってきている user はキャッシュされていて古い可能性があるので改めて取得
-			const userProfile = await this.userProfilesRepository.findOne({
-				where: {
-					userId: user.id,
-				},
-				relations: ['user'],
-			});
-
-			if (userProfile == null) {
-				throw new ApiError(meta.errors.userIsDeleted);
-			}
-
-			if (!userProfile.loggedInDates.includes(today)) {
-				this.userProfilesRepository.update({ userId: user.id }, {
-					loggedInDates: [...userProfile.loggedInDates, today],
-				});
-				userProfile.loggedInDates = [...userProfile.loggedInDates, today];
-			}
-			
-			return await this.userEntityService.pack<true, true>(userProfile.user!, userProfile.user!, {
+			// ここで渡ってきている user はキャッシュされていて古い可能性もあるので id だけ渡す
+			return await this.userEntityService.pack<true, true>(user.id, user, {
 				detail: true,
 				includeSecrets: isSecure,
-				userProfile,
 			});
 		});
 	}

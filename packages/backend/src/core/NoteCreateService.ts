@@ -129,7 +129,6 @@ type Option = {
 	files?: DriveFile[] | null;
 	poll?: IPoll | null;
 	localOnly?: boolean | null;
-	reactionAcceptance?: Note['reactionAcceptance'];
 	cw?: string | null;
 	visibility?: string;
 	visibleUsers?: MinimumUser[] | null;
@@ -199,8 +198,8 @@ export class NoteCreateService implements OnApplicationShutdown {
 		private apDeliverManagerService: ApDeliverManagerService,
 		private apRendererService: ApRendererService,
 		private roleService: RoleService,
-		private metaService: MetaService,
 		private searchService: SearchService,
+		private metaService: MetaService,
 		private notesChart: NotesChart,
 		private perUserNotesChart: PerUserNotesChart,
 		private activeUsersChart: ActiveUsersChart,
@@ -239,10 +238,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		if (data.channel != null) data.localOnly = true;
 
 		if (data.visibility === 'public' && data.channel == null) {
-			const sensitiveWords = (await this.metaService.fetch()).sensitiveWords;
-			if (this.isSensitive(data, sensitiveWords)) {
-				data.visibility = 'home';
-			} else if ((await this.roleService.getUserPolicies(user.id)).canPublicNote === false) {
+			if ((await this.roleService.getUserPolicies(user.id)).canPublicNote === false) {
 				data.visibility = 'home';
 			}
 		}
@@ -367,7 +363,6 @@ export class NoteCreateService implements OnApplicationShutdown {
 			emojis,
 			userId: user.id,
 			localOnly: data.localOnly!,
-			reactionAcceptance: data.reactionAcceptance,
 			visibility: data.visibility as any,
 			visibleUserIds: data.visibility === 'specified'
 				? data.visibleUsers
@@ -550,8 +545,6 @@ export class NoteCreateService implements OnApplicationShutdown {
 			const noteObj = await this.noteEntityService.pack(note);
 
 			this.globalEventService.publishNotesStream(noteObj);
-
-			this.roleService.addNoteToRoleTimeline(noteObj);
 
 			this.webhookService.getActiveWebhooks().then(webhooks => {
 				webhooks = webhooks.filter(x => x.userId === user.id && x.on.includes('note'));

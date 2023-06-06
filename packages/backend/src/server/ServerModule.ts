@@ -35,7 +35,6 @@ import { ServerStatsChannelService } from './api/stream/channels/server-stats.js
 import { UserListChannelService } from './api/stream/channels/user-list.js';
 import { OpenApiServerService } from './api/openapi/OpenApiServerService.js';
 import { ClientLoggerService } from './web/ClientLoggerService.js';
-import { RoleTimelineChannelService } from './api/stream/channels/role-timeline.js';
 
 @Module({
 	imports: [
@@ -70,7 +69,6 @@ import { RoleTimelineChannelService } from './api/stream/channels/role-timeline.
 		DriveChannelService,
 		GlobalTimelineChannelService,
 		HashtagChannelService,
-		RoleTimelineChannelService,
 		HomeTimelineChannelService,
 		HybridTimelineChannelService,
 		LocalTimelineChannelService,

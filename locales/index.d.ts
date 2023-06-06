@@ -971,7 +971,6 @@ export interface Locale {
     "permissionDeniedErrorDescription": string;
     "preset": string;
     "selectFromPresets": string;
-    "achievements": string;
     "gotInvalidResponseError": string;
     "gotInvalidResponseErrorDescription": string;
     "thisPostMayBeAnnoying": string;
@@ -992,15 +991,8 @@ export interface Locale {
     "emailNotSupported": string;
     "postToTheChannel": string;
     "cannotBeChangedLater": string;
-    "reactionAcceptance": string;
-    "likeOnly": string;
-    "likeOnlyForRemote": string;
-    "nonSensitiveOnly": string;
-    "nonSensitiveOnlyForLocalLikeOnlyForRemote": string;
     "rolesAssignedToMe": string;
     "resetPasswordConfirm": string;
-    "sensitiveWords": string;
-    "sensitiveWordsDescription": string;
     "sensitiveWordsDescription2": string;
     "notesSearchNotAvailable": string;
     "license": string;
@@ -1050,15 +1042,9 @@ export interface Locale {
     "displayOfNote": string;
     "initialAccountSetting": string;
     "youFollowing": string;
-    "preventAiLearning": string;
-    "preventAiLearningDescription": string;
     "options": string;
     "specifyUser": string;
     "failedToPreviewUrl": string;
-    "update": string;
-    "rolesThatCanBeUsedThisEmojiAsReaction": string;
-    "rolesThatCanBeUsedThisEmojiAsReactionEmptyDescription": string;
-    "rolesThatCanBeUsedThisEmojiAsReactionPublicRoleWarn": string;
     "cancelReactionConfirm": string;
     "changeReactionConfirm": string;
     "later": string;
@@ -1100,321 +1086,6 @@ export interface Locale {
         "postMigrationNote": string;
         "movedTo": string;
     };
-    "_achievements": {
-        "earnedAt": string;
-        "_types": {
-            "_notes1": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_notes10": {
-                "title": string;
-                "description": string;
-            };
-            "_notes100": {
-                "title": string;
-                "description": string;
-            };
-            "_notes500": {
-                "title": string;
-                "description": string;
-            };
-            "_notes1000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes5000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes10000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes20000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes30000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes40000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes50000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes60000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes70000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes80000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes90000": {
-                "title": string;
-                "description": string;
-            };
-            "_notes100000": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_login3": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_login7": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_login15": {
-                "title": string;
-                "description": string;
-            };
-            "_login30": {
-                "title": string;
-                "description": string;
-            };
-            "_login60": {
-                "title": string;
-                "description": string;
-            };
-            "_login100": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_login200": {
-                "title": string;
-                "description": string;
-            };
-            "_login300": {
-                "title": string;
-                "description": string;
-            };
-            "_login400": {
-                "title": string;
-                "description": string;
-            };
-            "_login500": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_login600": {
-                "title": string;
-                "description": string;
-            };
-            "_login700": {
-                "title": string;
-                "description": string;
-            };
-            "_login800": {
-                "title": string;
-                "description": string;
-            };
-            "_login900": {
-                "title": string;
-                "description": string;
-            };
-            "_login1000": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_noteClipped1": {
-                "title": string;
-                "description": string;
-            };
-            "_noteFavorited1": {
-                "title": string;
-                "description": string;
-            };
-            "_myNoteFavorited1": {
-                "title": string;
-                "description": string;
-            };
-            "_profileFilled": {
-                "title": string;
-                "description": string;
-            };
-            "_markedAsCat": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_following1": {
-                "title": string;
-                "description": string;
-            };
-            "_following10": {
-                "title": string;
-                "description": string;
-            };
-            "_following50": {
-                "title": string;
-                "description": string;
-            };
-            "_following100": {
-                "title": string;
-                "description": string;
-            };
-            "_following300": {
-                "title": string;
-                "description": string;
-            };
-            "_followers1": {
-                "title": string;
-                "description": string;
-            };
-            "_followers10": {
-                "title": string;
-                "description": string;
-            };
-            "_followers50": {
-                "title": string;
-                "description": string;
-            };
-            "_followers100": {
-                "title": string;
-                "description": string;
-            };
-            "_followers300": {
-                "title": string;
-                "description": string;
-            };
-            "_followers500": {
-                "title": string;
-                "description": string;
-            };
-            "_followers1000": {
-                "title": string;
-                "description": string;
-            };
-            "_collectAchievements30": {
-                "title": string;
-                "description": string;
-            };
-            "_viewAchievements3min": {
-                "title": string;
-                "description": string;
-            };
-            "_iLoveMisskey": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_foundTreasure": {
-                "title": string;
-                "description": string;
-            };
-            "_client30min": {
-                "title": string;
-                "description": string;
-            };
-            "_client60min": {
-                "title": string;
-                "description": string;
-            };
-            "_noteDeletedWithin1min": {
-                "title": string;
-                "description": string;
-            };
-            "_postedAtLateNight": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_postedAt0min0sec": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_selfQuote": {
-                "title": string;
-                "description": string;
-            };
-            "_htl20npm": {
-                "title": string;
-                "description": string;
-            };
-            "_viewInstanceChart": {
-                "title": string;
-                "description": string;
-            };
-            "_outputHelloWorldOnScratchpad": {
-                "title": string;
-                "description": string;
-            };
-            "_open3windows": {
-                "title": string;
-                "description": string;
-            };
-            "_driveFolderCircularReference": {
-                "title": string;
-                "description": string;
-            };
-            "_reactWithoutRead": {
-                "title": string;
-                "description": string;
-            };
-            "_clickedClickHere": {
-                "title": string;
-                "description": string;
-            };
-            "_justPlainLucky": {
-                "title": string;
-                "description": string;
-            };
-            "_setNameToSyuilo": {
-                "title": string;
-                "description": string;
-            };
-            "_passedSinceAccountCreated1": {
-                "title": string;
-                "description": string;
-            };
-            "_passedSinceAccountCreated2": {
-                "title": string;
-                "description": string;
-            };
-            "_passedSinceAccountCreated3": {
-                "title": string;
-                "description": string;
-            };
-            "_loggedInOnBirthday": {
-                "title": string;
-                "description": string;
-            };
-            "_loggedInOnNewYearsDay": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_cookieClicked": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-            "_brainDiver": {
-                "title": string;
-                "description": string;
-                "flavor": string;
-            };
-        };
-    };
     "_role": {
         "new": string;
         "edit": string;
@@ -1438,8 +1109,6 @@ export interface Locale {
         "iconUrl": string;
         "asBadge": string;
         "descriptionOfAsBadge": string;
-        "isExplorable": string;
-        "descriptionOfIsExplorable": string;
         "displayOrder": string;
         "descriptionOfDisplayOrder": string;
         "canEditMembersByModerator": string;
@@ -1866,7 +1535,6 @@ export interface Locale {
         "_userList": {
             "chooseList": string;
         };
-        "clicker": string;
     };
     "_cw": {
         "hide": string;
@@ -2064,7 +1732,6 @@ export interface Locale {
         "pollEnded": string;
         "unreadAntennaNote": string;
         "emptyPushNotificationMessage": string;
-        "achievementEarned": string;
         "_types": {
             "all": string;
             "follow": string;
@@ -2076,7 +1743,6 @@ export interface Locale {
             "pollEnded": string;
             "receiveFollowRequest": string;
             "followRequestAccepted": string;
-            "achievementEarned": string;
             "app": string;
         };
         "_actions": {
@@ -2112,7 +1778,6 @@ export interface Locale {
             "channel": string;
             "mentions": string;
             "direct": string;
-            "roleTimeline": string;
         };
     };
     "_dialog": {

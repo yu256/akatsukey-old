@@ -35,7 +35,6 @@ import { Router } from '@/nirax';
 import { i18n } from '@/i18n';
 import { PageMetadata, provideMetadataReceiver } from '@/scripts/page-metadata';
 import { openingWindowsCount } from '@/os';
-import { claimAchievement } from '@/scripts/achievements';
 
 const props = defineProps<{
 	initialPath: string;
@@ -137,17 +136,6 @@ function popout() {
 	_popout(router.getCurrentPath(), windowEl.$el);
 	windowEl.close();
 }
-
-onMounted(() => {
-	openingWindowsCount.value++;
-	if (openingWindowsCount.value >= 3) {
-		claimAchievement('open3windows');
-	}
-});
-
-onUnmounted(() => {
-	openingWindowsCount.value--;
-});
 
 defineExpose({
 	close,

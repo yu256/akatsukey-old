@@ -930,7 +930,6 @@ color: "Màu sắc"
 manageCustomEmojis: "Quản lý CustomEmoji"
 cannotPerformTemporary: "Tạm thời không sử dụng được"
 cannotPerformTemporaryDescription: "Tạm thời không sử dụng được vì lần số điều kiện quá giới hạn. Thử lại sau mọt lát nữa."
-achievements: "Thành tích"
 gotInvalidResponseError: "Không nhận được trả lời chủ máy"
 gotInvalidResponseErrorDescription: "Chủ máy có lẻ ngừng hoạt động hoặc bảo trí. Thử lại sau một lát nữa. "
 thisPostMayBeAnnoying: "Bạn đăng bài này có thể làm phiền cho người ta."
@@ -946,164 +945,6 @@ exploreOtherServers: "Tìm chủ máy khác"
 letsLookAtTimeline: "Thử xem Timeline"
 horizontal: "Thanh bên"
 youFollowing: "Đang theo dõi"
-_achievements:
-  earnedAt: "Ngày thu nhận"
-  _types:
-    _notes1:
-      title: "just setting up my msky"
-      description: "Lần đầu tiên đăng bài"
-      flavor: "Chúc bạn trên Miskey vui vẻ nha!!"
-    _notes10:
-      title: "Một số bài viết"
-      description: "Đăng bài 10 lần"
-    _notes100:
-      title: "Rất nhiều bài biết"
-      description: "Đăng bài 100 lần"
-    _notes500:
-      title: "Như đầy bài viết"
-      description: "Đăng bài 500 lần"
-    _notes1000:
-      title: "Ngọn núi bài viết"
-      description: "Đăng bài 1000 lần"
-    _notes5000:
-      title: "Bài viết chảy như suối"
-      description: "Đăng bài 5000 lần"
-    _notes10000:
-      title: "Bài Viết siu nhìu"
-      description: "Đăng bài 10000 lần"
-    _notes20000:
-      title: "Need more note"
-      description: "Đã đăng bài 20,000 lần rồi"
-    _notes30000:
-      title: "ĐĂNG VỚI BÀI"
-      description: "Đã đăng bài 30,000 lần rồi"
-    _notes40000:
-      title: "Nhà xưởng dăng bài"
-      description: "Đã đăng bài 40,000 lần rồi"
-    _notes50000:
-      title: "Hàng tinh đăng bài"
-      description: "Đã đăng bài 50,000 lần rồi"
-    _notes100000:
-      flavor: "Liệu viết bài gì tầm này vậy? "
-    _login3:
-      title: "Sơ cấp I"
-      description: "Tổng số ngày đăng nhập đạt 3 ngày"
-      flavor: "Từ nay các bạn cứ xem như mình là một Misskist đó"
-    _login7:
-      title: "Sơ cấp II"
-      description: "Tổng số ngày đăng nhập đạt 7 ngày"
-      flavor: "Bạn dần quen chưa? "
-    _login15:
-      title: "Sơ cấp III"
-      description: "Tổng số ngày đăng nhập đạt 7 ngày"
-    _login30:
-      title: "Misskist cấp I"
-      description: "Tổng số ngày đăng nhập đạt 30 ngày"
-    _login60:
-      title: "Misskist cấp II"
-      description: "Tổng số ngày đăng nhập đạt 60 ngày"
-    _login100:
-      title: "Misskist cấp III"
-      description: "Tổng số ngày đăng nhập đạt 100 ngày"
-      flavor: "Người dùng này, chính vì đó là một Misskist"
-    _login200:
-      title: "Khách hàng thường xuyên cấp I"
-      description: "Tổng số ngày đăng nhập đạt 200 ngày"
-    _login300:
-      title: "Khách hàng thường xuyên cấp II"
-      description: "Tổng số ngày đăng nhập đạt 300 ngày"
-    _login400:
-      title: "Khách hàng thường xuyên cấp III"
-      description: "Tổng số ngày đăng nhập đạt 400 ngày"
-    _markedAsCat:
-      title: "Tôi là một con mèo"
-      description: "Bật chế độ mèo"
-      flavor: "Mà tên chưa có"
-    _following1:
-      title: "Theo dõi đầu tiên"
-      description: "Lần đầu tiên theo dõi "
-    _following10:
-      title: "Cứ theo dõi và theo dõi"
-      description: "Vừa theo dõi hơn 10 người"
-    _following50:
-      title: "Bạn bè nhiều quá"
-      description: "Vừa theo dõi hơn 50 người"
-    _following100:
-      title: "Trăm bạn bè"
-      description: "Vừa theo dõi vượt lên 100 người"
-    _following300:
-      title: "Quá nhiều bạn bè"
-      description: "Vừa theo dõi vượt lên 300 người"
-    _followers1:
-      title: "Ai đầu tiên theo dõi bạn"
-      description: "Lần đầu tiên được theo dõi"
-    _followers10:
-      title: "FOLLOW ME!!"
-      description: "Người theo dõi bạn vượt lên 10 người"
-    _followers500:
-      title: "Trạm phát sóng"
-    _followers1000:
-      title: "Người có tầm ảnh hưởng"
-      description: "Người theo dõi bạn vượt lên 1000 người"
-    _collectAchievements30:
-      title: "Người sưu tập thành tích"
-      description: "Vừa lấy thành tích hơn 30 cái"
-    _viewAchievements3min:
-      title: "Yêu Thành tích"
-      description: "Ngắm danh sách thành tích đến tận hơn 3 phút"
-    _iLoveMisskey:
-      title: "Tôi Yêu Misskey"
-      description: "Đăng lời nói \"I ❤ #Misskey\""
-      flavor: "Xin chân thành cảm ơn bạn đã sử dụng Misskey!!  by Đội ngũ phát triển"
-    _foundTreasure:
-      title: "Tìm kiếm kho báu"
-      description: "Tìm thấy được những kho báu cất giấu"
-    _client30min:
-      title: "Giải lao xỉu"
-    _noteDeletedWithin1min:
-      title: "Xem như không có gì đâu nha"
-    _postedAtLateNight:
-      title: "Loài ăn đêm"
-      description: "Đăng bài trong đêm khuya "
-    _postedAt0min0sec:
-      title: "Tín hiệu báo giờ"
-      description: "Đăng bài vào 0 phút 0 giây"
-      flavor: "Piiiiiii ĐÂY LÀ TIẾNG NÓI VIỆT NAM"
-    _selfQuote:
-      title: "Nói đến bản thân"
-      description: "Trích dẫn bài viết của mình"
-    _htl20npm:
-      title: "Timeline trôi như con sông"
-      description: "Timeline trang chính tốc độ vượt lên 20npm"
-    _viewInstanceChart:
-      title: "Nhà phân tích"
-      description: "Xem biểu đồ của chủ máy"
-    _outputHelloWorldOnScratchpad:
-      title: "Chào thế giới!"
-    _open3windows:
-      title: "Nhiều cửa sổ"
-      description: "Mở cửa sổ hơn 3 cửa sổ"
-    _reactWithoutRead:
-      title: "Bài này bạn đọc kỹ chứ? "
-      description: "Phản hồi trong vọng 3 giây sau bài viết có hơn 100 ký tự mới được đăng lên"
-    _clickedClickHere:
-      title: "Bấm đây"
-      description: "Bấm chỗ này"
-    _justPlainLucky:
-      title: "Chỉ là một cuộc máy mắn"
-      description: "Mỗi 10 giây thu nhận được với tỷ lệ  0.005%"
-    _setNameToSyuilo:
-      title: "Ngưỡng mộ với vị thần"
-      description: "Đạt tên là syuilo"
-    _loggedInOnBirthday:
-      title: "Sinh nhật vủi vẻ"
-      description: "Đăng nhập vào ngày sinh"
-    _loggedInOnNewYearsDay:
-      title: "Chức mừng năm mới"
-      description: "Đăng nhập vào Tết Nguyên đàn dương lịch"
-      flavor: "Chúc bạn năm mới AN KHANG THỊNH VƯỢNG, VẠN SỰ NHƯ Ý!!"
-    _cookieClicked:
-      flavor: "Bạn nhầm phầm mềm chứ?"
 _role:
   priority: "Ưu tiên"
   _priority:
@@ -1633,7 +1474,6 @@ _notification:
   pollEnded: "Cuộc bình chọn đã kết thúc"
   unreadAntennaNote: "Ăng ten"
   emptyPushNotificationMessage: "Đã cập nhật thông báo đẩy"
-  achievementEarned: "Hoàn thành Achievement"
   _types:
     all: "Toàn bộ"
     follow: "Đang theo dõi"
@@ -1645,7 +1485,6 @@ _notification:
     pollEnded: "Bình chọn kết thúc"
     receiveFollowRequest: "Yêu cầu theo dõi"
     followRequestAccepted: "Yêu cầu theo dõi được chấp nhận"
-    achievementEarned: "Hoàn thành Achievement"
     app: "Từ app liên kết"
   _actions:
     followBack: "đã theo dõi lại bạn"

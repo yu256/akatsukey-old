@@ -185,7 +185,6 @@ import * as ep___i_2fa_removeKey from './endpoints/i/2fa/remove-key.js';
 import * as ep___i_2fa_unregister from './endpoints/i/2fa/unregister.js';
 import * as ep___i_apps from './endpoints/i/apps.js';
 import * as ep___i_authorizedApps from './endpoints/i/authorized-apps.js';
-import * as ep___i_claimAchievement from './endpoints/i/claim-achievement.js';
 import * as ep___i_changePassword from './endpoints/i/change-password.js';
 import * as ep___i_deleteAccount from './endpoints/i/delete-account.js';
 import * as ep___i_exportBlocking from './endpoints/i/export-blocking.js';
@@ -296,7 +295,6 @@ import * as ep___promo_read from './endpoints/promo/read.js';
 import * as ep___roles_list from './endpoints/roles/list.js';
 import * as ep___roles_show from './endpoints/roles/show.js';
 import * as ep___roles_users from './endpoints/roles/users.js';
-import * as ep___roles_notes from './endpoints/roles/notes.js';
 import * as ep___requestResetPassword from './endpoints/request-reset-password.js';
 import * as ep___resetDb from './endpoints/reset-db.js';
 import * as ep___resetPassword from './endpoints/reset-password.js';
@@ -334,7 +332,6 @@ import * as ep___users_searchByUsernameAndHost from './endpoints/users/search-by
 import * as ep___users_search from './endpoints/users/search.js';
 import * as ep___users_show from './endpoints/users/show.js';
 import * as ep___users_stats from './endpoints/users/stats.js';
-import * as ep___users_achievements from './endpoints/users/achievements.js';
 import * as ep___users_updateMemo from './endpoints/users/update-memo.js';
 import * as ep___fetchRss from './endpoints/fetch-rss.js';
 import * as ep___retention from './endpoints/retention.js';
@@ -526,7 +523,6 @@ const $i_2fa_removeKey: Provider = { provide: 'ep:i/2fa/remove-key', useClass: e
 const $i_2fa_unregister: Provider = { provide: 'ep:i/2fa/unregister', useClass: ep___i_2fa_unregister.default };
 const $i_apps: Provider = { provide: 'ep:i/apps', useClass: ep___i_apps.default };
 const $i_authorizedApps: Provider = { provide: 'ep:i/authorized-apps', useClass: ep___i_authorizedApps.default };
-const $i_claimAchievement: Provider = { provide: 'ep:i/claim-achievement', useClass: ep___i_claimAchievement.default };
 const $i_changePassword: Provider = { provide: 'ep:i/change-password', useClass: ep___i_changePassword.default };
 const $i_deleteAccount: Provider = { provide: 'ep:i/delete-account', useClass: ep___i_deleteAccount.default };
 const $i_exportBlocking: Provider = { provide: 'ep:i/export-blocking', useClass: ep___i_exportBlocking.default };
@@ -637,7 +633,6 @@ const $promo_read: Provider = { provide: 'ep:promo/read', useClass: ep___promo_r
 const $roles_list: Provider = { provide: 'ep:roles/list', useClass: ep___roles_list.default };
 const $roles_show: Provider = { provide: 'ep:roles/show', useClass: ep___roles_show.default };
 const $roles_users: Provider = { provide: 'ep:roles/users', useClass: ep___roles_users.default };
-const $roles_notes: Provider = { provide: 'ep:roles/notes', useClass: ep___roles_notes.default };
 const $requestResetPassword: Provider = { provide: 'ep:request-reset-password', useClass: ep___requestResetPassword.default };
 const $resetDb: Provider = { provide: 'ep:reset-db', useClass: ep___resetDb.default };
 const $resetPassword: Provider = { provide: 'ep:reset-password', useClass: ep___resetPassword.default };
@@ -675,7 +670,6 @@ const $users_searchByUsernameAndHost: Provider = { provide: 'ep:users/search-by-
 const $users_search: Provider = { provide: 'ep:users/search', useClass: ep___users_search.default };
 const $users_show: Provider = { provide: 'ep:users/show', useClass: ep___users_show.default };
 const $users_stats: Provider = { provide: 'ep:users/stats', useClass: ep___users_stats.default };
-const $users_achievements: Provider = { provide: 'ep:users/achievements', useClass: ep___users_achievements.default };
 const $users_updateMemo: Provider = { provide: 'ep:users/update-memo', useClass: ep___users_updateMemo.default };
 const $fetchRss: Provider = { provide: 'ep:fetch-rss', useClass: ep___fetchRss.default };
 const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention.default };
@@ -871,7 +865,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$i_2fa_unregister,
 		$i_apps,
 		$i_authorizedApps,
-		$i_claimAchievement,
 		$i_changePassword,
 		$i_deleteAccount,
 		$i_exportBlocking,
@@ -982,7 +975,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$roles_list,
 		$roles_show,
 		$roles_users,
-		$roles_notes,
 		$requestResetPassword,
 		$resetDb,
 		$resetPassword,
@@ -1020,7 +1012,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$users_search,
 		$users_show,
 		$users_stats,
-		$users_achievements,
 		$users_updateMemo,
 		$fetchRss,
 		$retention,
@@ -1210,7 +1201,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$i_2fa_unregister,
 		$i_apps,
 		$i_authorizedApps,
-		$i_claimAchievement,
 		$i_changePassword,
 		$i_deleteAccount,
 		$i_exportBlocking,
@@ -1321,7 +1311,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$roles_list,
 		$roles_show,
 		$roles_users,
-		$roles_notes,
 		$requestResetPassword,
 		$resetDb,
 		$resetPassword,
@@ -1357,7 +1346,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$users_search,
 		$users_show,
 		$users_stats,
-		$users_achievements,
 		$users_updateMemo,
 		$fetchRss,
 		$retention,

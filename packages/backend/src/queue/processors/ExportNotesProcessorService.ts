@@ -138,6 +138,5 @@ function serialize(note: Note, poll: Poll | null = null): Record<string, unknown
 		visibility: note.visibility,
 		visibleUserIds: note.visibleUserIds,
 		localOnly: note.localOnly,
-		reactionAcceptance: note.reactionAcceptance,
 	};
 }

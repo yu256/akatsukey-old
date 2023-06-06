@@ -441,10 +441,6 @@ export const routes = [{
 	component: page(() => import('./pages/favorites.vue')),
 	loginRequired: true,
 }, {
-	path: '/my/achievements',
-	component: page(() => import('./pages/achievements.vue')),
-	loginRequired: true,
-}, {
 	path: '/my/drive/folder/:folder',
 	component: page(() => import('./pages/drive.vue')),
 	loginRequired: true,
@@ -487,10 +483,6 @@ export const routes = [{
 }, {
 	path: '/timeline/antenna/:antennaId',
 	component: page(() => import('./pages/antenna-timeline.vue')),
-	loginRequired: true,
-}, {
-	path: '/clicker',
-	component: page(() => import('./pages/clicker.vue')),
 	loginRequired: true,
 }, {
 	path: '/timeline',

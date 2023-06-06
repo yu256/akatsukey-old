@@ -8,21 +8,21 @@
 		<MkButton primary rounded :class="$style.bannerEdit" @click="changeBanner">{{ i18n.ts._profile.changeBanner }}</MkButton>
 	</div>
 
-	<MkInput v-model="profile.name" :max="30" manualSave>
+	<MkInput v-model="profile.name" :max="30" manual-save>
 		<template #label>{{ i18n.ts._profile.name }}</template>
 	</MkInput>
 
-	<MkTextarea v-model="profile.description" :max="500" tall manualSave>
+	<MkTextarea v-model="profile.description" :max="500" tall manual-save>
 		<template #label>{{ i18n.ts._profile.description }}</template>
 		<template #caption>{{ i18n.ts._profile.youCanIncludeHashtags }}</template>
 	</MkTextarea>
 
-	<MkInput v-model="profile.location" manualSave>
+	<MkInput v-model="profile.location" manual-save>
 		<template #label>{{ i18n.ts.location }}</template>
 		<template #prefix><i class="ti ti-map-pin"></i></template>
 	</MkInput>
 
-	<MkInput v-model="profile.birthday" type="date" manualSave>
+	<MkInput v-model="profile.birthday" type="date" manual-save>
 		<template #label>{{ i18n.ts.birthday }}</template>
 		<template #prefix><i class="ti ti-cake"></i></template>
 	</MkInput>
@@ -48,7 +48,7 @@
 				<Sortable
 					v-model="fields"
 					class="_gaps_s"
-					itemKey="id"
+					item-key="id"
 					:animation="150"
 					:handle="'.' + $style.dragItemHandle"
 					@start="e => e.item.classList.add('active')"
@@ -59,7 +59,7 @@
 							<button v-if="!fieldEditMode" class="_button" :class="$style.dragItemHandle" tabindex="-1"><i class="ti ti-menu"></i></button>
 							<button v-if="fieldEditMode" :disabled="fields.length <= 1" class="_button" :class="$style.dragItemRemove" @click="deleteField(index)"><i class="ti ti-x"></i></button>
 							<div :class="$style.dragItemForm">
-								<FormSplit :minWidth="200">
+								<FormSplit :min-width="200">
 									<MkInput v-model="element.name" small>
 										<template #label>{{ i18n.ts._profile.metadataLabel }}</template>
 									</MkInput>
@@ -84,20 +84,11 @@
 			<MkSwitch v-model="profile.isBot">{{ i18n.ts.flagAsBot }}<template #caption>{{ i18n.ts.flagAsBotDescription }}</template></MkSwitch>
 		</div>
 	</MkFolder>
-
-	<MkSelect v-model="reactionAcceptance">
-		<template #label>{{ i18n.ts.reactionAcceptance }}</template>
-		<option :value="null">{{ i18n.ts.all }}</option>
-		<option value="likeOnlyForRemote">{{ i18n.ts.likeOnlyForRemote }}</option>
-		<option value="nonSensitiveOnly">{{ i18n.ts.nonSensitiveOnly }}</option>
-		<option value="nonSensitiveOnlyForLocalLikeOnlyForRemote">{{ i18n.ts.nonSensitiveOnlyForLocalLikeOnlyForRemote }}</option>
-		<option value="likeOnly">{{ i18n.ts.likeOnly }}</option>
-	</MkSelect>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch, defineAsyncComponent, onMounted, onUnmounted } from 'vue';
+import { reactive, ref, watch, defineAsyncComponent } from 'vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
@@ -112,12 +103,8 @@ import { i18n } from '@/i18n';
 import { $i } from '@/account';
 import { langmap } from '@/scripts/langmap';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { claimAchievement } from '@/scripts/achievements';
-import { defaultStore } from '@/store';
 
 const Sortable = defineAsyncComponent(() => import('vuedraggable').then(x => x.default));
-
-const reactionAcceptance = computed(defaultStore.makeGetterSetter('reactionAcceptance'));
 
 const profile = reactive({
 	name: $i.name,
@@ -178,13 +165,6 @@ function save() {
 		isCat: !!profile.isCat,
 		showTimelineReplies: !!profile.showTimelineReplies,
 	});
-	claimAchievement('profileFilled');
-	if (profile.name === 'syuilo' || profile.name === 'しゅいろ') {
-		claimAchievement('setNameToSyuilo');
-	}
-	if (profile.isCat) {
-		claimAchievement('markedAsCat');
-	}
 }
 
 function changeAvatar(ev) {
@@ -209,7 +189,6 @@ function changeAvatar(ev) {
 		});
 		$i.avatarId = i.avatarId;
 		$i.avatarUrl = i.avatarUrl;
-		claimAchievement('profileFilled');
 	});
 }
 

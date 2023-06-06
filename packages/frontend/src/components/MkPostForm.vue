@@ -31,11 +31,6 @@
 				<span v-if="!localOnly"><i class="ti ti-rocket"></i></span>
 				<span v-else><i class="ti ti-rocket-off"></i></span>
 			</button>
-			<button v-click-anime v-tooltip="i18n.ts.reactionAcceptance" class="_button" :class="[$style.headerRightItem, { [$style.danger]: reactionAcceptance === 'likeOnly' }]" @click="toggleReactionAcceptance">
-				<span v-if="reactionAcceptance === 'likeOnly'"><i class="ti ti-heart"></i></span>
-				<span v-else-if="reactionAcceptance === 'likeOnlyForRemote'"><i class="ti ti-heart-plus"></i></span>
-				<span v-else><i class="ti ti-icons"></i></span>
-			</button>
 			<button v-click-anime class="_button" :class="$style.submit" :disabled="!canPost" data-cy-open-post-form-submit @click="post">
 				<div :class="$style.submitInner">
 					<template v-if="posted"></template>
@@ -69,8 +64,6 @@
 	<XPostFormAttaches v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName"/>
 	<MkPollEditor v-if="poll" v-model="poll" @destroyed="poll = null"/>
 	<MkNotePreview v-if="showPreview" :class="$style.preview" :text="text"/>
-	<div v-if="showingOptions" style="padding: 8px 16px;">
-	</div>
 	<footer :class="$style.footer">
 		<div :class="$style.footerLeft">
 			<button v-tooltip="i18n.ts.attachFile" class="_button" :class="$style.footerButton" @click="chooseFileFrom"><i class="ti ti-photo-plus"></i></button>
@@ -83,7 +76,6 @@
 		</div>
 		<div :class="$style.footerRight">
 			<button v-tooltip="i18n.ts.previewNoteText" class="_button" :class="[$style.footerButton, { [$style.previewButtonActive]: showPreview }]" @click="showPreview = !showPreview"><i class="ti ti-eye"></i></button>
-			<!--<button v-tooltip="i18n.ts.more" class="_button" :class="$style.footerButton" @click="showingOptions = !showingOptions"><i class="ti ti-dots"></i></button>-->
 		</div>
 	</footer>
 	<datalist id="hashtags">
@@ -114,12 +106,11 @@ import { defaultStore, notePostInterruptors, postFormActions } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
-import { $i, notesCount, incNotesCount, getAccounts, openAccountMenu as openAccountMenu_ } from '@/account';
+import { $i, getAccounts, openAccountMenu as openAccountMenu_ } from '@/account';
 import { uploadFile } from '@/scripts/upload';
 import { deepClone } from '@/scripts/clone';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { miLocalStorage } from '@/local-storage';
-import { claimAchievement } from '@/scripts/achievements';
 
 const modal = inject('modal');
 
@@ -174,14 +165,12 @@ let visibleUsers = $ref([]);
 if (props.initialVisibleUsers) {
 	props.initialVisibleUsers.forEach(pushVisibleUser);
 }
-let reactionAcceptance = $ref(defaultStore.state.reactionAcceptance);
 let autocomplete = $ref(null);
 let draghover = $ref(false);
 let quoteId = $ref(null);
 let hasNotSpecifiedMentions = $ref(false);
 let recentHashtags = $ref(JSON.parse(miLocalStorage.getItem('hashtags') ?? '[]'));
 let imeText = $ref('');
-let showingOptions = $ref(false);
 
 const draftKey = $computed((): string => {
 	let key = props.channel ? `channel:${props.channel.id}` : '';
@@ -479,22 +468,6 @@ async function toggleLocalOnly() {
 	localOnly = !localOnly;
 }
 
-async function toggleReactionAcceptance() {
-	const select = await os.select({
-		title: i18n.ts.reactionAcceptance,
-		items: [
-			{ value: null, text: i18n.ts.all },
-			{ value: 'likeOnlyForRemote' as const, text: i18n.ts.likeOnlyForRemote },
-			{ value: 'nonSensitiveOnly' as const, text: i18n.ts.nonSensitiveOnly },
-			{ value: 'nonSensitiveOnlyForLocalLikeOnlyForRemote' as const, text: i18n.ts.nonSensitiveOnlyForLocalLikeOnlyForRemote },
-			{ value: 'likeOnly' as const, text: i18n.ts.likeOnly },
-		],
-		default: reactionAcceptance,
-	});
-	if (select.canceled) return;
-	reactionAcceptance = select.result;
-}
-
 function pushVisibleUser(user) {
 	if (!visibleUsers.some(u => u.username === user.username && u.host === user.host)) {
 		visibleUsers.push(user);
@@ -697,7 +670,6 @@ async function post(ev?: MouseEvent) {
 		localOnly: localOnly,
 		visibility: visibility,
 		visibleUserIds: visibility === 'specified' ? visibleUsers.map(u => u.id) : undefined,
-		reactionAcceptance,
 	};
 
 	if (withHashtags && hashtags && hashtags.trim() !== '') {
@@ -736,41 +708,6 @@ async function post(ev?: MouseEvent) {
 			}
 			posting = false;
 			postAccount = null;
-
-			incNotesCount();
-			if (notesCount === 1) {
-				claimAchievement('notes1');
-			}
-
-			const text = postData.text?.toLowerCase() ?? '';
-			if ((text.includes('love') || text.includes('❤')) && text.includes('misskey')) {
-				claimAchievement('iLoveMisskey');
-			}
-			if (
-				text.includes('https://youtu.be/Efrlqw8ytg4'.toLowerCase()) ||
-				text.includes('https://www.youtube.com/watch?v=Efrlqw8ytg4'.toLowerCase()) ||
-				text.includes('https://m.youtube.com/watch?v=Efrlqw8ytg4'.toLowerCase()) ||
-				text.includes('https://youtu.be/XVCwzwxdHuA'.toLowerCase()) ||
-				text.includes('https://www.youtube.com/watch?v=XVCwzwxdHuA'.toLowerCase()) ||
-				text.includes('https://m.youtube.com/watch?v=XVCwzwxdHuA'.toLowerCase())
-			) {
-				claimAchievement('brainDiver');
-			}
-
-			if (props.renote && (props.renote.userId === $i.id) && text.length > 0) {
-				claimAchievement('selfQuote');
-			}
-
-			const date = new Date();
-			const h = date.getHours();
-			const m = date.getMinutes();
-			const s = date.getSeconds();
-			if (h >= 0 && h <= 3) {
-				claimAchievement('postedAtLateNight');
-			}
-			if (m === 0 && s === 0) {
-				claimAchievement('postedAt0min0sec');
-			}
 		});
 	}).catch(err => {
 		posting = false;

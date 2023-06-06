@@ -382,11 +382,6 @@ windowMaximize: "Maximera"
 windowMinimize: "Minimera"
 windowRestore: "Återställ"
 resetPasswordConfirm: "Återställ verkligen ditt lösenord?"
-_achievements:
-  _types:
-    _open3windows:
-      title: "Flera Fönster"
-      description: "Ha minst 3 fönster öppna samtidigt"
 _email:
   _follow:
     title: "följde dig"

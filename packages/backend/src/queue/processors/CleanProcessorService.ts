@@ -50,14 +50,6 @@ export class CleanProcessorService {
 
 		this.mutedNotesRepository.delete({
 			id: LessThan(this.idService.genId(new Date(Date.now() - (1000 * 60 * 60 * 24 * 90)))),
-			reason: 'word',
-		});
-
-		// 7日以上使われてないアンテナを停止
-		this.antennasRepository.update({
-			lastUsedAt: LessThan(new Date(Date.now() - (1000 * 60 * 60 * 24 * 7))),
-		}, {
-			isActive: false,
 		});
 
 		const expiredRoleAssignments = await this.roleAssignmentsRepository.createQueryBuilder('assign')

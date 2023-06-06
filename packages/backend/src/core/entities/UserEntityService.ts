@@ -11,7 +11,7 @@ import { awaitAll } from '@/misc/prelude/await-all.js';
 import { USER_ACTIVE_THRESHOLD, USER_ONLINE_THRESHOLD } from '@/const.js';
 import type { LocalUser, PartialLocalUser, PartialRemoteUser, RemoteUser, User } from '@/models/entities/User.js';
 import { birthdaySchema, descriptionSchema, localUsernameSchema, locationSchema, nameSchema, passwordSchema } from '@/models/entities/User.js';
-import type { UsersRepository, UserSecurityKeysRepository, FollowingsRepository, FollowRequestsRepository, BlockingsRepository, MutingsRepository, DriveFilesRepository, NoteUnreadsRepository, ChannelFollowingsRepository, UserNotePiningsRepository, UserProfilesRepository, InstancesRepository, AnnouncementReadsRepository, AnnouncementsRepository, PagesRepository, UserProfile, RenoteMutingsRepository, UserMemoRepository } from '@/models/index.js';
+import type { UsersRepository, UserSecurityKeysRepository, FollowingsRepository, FollowRequestsRepository, BlockingsRepository, MutingsRepository, DriveFilesRepository, NoteUnreadsRepository, ChannelFollowingsRepository, UserNotePiningsRepository, UserProfilesRepository, InstancesRepository, AnnouncementReadsRepository, AnnouncementsRepository, PagesRepository, RenoteMutingsRepository, UserMemoRepository } from '@/models/index.js';
 import { bindThis } from '@/decorators.js';
 import { RoleService } from '@/core/RoleService.js';
 import { ApPersonService } from '@/core/activitypub/models/ApPersonService.js';
@@ -296,7 +296,6 @@ export class UserEntityService implements OnModuleInit {
 		options?: {
 			detail?: D,
 			includeSecrets?: boolean,
-			userProfile?: UserProfile,
 		},
 	): Promise<IsMeAndIsUserDetailed<ExpectsMe, D>> {
 		const opts = Object.assign({
@@ -334,7 +333,7 @@ export class UserEntityService implements OnModuleInit {
 			.innerJoinAndSelect('pin.note', 'note')
 			.orderBy('pin.id', 'DESC')
 			.getMany() : [];
-		const profile = opts.detail ? (opts.userProfile ?? await this.userProfilesRepository.findOneByOrFail({ userId: user.id })) : null;
+		const profile = opts.detail ? await this.userProfilesRepository.findOneByOrFail({ userId: user.id }) : null;
 
 		const followingCount = profile == null ? null :
 			(profile.ffVisibility === 'public') || isMe ? user.followingCount :
@@ -445,7 +444,6 @@ export class UserEntityService implements OnModuleInit {
 				carefulBot: profile!.carefulBot,
 				autoAcceptFollowed: profile!.autoAcceptFollowed,
 				noCrawle: profile!.noCrawle,
-				preventAiLearning: profile!.preventAiLearning,
 				isExplorable: user.isExplorable,
 				isDeleted: user.isDeleted,
 				hideOnlineStatus: user.hideOnlineStatus,
@@ -466,8 +464,6 @@ export class UserEntityService implements OnModuleInit {
 				mutedInstances: profile!.mutedInstances,
 				mutingNotificationTypes: profile!.mutingNotificationTypes,
 				emailNotificationTypes: profile!.emailNotificationTypes,
-				achievements: profile!.achievements,
-				loggedInDays: profile!.loggedInDates.length,
 				policies: this.roleService.getUserPolicies(user.id),
 			} : {}),
 

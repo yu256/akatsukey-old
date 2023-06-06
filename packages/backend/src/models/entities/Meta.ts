@@ -63,11 +63,6 @@ export class Meta {
 	public blockedHosts: string[];
 
 	@Column('varchar', {
-		length: 1024, array: true, default: '{}',
-	})
-	public sensitiveWords: string[];
-
-	@Column('varchar', {
 		length: 1024,
 		nullable: true,
 	})

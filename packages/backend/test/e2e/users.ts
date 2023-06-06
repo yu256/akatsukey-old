@@ -43,7 +43,6 @@ describe('ユーザー', () => {
 
 	type MeDetailed = UserDetailedNotMe & 
 		misskey.entities.MeDetailed & {
-		achievements: object[],
 		loggedInDays: number,
 		policies: object,
 	};
@@ -144,7 +143,6 @@ describe('ユーザー', () => {
 			carefulBot: user.carefulBot,
 			autoAcceptFollowed: user.autoAcceptFollowed,
 			noCrawle: user.noCrawle,
-			preventAiLearning: user.preventAiLearning,
 			isExplorable: user.isExplorable,
 			isDeleted: user.isDeleted,
 			hideOnlineStatus: user.hideOnlineStatus,
@@ -159,7 +157,6 @@ describe('ユーザー', () => {
 			mutedInstances: user.mutedInstances,
 			mutingNotificationTypes: user.mutingNotificationTypes,
 			emailNotificationTypes: user.emailNotificationTypes,
-			achievements: user.achievements, 
 			loggedInDays: user.loggedInDays,
 			policies: user.policies,
 			...(security ? {
@@ -389,7 +386,6 @@ describe('ユーザー', () => {
 		assert.strictEqual(response.carefulBot, false);
 		assert.strictEqual(response.autoAcceptFollowed, true);
 		assert.strictEqual(response.noCrawle, false);
-		assert.strictEqual(response.preventAiLearning, true);
 		assert.strictEqual(response.isExplorable, true);
 		assert.strictEqual(response.isDeleted, false);
 		assert.strictEqual(response.hideOnlineStatus, false);
@@ -404,7 +400,6 @@ describe('ユーザー', () => {
 		assert.deepStrictEqual(response.mutedInstances, []);
 		assert.deepStrictEqual(response.mutingNotificationTypes, []);
 		assert.deepStrictEqual(response.emailNotificationTypes, ['follow', 'receiveFollowRequest']);
-		assert.deepStrictEqual(response.achievements, []);
 		assert.deepStrictEqual(response.loggedInDays, 0);
 		assert.deepStrictEqual(response.policies, DEFAULT_POLICIES); 
 		assert.notStrictEqual(response.email, undefined);
@@ -461,8 +456,6 @@ describe('ユーザー', () => {
 		{ parameters: (): object => ({ autoAcceptFollowed: false }) },
 		{ parameters: (): object => ({ noCrawle: true }) },
 		{ parameters: (): object => ({ noCrawle: false }) },
-		{ parameters: (): object => ({ preventAiLearning: false }) },
-		{ parameters: (): object => ({ preventAiLearning: true }) },
 		{ parameters: (): object => ({ isBot: true }) },
 		{ parameters: (): object => ({ isBot: false }) },
 		{ parameters: (): object => ({ isCat: true }) },
@@ -483,7 +476,7 @@ describe('ユーザー', () => {
 		{ parameters: (): object => ({ mutedWords: [] }) },
 		{ parameters: (): object => ({ mutedInstances: ['xxxx.xxxxx'] }) },
 		{ parameters: (): object => ({ mutedInstances: [] }) },
-		{ parameters: (): object => ({ mutingNotificationTypes: ['follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'achievementEarned', 'app'] }) },
+		{ parameters: (): object => ({ mutingNotificationTypes: ['follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'app'] }) },
 		{ parameters: (): object => ({ mutingNotificationTypes: [] }) },
 		{ parameters: (): object => ({ emailNotificationTypes: ['mention', 'reply', 'quote', 'follow', 'receiveFollowRequest'] }) },
 		{ parameters: (): object => ({ emailNotificationTypes: [] }) },
