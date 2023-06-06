@@ -22,7 +22,7 @@ import { UserBlockingService } from '@/core/UserBlockingService.js';
 import { CustomEmojiService } from '@/core/CustomEmojiService.js';
 import { RoleService } from '@/core/RoleService.js';
 
-const FALLBACK = '❤';
+const FALLBACK = '⭐';
 
 const legacies: Record<string, string> = {
 	'like': '👍',
@@ -107,7 +107,7 @@ export class ReactionService {
 		let reaction = _reaction ?? FALLBACK;
 
 		if (note.reactionAcceptance === 'likeOnly' || ((note.reactionAcceptance === 'likeOnlyForRemote' || note.reactionAcceptance === 'nonSensitiveOnlyForLocalLikeOnlyForRemote') && (user.host != null))) {
-			reaction = '❤️';
+			reaction = '⭐';
 		} else if (_reaction) {
 			const custom = reaction.match(isCustomEmojiRegexp);
 			if (custom) {
