@@ -55,7 +55,7 @@ const modal = $shallowRef<InstanceType<typeof MkModal>>();
 
 const props = defineProps<{
 	currentVisibility: typeof misskey.noteVisibilities[number];
-	currentLocalOnly: boolean;
+	currentLocalOnly?: boolean;
 	src?: HTMLElement;
 }>();
 
