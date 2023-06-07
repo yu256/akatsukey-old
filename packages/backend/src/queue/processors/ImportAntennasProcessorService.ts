@@ -71,7 +71,6 @@ export class ImportAntennasProcessorService {
 				const result = await this.antennasRepository.insert({
 					id: this.idService.genId(),
 					createdAt: now,
-					lastUsedAt: now,
 					userId: job.data.user.id,
 					name: antenna.name,
 					src: antenna.src === 'list' && antenna.userListAccts ? 'users' : antenna.src,

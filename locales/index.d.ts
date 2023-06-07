@@ -991,15 +991,8 @@ export interface Locale {
     "emailNotSupported": string;
     "postToTheChannel": string;
     "cannotBeChangedLater": string;
-    "reactionAcceptance": string;
-    "likeOnly": string;
-    "likeOnlyForRemote": string;
-    "nonSensitiveOnly": string;
-    "nonSensitiveOnlyForLocalLikeOnlyForRemote": string;
     "rolesAssignedToMe": string;
     "resetPasswordConfirm": string;
-    "sensitiveWords": string;
-    "sensitiveWordsDescription": string;
     "sensitiveWordsDescription2": string;
     "notesSearchNotAvailable": string;
     "license": string;
@@ -1049,15 +1042,9 @@ export interface Locale {
     "displayOfNote": string;
     "initialAccountSetting": string;
     "youFollowing": string;
-    "preventAiLearning": string;
-    "preventAiLearningDescription": string;
     "options": string;
     "specifyUser": string;
     "failedToPreviewUrl": string;
-    "update": string;
-    "rolesThatCanBeUsedThisEmojiAsReaction": string;
-    "rolesThatCanBeUsedThisEmojiAsReactionEmptyDescription": string;
-    "rolesThatCanBeUsedThisEmojiAsReactionPublicRoleWarn": string;
     "cancelReactionConfirm": string;
     "changeReactionConfirm": string;
     "later": string;
@@ -1122,8 +1109,6 @@ export interface Locale {
         "iconUrl": string;
         "asBadge": string;
         "descriptionOfAsBadge": string;
-        "isExplorable": string;
-        "descriptionOfIsExplorable": string;
         "displayOrder": string;
         "descriptionOfDisplayOrder": string;
         "canEditMembersByModerator": string;
@@ -1550,7 +1535,6 @@ export interface Locale {
         "_userList": {
             "chooseList": string;
         };
-        "clicker": string;
     };
     "_cw": {
         "hide": string;
@@ -1794,7 +1778,6 @@ export interface Locale {
             "channel": string;
             "mentions": string;
             "direct": string;
-            "roleTimeline": string;
         };
     };
     "_dialog": {
