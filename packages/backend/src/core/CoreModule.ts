@@ -4,7 +4,6 @@ import { AccountUpdateService } from './AccountUpdateService.js';
 import { AiService } from './AiService.js';
 import { AntennaService } from './AntennaService.js';
 import { AppLockService } from './AppLockService.js';
-import { AchievementService } from './AchievementService.js';
 import { CaptchaService } from './CaptchaService.js';
 import { CreateSystemUserService } from './CreateSystemUserService.js';
 import { CustomEmojiService } from './CustomEmojiService.js';
@@ -126,7 +125,6 @@ const $AccountUpdateService: Provider = { provide: 'AccountUpdateService', useEx
 const $AiService: Provider = { provide: 'AiService', useExisting: AiService };
 const $AntennaService: Provider = { provide: 'AntennaService', useExisting: AntennaService };
 const $AppLockService: Provider = { provide: 'AppLockService', useExisting: AppLockService };
-const $AchievementService: Provider = { provide: 'AchievementService', useExisting: AchievementService };
 const $CaptchaService: Provider = { provide: 'CaptchaService', useExisting: CaptchaService };
 const $CreateSystemUserService: Provider = { provide: 'CreateSystemUserService', useExisting: CreateSystemUserService };
 const $CustomEmojiService: Provider = { provide: 'CustomEmojiService', useExisting: CustomEmojiService };
@@ -252,7 +250,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		AiService,
 		AntennaService,
 		AppLockService,
-		AchievementService,
 		CaptchaService,
 		CreateSystemUserService,
 		CustomEmojiService,
@@ -371,7 +368,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$AiService,
 		$AntennaService,
 		$AppLockService,
-		$AchievementService,
 		$CaptchaService,
 		$CreateSystemUserService,
 		$CustomEmojiService,
@@ -491,7 +487,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		AiService,
 		AntennaService,
 		AppLockService,
-		AchievementService,
 		CaptchaService,
 		CreateSystemUserService,
 		CustomEmojiService,
@@ -609,7 +604,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$AiService,
 		$AntennaService,
 		$AppLockService,
-		$AchievementService,
 		$CaptchaService,
 		$CreateSystemUserService,
 		$CustomEmojiService,

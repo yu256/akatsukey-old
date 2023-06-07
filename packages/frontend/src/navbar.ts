@@ -96,12 +96,6 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-device-tv',
 		to: '/channels',
 	},
-	achievements: {
-		title: i18n.ts.achievements,
-		icon: 'ti ti-medal',
-		show: computed(() => $i != null),
-		to: '/my/achievements',
-	},
 	ui: {
 		title: i18n.ts.switchUi,
 		icon: 'ti ti-devices',

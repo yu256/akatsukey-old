@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import XEmojis from './about.emojis.vue';
 import XFederation from './about.federation.vue';
 import { version, host } from '@/config';
@@ -108,7 +108,6 @@ import * as os from '@/os';
 import number from '@/filters/number';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { claimAchievement } from '@/scripts/achievements';
 import { instance } from '@/instance';
 
 const props = withDefaults(defineProps<{
@@ -119,12 +118,6 @@ const props = withDefaults(defineProps<{
 
 let stats = $ref(null);
 let tab = $ref(props.initialTab);
-
-watch($$(tab), () => {
-	if (tab === 'charts') {
-		claimAchievement('viewInstanceChart');
-	}
-});
 
 const initStats = () => os.api('stats', {
 }).then((res) => {

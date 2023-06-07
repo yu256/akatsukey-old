@@ -449,7 +449,6 @@ role: "Rolle"
 color: "Farge"
 youCannotCreateAnymore: "Du kan ikke opprette flere."
 cannotPerformTemporary: "Midlertidig utilgjengelig"
-achievements: "Prestasjoner"
 thisPostMayBeAnnoyingCancel: "Avbryt"
 exploreOtherServers: "Utforsk andre severe"
 letsLookAtTimeline: "La oss se på tidslinje"
@@ -463,78 +462,6 @@ youFollowing: "Følger"
 options: "Alternativ"
 _initialAccountSetting:
   theseSettingsCanEditLater: "Du kan endre disse innstillingene senere."
-_achievements:
-  _types:
-    _notes10:
-      title: "Noen Notes"
-    _notes100:
-      title: "Mange Notes"
-    _notes500:
-      title: "Dekket i Notes"
-    _notes1000:
-      title: "Et fjell av Notes"
-    _notes5000:
-      title: "Overfylte Notes"
-    _notes10000:
-      title: "Super Notes"
-    _notes20000:
-      title: "Trenger... mer... Notes..."
-    _notes30000:
-      title: "Notes Notes Notes!"
-    _notes40000:
-      title: "Note fabrikk"
-    _notes50000:
-      title: "Planet av Notes"
-    _notes100000:
-      flavor: "Du har jammen mye å si."
-    _noteFavorited1:
-      title: "Stjernekikker"
-    _myNoteFavorited1:
-      title: "Jeg vil gjerne få en stjerne"
-    _following50:
-      title: "Mange venner"
-    _following100:
-      title: "100 venner"
-    _following300:
-      title: "For mange venner"
-    _followers10:
-      title: "Følg meg!"
-    _followers100:
-      title: "Populær"
-    _postedAtLateNight:
-      flavor: "Det er på tide å gå til sengs."
-    _driveFolderCircularReference:
-      title: "Rundskrivreferanse"
-    _reactWithoutRead:
-      title: "Leste du det virkelig?"
-    _clickedClickHere:
-      title: "Klikk her"
-      description: "Du har klikket her"
-    _justPlainLucky:
-      title: "Rett og slett heldig"
-    _setNameToSyuilo:
-      description: "Du satte navnet ditt til \"syuilo\""
-    _passedSinceAccountCreated1:
-      title: "Ett års jubileum"
-      description: "Det har gått ett år siden kontoen din ble opprettet"
-    _passedSinceAccountCreated2:
-      title: "To års jubileum"
-      description: "Det har gått to år siden kontoen din ble opprettet"
-    _passedSinceAccountCreated3:
-      title: "Tre års jubileum"
-      description: "Det har gått tre år siden kontoen din ble opprettet"
-    _loggedInOnBirthday:
-      title: "Gratulerer med dagen"
-      description: "Du logget inn på bursdagen din"
-    _loggedInOnNewYearsDay:
-      title: "Godt nytt år"
-      description: "Du logget inn på årets første dag"
-    _cookieClicked:
-      description: "Du klikket på kjeksen"
-      flavor: "Er du på riktig nettsted?"
-    _brainDiver:
-      title: "Brain Diver"
-      flavor: "Misskey-Misskey La-Tu-Ma"
 _role:
   options: "Alternativ"
   _priority:
@@ -695,7 +622,6 @@ _pages:
 _notification:
   youWereFollowed: "fulgte deg"
   unreadAntennaNote: "Antenne {name}"
-  achievementEarned: "Prestasjon låst opp"
   _types:
     follow: "Nye følgere"
     reply: "Svar"

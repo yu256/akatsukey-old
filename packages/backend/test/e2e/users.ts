@@ -43,7 +43,6 @@ describe('ユーザー', () => {
 
 	type MeDetailed = UserDetailedNotMe & 
 		misskey.entities.MeDetailed & {
-		achievements: object[],
 		loggedInDays: number,
 		policies: object,
 	};
@@ -158,7 +157,6 @@ describe('ユーザー', () => {
 			mutedInstances: user.mutedInstances,
 			mutingNotificationTypes: user.mutingNotificationTypes,
 			emailNotificationTypes: user.emailNotificationTypes,
-			achievements: user.achievements, 
 			loggedInDays: user.loggedInDays,
 			policies: user.policies,
 			...(security ? {
@@ -402,7 +400,6 @@ describe('ユーザー', () => {
 		assert.deepStrictEqual(response.mutedInstances, []);
 		assert.deepStrictEqual(response.mutingNotificationTypes, []);
 		assert.deepStrictEqual(response.emailNotificationTypes, ['follow', 'receiveFollowRequest']);
-		assert.deepStrictEqual(response.achievements, []);
 		assert.deepStrictEqual(response.loggedInDays, 0);
 		assert.deepStrictEqual(response.policies, DEFAULT_POLICIES); 
 		assert.notStrictEqual(response.email, undefined);
@@ -479,7 +476,7 @@ describe('ユーザー', () => {
 		{ parameters: (): object => ({ mutedWords: [] }) },
 		{ parameters: (): object => ({ mutedInstances: ['xxxx.xxxxx'] }) },
 		{ parameters: (): object => ({ mutedInstances: [] }) },
-		{ parameters: (): object => ({ mutingNotificationTypes: ['follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'achievementEarned', 'app'] }) },
+		{ parameters: (): object => ({ mutingNotificationTypes: ['follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'app'] }) },
 		{ parameters: (): object => ({ mutingNotificationTypes: [] }) },
 		{ parameters: (): object => ({ emailNotificationTypes: ['mention', 'reply', 'quote', 'follow', 'receiveFollowRequest'] }) },
 		{ parameters: (): object => ({ emailNotificationTypes: [] }) },

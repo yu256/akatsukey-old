@@ -2,7 +2,6 @@
 <div ref="elRef" :class="$style.root">
 	<div :class="$style.head">
 		<MkAvatar v-if="notification.type === 'pollEnded'" :class="$style.icon" :user="notification.note.user" link preview/>
-		<MkAvatar v-else-if="notification.type === 'achievementEarned'" :class="$style.icon" :user="$i" link preview/>
 		<MkAvatar v-else-if="notification.user" :class="$style.icon" :user="notification.user" link preview/>
 		<img v-else-if="notification.icon" :class="$style.icon" :src="notification.icon" alt=""/>
 		<div
@@ -15,7 +14,6 @@
 				[$style.t_mention]: notification.type === 'mention',
 				[$style.t_quote]: notification.type === 'quote',
 				[$style.t_pollEnded]: notification.type === 'pollEnded',
-				[$style.t_achievementEarned]: notification.type === 'achievementEarned',
 			}]"
 		>
 			<i v-if="notification.type === 'follow'" class="ti ti-plus"></i>
@@ -26,7 +24,6 @@
 			<i v-else-if="notification.type === 'mention'" class="ti ti-at"></i>
 			<i v-else-if="notification.type === 'quote'" class="ti ti-quote"></i>
 			<i v-else-if="notification.type === 'pollEnded'" class="ti ti-chart-arrows"></i>
-			<i v-else-if="notification.type === 'achievementEarned'" class="ti ti-medal"></i>
 			<!-- notification.reaction が null になることはまずないが、ここでoptional chaining使うと一部ブラウザで刺さるので念の為 -->
 			<MkReactionIcon
 				v-else-if="notification.type === 'reaction'"
@@ -41,7 +38,6 @@
 	<div :class="$style.tail">
 		<header :class="$style.header">
 			<span v-if="notification.type === 'pollEnded'">{{ i18n.ts._notification.pollEnded }}</span>
-			<span v-else-if="notification.type === 'achievementEarned'">{{ i18n.ts._notification.achievementEarned }}</span>
 			<MkA v-else-if="notification.user" v-user-preview="notification.user.id" :class="$style.headerName" :to="userPage(notification.user)"><MkUserName :user="notification.user"/></MkA>
 			<span v-else>{{ notification.header }}</span>
 			<MkTime v-if="withTime" :time="notification.createdAt" :class="$style.headerTime"/>
@@ -70,9 +66,6 @@
 				<i class="ti ti-quote" :class="$style.quote"></i>
 				<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="true" :author="notification.note.user"/>
 				<i class="ti ti-quote" :class="$style.quote"></i>
-			</MkA>
-			<MkA v-else-if="notification.type === 'achievementEarned'" :class="$style.text" to="/my/achievements">
-				{{ i18n.ts._achievements._types['_' + notification.achievement].title }}
 			</MkA>
 			<template v-else-if="notification.type === 'follow'">
 				<span :class="$style.text" style="opacity: 0.6;">{{ i18n.ts.youGotNewFollower }}</span>
@@ -107,7 +100,6 @@ import { userPage } from '@/filters/user';
 import { i18n } from '@/i18n';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
-import { $i } from '@/account';
 
 const props = withDefaults(defineProps<{
 	notification: misskey.entities.Notification;
@@ -223,12 +215,6 @@ useTooltip(reactionRef, (showing) => {
 .t_pollEnded {
 	padding: 3px;
 	background: #88a6b7;
-	pointer-events: none;
-}
-
-.t_achievementEarned {
-	padding: 3px;
-	background: #cb9a11;
 	pointer-events: none;
 }
 

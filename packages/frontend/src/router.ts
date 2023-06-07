@@ -441,10 +441,6 @@ export const routes = [{
 	component: page(() => import('./pages/favorites.vue')),
 	loginRequired: true,
 }, {
-	path: '/my/achievements',
-	component: page(() => import('./pages/achievements.vue')),
-	loginRequired: true,
-}, {
 	path: '/my/drive/folder/:folder',
 	component: page(() => import('./pages/drive.vue')),
 	loginRequired: true,
