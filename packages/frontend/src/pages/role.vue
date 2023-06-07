@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader/></template>
 	<MKSpacer v-if="!(typeof error === 'undefined')" :contentMax="1200">
 		<div :class="$style.root">
 			<img :class="$style.img" src="https://xn--931a.moe/assets/error.jpg" class="_ghost"/>
@@ -10,14 +10,11 @@
 			</p>
 		</div>
 	</MKSpacer>
-	<MkSpacer v-else-if="tab === 'users'" :contentMax="1200">
+	<MkSpacer v-else :contentMax="1200">
 		<div class="_gaps_s">
 			<div v-if="role">{{ role.description }}</div>
 			<MkUserList :pagination="users" :extractor="(item) => item.user"/>
 		</div>
-	</MkSpacer>
-	<MkSpacer v-else-if="tab === 'timeline'" :contentMax="700">
-		<MkTimeline ref="timeline" src="role" :role="props.role"/>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
@@ -28,17 +25,12 @@ import * as os from '@/os';
 import MkUserList from '@/components/MkUserList.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
-import MkTimeline from '@/components/MkTimeline.vue';
 import { instanceName } from '@/config';
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
 	role: string;
-	initialTab?: string;
-}>(), {
-	initialTab: 'users',
-});
+}>();
 
-let tab = $ref(props.initialTab);
 let role = $ref();
 let error = $ref();
 
@@ -65,16 +57,6 @@ const users = $computed(() => ({
 		roleId: props.role,
 	},
 }));
-
-const headerTabs = $computed(() => [{
-	key: 'users',
-	icon: 'ti ti-users',
-	title: i18n.ts.users,
-}, {
-	key: 'timeline',
-	icon: 'ti ti-pencil',
-	title: i18n.ts.timeline,
-}]);
 
 definePageMetadata(computed(() => ({
 	title: role?.name,

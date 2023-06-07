@@ -1,7 +1,7 @@
 <template>
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
-	<div>
+	<div class="lznhrdub">
 		<div v-if="tab === 'featured'">
 			<XFeatured/>
 		</div>

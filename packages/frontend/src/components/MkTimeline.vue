@@ -15,7 +15,6 @@ const props = defineProps<{
 	list?: string;
 	antenna?: string;
 	channel?: string;
-	role?: string;
 	sound?: boolean;
 }>();
 
@@ -134,15 +133,6 @@ if (props.src === 'antenna') {
 	};
 	connection = stream.useChannel('channel', {
 		channelId: props.channel,
-	});
-	connection.on('note', prepend);
-} else if (props.src === 'role') {
-	endpoint = 'roles/notes';
-	query = {
-		roleId: props.role,
-	};
-	connection = stream.useChannel('roleTimeline', {
-		roleId: props.role,
 	});
 	connection.on('note', prepend);
 }

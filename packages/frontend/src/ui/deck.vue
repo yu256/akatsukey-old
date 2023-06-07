@@ -104,7 +104,6 @@ import XNotificationsColumn from '@/ui/deck/notifications-column.vue';
 import XWidgetsColumn from '@/ui/deck/widgets-column.vue';
 import XMentionsColumn from '@/ui/deck/mentions-column.vue';
 import XDirectColumn from '@/ui/deck/direct-column.vue';
-import XRoleTimelineColumn from '@/ui/deck/role-timeline-column.vue';
 const XStatusBars = defineAsyncComponent(() => import('@/ui/_common_/statusbars.vue'));
 
 const columnComponents = {
@@ -117,7 +116,6 @@ const columnComponents = {
 	antenna: XAntennaColumn,
 	mentions: XMentionsColumn,
 	direct: XDirectColumn,
-	roleTimeline: XRoleTimelineColumn,
 };
 
 mainRouter.navHook = (path, flag): boolean => {
@@ -170,7 +168,6 @@ const addColumn = async (ev) => {
 		'channel',
 		'mentions',
 		'direct',
-		'roleTimeline',
 	];
 
 	const { canceled, result: column } = await os.select({
