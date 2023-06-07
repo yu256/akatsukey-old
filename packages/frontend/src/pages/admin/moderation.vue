@@ -1,7 +1,7 @@
 <template>
 <div>
 	<MkStickyContainer>
-		<template #header><XHeader :tabs="headerTabs"/></template>
+		<template #header><XHeader/></template>
 		<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
 			<FormSuspense :p="init">
 				<div class="_gaps_m">
@@ -24,11 +24,6 @@
 						<template #label>{{ i18n.ts.preservedUsernames }}</template>
 						<template #caption>{{ i18n.ts.preservedUsernamesDescription }}</template>
 					</MkTextarea>
-					
-					<MkTextarea v-model="sensitiveWords">
-						<template #label>{{ i18n.ts.sensitiveWords }}</template>
-						<template #caption>{{ i18n.ts.sensitiveWordsDescription }}<br>{{ i18n.ts.sensitiveWordsDescription2 }}</template>
-					</MkTextarea>
 				</div>
 			</FormSuspense>
 		</MkSpacer>
@@ -49,8 +44,8 @@ import XHeader from './_header_.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSplit from '@/components/form/split.vue';
+// import FormSection from '@/components/form/section.vue';
+// import FormSplit from '@/components/form/split.vue';
 import FormSuspense from '@/components/form/suspense.vue';
 import * as os from '@/os';
 import { fetchInstance } from '@/instance';
@@ -61,7 +56,6 @@ import FormLink from '@/components/form/link.vue';
 
 let enableRegistration: boolean = $ref(false);
 let emailRequiredForSignup: boolean = $ref(false);
-let sensitiveWords: string = $ref('');
 let preservedUsernames: string = $ref('');
 let tosUrl: string | null = $ref(null);
 
@@ -69,7 +63,6 @@ async function init() {
 	const meta = await os.api('admin/meta');
 	enableRegistration = !meta.disableRegistration;
 	emailRequiredForSignup = meta.emailRequiredForSignup;
-	sensitiveWords = meta.sensitiveWords.join('\n');
 	preservedUsernames = meta.preservedUsernames.join('\n');
 	tosUrl = meta.tosUrl;
 }
@@ -79,14 +72,11 @@ function save() {
 		disableRegistration: !enableRegistration,
 		emailRequiredForSignup,
 		tosUrl,
-		sensitiveWords: sensitiveWords.split('\n'),
 		preservedUsernames: preservedUsernames.split('\n'),
 	}).then(() => {
 		fetchInstance();
 	});
 }
-
-const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.moderation,
