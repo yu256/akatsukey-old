@@ -825,7 +825,6 @@ Meilisearchの設定に`index`が必要になりました。値はMisskeyサー�
 - Client: AiScriptからカスタム絵文字一覧を参照できるように @syuilo
 - Client: improve overall performance of client @syuilo
 - Client: ui tweaks @syuilo
-- Client: clicker game @syuilo
 
 ### Bugfixes
 - Server: Fix @tensorflow/tfjs-core's MODULE_NOT_FOUND error @ikuradon
