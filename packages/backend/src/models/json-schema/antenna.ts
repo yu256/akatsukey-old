@@ -75,10 +75,6 @@ export const packedAntennaSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
-		isActive: {
-			type: 'boolean',
-			optional: false, nullable: false,
-		},
 		hasUnreadNote: {
 			type: 'boolean',
 			optional: false, nullable: false,
