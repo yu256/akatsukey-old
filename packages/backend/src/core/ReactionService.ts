@@ -102,12 +102,8 @@ export class ReactionService {
 			throw new IdentifiableError('68e9d2d1-48bf-42c2-b90a-b20e09fd3d48', 'Note not accessible for you.');
 		}
 
-		if (note.reactionAcceptance === 'likeOnly' || ((note.reactionAcceptance === 'likeOnlyForRemote') && (user.host != null))) {
-			reaction = '⭐';
-		} else {
-			reaction = await this.toDbReaction(reaction, user.host);
-		}
-
+		reaction = await this.toDbReaction(reaction, user.host);
+	
 		const record: NoteReaction = {
 			id: this.idService.genId(),
 			createdAt: new Date(),
