@@ -113,7 +113,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			}
 
 			this.antennasRepository.update(antenna.id, {
-				isActive: true,
 				lastUsedAt: new Date(),
 			});
 
