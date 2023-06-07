@@ -973,10 +973,6 @@ export interface Locale {
     "selectFromPresets": string;
     "gotInvalidResponseError": string;
     "gotInvalidResponseErrorDescription": string;
-    "thisPostMayBeAnnoying": string;
-    "thisPostMayBeAnnoyingHome": string;
-    "thisPostMayBeAnnoyingCancel": string;
-    "thisPostMayBeAnnoyingIgnore": string;
     "collapseRenotes": string;
     "internalServerError": string;
     "internalServerErrorDescription": string;
@@ -984,9 +980,6 @@ export interface Locale {
     "joinThisServer": string;
     "exploreOtherServers": string;
     "letsLookAtTimeline": string;
-    "disableFederationConfirm": string;
-    "disableFederationConfirmWarn": string;
-    "disableFederationOk": string;
     "invitationRequiredToRegister": string;
     "emailNotSupported": string;
     "postToTheChannel": string;

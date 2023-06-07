@@ -6,7 +6,6 @@ type Keys =
 	'accounts' |
 	'latestDonationInfoShownAt' |
 	'neverShowDonationInfo' |
-	'neverShowLocalOnlyInfo' |
 	'lastUsed' |
 	'lang' |
 	'drafts' |

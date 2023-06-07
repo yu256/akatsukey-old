@@ -1,5 +1,5 @@
 <template>
-<MkModal ref="modal" v-slot="{ type }" :zPriority="'high'" :src="src" @click="modal.close()" @closed="emit('closed')">
+<MkModal ref="modal" v-slot="{ type }" :zPriority="'high'" :src="src" @click="modal?.close()" @closed="emit('closed')">
 	<div class="_popup" :class="{ [$style.root]: true, [$style.asDrawer]: type === 'drawer' }">
 		<div :class="[$style.label, $style.item]">
 			{{ i18n.ts.visibility }}
@@ -32,31 +32,45 @@
 				<span :class="$style.itemDescription">{{ i18n.ts._visibility.specifiedDescription }}</span>
 			</div>
 		</button>
+		<button key="localOnly" class="_button" :class="[$style.item]" data-index="5" @click="localOnly = !localOnly">
+			<div :class="$style.icon"><i class="ti ti-world-off"></i></div>
+			<div :class="$style.body">
+				<span :class="$style.itemTitle">{{ i18n.ts._visibility.disableFederation }}</span>
+				<span :class="$style.itemDescription">{{ i18n.ts._visibility.disableFederationDescription }}</span>
+			</div>
+			<i :class="localOnly ? 'ti ti-toggle-right' : 'ti ti-toggle-left'"></i>
+		</button>
 	</div>
 </MkModal>
 </template>
 
 <script lang="ts" setup>
-import { nextTick } from 'vue';
+import { nextTick, watch } from 'vue';
 import * as misskey from 'misskey-js';
+import { $$, $ref, $shallowRef } from 'vue/macros';
 import MkModal from '@/components/MkModal.vue';
 import { i18n } from '@/i18n';
 
 const modal = $shallowRef<InstanceType<typeof MkModal>>();
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
 	currentVisibility: typeof misskey.noteVisibilities[number];
-	localOnly: boolean;
+	currentLocalOnly: boolean;
 	src?: HTMLElement;
-}>(), {
-});
+}>();
 
 const emit = defineEmits<{
 	(ev: 'changeVisibility', v: typeof misskey.noteVisibilities[number]): void;
+	(ev: 'changeLocalOnly', v: boolean): void;
 	(ev: 'closed'): void;
 }>();
 
 let v = $ref(props.currentVisibility);
+let localOnly = $ref(props.currentLocalOnly);
+
+watch($$(localOnly), () => {
+	emit('changeLocalOnly', localOnly);
+});
 
 function choose(visibility: typeof misskey.noteVisibilities[number]): void {
 	v = visibility;

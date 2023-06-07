@@ -2,8 +2,6 @@
 <div
 	:class="[$style.root, { [$style.modal]: modal, _popup: modal }]"
 	@dragover.stop="onDragover"
-	@dragenter="onDragenter"
-	@dragleave="onDragleave"
 	@drop.stop="onDrop"
 >
 	<header :class="$style.header">
@@ -14,23 +12,7 @@
 			</button>
 		</div>
 		<div :class="$style.headerRight">
-			<template v-if="!(channel != null && fixed)">
-				<button v-if="channel == null" ref="visibilityButton" v-click-anime v-tooltip="i18n.ts.visibility" :class="['_button', $style.headerRightItem, $style.visibility]" @click="setVisibility">
-					<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
-					<span v-if="visibility === 'home'"><i class="ti ti-home"></i></span>
-					<span v-if="visibility === 'followers'"><i class="ti ti-lock"></i></span>
-					<span v-if="visibility === 'specified'"><i class="ti ti-mail"></i></span>
-					<span :class="$style.headerRightButtonText">{{ i18n.ts._visibility[visibility] }}</span>
-				</button>
-				<button v-else class="_button" :class="[$style.headerRightItem, $style.visibility]" disabled>
-					<span><i class="ti ti-device-tv"></i></span>
-					<span :class="$style.headerRightButtonText">{{ channel.name }}</span>
-				</button>
-			</template>
-			<button v-click-anime v-tooltip="i18n.ts._visibility.disableFederation" class="_button" :class="[$style.headerRightItem, { [$style.danger]: localOnly }]" :disabled="channel != null || visibility === 'specified'" @click="toggleLocalOnly">
-				<span v-if="!localOnly"><i class="ti ti-rocket"></i></span>
-				<span v-else><i class="ti ti-rocket-off"></i></span>
-			</button>
+			<div>{{ maxTextLength - textLength }}</div>
 			<button v-click-anime class="_button" :class="$style.submit" :disabled="!canPost" data-cy-open-post-form-submit @click="post">
 				<div :class="$style.submitInner">
 					<template v-if="posted"></template>
@@ -58,25 +40,30 @@
 	<input v-show="useCw" ref="cwInputEl" v-model="cw" :class="$style.cw" :placeholder="i18n.ts.annotation" @keydown="onKeydown">
 	<div :class="[$style.textOuter, { [$style.withCw]: useCw }]">
 		<textarea ref="textareaEl" v-model="text" :class="[$style.text]" :disabled="posting || posted" :placeholder="placeholder" data-cy-post-form-text @keydown="onKeydown" @paste="onPaste" @compositionupdate="onCompositionUpdate" @compositionend="onCompositionEnd"/>
-		<div v-if="maxTextLength - textLength < 100" :class="['_acrylic', $style.textCount, { [$style.textOver]: textLength > maxTextLength }]">{{ maxTextLength - textLength }}</div>
 	</div>
 	<input v-show="withHashtags" ref="hashtagsInputEl" v-model="hashtags" :class="$style.hashtags" :placeholder="i18n.ts.hashtags" list="hashtags">
 	<XPostFormAttaches v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName"/>
 	<MkPollEditor v-if="poll" v-model="poll" @destroyed="poll = null"/>
 	<MkNotePreview v-if="showPreview" :class="$style.preview" :text="text"/>
 	<footer :class="$style.footer">
-		<div :class="$style.footerLeft">
-			<button v-tooltip="i18n.ts.attachFile" class="_button" :class="$style.footerButton" @click="chooseFileFrom"><i class="ti ti-photo-plus"></i></button>
-			<button v-tooltip="i18n.ts.poll" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: poll }]" @click="togglePoll"><i class="ti ti-chart-arrows"></i></button>
-			<button v-tooltip="i18n.ts.useCw" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: useCw }]" @click="useCw = !useCw"><i class="ti ti-eye-off"></i></button>
-			<button v-tooltip="i18n.ts.mention" class="_button" :class="$style.footerButton" @click="insertMention"><i class="ti ti-at"></i></button>
-			<button v-tooltip="i18n.ts.hashtags" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: withHashtags }]" @click="withHashtags = !withHashtags"><i class="ti ti-hash"></i></button>
-			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugin" class="_button" :class="$style.footerButton" @click="showActions"><i class="ti ti-plug"></i></button>
-			<button v-tooltip="i18n.ts.emoji" :class="['_button', $style.footerButton]" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
-		</div>
-		<div :class="$style.footerRight">
-			<button v-tooltip="i18n.ts.previewNoteText" class="_button" :class="[$style.footerButton, { [$style.previewButtonActive]: showPreview }]" @click="showPreview = !showPreview"><i class="ti ti-eye"></i></button>
-		</div>
+		<button v-tooltip="i18n.ts.attachFile" class="_button" :class="$style.footerButton" @click="chooseFileFrom"><i class="ti ti-photo-plus"></i></button>
+		<button v-tooltip="i18n.ts.poll" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: poll }]" @click="togglePoll"><i class="ti ti-chart-arrows"></i></button>
+		<button v-tooltip="i18n.ts.useCw" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: useCw }]" @click="useCw = !useCw"><i class="ti ti-eye-off"></i></button>
+		<!-- <button v-tooltip="i18n.ts.mention" class="_button" :class="$style.footerButton" @click="insertMention"><i class="ti ti-at"></i></button> -->
+		<button v-tooltip="i18n.ts.hashtags" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: withHashtags }]" @click="withHashtags = !withHashtags"><i class="ti ti-hash"></i></button>
+		<button v-tooltip="i18n.ts.emoji" :class="['_button', $style.footerButton]" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
+		<template v-if="!(channel != null && fixed)">
+			<button v-if="channel == null" ref="visibilityButton" v-click-anime v-tooltip="i18n.ts.visibility" :class="['_button', $style.headerRightItem, $style.visibility]" @click="setVisibility">
+				<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
+				<span v-if="visibility === 'home'"><i class="ti ti-home"></i></span>
+				<span v-if="visibility === 'followers'"><i class="ti ti-lock"></i></span>
+				<span v-if="visibility === 'specified'"><i class="ti ti-mail"></i></span>
+			</button>
+			<button v-else class="_button" :class="[$style.headerRightItem, $style.visibility]" disabled>
+				<span><i class="ti ti-device-tv"></i></span>
+			</button>
+		</template>
+		<button v-tooltip="i18n.ts.previewNoteText" class="_button" :class="[$style.footerButton, { [$style.previewButtonActive]: showPreview }]" @click="showPreview = !showPreview"><i class="ti ti-eye"></i></button>
 	</footer>
 	<datalist id="hashtags">
 		<option v-for="hashtag in recentHashtags" :key="hashtag" :value="hashtag"/>
@@ -91,6 +78,7 @@ import * as misskey from 'misskey-js';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { toASCII } from 'punycode/';
 import * as Acct from 'misskey-js/built/acct';
+import { $$, $computed, $ref, $shallowRef } from 'vue/macros';
 import MkNoteSimple from '@/components/MkNoteSimple.vue';
 import MkNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
@@ -102,7 +90,7 @@ import { formatTimeString } from '@/scripts/format-time-string';
 import { Autocomplete } from '@/scripts/autocomplete';
 import * as os from '@/os';
 import { selectFiles } from '@/scripts/select-file';
-import { defaultStore, notePostInterruptors, postFormActions } from '@/store';
+import { defaultStore, notePostInterruptors } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
@@ -165,8 +153,8 @@ let visibleUsers = $ref([]);
 if (props.initialVisibleUsers) {
 	props.initialVisibleUsers.forEach(pushVisibleUser);
 }
-let autocomplete = $ref(null);
-let draghover = $ref(false);
+// let autocomplete = $ref(null);
+// let draghover = $ref(false);
 let quoteId = $ref(null);
 let hasNotSpecifiedMentions = $ref(false);
 let recentHashtags = $ref(JSON.parse(miLocalStorage.getItem('hashtags') ?? '[]'));
@@ -368,9 +356,9 @@ function togglePoll() {
 	}
 }
 
-function addTag(tag: string) {
-	insertTextAtCursor(textareaEl, ` #${tag} `);
-}
+// function addTag(tag: string) {
+// 	insertTextAtCursor(textareaEl, ` #${tag} `);
+// }
 
 function focus() {
 	if (textareaEl) {
@@ -417,55 +405,19 @@ function setVisibility() {
 		localOnly: localOnly,
 		src: visibilityButton,
 	}, {
-		changeVisibility: v => {
+		changeVisibility: (v: typeof visibility) => {
 			visibility = v;
 			if (defaultStore.state.rememberNoteVisibility) {
 				defaultStore.set('visibility', visibility);
 			}
 		},
+		changeLocalOnly: (v: typeof localOnly) => {
+			localOnly = v;
+			if (defaultStore.state.rememberNoteVisibility) {
+				defaultStore.set('localOnly', localOnly);
+			}
+		},
 	}, 'closed');
-}
-
-async function toggleLocalOnly() {
-	if (props.channel) {
-		visibility = 'public';
-		localOnly = true; // TODO: チャンネルが連合するようになった折には消す
-		return;
-	}
-
-	const neverShowInfo = miLocalStorage.getItem('neverShowLocalOnlyInfo');
-
-	if (!localOnly && neverShowInfo !== 'true') {
-		const confirm = await os.actions({
-			type: 'question',
-			title: i18n.ts.disableFederationConfirm,
-			text: i18n.ts.disableFederationConfirmWarn,
-			actions: [
-				{
-					value: 'yes' as const,
-					text: i18n.ts.disableFederationOk,
-					primary: true,
-				},
-				{
-					value: 'neverShow' as const,
-					text: `${i18n.ts.disableFederationOk} (${i18n.ts.neverShow})`,
-					danger: true,
-				},
-				{
-					value: 'no' as const,
-					text: i18n.ts.cancel,
-				},
-			],
-		});
-		if (confirm.canceled) return;
-		if (confirm.result === 'no') return;
-
-		if (confirm.result === 'neverShow') {
-			miLocalStorage.setItem('neverShowLocalOnlyInfo', 'true');
-		}
-	}
-
-	localOnly = !localOnly;
 }
 
 function pushVisibleUser(user) {
@@ -544,7 +496,7 @@ function onDragover(ev) {
 	const isDriveFile = ev.dataTransfer.types[0] === _DATA_TRANSFER_DRIVE_FILE_;
 	if (isFile || isDriveFile) {
 		ev.preventDefault();
-		draghover = true;
+		// draghover = true;
 		switch (ev.dataTransfer.effectAllowed) {
 			case 'all':
 			case 'uninitialized':
@@ -564,16 +516,16 @@ function onDragover(ev) {
 	}
 }
 
-function onDragenter(ev) {
-	draghover = true;
-}
+// function onDragenter() {
+// 	draghover = true;
+// }
 
-function onDragleave(ev) {
-	draghover = false;
-}
+// function onDragleave() {
+// 	draghover = false;
+// }
 
 function onDrop(ev): void {
-	draghover = false;
+	// draghover = false;
 
 	// ファイルだったら
 	if (ev.dataTransfer.files.length > 0) {
@@ -626,37 +578,6 @@ async function post(ev?: MouseEvent) {
 		const x = rect.left + (el.offsetWidth / 2);
 		const y = rect.top + (el.offsetHeight / 2);
 		os.popup(MkRippleEffect, { x, y }, {}, 'end');
-	}
-
-	const annoying =
-		text.includes('$[x2') ||
-		text.includes('$[x3') ||
-		text.includes('$[x4') ||
-		text.includes('$[scale') ||
-		text.includes('$[position');
-
-	if (annoying && visibility === 'public') {
-		const { canceled, result } = await os.actions({
-			type: 'warning',
-			text: i18n.ts.thisPostMayBeAnnoying,
-			actions: [{
-				value: 'home',
-				text: i18n.ts.thisPostMayBeAnnoyingHome,
-				primary: true,
-			}, {
-				value: 'cancel',
-				text: i18n.ts.thisPostMayBeAnnoyingCancel,
-			}, {
-				value: 'ignore',
-				text: i18n.ts.thisPostMayBeAnnoyingIgnore,
-			}],
-		});
-
-		if (canceled) return;
-		if (result === 'cancel') return;
-		if (result === 'home') {
-			visibility = 'home';
-		}
 	}
 
 	let postData = {
@@ -722,27 +643,14 @@ function cancel() {
 	emit('cancel');
 }
 
-function insertMention() {
-	os.selectUser().then(user => {
-		insertTextAtCursor(textareaEl, '@' + Acct.toString(user) + ' ');
-	});
-}
+// function insertMention() {
+// 	os.selectUser().then(user => {
+// 		insertTextAtCursor(textareaEl, '@' + Acct.toString(user) + ' ');
+// 	});
+// }
 
 async function insertEmoji(ev: MouseEvent) {
 	os.openEmojiPicker(ev.currentTarget ?? ev.target, {}, textareaEl);
-}
-
-function showActions(ev) {
-	os.popupMenu(postFormActions.map(action => ({
-		text: action.title,
-		action: () => {
-			action.handler({
-				text: text,
-			}, (key, value) => {
-				if (key === 'text') { text = value; }
-			});
-		},
-	})), ev.currentTarget ?? ev.target);
 }
 
 let postAccount = $ref<misskey.entities.UserDetailed | null>(null);
@@ -1058,27 +966,9 @@ defineExpose({
 }
 
 .footer {
-	display: flex;
 	padding: 0 16px 16px 16px;
-	font-size: 1em;
-}
-
-.footerLeft {
-	flex: 1;
-	display: grid;
-	grid-auto-flow: row;
-	grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
-	grid-auto-rows: 40px;
-}
-
-.footerRight {
-	flex: 0;
-	margin-left: auto;
-	display: grid;
-	grid-auto-flow: row;
-	grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
-	grid-auto-rows: 40px;
-	direction: rtl;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .footerButton {
@@ -1086,8 +976,8 @@ defineExpose({
 	padding: 0;
 	margin: 0;
 	font-size: 1em;
-	width: auto;
-	height: 100%;
+	width: 46px;
+	height: 46px;
 	border-radius: 6px;
 
 	&:hover {
