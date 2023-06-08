@@ -19,6 +19,7 @@
 		<button :class="$style.navButton" class="_button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i :class="$style.navButtonIcon" class="ti ti-home"></i></button>
 		<button :class="$style.navButton" class="_button" @click="mainRouter.push('/my/notifications')"><i :class="$style.navButtonIcon" class="ti ti-bell"></i><span v-if="$i?.hasUnreadNotification" :class="$style.navButtonIndicator"><i class="_indicatorCircle"></i></span></button>
 		<button :class="$style.navButton" class="_button" @click="widgetsShowing = true"><i :class="$style.navButtonIcon" class="ti ti-apps"></i></button>
+		<button :class="$style.navButton" class="_button" @click="reload()"><i :class="$style.navButtonIcon" class="ti ti-refresh"></i></button>
 		<button :class="$style.postButton" class="_button" @click="os.post()"><i :class="$style.navButtonIcon" class="ti ti-pencil"></i></button>
 	</div>
 
@@ -81,6 +82,7 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent, provide, onMounted, computed, ref, ComputedRef, watch, shallowRef, Ref } from 'vue';
+import { $$, $ref, $shallowRef } from 'vue/macros';
 import XCommon from './_common_/common.vue';
 import type MkStickyContainer from '@/components/global/MkStickyContainer.vue';
 import { instanceName } from '@/config';
@@ -102,6 +104,10 @@ const XStatusBars = defineAsyncComponent(() => import('@/ui/_common_/statusbars.
 
 const DESKTOP_THRESHOLD = 1100;
 const MOBILE_THRESHOLD = 500;
+
+function reload(): void {
+	window.location.reload();
+}
 
 // デスクトップでウィンドウを狭くしたときモバイルUIが表示されて欲しいことはあるので deviceKind === 'desktop' の判定は行わない
 const isDesktop = ref(window.innerWidth >= DESKTOP_THRESHOLD);
@@ -169,12 +175,13 @@ onMounted(() => {
 	}
 });
 
-const onContextmenu = (ev) => {
-	const isLink = (el: HTMLElement) => {
+const onContextmenu = (ev: MouseEvent): void => {
+	const isLink = (el: HTMLElement): boolean => {
 		if (el.tagName === 'A') return true;
 		if (el.parentElement) {
 			return isLink(el.parentElement);
 		}
+		return false;
 	};
 	if (isLink(ev.target)) return;
 	if (['INPUT', 'TEXTAREA', 'IMG', 'VIDEO', 'CANVAS'].includes(ev.target.tagName) || ev.target.attributes['contenteditable']) return;
@@ -186,14 +193,14 @@ const onContextmenu = (ev) => {
 	}, {
 		icon: 'ti ti-window-maximize',
 		text: i18n.ts.openInWindow,
-		action: () => {
+		action: (): void => {
 			os.pageWindow(path);
 		},
 	}], ev);
 };
 
-function top() {
-	contents.value.rootEl.scrollTo({
+function top(): void {
+	contents.value?.rootEl.scrollTo({
 		top: 0,
 		behavior: 'smooth',
 	});
@@ -348,9 +355,9 @@ $widgets-hide-threshold: 1090px;
 	z-index: 1000;
 	bottom: 0;
 	left: 0;
-	padding: 12px 12px max(12px, env(safe-area-inset-bottom, 0px)) 12px;
+	padding: 6px 6px max(6px, env(safe-area-inset-bottom, 0px)) 6px;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 8px;
 	width: 100%;
 	box-sizing: border-box;
@@ -364,7 +371,7 @@ $widgets-hide-threshold: 1090px;
 	position: relative;
 	padding: 0;
 	aspect-ratio: 1;
-	width: 100%;
+	width: 90%;
 	max-width: 60px;
 	margin: auto;
 	border-radius: 100%;
@@ -395,7 +402,7 @@ $widgets-hide-threshold: 1090px;
 }
 
 .navButtonIcon {
-	font-size: 18px;
+	font-size: 14px;
 	vertical-align: middle;
 }
 
