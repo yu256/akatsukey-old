@@ -48,9 +48,6 @@
 				<template #label>{{ i18n.ts.experimentalFeatures }}</template>
 
 				<div class="_gaps_m">
-					<MkSwitch v-model="enableCondensedLineForAcct">
-						<template #label>Enable condensed line for acct</template>
-					</MkSwitch>
 				</div>
 			</MkFolder>
 
@@ -74,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import FormLink from '@/components/form/link.vue';
 import MkFolder from '@/components/MkFolder.vue';
@@ -86,22 +83,21 @@ import { defaultStore } from '@/store';
 import { signout, $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { unisonReload } from '@/scripts/unison-reload';
+// import { unisonReload } from '@/scripts/unison-reload';
 import FormSection from '@/components/form/section.vue';
 
-const reportError = computed(defaultStore.makeGetterSetter('reportError'));
-const enableCondensedLineForAcct = computed(defaultStore.makeGetterSetter('enableCondensedLineForAcct'));
+// const reportError = computed(defaultStore.makeGetterSetter('reportError'));
 const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 
-function onChangeInjectFeaturedNote(v) {
-	os.api('i/update', {
-		injectFeaturedNote: v,
-	}).then((i) => {
-		$i!.injectFeaturedNote = i.injectFeaturedNote;
-	});
-}
+// function onChangeInjectFeaturedNote(v) {
+// 	os.api('i/update', {
+// 		injectFeaturedNote: v,
+// 	}).then((i) => {
+// 		$i!.injectFeaturedNote = i.injectFeaturedNote;
+// 	});
+// }
 
-async function deleteAccount() {
+async function deleteAccount(): Promise<void> {
 	{
 		const { canceled } = await os.confirm({
 			type: 'warning',
@@ -127,25 +123,24 @@ async function deleteAccount() {
 	await signout();
 }
 
-async function reloadAsk() {
-	const { canceled } = await os.confirm({
-		type: 'info',
-		text: i18n.ts.reloadToApplySetting,
-	});
-	if (canceled) return;
+// async function reloadAsk() {
+// 	const { canceled } = await os.confirm({
+// 		type: 'info',
+// 		text: i18n.ts.reloadToApplySetting,
+// 	});
+// 	if (canceled) return;
 
-	unisonReload();
-}
+// 	unisonReload();
+// }
 
-watch([
-	enableCondensedLineForAcct,
-], async () => {
-	await reloadAsk();
-});
+// watch([
+// ], async () => {
+// 	await reloadAsk();
+// });
 
-const headerActions = $computed(() => []);
+// const headerActions = $computed(() => []);
 
-const headerTabs = $computed(() => []);
+// const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.other,
