@@ -338,7 +338,7 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 'bottomleft' as 'normal' | 'leftedge' | 'rightedge' | 'bottomleft' | 'bottomright',
 	},
-	UseNumberquote: {
+	useNumberquote: {
 		where: 'device',
 		default: false,
 	},

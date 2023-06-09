@@ -325,7 +325,7 @@ function renote(viaKeyboard = false) {
 		},
 	}]);
 	
-	if (defaultStore.state.UseNumberquote) {
+	if (defaultStore.state.useNumberquote) {
 		items = items.concat([{
 			text: 'パクる',
 			icon: 'ti ti-swipe',
