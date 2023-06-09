@@ -114,7 +114,6 @@ const profile = reactive({
 	lang: $i.lang,
 	isBot: $i.isBot,
 	isCat: $i.isCat,
-	showTimelineReplies: $i.showTimelineReplies,
 });
 
 watch(() => profile, () => {
@@ -138,7 +137,7 @@ while (fields.value.length < 4) {
 	addField();
 }
 
-function deleteField(index: number) { 
+function deleteField(index: number) {
 	fields.value.splice(index, 1);
 }
 
@@ -163,7 +162,6 @@ function save() {
 		lang: profile.lang || null,
 		isBot: !!profile.isBot,
 		isCat: !!profile.isCat,
-		showTimelineReplies: !!profile.showTimelineReplies,
 	});
 }
 
