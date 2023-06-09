@@ -126,6 +126,11 @@ const menuDef = computed(() => [{
 		text: i18n.ts.plugins,
 		to: '/settings/plugin',
 		active: currentPage?.route.name === 'plugin',
+	}, {
+		icon: 'ti ti-git-fork',
+		text: 'akatsukey',
+		to: '/settings/akatsukey-settings',
+		active: currentPage?.route.name === 'akatsukey-settings',
 	}],
 }, {
 	title: i18n.ts.otherSettings,

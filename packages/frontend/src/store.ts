@@ -334,6 +334,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: {} as Record<string, Record<string, string[]>>,
 	},
+	instanceTickerPosition: {
+		where: 'device',
+		default: 'bottomleft' as 'normal' | 'leftedge' | 'rightedge' | 'bottomleft' | 'bottomright',
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期

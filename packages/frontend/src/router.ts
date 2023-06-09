@@ -186,6 +186,10 @@ export const routes = [{
 		name: 'other',
 		component: page(() => import('./pages/settings/other.vue')),
 	}, {
+		path: '/akatsukey-settings',
+		name: 'akatsukey',
+		component: page(() => import('./pages/settings/akatsukey-settings.vue')),
+	}, {
 		path: '/',
 		component: page(() => import('./pages/_empty_.vue')),
 	}],

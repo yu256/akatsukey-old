@@ -1,15 +1,17 @@
 <template>
-<div :class="$style.root" :style="bg">
+<div :class="[$style.root, $style[position]]" :style="tickerColor">
 	<img v-if="faviconUrl" :class="$style.icon" :src="faviconUrl"/>
 	<div :class="$style.name">{{ instance.name }}</div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { computed, ComputedRef } from 'vue';
+import { $computed } from 'vue/macros';
 import { instanceName } from '@/config';
 import { instance as Instance } from '@/instance';
 import { getProxiedImageUrlNullable } from '@/scripts/media-proxy';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	instance?: {
@@ -17,6 +19,7 @@ const props = defineProps<{
 		name: string
 		themeColor?: string
 	}
+	forceType?: typeof defaultStore.state.instanceTickerPosition | ComputedRef<typeof defaultStore.state.instanceTickerPosition>;
 }>();
 
 // if no instance data is given, this is for the local instance
@@ -25,56 +28,163 @@ const instance = props.instance ?? {
 	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement).content,
 };
 
-const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.faviconUrl, 'preview') ?? '/favicon.ico');
+const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable((Instance as { faviconUrl?: string | null }).faviconUrl, 'preview') ?? '/favicon.ico');
 
-const themeColor = instance.themeColor ?? '#777777';
+const position = computed(() => {
+	return typeof props.forceType === 'string' ? props.forceType : props.forceType?.value ?? defaultStore.state.instanceTickerPosition;
+});
 
-const bg = {
-	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
+const hexToRgb = (hex: string): {
+	r: number;
+	g: number;
+	b: number;
+} => {
+	const [r, g, b] = Array.from(hex.slice(1).match(/.{2}/g) ?? [], n => parseInt(n, 16));
+	return { r, g, b };
+};
+
+const getTickerFgColor = (hex: string): string => {
+	const { r, g, b } = hexToRgb(hex);
+	const yuv = 0.299 * r + 0.587 * g + 0.114 * b;
+
+	return yuv > 191 ? '#2f2f2fcc' : '#ffffff';
+};
+
+instance.themeColor ??= '#777777';
+
+const tickerColor = {
+	'--ticker-bg': instance.themeColor,
+	'--ticker-fg': getTickerFgColor(instance.themeColor),
+	'--ticker-bg-rgb': (({ r, g, b }): string => `${r}, ${g}, ${b}`)(hexToRgb(instance.themeColor)),
 };
 </script>
 
 <style lang="scss" module>
-$height: 2ex;
-
 .root {
-	display: flex;
-	align-items: center;
-	height: $height;
-	border-radius: 4px 0 0 4px;
-	overflow: clip;
-	color: #fff;
-	text-shadow: /* .866 ≈ sin(60deg) */
-		1px 0 1px #000,
-		.866px .5px 1px #000,
-		.5px .866px 1px #000,
-		0 1px 1px #000,
-		-.5px .866px 1px #000,
-		-.866px .5px 1px #000,
-		-1px 0 1px #000,
-		-.866px -.5px 1px #000,
-		-.5px -.866px 1px #000,
-		0 -1px 1px #000,
-		.5px -.866px 1px #000,
-		.866px -.5px 1px #000;
-	mask-image: linear-gradient(90deg,
-		rgb(0,0,0),
-		rgb(0,0,0) calc(100% - 16px),
-		rgba(0,0,0,0) 100%
-	);
+	background: var(--ticker-bg, #777777);
+	color: var(--ticker-fg, #ffffff);
+	overflow: hidden;
 }
 
 .icon {
-	height: $height;
-	flex-shrink: 0;
+	aspect-ratio: 1 / 1;
 }
 
 .name {
-	margin-left: 4px;
-	line-height: 1;
 	font-size: 0.9em;
+	vertical-align: top;
 	font-weight: bold;
-	white-space: nowrap;
-	overflow: visible;
+}
+
+.normal {
+	width: auto;
+	height: 1.1rem;
+	border-radius: 4px;
+	overflow: hidden;
+	> .icon {
+		width: auto;
+		height: 100%;
+	}
+	> .name {
+		margin-left: 4px;
+		line-height: 1.1rem;
+	}
+}
+
+.leftedge {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: grid;
+	gap: 4px;
+	grid-template-rows: auto 1fr;
+	width: 14px;
+	height: 100%;
+	border-radius: 0;
+	background: rgba(var(--ticker-bg-rgb), 0.2);
+	> .icon {
+		display: block;
+		width: 100%;
+	}
+	> .name {
+		display: block;
+		width: 100%;
+		height: 100%;
+		line-height: 14px;
+		writing-mode: vertical-lr;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}
+
+.rightedge {
+	@extend .leftedge;
+	left: auto;
+	right: 0;
+}
+
+.bottomright {
+	--ticker-bg-deg: 135deg;
+	pointer-events: none;
+	user-select: none;
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	padding: 6px;
+	display: flex;
+	gap: 4px;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-end;
+	background: linear-gradient(
+		var(--ticker-bg-deg),
+		rgba(var(--ticker-bg-rgb), 0.35),
+		rgba(var(--ticker-bg-rgb), 0.35) 3em,
+		rgba(0, 0, 0, 0) 3em,
+		rgba(0, 0, 0, 0) calc(100% - 3em),
+		rgba(var(--ticker-bg-rgb), 0.35) calc(100% - 3em),
+		rgba(var(--ticker-bg-rgb), 0.35) 100%
+	);
+	color: #fff;
+	text-shadow: /* 0.866 ≈ sin(60deg) */
+		1px 0 1px #000,
+		0.866px 0.5px 1px #000,
+		0.5px 0.866px 1px #000,
+		0 1px 1px #000,
+		-0.5px 0.866px 1px #000,
+		-0.866px 0.5px 1px #000,
+		-1px 0 1px #000,
+		-0.866px -0.5px 1px #000,
+		-0.5px -0.866px 1px #000,
+		0 -1px 1px #000,
+		0.5px -0.866px 1px #000,
+		0.866px -0.5px 1px #000;
+	> .icon {
+		display: block;
+		height: 2em;
+		opacity: 0.8;
+	}
+	> .name {
+		display: block;
+		max-width: 100%;
+		margin: -4px; // text-shadow
+		padding: 4px; // text-shadow
+		line-height: 1;
+		opacity: 0.7;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		text-align: end;
+	}
+}
+
+.bottomleft {
+	@extend .bottomright;
+	--ticker-bg-deg: -135deg;
+	align-items: flex-start;
+	> .name {
+		text-align: start;
+	}
 }
 </style>
