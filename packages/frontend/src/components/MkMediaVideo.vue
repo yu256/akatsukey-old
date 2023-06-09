@@ -19,7 +19,7 @@
 	>
 		<source 
 			:src="video.url" 
-			:type="video.type"
+			:type="video.type === 'video/quicktime' ? undefined : video.type"
 		>
 	</video>
 	<i class="ti ti-eye-off" :class="$style.hide" @click="hide = true"></i>
