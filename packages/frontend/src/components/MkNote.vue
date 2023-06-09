@@ -135,6 +135,7 @@
 import { computed, inject, onMounted, ref, shallowRef, Ref, defineAsyncComponent } from 'vue';
 import * as mfm from 'mfm-js';
 import * as misskey from 'misskey-js';
+import { $$, $computed, $ref } from 'vue/macros';
 import MkNoteSub from '@/components/MkNoteSub.vue';
 import MkNoteHeader from '@/components/MkNoteHeader.vue';
 import MkNoteSimple from '@/components/MkNoteSimple.vue';
@@ -163,6 +164,7 @@ import { getNoteSummary } from '@/scripts/get-note-summary';
 import { MenuItem } from '@/types/menu';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { showMovedDialog } from '@/scripts/show-moved-dialog';
+import { pakuru, numberquote } from '@/scripts/pakuru';
 
 const props = defineProps<{
 	note: misskey.entities.Note;
@@ -322,6 +324,18 @@ function renote(viaKeyboard = false) {
 			});
 		},
 	}]);
+	
+	if (defaultStore.state.UseNumberquote) {
+		items = items.concat([{
+			text: 'パクる',
+			icon: 'ti ti-swipe',
+			action: () => pakuru(props.note),
+		}, {
+			text: '数字引用する',
+			icon: 'ti ti-exposure-plus-1',
+			action: () => numberquote(props.note),
+		}]);
+	}
 
 	os.popupMenu(items, renoteButton.value, {
 		viaKeyboard,

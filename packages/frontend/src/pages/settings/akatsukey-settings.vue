@@ -12,6 +12,12 @@
 			<template #caption>タイムライン上のインスタンス情報を指定した位置に表示します。</template>
 		</MkSelect>
 	</FormSection>
+	<FormSection>
+		<MkSwitch v-model="UseNumberquote" class="_formBlock">
+			「パクる」と「数字引用」機能を有効にする
+			<template #caption>Renoteメニューに「パクる」と「数字引用する」を追加します。</template>
+		</MkSwitch>
+	</FormSection>
 </div>
 </template>
 
@@ -20,8 +26,10 @@ import { computed } from 'vue';
 import { defaultStore } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSelect from '@/components/MkSelect.vue';
+import MkSwitch from '@/components/MkSwitch.vue';
 import FormSection from '@/components/form/section.vue';
 
 const InstanceTickerPosition = computed(defaultStore.makeGetterSetter('instanceTickerPosition'));
+const UseNumberquote = computed(defaultStore.makeGetterSetter('UseNumberquote'));
 
 </script>
