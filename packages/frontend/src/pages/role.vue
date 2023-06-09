@@ -3,7 +3,7 @@
 	<template #header><MkPageHeader/></template>
 	<MKSpacer v-if="!(typeof error === 'undefined')" :contentMax="1200">
 		<div :class="$style.root">
-			<img :class="$style.img" src="https://xn--931a.moe/assets/error.jpg" class="_ghost"/>
+			<img :class="$style.img" :src="serverErrorImageUrl" class="_ghost"/>
 			<p :class="$style.text">
 				<i class="ti ti-alert-triangle"></i>
 				{{ error }}
@@ -26,6 +26,7 @@ import MkUserList from '@/components/MkUserList.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import { instanceName } from '@/config';
+import { serverErrorImageUrl } from '@/instance';
 
 const props = defineProps<{
 	role: string;
