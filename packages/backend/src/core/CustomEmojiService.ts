@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { DataSource, In, IsNull } from 'typeorm';
 import * as Redis from 'ioredis';
 import { DI } from '@/di-symbols.js';
@@ -16,7 +16,7 @@ import { query } from '@/misc/prelude/url.js';
 import type { Serialized } from '@/server/api/stream/types.js';
 
 @Injectable()
-export class CustomEmojiService {
+export class CustomEmojiService implements OnApplicationShutdown {
 	private cache: MemoryKVCache<Emoji | null>;
 	public localEmojisCache: RedisSingleCache<Map<string, Emoji>>;
 
@@ -330,5 +330,15 @@ export class CustomEmojiService {
 		for (const emoji of _emojis) {
 			this.cache.set(`${emoji.name} ${emoji.host}`, emoji);
 		}
+	}
+
+	@bindThis
+	public dispose(): void {
+		this.cache.dispose();
+	}
+
+	@bindThis
+	public onApplicationShutdown(signal?: string | undefined): void {
+		this.dispose();
 	}
 }
