@@ -43,7 +43,6 @@ const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
 
 async function toggleReaction(): Promise<void> {
 	if (!canToggle.value) {
-		importEmoji();
 		return;
 	}
 
@@ -82,13 +81,6 @@ function anime(): void {
 	const x = rect.left + 16;
 	const y = rect.top + (buttonEl.value.offsetHeight / 2);
 	os.popup(MkReactionEffect, { reaction: props.reaction, x, y }, {}, 'end');
-}
-
-function importEmoji(): void {
-	os.api('notes/reactions/create', {
-		noteId: props.note.id,
-		reaction: `:${alternative.value}:`,
-	});
 }
 
 watch(() => props.count, (newCount, oldCount) => {
