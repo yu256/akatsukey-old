@@ -36,7 +36,7 @@ const bgCss = bg.toRgbString();
 
 <style lang="scss" module>
 .root {
-	display: inline-block;
+	display: inline-flex;
 	padding: 4px 8px 4px 4px;
 	border-radius: 999px;
 	color: var(--mention);
