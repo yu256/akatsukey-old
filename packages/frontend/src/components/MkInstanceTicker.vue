@@ -1,7 +1,7 @@
 <template>
 <div :class="[$style.root, $style[position]]" :style="tickerColor">
 	<img v-if="faviconUrl" :class="$style.icon" :src="faviconUrl"/>
-	<div :class="$style.name">{{ instance.name }}</div>
+	<span :class="$style.name">{{ instance.name }}</span>
 </div>
 </template>
 
