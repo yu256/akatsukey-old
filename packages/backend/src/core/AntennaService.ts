@@ -111,8 +111,6 @@ export class AntennaService implements OnApplicationShutdown {
 
 	@bindThis
 	public async checkHitAntenna(antenna: Antenna, note: (Note | Packed<'Note'>), noteUser: { id: User['id']; username: string; host: string | null; }): Promise<boolean> {
-		if (antenna.userId === note.userId) return true;
-
 		if (note.visibility === 'specified') {
 			if (note.userId !== antenna.userId) {
 				if (note.visibleUserIds == null) return false;
@@ -129,7 +127,7 @@ export class AntennaService implements OnApplicationShutdown {
 				take: 1,
 			}).then(n => n > 0);
 			console.log(isFollowing, antenna.userId, note.userId);
-			if (!isFollowing) return false;
+			if (!isFollowing && antenna.userId !== note.userId) return false;
 		}
 	
 		if (!antenna.withReplies && note.replyId != null) return false;
