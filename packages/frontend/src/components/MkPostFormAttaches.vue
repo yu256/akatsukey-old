@@ -72,16 +72,15 @@ async function rename(file) {
 
 async function cropImage(file: DriveFile): Promise<void> {
 	const { canceled } = await os.confirm({
-		title: '',
 		type: 'question',
 		text: i18n.t('cropImageAsk'),
 	});
 	if (!canceled) {
-		const clopped = await os.cropImage(file, {
+		const cropped = await os.cropImage(file, {
 			aspectRatio: -1,
 			highDefinition: true,
 		});
-		emit('cropImage', file, clopped);
+		emit('cropImage', file, cropped);
 	}
 }
 
