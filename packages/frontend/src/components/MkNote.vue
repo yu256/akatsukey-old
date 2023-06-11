@@ -101,6 +101,15 @@
 					<i class="ti ti-repeat"></i>
 					<p v-if="appearNote.renoteCount > 0" :class="$style.footerButtonCount">{{ appearNote.renoteCount }}</p>
 				</button>
+				<button 
+					v-else-if="defaultStore.state.useNumberquote"
+					ref="renoteButton"
+					:class="$style.footerButton"
+					class="_button"
+					@mousedown="onlyPakuru()"
+				>
+					<i class="ti ti-copy"></i>
+				</button>
 				<button v-else :class="$style.footerButton" class="_button" disabled>
 					<i class="ti ti-ban"></i>
 				</button>
@@ -326,7 +335,7 @@ function renote(viaKeyboard = false) {
 	}]);
 	
 	if (defaultStore.state.useNumberquote) {
-		items = items.concat([{
+		items = items.concat([null, {
 			text: 'パクる',
 			icon: 'ti ti-swipe',
 			action: () => pakuru(props.note),
@@ -338,6 +347,23 @@ function renote(viaKeyboard = false) {
 	}
 
 	os.popupMenu(items, renoteButton.value, {
+		viaKeyboard,
+	});
+}
+
+function onlyPakuru(viaKeyboard = false): void {
+	pleaseLogin();
+	showMovedDialog();
+
+	os.popupMenu([{
+		text: 'パクる',
+		icon: 'ti ti-swipe',
+		action: () => pakuru(props.note),
+	}, {
+		text: '数字引用する',
+		icon: 'ti ti-exposure-plus-1',
+		action: () => numberquote(props.note),
+	}], renoteButton.value, {
 		viaKeyboard,
 	});
 }
