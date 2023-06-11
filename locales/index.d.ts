@@ -584,6 +584,7 @@ export interface Locale {
     "description": string;
     "describeFile": string;
     "enterFileDescription": string;
+    "cropImageFile": string;
     "author": string;
     "leaveConfirm": string;
     "manage": string;

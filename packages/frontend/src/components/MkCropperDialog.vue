@@ -44,10 +44,13 @@ const emit = defineEmits<{
 	(ev: 'closed'): void;
 }>();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	file: misskey.entities.DriveFile;
 	aspectRatio: number;
-}>();
+	highDefinition: boolean;
+}>(), {
+	highDefinition: false,
+});
 
 const imgUrl = getProxiedImageUrl(props.file.url, undefined, true);
 let dialogEl = $shallowRef<InstanceType<typeof MkModalWindow>>();
@@ -55,9 +58,15 @@ let imgEl = $shallowRef<HTMLImageElement>();
 let cropper: Cropper | null = null;
 let loading = $ref(true);
 
-const ok = async () => {
+const ok = async (): Promise<void> => {
 	const promise = new Promise<misskey.entities.DriveFile>(async (res) => {
-		const croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
+		const croppedCanvas = props.highDefinition ? await cropper?.getCropperSelection()?.$toCanvas({
+			width: 4096,
+			height: 4096,
+		}) : await cropper?.getCropperSelection()?.$toCanvas();
+		if (croppedCanvas == null) {
+			throw new Error('croppedCanvas is null'); //ここで蹴らないと警告が出るので, あとでエラーちゃんと出すようにする
+		}
 		croppedCanvas.toBlob(blob => {
 			const formData = new FormData();
 			formData.append('file', blob);
@@ -74,7 +83,8 @@ const ok = async () => {
 				.then(f => {
 					res(f);
 				});
-		});
+		},
+		'image/jpeg', 1); //TODO: オプションにする(これだと意図しない場所にjpgを渡しちゃうかも？、アイコンがjpgでもいいと思うけど)
 	});
 
 	os.promiseDialog(promise);
@@ -82,7 +92,7 @@ const ok = async () => {
 	const f = await promise;
 
 	emit('ok', f);
-	dialogEl.close();
+	dialogEl?.close();
 };
 
 const cancel = () => {
