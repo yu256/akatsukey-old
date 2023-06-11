@@ -32,6 +32,7 @@
 				<span :class="$style.itemDescription">{{ i18n.ts._visibility.specifiedDescription }}</span>
 			</div>
 		</button>
+		<div :class="$style.divider"></div>
 		<button key="localOnly" class="_button" :class="[$style.item]" data-index="5" @click="localOnly = !localOnly">
 			<div :class="$style.icon"><i class="ti ti-world-off"></i></div>
 			<div :class="$style.body">
@@ -105,6 +106,11 @@ function choose(visibility: typeof misskey.noteVisibilities[number]): void {
 			padding: 10px 24px;
 		}
 	}
+}
+
+.divider {
+	margin: 8px 0;
+	border-top: solid 0.5px var(--divider);
 }
 
 .label {
