@@ -10,6 +10,7 @@
 -->
 
 ## akatsukey-v1.1
+- re-add KaTeX
 - MkPostFormを旧akatsukey仕様に
 - モバイルのボトムバーにリロードボタンを追加
 - リモートカスタム絵文字でも、自鯖に同名のものがあれば押せるように
@@ -27,7 +28,7 @@
 	- sensitive word
 	- アンテナの自動停止
 	- role timeline
-	- noai
+	- noai（検討段階でなくなれば再追加するかも）
 	- カスタム絵文字のロール
 	- クッキークリッカー
 	- MkAcctの縮小
