@@ -34,7 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</span>
 		</button>
 		<button :class="$style.navButton" class="_button" @click="widgetsShowing = true"><i :class="$style.navButtonIcon" class="ti ti-apps"></i></button>
-		<button :class="$style.navButton" class="_button" @click="reload()"><i :class="$style.navButtonIcon" class="ti ti-refresh"></i></button>
+		<button :class="$style.navButton" class="_button" @click="reload()"><i :class="$style.navButtonIcon" class="ti ti-refresh"></i><span v-if="disconnected" :class="$style.navButtonIndicator"><i class="_indicatorCircle"></i></span></button>
 		<button :class="$style.postButton" class="_button" @click="os.post()"><i :class="$style.navButtonIcon" class="ti ti-pencil"></i></button>
 	</div>
 
@@ -112,6 +112,7 @@ import { deviceKind } from '@/scripts/device-kind.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { CURRENT_STICKY_BOTTOM } from '@/const.js';
 import { useScrollPositionManager } from '@/nirax.js';
+import { useStream } from '@/stream.js';
 
 const XWidgets = defineAsyncComponent(() => import('./universal.widgets.vue'));
 const XSidebar = defineAsyncComponent(() => import('@/ui/_common_/navbar.vue'));
@@ -234,6 +235,12 @@ watch(navFooter, () => {
 });
 
 useScrollPositionManager(() => contents.value.rootEl, mainRouter);
+
+const disconnected = ref(false);
+
+useStream().on('_disconnected_', () => {
+	disconnected.value = true;
+});
 </script>
 
 <style>
