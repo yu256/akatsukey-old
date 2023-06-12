@@ -442,6 +442,7 @@ defineExpose({
 	}
 
 	&.asDrawer {
+		padding: 0 0 max(env(safe-area-inset-bottom, 0px), 12px) 0;
 		width: 100% !important;
 
 		> .emojis {
@@ -500,11 +501,6 @@ defineExpose({
 		border: none;
 		background: transparent;
 		color: var(--fg);
-
-		&:not(:focus):not(.filled) {
-			margin-bottom: env(safe-area-inset-bottom, 0px);
-		}
-
 		&:not(.filled) {
 			order: 1;
 			z-index: 2;
