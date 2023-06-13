@@ -443,7 +443,7 @@ $widgets-hide-threshold: 1090px;
 	top: 0;
 	left: 0;
 	color: var(--indicator);
-	font-size: 16px;
+	font-size: 12px;
 	animation: blink 1s infinite;
 }
 
