@@ -331,7 +331,6 @@ import * as ep___users_reportAbuse from './endpoints/users/report-abuse.js';
 import * as ep___users_searchByUsernameAndHost from './endpoints/users/search-by-username-and-host.js';
 import * as ep___users_search from './endpoints/users/search.js';
 import * as ep___users_show from './endpoints/users/show.js';
-import * as ep___users_stats from './endpoints/users/stats.js';
 import * as ep___users_updateMemo from './endpoints/users/update-memo.js';
 import * as ep___fetchRss from './endpoints/fetch-rss.js';
 import * as ep___retention from './endpoints/retention.js';
@@ -676,7 +675,6 @@ const $users_reportAbuse: Provider = { provide: 'ep:users/report-abuse', useClas
 const $users_searchByUsernameAndHost: Provider = { provide: 'ep:users/search-by-username-and-host', useClass: ep___users_searchByUsernameAndHost.default };
 const $users_search: Provider = { provide: 'ep:users/search', useClass: ep___users_search.default };
 const $users_show: Provider = { provide: 'ep:users/show', useClass: ep___users_show.default };
-const $users_stats: Provider = { provide: 'ep:users/stats', useClass: ep___users_stats.default };
 const $users_updateMemo: Provider = { provide: 'ep:users/update-memo', useClass: ep___users_updateMemo.default };
 const $fetchRss: Provider = { provide: 'ep:fetch-rss', useClass: ep___fetchRss.default };
 const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention.default };
@@ -1023,7 +1021,6 @@ const $vrchat_user: Provider = { provide: 'ep:vrchat/user', useClass: ep___vrcha
 		$users_searchByUsernameAndHost,
 		$users_search,
 		$users_show,
-		$users_stats,
 		$users_updateMemo,
 		$fetchRss,
 		$retention,
@@ -1363,7 +1360,6 @@ const $vrchat_user: Provider = { provide: 'ep:vrchat/user', useClass: ep___vrcha
 		$users_searchByUsernameAndHost,
 		$users_search,
 		$users_show,
-		$users_stats,
 		$users_updateMemo,
 		$fetchRss,
 		$retention,
