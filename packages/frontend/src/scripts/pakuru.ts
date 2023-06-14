@@ -152,6 +152,8 @@ const makeParams = async (_note: Note): Promise<PostData> => {
 
 const _nqadd = (text: PostData['text']): PostData['text'] => {
 	if (!text) return '2';
+	// eslint-disable-next-line no-irregular-whitespace
+	if (text.endsWith(':')) return `${text}​2`;
 	if (text.endsWith('</center>')) return `${text}\n2`;
 	if (!/\-?\d+$/.test(text)) return `${text}2`;
 	return text.replace(/\-?\d+$/, (n => (BigInt(n) + 1n).toString(10)));
