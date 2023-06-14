@@ -1,15 +1,21 @@
 <template>
-<div class="_formRoot">
-	<MkInfo class="_formBlock">以下の機能はフォークの機能です。</MkInfo>
+<div class="_gaps_m">
+	<MkInfo>以下の機能はフォークの機能です。</MkInfo>
 	<FormSection>
-		<MkSwitch v-model="useNumberquote" class="_formBlock">
-			「パクる」と「数字引用」機能を有効にする
-			<template #caption>Renoteメニューに「パクる」と「数字引用する」を追加します。</template>
-		</MkSwitch>
-		<MkSwitch v-model="usePartialReload" class="_formBlock">
-			部分的にリロードする
-			<template #caption>モバイルのボトムバーの挙動を変更します。必要なコンポーネントのみリロードしますが、WebSocketの再接続も行われません。</template>
-		</MkSwitch>
+		<div class="_gaps_s">
+			<MkSwitch v-model="useNumberquote">
+				「パクる」と「数字引用」機能を有効にする
+				<template #caption>Renoteメニューに「パクる」と「数字引用する」を追加します。</template>
+			</MkSwitch>
+			<MkSwitch v-model="usePartialReload">
+				部分的にリロードする
+				<template #caption>モバイルのボトムバーの挙動を変更します。必要なコンポーネントのみリロードしますが、WebSocketの再接続も行われません。</template>
+			</MkSwitch>
+			<MkSwitch v-model="disableAutostop">
+				バックグラウンドでもタイムラインを更新する
+				<template #caption>バックグラウンドで10秒経過したらページネーションのアイテム更新をしない機能を無効にします。</template>
+			</MkSwitch>
+		</div>
 	</FormSection>
 </div>
 </template>
@@ -23,5 +29,6 @@ import FormSection from '@/components/form/section.vue';
 
 const useNumberquote = computed(defaultStore.makeGetterSetter('useNumberquote'));
 const usePartialReload = computed(defaultStore.makeGetterSetter('usePartialReload'));
+const disableAutostop = computed(defaultStore.makeGetterSetter('disableAutostop'));
 
 </script>

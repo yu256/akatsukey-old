@@ -289,7 +289,7 @@ const fetchMoreAhead = async (): Promise<void> => {
 const isTop = (): boolean => isBackTop.value || (props.pagination.reversed ? isBottomVisible : isTopVisible)(contentEl, TOLERANCE);
 
 watch(visibility, () => {
-	if (visibility.value === 'hidden') {
+	if (!defaultStore.state.disableAutostop && visibility.value === 'hidden') {
 		timerForSetPause = window.setTimeout(() => {
 			isPausingUpdate = true;
 			timerForSetPause = null;
