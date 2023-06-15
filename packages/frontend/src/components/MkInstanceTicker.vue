@@ -51,7 +51,7 @@ $height: 2ex;
 	position: absolute;
 	z-index: -1;
 	inset: 0;
-	background: linear-gradient(to right top, rgba(var(--rgb), 0.1), rgba(var(--rgb), 0));
+	background: linear-gradient(to top, rgba(var(--rgb), 0.1), rgba(var(--rgb), 0));
 }
 
 .topleftIcon {
