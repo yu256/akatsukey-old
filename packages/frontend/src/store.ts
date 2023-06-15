@@ -236,7 +236,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	instanceTicker: {
 		where: 'device',
-		default: 'remote' as 'none' | 'remote' | 'always',
+		default: 'always' as 'none' | 'remote' | 'always',
 	},
 	reactionPickerSize: {
 		where: 'device',
@@ -344,7 +344,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	disableAutostop: {
 		where: 'device',
-		default: 'false',
+		default: false,
+	},
+	useOriginalInstanceTicker: {
+		where: 'device',
+		default: true,
 	},
 }));
 

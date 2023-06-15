@@ -3,6 +3,10 @@
 	<MkInfo>以下の機能はフォークの機能です。</MkInfo>
 	<FormSection>
 		<div class="_gaps_s">
+			<MkSwitch v-model="useOriginalInstanceTicker">
+				オリジナルのインスタンスティッカーを使用する
+				<template #caption>インスタンスティッカーを切り替えます。</template>
+			</MkSwitch>
 			<MkSwitch v-model="useNumberquote">
 				「パクる」と「数字引用」機能を有効にする
 				<template #caption>Renoteメニューに「パクる」と「数字引用する」を追加します。</template>
@@ -30,5 +34,6 @@ import FormSection from '@/components/form/section.vue';
 const useNumberquote = computed(defaultStore.makeGetterSetter('useNumberquote'));
 const usePartialReload = computed(defaultStore.makeGetterSetter('usePartialReload'));
 const disableAutostop = computed(defaultStore.makeGetterSetter('disableAutostop'));
+const useOriginalInstanceTicker = computed(defaultStore.makeGetterSetter('useOriginalInstanceTicker'));
 
 </script>
