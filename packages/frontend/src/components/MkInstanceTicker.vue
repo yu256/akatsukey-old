@@ -4,7 +4,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<div :class="$style.root" :style="bg">
+<div v-if="!forceDefault && defaultStore.state.useOriginalInstanceTicker" :class="$style.original" :style="rgbColor">
+	<img v-if="faviconUrl" :class="$style.topleftIcon" :src="faviconUrl"/>
+</div>
+<div v-else :class="$style.root" :style="bg">
 	<img v-if="faviconUrl" :class="$style.icon" :src="faviconUrl"/>
 	<div :class="$style.name">{{ instance.name }}</div>
 </div>
@@ -15,6 +18,7 @@ import { computed } from 'vue';
 import { instanceName } from '@/config.js';
 import { instance as Instance } from '@/instance.js';
 import { getProxiedImageUrlNullable } from '@/scripts/media-proxy.js';
+import { defaultStore } from '@/store.js';
 
 const props = defineProps<{
 	instance?: {
@@ -22,6 +26,7 @@ const props = defineProps<{
 		name: string
 		themeColor?: string
 	}
+	forceDefault?: boolean
 }>();
 
 // if no instance data is given, this is for the local instance
@@ -32,15 +37,36 @@ const instance = props.instance ?? {
 
 const faviconUrl = computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.faviconUrl, 'preview') ?? '/favicon.ico');
 
-const themeColor = instance.themeColor ?? '#777777';
+const bgColor = instance.themeColor ?? '#777777';
 
 const bg = {
-	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
+	background: `linear-gradient(90deg, ${bgColor}, ${bgColor}00)`,
 };
+
+const rgbColor = {
+	'--rgb': bgColor.slice(1).match(/.{2}/g)?.map(hex => parseInt(hex, 16)).join(', ') ?? '119, 119, 119',
+};
+
 </script>
 
 <style lang="scss" module>
 $height: 2ex;
+
+.original {
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background: linear-gradient(to right top, rgba(var(--rgb), 0.1), rgba(var(--rgb), 0));
+}
+
+.topleftIcon {
+	position: absolute;
+	height: 2em;
+	border-radius: 20%;
+	opacity: 0.7;
+	top: 5px;
+	left: 5px;
+}
 
 .root {
 	display: flex;

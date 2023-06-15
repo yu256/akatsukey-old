@@ -273,7 +273,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	instanceTicker: {
 		where: 'device',
-		default: 'remote' as 'none' | 'remote' | 'always',
+		default: 'always' as 'none' | 'remote' | 'always',
 	},
 	emojiPickerScale: {
 		where: 'device',
@@ -452,6 +452,10 @@ export const defaultStore = markRaw(new Storage('base', {
 	sound_reaction: {
 		where: 'device',
 		default: { type: 'syuilo/bubble2', volume: 1 } as SoundStore,
+	},
+	useOriginalInstanceTicker: {
+		where: 'device',
+		default: true,
 	},
 }));
 

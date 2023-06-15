@@ -62,7 +62,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 				</div>
 				<div :class="$style.noteHeaderUsername"><MkAcct :user="appearNote.user"/></div>
-				<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance"/>
+				<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance" forceDefault/>
 			</div>
 		</header>
 		<div :class="$style.noteContent">
