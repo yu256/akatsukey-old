@@ -22,6 +22,7 @@ const props = defineProps({
 const compiledFormula = computed(() => {
 	return katex.renderToString(props.formula, {
 		throwOnError: false,
+		strict: false,
 	});
 });
 
