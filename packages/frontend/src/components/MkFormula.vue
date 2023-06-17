@@ -1,23 +1,18 @@
 <template>
-<XFormula :formula="formula" :block="block"/>
+<MkFormulaCore :formula="formula" :block="block"/>
 </template>
 
-<script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
+<script lang="ts" setup>
+import MkFormulaCore from './MkFormulaCore.vue';
 
-export default defineComponent({
-	components: {
-		XFormula: defineAsyncComponent(() => import('@/components/MkFormulaCore.vue')),
+defineProps({
+	formula: {
+		type: String,
+		required: true,
 	},
-	props: {
-		formula: {
-			type: String,
-			required: true,
-		},
-		block: {
-			type: Boolean,
-			required: true,
-		},
+	block: {
+		type: Boolean,
+		required: true,
 	},
 });
 </script>
