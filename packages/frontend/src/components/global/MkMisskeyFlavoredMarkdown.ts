@@ -25,7 +25,7 @@ opacity: 0.7;
 `.split('\n').join(' ');
 
 export default function(props: {
-	text: string;
+	text?: string;
 	plain?: boolean;
 	nowrap?: boolean;
 	author?: Misskey.entities.UserLite;
@@ -34,13 +34,13 @@ export default function(props: {
 	emojiUrls?: string[];
 	rootScale?: number;
 }) {
-	const isNote = props.isNote !== undefined ? props.isNote : true;
+	const isNote = props.isNote ?? true;
 
-	if (props.text == null || props.text === '') return;
+	if (!props.text) return;
 
 	const ast = (props.plain ? mfm.parseSimple : mfm.parse)(props.text);
 
-	const validTime = (t: string | null | undefined) => {
+	const validTime = (t: string | null | undefined): string | null => {
 		if (t == null) return null;
 		return t.match(/^[0-9.]+s$/) ? t : null;
 	};

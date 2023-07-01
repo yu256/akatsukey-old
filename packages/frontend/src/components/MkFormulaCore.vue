@@ -19,12 +19,12 @@ const props = defineProps({
 	},
 });
 
-const compiledFormula = computed(() => {
-	return katex.renderToString(props.formula, {
+const compiledFormula = computed(() =>
+	katex.renderToString(props.formula, {
 		throwOnError: false,
 		strict: false,
-	});
-});
+	}),
+);
 
 </script>
 
