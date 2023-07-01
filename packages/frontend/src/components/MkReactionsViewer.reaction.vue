@@ -44,7 +44,7 @@ const reactionName = computed(() => {
 
 const alternative: ComputedRef<string | undefined> = computed(() => $i ? customEmojis.value.find(it => it.name === reactionName.value)?.name : undefined);
 
-const canToggle = computed(() => (props.reaction[props.reaction.length - 2] === '.' || !props.reaction.includes(':')) && $i);
+const canToggle = computed(() => (props.reaction[props.reaction.length - 2] === '.' || !props.reaction.startsWith(':')) && $i);
 
 async function toggleReaction(): Promise<void> {
 	if (!canToggle.value) {
