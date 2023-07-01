@@ -3,7 +3,7 @@
 	ref="buttonEl"
 	v-ripple="canToggle"
 	class="_button"
-	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: alternative && $i, [$style.large]: defaultStore.state.largeNoteReactions }]"
+	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: (canToggle || alternative), [$style.large]: defaultStore.state.largeNoteReactions }]"
 	@click="toggleReaction()"
 >
 	<MkReactionIcon :class="$style.icon" :reaction="reaction" :emojiUrl="(note as unknown as Note).reactionEmojis[reaction.substring(1, reaction.length - 1)]"/>
@@ -42,9 +42,9 @@ const reactionName = computed(() => {
 	return r.slice(0, r.indexOf('@'));
 });
 
-const alternative: ComputedRef<string | undefined> = computed(() => customEmojis.value.find(it => it.name === reactionName.value)?.name);
+const alternative: ComputedRef<string | undefined> = computed(() => $i ? customEmojis.value.find(it => it.name === reactionName.value)?.name : undefined);
 
-const canToggle = computed(() => props.reaction[props.reaction.length - 2] === '.' && $i);
+const canToggle = computed(() => (props.reaction[props.reaction.length - 2] === '.' || !props.reaction.includes(':')) && $i);
 
 async function toggleReaction(): Promise<void> {
 	if (!canToggle.value) {
