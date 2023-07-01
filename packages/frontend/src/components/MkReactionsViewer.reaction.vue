@@ -3,10 +3,10 @@
 	ref="buttonEl"
 	v-ripple="canToggle"
 	class="_button"
-	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: (canToggle || alternative), [$style.large]: defaultStore.state.largeNoteReactions }]"
+	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: alternative && $i, [$style.large]: defaultStore.state.largeNoteReactions }]"
 	@click="toggleReaction()"
 >
-	<MkReactionIcon :class="$style.icon" :reaction="reaction" :emojiUrl="note.reactionEmojis[reaction.substr(1, reaction.length - 2)]"/>
+	<MkReactionIcon :class="$style.icon" :reaction="reaction" :emojiUrl="(note as unknown as Note).reactionEmojis[reaction.substring(1, reaction.length - 1)]"/>
 	<span :class="$style.count">{{ count }}</span>
 </button>
 </template>
@@ -24,6 +24,10 @@ import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { customEmojis } from '@/custom-emojis';
 
+interface Note {
+	reactionEmojis: Map<string, string>;
+}
+
 const props = defineProps<{
 	reaction: string;
 	count: number;
@@ -37,9 +41,10 @@ const reactionName = computed(() => {
 	const r = props.reaction.replace(':', '');
 	return r.slice(0, r.indexOf('@'));
 });
-const alternative: ComputedRef<string | null> = computed(() => customEmojis.value.find(it => it.name === reactionName.value)?.name ?? null);
 
-const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
+const alternative: ComputedRef<string | undefined> = computed(() => customEmojis.value.find(it => it.name === reactionName.value)?.name);
+
+const canToggle = computed(() => props.reaction[props.reaction.length - 2] === '.' && $i);
 
 async function toggleReaction(): Promise<void> {
 	if (!canToggle.value) {
