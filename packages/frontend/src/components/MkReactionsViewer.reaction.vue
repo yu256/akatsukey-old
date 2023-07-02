@@ -90,11 +90,48 @@ function anime(): void {
 }
 
 function reactAlternative(): void {
-	if (!alternative.value) return;
+	if (!alternative.value) {
+		importEmojiConfirm();
+		return;
+	}
 	os.api('notes/reactions/create', {
 		noteId: props.note.id,
 		reaction: `:${alternative.value}:`,
 	});
+}
+
+async function importEmojiConfirm(): Promise<void> {
+	if (!($i?.isAdmin || $i?.isModerator)) return;
+	const { canceled } = await os.confirm({
+		type: 'info',
+		text: `${reactionName.value}をインポートしますか？`,
+	});
+	if (!canceled) importEmoji().then(() =>
+		os.toast(`${reactionName.value}をインポートしました`));
+}
+
+async function importEmoji(): Promise<void> {
+	const emojiId = await getEmojiId();
+	if (!emojiId) return;
+	os.api('admin/emoji/copy', {
+		emojiId: emojiId,
+	});
+}
+
+async function getEmojiId(): Promise<string | null> {
+	const host = (): string => {
+		const r = props.reaction.replace(':', '');
+		return r.slice(r.indexOf('@') + 1, r.length - 1);
+	};
+
+	const res = await os.api('admin/emoji/list-remote', {
+		host,
+		query: reactionName.value,
+	});
+
+	if (!res) return null;
+
+	return await res.find((emoji: { name: string; }) => emoji.name === reactionName.value).id;
 }
 
 watch(() => props.count, (newCount, oldCount) => {
