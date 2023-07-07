@@ -665,7 +665,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		// Register to search database
 		this.index(note);
 	}
-	
+
 	@bindThis
 	private isSensitive(note: Option, sensitiveWord: string[]): boolean {
 		if (sensitiveWord.length > 0) {
@@ -751,7 +751,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 	@bindThis
 	private index(note: Note) {
 		if (note.text == null && note.cw == null) return;
-		
+
 		this.searchService.indexNote(note);
 	}
 

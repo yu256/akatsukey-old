@@ -122,7 +122,7 @@ export class CustomEmojiService implements OnApplicationShutdown {
 
 			this.globalEventService.publishBroadcastStream('emojiAdded', {
 				emoji: updated,
-			});	
+			});
 		}
 	}
 
@@ -176,7 +176,7 @@ export class CustomEmojiService implements OnApplicationShutdown {
 		}
 
 		this.localEmojisCache.refresh();
-	
+
 		this.globalEventService.publishBroadcastStream('emojiUpdated', {
 			emojis: await this.emojiEntityService.packDetailedMany(ids),
 		});
@@ -197,7 +197,7 @@ export class CustomEmojiService implements OnApplicationShutdown {
 			emojis: await this.emojiEntityService.packDetailedMany(ids),
 		});
 	}
-	
+
 	@bindThis
 	public async setLicenseBulk(ids: Emoji['id'][], license: string | null) {
 		await this.emojisRepository.update({

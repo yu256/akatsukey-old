@@ -1,9 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
-import type { UserProfilesRepository, UsersRepository } from '@/models/index.js';
+import { Injectable } from '@nestjs/common';
 import { Endpoint } from '@/server/api/endpoint-base.js';
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
-import { DI } from '@/di-symbols.js';
-import { ApiError } from '../error.js';
 
 export const meta = {
 	tags: ['account'],
@@ -16,14 +13,14 @@ export const meta = {
 		ref: 'MeDetailed',
 	},
 
-	errors: {
-		userIsDeleted: {
-			message: 'User is deleted.',
-			code: 'USER_IS_DELETED',
-			id: 'e5b3b9f0-2b8f-4b9f-9c1f-8c5c1b2e1b1a',
-			kind: 'permission',
-		},
-	},
+	// errors: {
+	// 	userIsDeleted: {
+	// 		message: 'User is deleted.',
+	// 		code: 'USER_IS_DELETED',
+	// 		id: 'e5b3b9f0-2b8f-4b9f-9c1f-8c5c1b2e1b1a',
+	// 		kind: 'permission',
+	// 	},
+	// },
 } as const;
 
 export const paramDef = {
@@ -32,19 +29,12 @@ export const paramDef = {
 	required: [],
 } as const;
 
-// eslint-disable-next-line import/no-default-export
-@Injectable()
+@Injectable() // eslint-disable-next-line import/no-default-export
 export default class extends Endpoint<typeof meta, typeof paramDef> {
 	constructor(
-		@Inject(DI.usersRepository)
-		private usersRepository: UsersRepository,
-
-		@Inject(DI.userProfilesRepository)
-		private userProfilesRepository: UserProfilesRepository,
-
 		private userEntityService: UserEntityService,
 	) {
-		super(meta, paramDef, async (ps, user, token) => {
+		super(meta, paramDef, async (_ps, user, token) => {
 			const isSecure = token == null;
 
 			// ここで渡ってきている user はキャッシュされていて古い可能性もあるので id だけ渡す

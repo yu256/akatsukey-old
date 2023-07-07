@@ -1,7 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Endpoint } from '@/server/api/endpoint-base.js';
 import { CustomEmojiService } from '@/core/CustomEmojiService.js';
-import { ApiError } from '../../../error.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -9,18 +8,18 @@ export const meta = {
 	requireCredential: true,
 	requireRolePolicy: 'canManageCustomEmojis',
 
-	errors: {
-		noSuchEmoji: {
-			message: 'No such emoji.',
-			code: 'NO_SUCH_EMOJI',
-			id: '684dec9d-a8c2-4364-9aa8-456c49cb1dc8',
-		},
-		sameNameEmojiExists: {
-			message: 'Emoji that have same name already exists.',
-			code: 'SAME_NAME_EMOJI_EXISTS',
-			id: '7180fe9d-1ee3-bff9-647d-fe9896d2ffb8',
-		},
-	},
+	// errors: {
+	// 	noSuchEmoji: {
+	// 		message: 'No such emoji.',
+	// 		code: 'NO_SUCH_EMOJI',
+	// 		id: '684dec9d-a8c2-4364-9aa8-456c49cb1dc8',
+	// 	},
+	// 	sameNameEmojiExists: {
+	// 		message: 'Emoji that have same name already exists.',
+	// 		code: 'SAME_NAME_EMOJI_EXISTS',
+	// 		id: '7180fe9d-1ee3-bff9-647d-fe9896d2ffb8',
+	// 	},
+	// },
 } as const;
 
 export const paramDef = {
@@ -41,13 +40,12 @@ export const paramDef = {
 	required: ['id', 'name', 'aliases'],
 } as const;
 
-// eslint-disable-next-line import/no-default-export
-@Injectable()
+@Injectable() // eslint-disable-next-line import/no-default-export
 export default class extends Endpoint<typeof meta, typeof paramDef> {
 	constructor(
 		private customEmojiService: CustomEmojiService,
 	) {
-		super(meta, paramDef, async (ps, me) => {
+		super(meta, paramDef, async (ps, _me) => {
 			await this.customEmojiService.update(ps.id, {
 				name: ps.name,
 				category: ps.category ?? null,

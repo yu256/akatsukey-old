@@ -110,7 +110,7 @@ export class ImportCustomEmojisProcessorService {
 			}
 
 			cleanup();
-	
+
 			this.logger.succ('Imported');
 		});
 		unzipStream.pipe(extractor);

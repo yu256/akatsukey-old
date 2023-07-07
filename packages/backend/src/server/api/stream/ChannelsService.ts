@@ -49,7 +49,7 @@ export class ChannelsService {
 			case 'serverStats': return this.serverStatsChannelService;
 			case 'queueStats': return this.queueStatsChannelService;
 			case 'admin': return this.adminChannelService;
-		
+
 			default:
 				throw new Error(`no such channel: ${name}`);
 		}
