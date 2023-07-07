@@ -3,14 +3,14 @@
 	ref="dialog"
 	:width="400"
 	:height="450"
-	@close="dialog.close()"
+	@close="dialog?.close()"
 	@closed="emit('closed')"
 >
 	<template #header>{{ i18n.ts.reactionsList }}</template>
 
 	<MkSpacer :marginMin="20" :marginMax="28">
 		<div v-if="note" class="_gaps">
-			<div v-if="reactions.length === 0" class="_fullinfo">
+			<div v-if="reactions?.length === 0" class="_fullinfo">
 				<img :src="infoImageUrl" class="_ghost"/>
 				<div>{{ i18n.ts.nothing }}</div>
 			</div>
@@ -21,7 +21,7 @@
 						<span style="margin-left: 4px;">{{ note.reactions[reaction] }}</span>
 					</button>
 				</div>
-				<MkA v-for="user in users" :key="user.id" :to="userPage(user)" @click="dialog.close()">
+				<MkA v-for="user in users" :key="user.id" :to="userPage(user)" @click="dialog?.close()">
 					<MkUserCardMini :user="user" :withChart="false"/>
 				</MkA>
 			</template>
@@ -57,7 +57,7 @@ const dialog = $shallowRef<InstanceType<typeof MkModalWindow>>();
 let note = $ref<misskey.entities.Note>();
 let tab = $ref<string>();
 let reactions = $ref<string[]>();
-let users = $ref();
+let users = $ref<misskey.entities.UserLite[]>();
 
 watch($$(tab), async () => {
 	const res = await os.api('notes/reactions', {

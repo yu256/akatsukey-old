@@ -3,7 +3,7 @@
 	ref="dialog"
 	:width="400"
 	:height="450"
-	@close="dialog.close()"
+	@close="dialog?.close()"
 	@closed="emit('closed')"
 >
 	<template #header>{{ i18n.ts.renotesList }}</template>
@@ -15,7 +15,7 @@
 				<div>{{ i18n.ts.nothing }}</div>
 			</div>
 			<template v-else>
-				<MkA v-for="user in users" :key="user.id" :to="userPage(user)" @click="dialog.close()">
+				<MkA v-for="user in users" :key="user.id" :to="userPage(user)" @click="dialog?.close()">
 					<MkUserCardMini :user="user" :withChart="false"/>
 				</MkA>
 			</template>
@@ -47,9 +47,8 @@ const props = defineProps<{
 
 const dialog = $shallowRef<InstanceType<typeof MkModalWindow>>();
 
-let note = $ref<misskey.entities.Note>();
-let renotes = $ref();
-let users = $ref();
+let renotes = $ref<misskey.entities.Note[]>();
+let users = $ref<misskey.entities.User[]>();
 
 onMounted(async () => {
 	const res = await os.api('notes/renotes', {
@@ -61,6 +60,3 @@ onMounted(async () => {
 	users = res.map(x => x.user);
 });
 </script>
-
-<style lang="scss" module>
-</style>
