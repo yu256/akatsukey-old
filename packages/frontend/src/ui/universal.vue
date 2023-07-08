@@ -98,6 +98,7 @@ import { deviceKind } from '@/scripts/device-kind';
 import { miLocalStorage } from '@/local-storage';
 import { CURRENT_STICKY_BOTTOM } from '@/const';
 import { useStream } from '@/stream';
+import { useScrollPositionManager } from '@/nirax';
 
 const XWidgets = defineAsyncComponent(() => import('./universal.widgets.vue'));
 const XSidebar = defineAsyncComponent(() => import('@/ui/_common_/navbar.vue'));
@@ -230,6 +231,7 @@ useStream().on('_disconnected_', async () => {
 	disconnected = true;
 });
 
+useScrollPositionManager(() => contents.value.rootEl, mainRouter);
 </script>
 
 <style>
