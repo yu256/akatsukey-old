@@ -12,7 +12,7 @@
 			</button>
 		</div>
 		<div :class="$style.headerRight">
-			<div>{{ maxTextLength - textLength }}</div>
+			<div :class="['_acrylic', $style.textCount, { [$style.textOver]: textLength > maxTextLength }]">{{ maxTextLength - textLength }}</div>
 			<button v-click-anime class="_button" :class="$style.submit" :disabled="!canPost" data-cy-open-post-form-submit @click="post">
 				<div :class="$style.submitInner">
 					<template v-if="posted"></template>
@@ -407,7 +407,7 @@ function setVisibility() {
 
 	os.popup(defineAsyncComponent(() => import('@/components/MkVisibilityPicker.vue')), {
 		currentVisibility: visibility,
-		localOnly: localOnly,
+		currentLocalOnly: localOnly,
 		src: visibilityButton,
 	}, {
 		changeVisibility: (v: typeof visibility) => {
@@ -955,15 +955,15 @@ defineExpose({
 }
 
 .textCount {
-	position: absolute;
-	top: 0;
-	right: 2px;
-	padding: 4px 6px;
-	font-size: .9em;
-	color: var(--warn);
-	border-radius: 6px;
-	min-width: 1.6em;
-	text-align: center;
+	// position: absolute;
+	// top: 0;
+	// right: 2px;
+	// padding: 4px 6px;
+	// font-size: .9em;
+	// color: var(--warn);
+	// border-radius: 6px;
+	// min-width: 1.6em;
+	// text-align: center;
 
 	&.textOver {
 		color: #ff2a2a;
