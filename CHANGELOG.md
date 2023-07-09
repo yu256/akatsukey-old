@@ -8,6 +8,23 @@
 -
 
 -->
+## akatsukey-v1.3
+- カスタム絵文字で終わるノートを数字引用するとき、間にゼロ幅スペースを差し込むように
+- バックグラウンドで10秒経過したらページネーションのアイテム更新をしない機能を無効にできるように
+- オリジナルのインスタンスティッカーを追加(Opt-out)
+- AdminかModeratorであれば自鯖に存在しないカスタム絵文字リアクションをクリックしてインポートできるように
+- MkPostForm関連の修正
+	- 非連合に設定したあとPostFormを閉じると表示だけリセットされる
+	- fix style
+- 非ログイン時でもリアクションにcanToggleスタイルがついている問題の修正
+- refactor
+	- KaTeX関連コンポーネントをComposition APIに
+		- strict: warn -> false
+	- MkReactionViewer.reaction
+		- canToggleの判別に正規表現を使用しないように
+		- fix type
+		- substr => substring
+
 ## akatsukey-v1.2
 - 鍵ノートもパクる/数字引用できるように
 - 投稿フォームで添付した画像をクロップできるように 
