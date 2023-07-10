@@ -37,10 +37,7 @@ const props = defineProps<{
 
 const buttonEl = shallowRef<HTMLElement>();
 
-const reactionName = computed(() => {
-	const r = props.reaction.replace(':', '');
-	return r.slice(0, r.indexOf('@'));
-});
+const reactionName = computed(() => props.reaction.slice(1, props.reaction.indexOf('@')));
 
 const alternative: ComputedRef<string | undefined> = computed(() => $i ? customEmojis.value.find(it => it.name === reactionName.value)?.name : undefined);
 
@@ -119,10 +116,8 @@ async function importEmoji(): Promise<void> {
 }
 
 async function getEmojiId(): Promise<string | null> {
-	const host = (): string => {
-		const r = props.reaction.replace(':', '');
-		return r.slice(r.indexOf('@') + 1, r.length - 1);
-	};
+	const host = (): string =>
+		props.reaction.slice(props.reaction.indexOf('@') + 1, props.reaction.length - 1);
 
 	const res = await os.api('admin/emoji/list-remote', {
 		host,
