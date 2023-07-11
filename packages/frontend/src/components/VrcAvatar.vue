@@ -1,5 +1,5 @@
 <template>
-<span v-user-preview="props.friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]">
+<span class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]">
 	<img :class="$style.inner" :src="props.friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
 		v-tooltip="props.friend.status" :class="[$style.indicator, {
