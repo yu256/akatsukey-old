@@ -19,17 +19,44 @@
 				バックグラウンドでもタイムラインを更新する
 				<template #caption>バックグラウンドで10秒経過したらページネーションのアイテム更新をしない機能を無効にします。</template>
 			</MkSwitch>
+			VRChat APIのトークンを設定
+			<MkInput v-model="username" type="text" placeholder="ユーザーネームもしくはメールアドレス"/>
+			<MkInput v-model="password" type="password" placeholder="パスワード"/>
+			<MkButton @click="setToken">決定</MkButton>
+			<MkInput v-model="twofactor" type="text" placeholder="2FAコード"/>
+			<MkButton @click="do2fa">2FA</MkButton>
 		</div>
 	</FormSection>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, shallowRef } from 'vue';
 import { defaultStore } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import FormSection from '@/components/form/section.vue';
+import MkInput from '@/components/MkInput.vue';
+import MkButton from '@/components/MkButton.vue';
+import { fetchToken } from '@/scripts/vrchat-api';
+import { api } from '@/os';
+
+const username = shallowRef('');
+const password = shallowRef('');
+const twofactor = shallowRef('');
+
+async function setToken(): Promise<void> {
+	const res = await fetchToken(username.value, password.value);
+	defaultStore.set('VRChatToken', res.response.authToken);
+}
+
+async function do2fa(): Promise<void> {
+	api('vrchat', {
+		requestType: 'email2fa',
+		token: defaultStore.state.VRChatToken,
+		twofactor: twofactor.value,
+	});
+}
 
 const useNumberquote = computed(defaultStore.makeGetterSetter('useNumberquote'));
 const usePartialReload = computed(defaultStore.makeGetterSetter('usePartialReload'));

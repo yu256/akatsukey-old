@@ -336,6 +336,8 @@ import * as ep___users_updateMemo from './endpoints/users/update-memo.js';
 import * as ep___fetchRss from './endpoints/fetch-rss.js';
 import * as ep___retention from './endpoints/retention.js';
 
+import * as ep___vrchat from './endpoints/vrchat.js';
+
 const eps = [
 	['admin/meta', ep___admin_meta],
 	['admin/abuse-user-reports', ep___admin_abuseUserReports],
@@ -671,6 +673,7 @@ const eps = [
 	['users/update-memo', ep___users_updateMemo],
 	['fetch-rss', ep___fetchRss],
 	['retention', ep___retention],
+	['vrchat', ep___vrchat],
 ];
 
 export interface IEndpointMeta {
