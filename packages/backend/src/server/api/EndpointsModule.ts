@@ -337,6 +337,8 @@ import * as ep___fetchRss from './endpoints/fetch-rss.js';
 import * as ep___retention from './endpoints/retention.js';
 
 import * as ep___vrchat from './endpoints/vrchat.js';
+import * as ep___vrchat_email_2fa from './endpoints/vrchat/email-2fa.js';
+import * as ep___vrchat_friends from './endpoints/vrchat/friends.js';
 
 import { GetterService } from './GetterService.js';
 import { ApiLoggerService } from './ApiLoggerService.js';
@@ -677,6 +679,8 @@ const $users_updateMemo: Provider = { provide: 'ep:users/update-memo', useClass:
 const $fetchRss: Provider = { provide: 'ep:fetch-rss', useClass: ep___fetchRss.default };
 const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention.default };
 const $vrchat: Provider = { provide: 'ep:vrchat', useClass: ep___vrchat.default };
+const $vrchat_email_2fa: Provider = { provide: 'ep:vrchat/email-2fa', useClass: ep___vrchat_email_2fa.default };
+const $vrchat_friends: Provider = { provide: 'ep:vrchat/friends', useClass: ep___vrchat_friends.default };
 
 @Module({
 	imports: [
@@ -1021,6 +1025,8 @@ const $vrchat: Provider = { provide: 'ep:vrchat', useClass: ep___vrchat.default 
 		$retention,
 
 		$vrchat,
+		$vrchat_email_2fa,
+		$vrchat_friends,
 	],
 	exports: [
 		$admin_meta,
@@ -1356,6 +1362,8 @@ const $vrchat: Provider = { provide: 'ep:vrchat', useClass: ep___vrchat.default 
 		$fetchRss,
 		$retention,
 		$vrchat,
+		$vrchat_email_2fa,
+		$vrchat_friends,
 	],
 })
 export class EndpointsModule {}

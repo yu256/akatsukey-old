@@ -6,7 +6,7 @@
 
 	<div :class="$style.root">
 		<div v-if="!defaultStore.state.VRChatToken" class="init">
-			<span>トークンを設定してください。</span>
+			<MkA :to="'/settings/akatsukey-settings'">トークンを設定してください。</MkA>
 		</div>
 		<MkLoading v-else-if="fetching"/>
 		<div v-else class="users">
@@ -56,8 +56,7 @@ async function fetch(): Promise<void> {
 		fetching = false;
 		return;
 	}
-	const res = await getFriends();
-	friends = res.response;
+	friends = await getFriends();
 	fetching = false;
 }
 

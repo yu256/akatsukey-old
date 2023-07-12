@@ -47,12 +47,11 @@ const twofactor = shallowRef('');
 
 async function setToken(): Promise<void> {
 	const res = await fetchToken(username.value, password.value);
-	defaultStore.set('VRChatToken', res.response.authToken);
+	defaultStore.set('VRChatToken', res.authToken);
 }
 
 async function do2fa(): Promise<void> {
-	api('vrchat', {
-		requestType: 'email2fa',
+	api('vrchat/email-2fa', {
 		token: defaultStore.state.VRChatToken,
 		twofactor: twofactor.value,
 	});

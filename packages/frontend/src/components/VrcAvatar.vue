@@ -7,6 +7,7 @@
 			[$style.active]: props.friend.status === 'active',
 			[$style.ask]: props.friend.status === 'ask me',
 			[$style.busy]: props.friend.status === 'busy',
+			[$style.private]: props.friend.location === 'private',
 			[$style.web]: props.friend.location === 'offline',
 		}]"
 	/>
@@ -81,6 +82,10 @@ const squareAvatars = $ref(defaultStore.state.squareAvatars);
 
 	&.busy {
 		background: rgb(113, 5, 5);
+	}
+
+	&.private {
+		background: brown !important;
 	}
 
 	&.web {
