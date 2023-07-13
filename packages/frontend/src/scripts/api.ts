@@ -7,25 +7,25 @@ export const pendingApiRequestsCount = ref(0);
 
 type EndPoints = Endpoints & {
 	'vrchat': {
-        req: {
-            user: string;
+		req: {
+			user: string;
 			password: string;
-        };
-        res: FetchTokenRes;
-    };
-    'vrchat/email-2fa': {
-        req: {
-            token: string;
+		};
+		res: FetchTokenRes;
+	};
+	'vrchat/email-2fa': {
+		req: {
+			token: string;
 			twofactor: string;
-        };
-        res: null;
-    };
-    'vrchat/friends': {
-        req: {
-            token: string;
-        };
-        res: Friend[];
-    };
+		};
+		res: null;
+	};
+	'vrchat/friends': {
+		req: {
+			token: string;
+		};
+		res: Friend[];
+	};
 }
 
 // Implements Misskey.api.ApiClient.request

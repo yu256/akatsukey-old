@@ -13,10 +13,10 @@ export const meta = {
 } as const;
 
 async function getFriends(token: string): Promise<{
-    id: string;
+	id: string;
 	status: string;
-    location: string;
-    currentAvatarThumbnailImageUrl: string;
+	location: string;
+	currentAvatarThumbnailImageUrl: string;
 }[]> {
 	const friends: Friend[] = await fetch('https://api.vrchat.cloud/api/1/auth/user/friends?offline=false', {
 		method: 'GET',
@@ -26,7 +26,7 @@ async function getFriends(token: string): Promise<{
 		},
 	}).then((res) => res.json());
 
-	const trimmedFriends = friends.map((friend: Friend) => {
+	const trimmedFriends = friends.filter(friend => friend.location !== 'offline').map(friend => {
 		const { id, status, location, currentAvatarThumbnailImageUrl } = friend;
 		return {
 			id,
