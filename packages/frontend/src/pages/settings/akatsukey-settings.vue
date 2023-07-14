@@ -39,7 +39,7 @@ import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import { fetchToken } from '@/scripts/vrchat-api';
-import { api } from '@/os';
+import { api, alert } from '@/os';
 
 const username = shallowRef('');
 const password = shallowRef('');
@@ -48,6 +48,10 @@ const twofactor = shallowRef('');
 async function setToken(): Promise<void> {
 	const res = await fetchToken(username.value, password.value);
 	defaultStore.set('VRChatToken', res.authToken);
+	if (res.requiresTwoFactorAuth) alert({
+		type: 'info',
+		text: '二段階認証が必要です。',
+	});
 }
 
 async function do2fa(): Promise<void> {
