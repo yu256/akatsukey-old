@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Endpoint } from '@/server/api/endpoint-base.js';
+import { ApiError } from '../../error.js';
 
 export const meta = {
 	requireCredential: true,
@@ -10,34 +11,15 @@ export const meta = {
 		type: 'array',
 		optional: false, nullable: true,
 	},
-} as const;
 
-async function getFriends(token: string): Promise<{
-	id: string;
-	status: string;
-	location: string;
-	currentAvatarThumbnailImageUrl: string;
-}[]> {
-	const friends: Friend[] = await fetch('https://api.vrchat.cloud/api/1/auth/user/friends?offline=false', {
-		method: 'GET',
-		headers: {
-			'User-Agent': 'vrc-ts',
-			Cookie: 'auth=' + token,
+	errors: {
+		invalidToken: {
+			message: 'Invalid Token.',
+			code: 'INVALID_TOKEN',
+			id: '',
 		},
-	}).then((res) => res.json());
-
-	const trimmedFriends = friends.filter(friend => friend.location !== 'offline').map(friend => {
-		const { id, status, location, currentAvatarThumbnailImageUrl } = friend;
-		return {
-			id,
-			status,
-			location,
-			currentAvatarThumbnailImageUrl,
-		};
-	});
-
-	return trimmedFriends;
-}
+	},
+} as const;
 
 export const paramDef = {
 	type: 'object',
@@ -69,6 +51,29 @@ interface Friend {
 @Injectable() // eslint-disable-next-line import/no-default-export
 export default class extends Endpoint<typeof meta, typeof paramDef> {
 	constructor() {
-		super(meta, paramDef, async (ps) => getFriends(ps.token as string));
+		super(meta, paramDef, async (ps) => {
+			const friends: Friend[] = await fetch('https://api.vrchat.cloud/api/1/auth/user/friends?offline=false', {
+				method: 'GET',
+				headers: {
+					'User-Agent': 'vrc-ts',
+					Cookie: 'auth=' + ps.token,
+				},
+			}).then((res) => res.json());
+
+			if (!Array.isArray(friends)) throw new ApiError(meta.errors.invalidToken);
+
+			const trimmedFriends = friends.filter(friend => friend.location !== 'offline').map(friend => {
+				console.log(friend);
+				const { id, status, location, currentAvatarThumbnailImageUrl } = friend;
+				return {
+					id,
+					status,
+					location,
+					currentAvatarThumbnailImageUrl,
+				};
+			});
+
+			return trimmedFriends;
+		});
 	}
 }

@@ -1,5 +1,6 @@
 import { Endpoints } from 'misskey-js/built/api.types';
 import { ref } from 'vue';
+import { APIError } from 'misskey-js/built/api';
 import { FetchTokenRes, Friend } from './vrchat-api';
 import { apiUrl } from '@/config';
 import { $i } from '@/account';
@@ -24,7 +25,7 @@ type EndPoints = Endpoints & {
 		req: {
 			token: string;
 		};
-		res: Friend[];
+		res: Friend[] | APIError;
 	};
 }
 

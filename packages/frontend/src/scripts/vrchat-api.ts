@@ -1,7 +1,8 @@
+import { APIError } from 'misskey-js/built/api';
 import { defaultStore } from '@/store';
 import { api } from '@/os';
 
-export async function getFriends(): Promise<Friend[]> {
+export async function getFriends(): Promise<Friend[] | APIError> {
 	return api('vrchat/friends', {
 		token: defaultStore.state.VRChatToken,
 	});

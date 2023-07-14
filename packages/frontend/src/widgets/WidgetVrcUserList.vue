@@ -9,10 +9,13 @@
 			<MkA :to="'/settings/akatsukey-settings'">トークンを設定してください。</MkA>
 		</div>
 		<MkLoading v-else-if="fetching"/>
-		<div v-else class="users">
+		<div v-else-if="friends.length !== 0" class="users">
 			<span v-for="friend in friends" :key="friend.id" class="user">
 				<VRCAvatar class="avatar" :friend="friend"/>
 			</span>
+		</div>
+		<div v-else class="init">
+			<span>オンラインのフレンドがいません。</span>
 		</div>
 	</div>
 </MkContainer>
@@ -26,6 +29,7 @@ import { useInterval } from '@/scripts/use-interval';
 import { getFriends, Friend } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
+import { alert } from '@/os';
 import VRCAvatar from '@/components/VrcAvatar.vue';
 
 const name = 'vrcUserList';
@@ -56,7 +60,11 @@ async function fetch(): Promise<void> {
 		fetching = false;
 		return;
 	}
-	friends = await getFriends();
+	const res = await getFriends();
+	if (Array.isArray(res))	friends = res; else alert({
+		type: 'error',
+		text: 'VRChat APIのトークンが無効です。',
+	});
 	fetching = false;
 }
 
