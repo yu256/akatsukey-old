@@ -191,6 +191,13 @@ async function composeNotification(data: PushNotificationDataMap[keyof PushNotif
 						data,
 					}];
 
+				case 'pollEnded':
+					return [t('_notification.pollEnded'), {
+						body: data.body.note.text ?? '',
+						badge: iconUrl('chart-arrows'),
+						data,
+					}];
+
 				case 'app':
 					return [data.body.header ?? data.body.body, {
 						body: data.body.header ? data.body.body : '',
