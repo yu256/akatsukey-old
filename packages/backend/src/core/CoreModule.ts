@@ -80,6 +80,7 @@ import { GalleryLikeEntityService } from './entities/GalleryLikeEntityService.js
 import { GalleryPostEntityService } from './entities/GalleryPostEntityService.js';
 import { HashtagEntityService } from './entities/HashtagEntityService.js';
 import { InstanceEntityService } from './entities/InstanceEntityService.js';
+import { InviteCodeEntityService } from './entities/InviteCodeEntityService.js';
 import { ModerationLogEntityService } from './entities/ModerationLogEntityService.js';
 import { MutingEntityService } from './entities/MutingEntityService.js';
 import { RenoteMutingEntityService } from './entities/RenoteMutingEntityService.js';
@@ -203,6 +204,7 @@ const $GalleryLikeEntityService: Provider = { provide: 'GalleryLikeEntityService
 const $GalleryPostEntityService: Provider = { provide: 'GalleryPostEntityService', useExisting: GalleryPostEntityService };
 const $HashtagEntityService: Provider = { provide: 'HashtagEntityService', useExisting: HashtagEntityService };
 const $InstanceEntityService: Provider = { provide: 'InstanceEntityService', useExisting: InstanceEntityService };
+const $InviteCodeEntityService: Provider = { provide: 'InviteCodeEntityService', useExisting: InviteCodeEntityService };
 const $ModerationLogEntityService: Provider = { provide: 'ModerationLogEntityService', useExisting: ModerationLogEntityService };
 const $MutingEntityService: Provider = { provide: 'MutingEntityService', useExisting: MutingEntityService };
 const $RenoteMutingEntityService: Provider = { provide: 'RenoteMutingEntityService', useExisting: RenoteMutingEntityService };
@@ -326,6 +328,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		GalleryPostEntityService,
 		HashtagEntityService,
 		InstanceEntityService,
+		InviteCodeEntityService,
 		ModerationLogEntityService,
 		MutingEntityService,
 		RenoteMutingEntityService,
@@ -444,6 +447,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$GalleryPostEntityService,
 		$HashtagEntityService,
 		$InstanceEntityService,
+		$InviteCodeEntityService,
 		$ModerationLogEntityService,
 		$MutingEntityService,
 		$RenoteMutingEntityService,
@@ -562,6 +566,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		GalleryPostEntityService,
 		HashtagEntityService,
 		InstanceEntityService,
+		InviteCodeEntityService,
 		ModerationLogEntityService,
 		MutingEntityService,
 		RenoteMutingEntityService,
@@ -679,6 +684,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$GalleryPostEntityService,
 		$HashtagEntityService,
 		$InstanceEntityService,
+		$InviteCodeEntityService,
 		$ModerationLogEntityService,
 		$MutingEntityService,
 		$RenoteMutingEntityService,
