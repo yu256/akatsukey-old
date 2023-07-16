@@ -339,6 +339,8 @@ import * as ep___retention from './endpoints/retention.js';
 import * as ep___vrchat from './endpoints/vrchat.js';
 import * as ep___vrchat_email_2fa from './endpoints/vrchat/email-2fa.js';
 import * as ep___vrchat_friends from './endpoints/vrchat/friends.js';
+import * as ep___vrchat_instance from './endpoints/vrchat/instance.js';
+import * as ep___vrchat_user from './endpoints/vrchat/user.js';
 
 import { GetterService } from './GetterService.js';
 import { ApiLoggerService } from './ApiLoggerService.js';
@@ -681,6 +683,8 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 const $vrchat: Provider = { provide: 'ep:vrchat', useClass: ep___vrchat.default };
 const $vrchat_email_2fa: Provider = { provide: 'ep:vrchat/email-2fa', useClass: ep___vrchat_email_2fa.default };
 const $vrchat_friends: Provider = { provide: 'ep:vrchat/friends', useClass: ep___vrchat_friends.default };
+const $vrchat_instance: Provider = { provide: 'ep:vrchat/instance', useClass: ep___vrchat_instance.default };
+const $vrchat_user: Provider = { provide: 'ep:vrchat/user', useClass: ep___vrchat_user.default };
 
 @Module({
 	imports: [
@@ -1027,6 +1031,8 @@ const $vrchat_friends: Provider = { provide: 'ep:vrchat/friends', useClass: ep__
 		$vrchat,
 		$vrchat_email_2fa,
 		$vrchat_friends,
+		$vrchat_instance,
+		$vrchat_user,
 	],
 	exports: [
 		$admin_meta,
@@ -1364,6 +1370,8 @@ const $vrchat_friends: Provider = { provide: 'ep:vrchat/friends', useClass: ep__
 		$vrchat,
 		$vrchat_email_2fa,
 		$vrchat_friends,
+		$vrchat_instance,
+		$vrchat_user,
 	],
 })
 export class EndpointsModule {}

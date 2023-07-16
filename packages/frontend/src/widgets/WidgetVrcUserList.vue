@@ -26,7 +26,7 @@ import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
 import { useInterval } from '@/scripts/use-interval';
-import { getFriends, Friend } from '@/scripts/vrchat-api';
+import { fetchFriends, Friend } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { alert } from '@/os';
@@ -60,11 +60,15 @@ async function fetch(): Promise<void> {
 		fetching = false;
 		return;
 	}
-	const res = await getFriends();
-	if (Array.isArray(res))	friends = res; else alert({
-		type: 'error',
-		text: 'VRChat APIのトークンが無効です。',
-	});
+	try {
+		const res = await fetchFriends();
+		friends = res;
+	} catch (error) {
+		alert({
+			type: 'error',
+			text: 'VRChat APIのトークンが無効です。',
+		});
+	}
 	fetching = false;
 }
 

@@ -63,7 +63,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 			if (!Array.isArray(friends)) throw new ApiError(meta.errors.invalidToken);
 
 			const trimmedFriends = friends.filter(friend => friend.location !== 'offline').map(friend => {
-				console.log(friend);
 				const { id, status, location, currentAvatarThumbnailImageUrl } = friend;
 				return {
 					id,

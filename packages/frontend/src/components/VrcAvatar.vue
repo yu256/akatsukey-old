@@ -1,5 +1,5 @@
 <template>
-<span class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]">
+<MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]" :to="`/vrchat/${props.friend.id}`">
 	<img :class="$style.inner" :src="props.friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
 		v-tooltip="props.friend.status" :class="[$style.indicator, {
@@ -10,15 +10,29 @@
 			[$style.private]: props.friend.location === 'private',
 		}]"
 	/>
+</MkA>
+<span v-else class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]">
+	<img :class="$style.inner" :src="props.friend.currentAvatarThumbnailImageUrl" decoding="async"/>
+	<div
+		v-tooltip="props.friend.status" :class="[$style.indicator, {
+			[$style.join]: props.friend.status === 'join me',
+			[$style.active]: props.friend.status === 'active',
+			[$style.ask]: props.friend.status === 'ask me',
+			[$style.busy]: props.friend.status === 'busy',
+			[$style.private]: props.friend.location === 'private',
+			[$style.web]: props.friend.location === 'offline',
+		}]"
+	/>
 </span>
 </template>
 
 <script lang="ts" setup>
 import { defaultStore } from '@/store';
 import { Friend } from '@/scripts/vrchat-api';
+import { CustomPartial } from '@/scripts/types';
 
 const props = defineProps<{
-	friend: Friend;
+	friend: CustomPartial<Friend, 'id'>;
 }>();
 
 const squareAvatars = $ref(defaultStore.state.squareAvatars);
@@ -85,6 +99,10 @@ const squareAvatars = $ref(defaultStore.state.squareAvatars);
 
 	&.private {
 		background: brown !important;
+	}
+
+	&.web {
+		background: black !important;
 	}
 
 }
