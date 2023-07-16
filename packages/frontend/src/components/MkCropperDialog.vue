@@ -48,7 +48,6 @@ const props = withDefaults(defineProps<{
 	file: misskey.entities.DriveFile;
 	aspectRatio: number;
 	highDefinition: boolean;
-	properties: Record<string, number>;
 }>(), {
 	highDefinition: false,
 });
@@ -62,8 +61,8 @@ let loading = $ref(true);
 const ok = async (): Promise<void> => {
 	const promise = new Promise<misskey.entities.DriveFile>(async (res) => {
 		const croppedCanvas = props.highDefinition ? await cropper?.getCropperSelection()?.$toCanvas({
-			width: props.properties.width,
-			height: props.properties.height,
+			width: 4096,
+			height: 4096,
 		}) : await cropper?.getCropperSelection()?.$toCanvas();
 		if (croppedCanvas == null) {
 			throw new Error('croppedCanvas is null'); //ここで蹴らないと警告が出るので, あとでエラーちゃんと出すようにする

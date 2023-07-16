@@ -468,7 +468,6 @@ export async function cropImage(image: Misskey.entities.DriveFile, options: {
 			aspectRatio: options.aspectRatio,
 			highDefinition: options.highDefinition,
 			okButtonDisabled: false,
-			properties: image.properties,
 		}, {
 			ok: x => {
 				resolve(x);
