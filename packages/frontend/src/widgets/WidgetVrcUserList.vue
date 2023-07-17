@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts" setup>
+import { isAPIError } from 'misskey-js/built/api';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
@@ -61,10 +62,9 @@ async function fetch(): Promise<void> {
 		return;
 	}
 	try {
-		const res = await fetchFriends();
-		friends = res;
+		friends = await fetchFriends();
 	} catch (error) {
-		alert({
+		if (isAPIError(error)) alert({
 			type: 'error',
 			text: 'VRChat APIのトークンが無効です。',
 		});
