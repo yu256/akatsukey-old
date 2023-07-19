@@ -407,6 +407,9 @@ windowMaximize: "Maximera"
 windowMinimize: "Minimera"
 windowRestore: "Återställ"
 resetPasswordConfirm: "Återställ verkligen ditt lösenord?"
+dataSaver: "Databesparing"
+_ffVisibility:
+  public: "Publicera"
 _email:
   _follow:
     title: "följde dig"
