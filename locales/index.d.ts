@@ -1073,6 +1073,9 @@ export interface Locale {
     "unused": string;
     "used": string;
     "expired": string;
+    "doYouAgree": string;
+    "beSureToReadThisAsItIsImportant": string;
+    "iHaveReadXCarefullyAndAgree": string;
     "_initialAccountSetting": {
         "accountCreated": string;
         "letsStartAccountSetup": string;
