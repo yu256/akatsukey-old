@@ -1222,7 +1222,6 @@ export interface Locale {
         "back": string;
         "reduceFrequencyOfThisAd": string;
         "hide": string;
-        "timezoneinfo": string;
     };
     "_forgotPassword": {
         "enterEmail": string;
