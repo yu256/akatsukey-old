@@ -4,6 +4,7 @@ import type { DriveFilesRepository } from '@/models/index.js';
 import { DI } from '@/di-symbols.js';
 import { CustomEmojiService } from '@/core/CustomEmojiService.js';
 import { ModerationLogService } from '@/core/ModerationLogService.js';
+import { secureRndstr } from '@/misc/secure-rndstr.js';
 import { ApiError } from '../../../error.js';
 
 export const meta = {
@@ -47,7 +48,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 
 			if (driveFile == null) throw new ApiError(meta.errors.noSuchFile);
 
-			const name = driveFile.name.split('.')[0].match(/^[a-z0-9_]+$/) ? driveFile.name.split('.')[0] : `_${rndstr('a-z0-9', 8)}_`;
+			const name = driveFile.name.split('.')[0].match(/^[a-z0-9_]+$/) ? driveFile.name.split('.')[0] : `_${secureRndstr(8)}_`;
 
 			const emoji = await this.customEmojiService.add({
 				driveFile,
