@@ -5,7 +5,7 @@ import { apiUrl } from '@/config';
 import { $i } from '@/account';
 export const pendingApiRequestsCount = ref(0);
 
-type EndPoints = Endpoints & {
+export type EndPoints = Endpoints & {
 	'vrchat': {
 		req: {
 			user: string;

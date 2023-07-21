@@ -1,12 +1,16 @@
 // TODO: なんでもかんでもos.tsに突っ込むのやめたいのでよしなに分割する
 
-import { pendingApiRequestsCount, api, apiGet } from '@/scripts/api';
-export { pendingApiRequestsCount, api, apiGet };
 import { Component, markRaw, Ref, ref, defineAsyncComponent } from 'vue';
 import { EventEmitter } from 'eventemitter3';
 import insertTextAtCursor from 'insert-text-at-cursor';
+import { DriveFile } from 'misskey-js/built/entities';
 import * as Misskey from 'misskey-js';
+import { APIError } from 'misskey-js/built/api';
+import copyToClipboard from './scripts/copy-to-clipboard';
+import { showMovedDialog } from './scripts/show-moved-dialog';
 import { i18n } from './i18n';
+import { pendingApiRequestsCount, api, apiGet, EndPoints } from '@/scripts/api';
+export { pendingApiRequestsCount, api, apiGet };
 import MkPostFormDialog from '@/components/MkPostFormDialog.vue';
 import MkWaitingDialog from '@/components/MkWaitingDialog.vue';
 import MkPageWindow from '@/components/MkPageWindow.vue';
@@ -17,21 +21,16 @@ import MkEmojiPickerWindow from '@/components/MkEmojiPickerWindow.vue';
 import MkPopupMenu from '@/components/MkPopupMenu.vue';
 import MkContextMenu from '@/components/MkContextMenu.vue';
 import { MenuItem } from '@/types/menu';
-import copyToClipboard from './scripts/copy-to-clipboard';
-import { showMovedDialog } from './scripts/show-moved-dialog';
-import { DriveFile } from 'misskey-js/built/entities';
-
-export const openingWindowsCount = ref(0);
 
 export const apiWithDialog = ((
-	endpoint: string,
+	endpoint: keyof EndPoints,
 	data: Record<string, any> = {},
 	token?: string | null | undefined,
 ) => {
 	const promise = api(endpoint, data, token);
 	promiseDialog(promise, null, async (err) => {
-		let title = null;
-		let text = err.message + '\n' + (err as any).id;
+		let title: string | null = null;
+		let text = err.message + '\n' + err.id;
 		if (err.code === 'INTERNAL_ERROR') {
 			title = i18n.ts.internalServerError;
 			text = i18n.ts.internalServerErrorDescription;
@@ -83,7 +82,7 @@ export const apiWithDialog = ((
 export function promiseDialog<T extends Promise<any>>(
 	promise: T,
 	onSuccess?: ((res: any) => void) | null,
-	onFailure?: ((err: Error) => void) | null,
+	onFailure?: ((err: APIError) => void) | null,
 	text?: string,
 ): T {
 	const showing = ref(true);
