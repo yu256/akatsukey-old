@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "13.14.0-beta.1-akatsukey-v1.4",
+	"version": "13.14.1-akatsukey-v1.4",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
