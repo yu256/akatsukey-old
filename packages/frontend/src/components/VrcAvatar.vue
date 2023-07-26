@@ -1,5 +1,5 @@
 <template>
-<MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]" :to="`/vrchat/${props.friend.id}`">
+<MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${props.friend.id}`">
 	<img :class="$style.inner" :src="props.friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
 		v-tooltip="props.friend.status" :class="[$style.indicator, {
@@ -11,7 +11,7 @@
 		}]"
 	/>
 </MkA>
-<span v-else class="_noSelect" :class="[$style.root, { [$style.square]: squareAvatars }]">
+<span v-else class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]">
 	<img :class="$style.inner" :src="props.friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
 		v-tooltip="props.friend.status" :class="[$style.indicator, {
@@ -34,8 +34,6 @@ import { CustomPartial } from '@/scripts/types';
 const props = defineProps<{
 	friend: CustomPartial<Friend, 'id'>;
 }>();
-
-const squareAvatars = $ref(defaultStore.state.squareAvatars);
 
 </script>
 
