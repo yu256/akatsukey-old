@@ -9,7 +9,7 @@ import { deepClone } from '@/scripts/clone';
 
 type SomeRequired<T, K extends keyof T> = Omit<T, K> & Required<RequiredNotNull<Pick<T, K>>>;
 type RequiredNotNull<T> = {
-  [P in keyof T]: NonNullable<T[P]>;
+	[P in keyof T]: NonNullable<T[P]>;
 };
 
 type PostDataBase = Partial<{
@@ -152,11 +152,12 @@ const makeParams = async (_note: Note): Promise<PostData> => {
 
 const _nqadd = (text: PostData['text']): PostData['text'] => {
 	if (!text) return '2';
+	if (/\-?\d+$/.test(text)) return text.replace(/\-?\d+$/, (n => (BigInt(n) + 1n).toString(10)));
 	// eslint-disable-next-line no-irregular-whitespace
 	if (text.endsWith(':')) return `${text}​2`;
 	if (text.endsWith('</center>')) return `${text}\n2`;
-	if (!/\-?\d+$/.test(text)) return `${text}2`;
-	return text.replace(/\-?\d+$/, (n => (BigInt(n) + 1n).toString(10)));
+	if (/[\uFF10-\uFF19]$/.test(text)) return _nqadd(text.replace(/[０-９]/g, m => '0123456789'[m.charCodeAt(0) - 65296]));
+	return `${text}2`;
 };
 
 export const pakuru = async (note: Note): Promise<{
