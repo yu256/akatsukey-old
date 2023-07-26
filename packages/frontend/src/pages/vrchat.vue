@@ -37,7 +37,7 @@ const user = await fetchUser(props.id);
 
 const instance = user.location.startsWith('wrld') ? await fetchInstance(user.location) : undefined;
 
-const owner = instance ? await fetchUser(instance.ownerId) : undefined;
+const owner = instance && await fetchUser(instance.ownerId);
 
 definePageMetadata({
 	title: 'VRChat',
