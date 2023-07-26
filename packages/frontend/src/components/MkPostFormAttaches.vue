@@ -87,6 +87,19 @@ async function describe(file) {
 	}, 'closed');
 }
 
+async function deleteFile(file: misskey.entities.DriveFile): Promise<void> {
+	const { canceled } = await os.confirm({
+		type: 'warning',
+		text: i18n.t('driveFileDeleteConfirm', { name: file.name }),
+	});
+	if (canceled) return;
+
+	os.api('drive/files/delete', {
+		fileId: file.id,
+	});
+	detachMedia(file.id);
+}
+
 async function crop(file: misskey.entities.DriveFile): Promise<void> {
 	const newFile = await os.cropImage(file, { aspectRatio: NaN });
 	emit('replaceFile', file, newFile);
@@ -111,8 +124,12 @@ function showFileMenu(file: misskey.entities.DriveFile, ev: MouseEvent): void {
 	}, ...isImage ? [{
 		text: i18n.ts.cropImage,
 		icon: 'ti ti-crop',
-		action: () : void => { crop(file); },
+		action: (): void => { crop(file); },
 	}] : [], {
+		text: i18n.ts.delete,
+		icon: 'ti ti-trash',
+		action: (): void => { deleteFile(file); },
+	}, {
 		text: i18n.ts.attachCancel,
 		icon: 'ti ti-circle-x',
 		action: () => { detachMedia(file.id); },
