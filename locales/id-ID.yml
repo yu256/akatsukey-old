@@ -49,9 +49,15 @@ delete: "Hapus"
 deleteAndEdit: "Hapus dan sunting"
 deleteAndEditConfirm: "Apakah kamu yakin ingin menghapus note ini dan menyuntingnya? Kamu akan kehilangan semua reaksi, renote dan balasan di note ini."
 addToList: "Tambahkan ke daftar"
+addToAntenna: "Tambahkan ke Antena"
 sendMessage: "Kirim pesan"
 copyRSS: "Salin RSS"
 copyUsername: "Salin nama pengguna"
+copyUserId: "Salin ID pengguna"
+copyNoteId: "Salin ID catatan"
+copyFileId: "Salin Berkas"
+copyFolderId: "Salin Folder"
+copyProfileUrl: "Salin Alamat Web Profil"
 searchUser: "Cari pengguna"
 reply: "Balas"
 loadMore: "Selebihnya"
@@ -308,7 +314,7 @@ copyUrl: "Salin tautan"
 rename: "Ubah nama"
 avatar: "Avatar"
 banner: "Banner"
-nsfw: "Konten sensitif"
+displayOfSensitiveMedia: "Tampilkan media NSFW"
 whenServerDisconnected: "Ketika kehilangan koneksi dengan peladen"
 disconnectedFromServer: "Terputus koneksi dari peladen"
 reload: "Muat ulang"
@@ -951,6 +957,297 @@ letsLookAtTimeline: "LIhat timeline"
 horizontal: "Horisontal"
 youFollowing: "Mengikuti"
 options: "Opsi peran"
+specifyUser: "Pengguna spesifik"
+failedToPreviewUrl: "Tidak dapat dipratinjau"
+update: "Perbarui"
+rolesThatCanBeUsedThisEmojiAsReaction: "Peran yang dapat menggunakan emoji ini sebagai reaksi"
+rolesThatCanBeUsedThisEmojiAsReactionEmptyDescription: "Jika peran tidak ditentukan, semua pengguna dapat menggunakan emoji ini sebagai reaksi."
+rolesThatCanBeUsedThisEmojiAsReactionPublicRoleWarn: "Peran ini harus publik."
+cancelReactionConfirm: "Yakin untuk menghapus reaksimu?"
+changeReactionConfirm: "Yakin untuk mengganti reaksimu?"
+later: "Nanti saja"
+goToMisskey: "Ke Misskey"
+additionalEmojiDictionary: "Kamus emoji tambahan"
+installed: "Terpasang"
+branding: "Merek"
+enableServerMachineStats: "Tampilkan informasi mesin peladen menjadi publik"
+enableIdenticonGeneration: "Nyalakan pembuatan Identicon per pengguna"
+turnOffToImprovePerformance: "Matikan untuk tingkatkan performa."
+createInviteCode: "Buat kode undangan"
+inviteCodeCreated: "Kode undangan dibuat"
+inviteLimitExceeded: "Kamu telah mencapai jumlah maksimum kode undangan yang dapat dibuat."
+expirationDate: "Tanggal kedaluwarsa"
+_initialAccountSetting:
+  accountCreated: "Akun kamu telah sukses dibuat!"
+  letsStartAccountSetup: "Untuk pemula, ayo atur profilmu dulu."
+  letsFillYourProfile: "Pertama, ayo atur profilmu dulu."
+  profileSetting: "Pengaturan profil"
+  privacySetting: "Pengaturan privasi"
+  theseSettingsCanEditLater: "Kamu selalu bisa mengganti pengaturan ini lain kali."
+  youCanEditMoreSettingsInSettingsPageLater: "Ada banyak pengaturan yang dapat kamu atur dari halaman \"Pengaturan\". Pastikan untuk mengunjungi halaman tersebut nanti."
+  followUsers: "Coba ikuti beberapa pengguna yang menarik bagimu untuk membangun lini masa akunmu."
+  pushNotificationDescription: "Menyalakan notifikasi dorong akan membuatmu menerima notifikasi dari {name} secara langsung ke perangkatmu."
+  initialAccountSettingCompleted: "Pengaturan profil selesai!"
+  haveFun: "Selamat menikmati, {name}!"
+  ifYouNeedLearnMore: "Kalau kamu ingin mempelajari lebih lanjut bagaimana cara menggunakan {name} (Misskey), silahkan kunjungi {link}."
+  skipAreYouSure: "Yakin melewati atur profil?"
+  laterAreYouSure: "Yakin banget untuk atur profil nanti?"
+_serverRules:
+  description: "Daftar peraturan akan ditampilkan sebelum pendaftaran. Mengatur ringkasan dari Syarat dan Ketentuan sangat direkomendasikan."
+_accountMigration:
+  moveFrom: "Pindahkan akun lain ke akun ini"
+  moveFromSub: "Buat alias ke akun lain"
+  moveFromLabel: "Akun asli #{n}"
+  moveFromDescription: "Kamu harus membuat alias untuk akun asal kamu berpindah ke akun ini\nMasukkan alias akun asal kamu berpindah ke dalam format berikut: @namapengguna@nama.server.com\nUntuk menghapus alias, kosongkan kolom ini (tidak direkomendasikan)."
+  moveTo: "Pindahkan akun ini ke akun lain"
+  moveToLabel: "Akun tujuan pindah:"
+  moveCannotBeUndone: "Pemindahan akun tidak dapat diurungkan."
+  moveAccountDescription: "Hal ini akan memindahkan akun kamu ke akun lain.\n　・Pengikut dari akun ini akan secara otomatis dipindahkan ke akun baru\n　・Akun ini akan berhenti mengikuti dari semua pengguna yang sedang kamu ikuti\n　・Kamu akan tidak dapat membuat catatan baru dan lain-lain pada akun ini\n\nMeskipun pemindahan pengikut dilakukan secara otomatis, kamu harus mempersiapkan beberapa langkah secara manual untuk memindahkan daftar pengguna yang sedang kamu ikuti. Untuk melakukan tersebut, lakukan ekspor daftar ikuti yang nantinya dapat kamu impor pada menu pengaturan di akun baru kamu. Prosedur yang sama juga dapat diterapkan pada daftar seperti pengguna yang kamu bisukan atau blokir.\n\n(Penjelasan ini hanya berlaku pada Misskey versi 13.12.0 dan setelahnya. Perangkat lunak ActivityPub lainnya seperti Mastodon berkemungkinan befungsi berbeda.)"
+  moveAccountHowTo: "Untuk pindah, pertama buat alias untuk akun ini pada akun tujuan kamu berpindah.\nSetelah kamu membuat alias, masukkan akun tujuan kamu berpindah ke dalam format berikut:\n@namapengguna@nama.server.com"
+  startMigration: "Pindahkan"
+  migrationConfirm: "Yakin untuk memindahkan akun ini ke {account}? Sekali dimulai, proses ini tidak dapat dihentikan atau ditarik kembali, dan kamu tidak dapat menggunakan akun ini lagi dalam keadaan asli semula."
+  movedAndCannotBeUndone: "\nAkun ini telah dipindahkan.\nPemindahan tidak dapat diurungkan."
+  postMigrationNote: "24 jam setelah pemindahan akun selesai, akun ini akan berhenti mengikuti semua akun yang sedang diikuti. Angka mengikut dan pengikut akan menjadi nol. Untuk menghindari pengikut kamu tidak dapat melihat postingan hanya pengikut saja dalam postingan ini, mereka akan tetap mengikuti akun ini."
+  movedTo: "Akun baru tujuan pindah:"
+_achievements:
+  earnedAt: "Terbuka pada"
+  _types:
+    _notes1:
+      title: "Cus, baru gabung Misskey nih!"
+      description: "Catat catatan pertama kamu"
+      flavor: "Selamat bersenang-senang dengan Misskey!"
+    _notes10:
+      title: "Beberapa catatan"
+      description: "Catat 10 catatan"
+    _notes100:
+      title: "Banyak catatan"
+      description: "Catat 100 catatan"
+    _notes500:
+      title: "Tertumpuk catatan"
+      description: "Catat 500 catatan"
+    _notes1000:
+      title: "Gunung catatan"
+      description: "Catat 1000 catatan"
+    _notes5000:
+      title: "Luapan catatan"
+      description: "Catat 5000 catatan"
+    _notes10000:
+      title: "Catatan super"
+      description: "Catat 10 ribu catatan"
+    _notes20000:
+      title: "Butuh... banyak... catatan..."
+      description: "Catat 20 ribu catatan"
+    _notes30000:
+      title: "Catat, catat, catat !"
+      description: "Catat 30 ribu catatan"
+    _notes40000:
+      title: "Pabrik catatan"
+      description: "Catat 40 ribu catatan"
+    _notes50000:
+      title: "Planet catatan"
+      description: "Catat 50 ribu catatan"
+    _notes60000:
+      title: "Kuasar catatan"
+      description: "Catat 60 ribu catatan"
+    _notes70000:
+      title: "Lubang hitam catatan"
+      description: "Catat 70 ribu catatan"
+    _notes80000:
+      title: "Galaksi catatan"
+      description: "Catat 80 ribu catatan"
+    _notes90000:
+      title: "Semesta catatan"
+      description: "Catat 90 ribu catatan"
+    _notes100000:
+      title: "ALL YOUR NOTE ARE BELONG TO US"
+      description: "Catat 100 ribu catatan"
+      flavor: "Banyak bacot ya kamu."
+    _login3:
+      title: "Pemula I"
+      description: "Login selama 3 hari"
+      flavor: "Mulai hari ini, panggil gue Misskist"
+    _login7:
+      title: "Pemula II"
+      description: "Login selama 7 hari"
+      flavor: "Sudah mulai terbiasa?"
+    _login15:
+      title: "Pemula III"
+      description: "Login selama 15 hari"
+    _login30:
+      title: "Misskist I"
+      description: "Login selama 30 hari"
+    _login60:
+      title: "Misskist II"
+      description: "Login selama 60 hari"
+    _login100:
+      title: "Misskist III"
+      description: "Login selama 100 hari"
+      flavor: "Violent Misskist"
+    _login200:
+      title: "Reguler I"
+      description: "Login selama 200 hari"
+    _login300:
+      title: "Reguler II"
+      description: "Login selama 300 hari"
+    _login400:
+      title: "Reguler III"
+      description: "Login selama 400 hari"
+    _login500:
+      title: "Veteran I"
+      description: "Login selama 500 hari"
+      flavor: "Kawanku, aku suka catatan."
+    _login600:
+      title: "Veteran II"
+      description: "Login selama 600 hari"
+    _login700:
+      title: "Veteran III"
+      description: "Login selama 700 hari"
+    _login800:
+      title: "Sepuh Catatan I"
+      description: "Login selama 800 hari"
+    _login900:
+      title: "Sepuh Catatan II"
+      description: "Login selama 900 hari"
+    _login1000:
+      title: "Sepuh Catatan III"
+      description: "Login selama 1000 hari"
+      flavor: "Terima kasih telah menggunakan Misskey!"
+    _noteClipped1:
+      title: "Harus... Ngeklip..."
+      description: "Klip catatan pertamamu"
+    _noteFavorited1:
+      title: "Pengamat Bintang"
+      description: "Favoritkan catatan pertamamu"
+    _myNoteFavorited1:
+      title: "Pencari Bintang"
+      description: "Minta orang lain memfavoritkan salah satu catatanmu"
+    _profileFilled:
+      title: "Siap Sedia"
+      description: "Atur profil kamu"
+    _markedAsCat:
+      title: "Aku Seekor Kucing"
+      description: "Tandai akunmu sebagai kucing"
+      flavor: "Aku beri kamu nama nanti"
+    _following1:
+      title: "Ikuti pengguna lain pertamamu"
+      description: "Ikuti pengguna"
+    _following10:
+      title: "Terusin... terusin..."
+      description: "Ikuti 10 pengguna lain"
+    _following50:
+      title: "Banyak teman"
+      description: "Ikuti 50 pengguna lain"
+    _following100:
+      title: "100 Teman"
+      description: "Ikuti 100 pengguna lain"
+    _following300:
+      title: "Kelebihan teman"
+      description: "Mengikuti 300 pengguna lain"
+    _followers1:
+      title: "Pengikut pertama"
+      description: "Dapatkan 1 pengikut"
+    _followers10:
+      title: "Ikuti aku!"
+      description: "Dapatkan 10 pengikut"
+    _followers50:
+      title: "Rame-rame"
+      description: "Dapatkan 50 pengikut"
+    _followers100:
+      title: "Terkenal"
+      description: "Dapatkan 100 pengikut"
+    _followers300:
+      title: "Mohon antri satu baris"
+      description: "Dapatkan 300 pengikut"
+    _followers500:
+      title: "Stasiun Informasi"
+      description: "Dapatkan 500 pengikut"
+    _followers1000:
+      title: "Influencer"
+      description: "Dapatkan 1000 pengikut"
+    _collectAchievements30:
+      title: "Kolektor pencapaian"
+      description: "Dapatkan 30 pencapaian"
+    _viewAchievements3min:
+      title: "Suka Pencapaian"
+      description: "Lugat daftar pencapaianmu setidaknya 3 menit"
+    _iLoveMisskey:
+      title: "I Love Misskey"
+      description: "Catat \"I ❤ #Misskey\""
+      flavor: "Tim pengembang misskey sangat mengapresiasi dukungan kamu!"
+    _foundTreasure:
+      title: "Berburu Harta Karun"
+      description: "Kamu telah menemukan harta karun tersembunyi"
+    _client30min:
+      title: "Istirahat pendek"
+      description: "Habiskan waktu 30 menit di Misskey"
+    _client60min:
+      title: "Tidak ada \"Miss\" dalam Misskey"
+      description: "Biarkan Misskey tetap terbuka setidaknya selama 60 menit"
+    _noteDeletedWithin1min:
+      title: "Eh, salah coy!"
+      description: "Hapus catatan kurang dari semenit kamu catat"
+    _postedAtLateNight:
+      title: "Nokturnal"
+      description: "Catat catatan di tengah malam hari"
+      flavor: "Udah waktunya boboq."
+    _postedAt0min0sec:
+      title: "Jam ngomong"
+      description: "Catat catatan di jam 00.00"
+      flavor: "Tik Tok Tik Toeeeng"
+    _selfQuote:
+      title: "Rujukan mandiri"
+      description: "Kutip catatanmu sendiri"
+    _htl20npm:
+      title: "Lini masa mengalir"
+      description: "Memiliki lini masa beranda dengan kecepatan melebihi 20 cpm (catatan per menit)"
+    _viewInstanceChart:
+      title: "Analis"
+      description: "Lihat bagan instansimu"
+    _outputHelloWorldOnScratchpad:
+      title: "Halo, dunia!"
+      description: "Munculkan \"hello world\" di Scratchpad"
+    _open3windows:
+      title: "Jendela ganda"
+      description: "Memiliki setidaknya 3 jendela yang terbuka secara bersamaan"
+    _driveFolderCircularReference:
+      title: "Referensi Siklus"
+      description: "Mencoba membuat folder bersarang rekursif di Drive"
+    _reactWithoutRead:
+      title: "Beneran udah dibaca?"
+      description: "Mereaksi catatan dengan 100 karakter panjangnya dalam 3 detik setelah dicatat"
+    _clickedClickHere:
+      title: "Klik di sini"
+      description: "Kamu telah mengeklik disini"
+    _justPlainLucky:
+      title: "Lagi Beruntung"
+      description: "Mendapatkan kesempatan dengan kemungkinan 0.01% setiap 10 detik"
+    _setNameToSyuilo:
+      title: "God Complex"
+      description: "Atur namamu jadi \"syuilo\""
+    _passedSinceAccountCreated1:
+      title: "Perayaan Satu Tahun"
+      description: "Satu tahun telah lewat sejak akunmu dibuat"
+    _passedSinceAccountCreated2:
+      title: "Perayaan Dua Tahun"
+      description: "Dua tahun telah lewat sejak akunmu dibuat"
+    _passedSinceAccountCreated3:
+      title: "Perayaan Tiga Tahun"
+      description: "Tiga tahun telah lewat sejak akunmu dibuat"
+    _loggedInOnBirthday:
+      title: "Selamat Ulang Tahun"
+      description: "Login di hari ulang tahunmu"
+    _loggedInOnNewYearsDay:
+      title: "Selamat Tahun Baru!"
+      description: "Login di hari pertama tahun baru"
+      flavor: "Untuk tahun baru yang berkah bagi instansi ini"
+    _cookieClicked:
+      title: "Permainan dimana kamu mengeklik kue"
+      description: "Mengeklik kue"
+      flavor: "Tunggu, apakah kamu sedang berada di website yang benar?"
+    _brainDiver:
+      title: "Brain Diver"
+      description: "Posting tautan mengenai Brain Diver"
+      flavor: "Misskey-Misskey La-Tu-Ma"
 _role:
   new: "Buat peran"
   edit: "Sunting peran"
