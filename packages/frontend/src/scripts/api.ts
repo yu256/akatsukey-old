@@ -18,7 +18,7 @@ export type EndPoints = Endpoints & {
 			token: string;
 			twofactor: string;
 		};
-		res: null;
+		res?: boolean;
 	};
 	'vrchat/friends': {
 		req: {

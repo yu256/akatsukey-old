@@ -25,21 +25,19 @@ export const paramDef = {
 export default class extends Endpoint<typeof meta, typeof paramDef> {
 	constructor() {
 		super(meta, paramDef, async (ps) => {
-			const authtoken = ps.token as string;
-			const twofactor = ps.twofactor as string;
-
-			const res = await fetch('https://api.vrchat.cloud/api/1/auth/twofactorauth/emailotp/verify', {
+			const res: { verified?: boolean } = await fetch('https://api.vrchat.cloud/api/1/auth/twofactorauth/emailotp/verify', {
 				method: 'POST',
 				headers: {
 					'User-Agent': 'vrc-ts',
 					'Content-Type': 'application/json',
-					'Cookie': 'auth=' + authtoken,
+					'Cookie': 'auth=' + ps.token,
 				},
 				body: JSON.stringify({
-					code: twofactor,
+					code: ps.twofactor,
 				}),
-			});
-			return res.text();
+			}).then((res) => res.json());
+
+			return res.verified;
 		});
 	}
 }

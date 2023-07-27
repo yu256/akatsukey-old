@@ -24,7 +24,7 @@
 			<MkInput v-model="password" type="password" placeholder="パスワード"/>
 			<MkButton @click="setToken">決定</MkButton>
 			<MkInput v-model="twofactor" type="text" placeholder="2FAコード"/>
-			<MkButton @click="do2fa">2FA</MkButton>
+			<MkButton @click="do2fa">決定</MkButton>
 		</div>
 	</FormSection>
 </div>
@@ -55,10 +55,22 @@ async function setToken(): Promise<void> {
 }
 
 async function do2fa(): Promise<void> {
-	api('vrchat/email-2fa', {
+	const verified = await api('vrchat/email-2fa', {
 		token: defaultStore.state.VRChatToken,
 		twofactor: twofactor.value,
 	});
+
+	if (verified) {
+		alert({
+			type: 'success',
+			text: '二段階認証が完了しました。',
+		});
+	} else {
+		alert({
+			type: 'error',
+			text: '二段階認証に失敗しました。',
+		});
+	}
 }
 
 const useNumberquote = computed(defaultStore.makeGetterSetter('useNumberquote'));
