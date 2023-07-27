@@ -2,7 +2,7 @@
 <template>
 <MkStickyContainer>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
-		<div class="_gaps_m">
+		<div v-if="user" class="_gaps_m">
 			<VrcAvatar :friend="user" :class="$style.avatar"/>
 			<span :class="$style.main">{{ user.displayName }} {{ user.statusDescription }}</span>
 			<MkTime :time="user.last_activity"/>
@@ -20,6 +20,9 @@
 				{{ user.location }}
 			</div>
 		</div>
+		<div v-else>
+			情報の取得に失敗しました。トークンが無効である可能性があります。
+		</div>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
@@ -27,15 +30,21 @@
 <script lang="ts" setup>
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { fetchInstance, fetchUser } from '@/scripts/vrchat-api';
+import { fetchInstance, fetchUser, User } from '@/scripts/vrchat-api';
 
 const props = defineProps<{
 	id: string;
 }>();
 
-const user = await fetchUser(props.id);
+let user: User | undefined;
 
-const instance = user.location.startsWith('wrld') ? await fetchInstance(user.location) : undefined;
+try {
+	user = await fetchUser(props.id);
+} catch {
+	// なにもしない
+}
+
+const instance = user?.location.startsWith('wrld') ? await fetchInstance(user.location) : undefined;
 
 const owner = instance && await fetchUser(instance.ownerId);
 

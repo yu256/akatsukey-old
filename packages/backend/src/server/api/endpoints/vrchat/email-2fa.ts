@@ -7,8 +7,7 @@ export const meta = {
 	tags: ['meta'],
 
 	res: {
-		type: 'object',
-		optional: false, nullable: true,
+		type: 'boolean',
 	},
 } as const;
 
@@ -25,6 +24,7 @@ export const paramDef = {
 export default class extends Endpoint<typeof meta, typeof paramDef> {
 	constructor() {
 		super(meta, paramDef, async (ps) => {
+			if (!ps.token || !ps.twofactor) return false;
 			const res: { verified?: boolean } = await fetch('https://api.vrchat.cloud/api/1/auth/twofactorauth/emailotp/verify', {
 				method: 'POST',
 				headers: {
@@ -37,7 +37,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				}),
 			}).then((res) => res.json());
 
-			return res.verified;
+			return !!res.verified;
 		});
 	}
 }

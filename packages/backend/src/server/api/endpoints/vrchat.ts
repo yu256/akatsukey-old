@@ -12,21 +12,6 @@ export const meta = {
 	},
 } as const;
 
-async function fetchToken(user: string, password: string): Promise<JSON> {
-	const res = await fetch('https://api.vrchat.cloud/api/1/auth/user', {
-		headers: {
-			Authorization: `Basic ${Buffer.from(`${user}:${password}`).toString('base64')}`,
-			UserAgent: 'vrc-ts',
-		},
-	});
-
-	const resp = await res.json();
-
-	resp.authToken = res.headers.get('set-cookie')?.split(';')[0].split('=')[1];
-
-	return resp;
-}
-
 export const paramDef = {
 	type: 'object',
 	properties: {
@@ -39,6 +24,17 @@ export const paramDef = {
 @Injectable() // eslint-disable-next-line import/no-default-export
 export default class extends Endpoint<typeof meta, typeof paramDef> {
 	constructor() {
-		super(meta, paramDef, async (ps) => fetchToken(ps.user as string, ps.password as string));
+		super(meta, paramDef, async (ps) => {
+			const res = await fetch('https://api.vrchat.cloud/api/1/auth/user', {
+				headers: {
+					Authorization: `Basic ${Buffer.from(`${ps.user}:${ps.password}`).toString('base64')}`,
+					UserAgent: 'vrc-ts',
+				},
+			}).then((res) => res.json());
+
+			res.authToken = res.headers.get('set-cookie')?.split(';')[0].split('=')[1];
+
+			return res;
+		});
 	}
 }

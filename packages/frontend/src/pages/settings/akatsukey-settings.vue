@@ -46,6 +46,7 @@ const password = shallowRef('');
 const twofactor = shallowRef('');
 
 async function setToken(): Promise<void> {
+	if (!username.value || !password.value) return;
 	const res = await fetchToken(username.value, password.value);
 	defaultStore.set('VRChatToken', res.authToken);
 	if (res.requiresTwoFactorAuth) alert({
