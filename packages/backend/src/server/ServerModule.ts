@@ -35,6 +35,7 @@ import { ServerStatsChannelService } from './api/stream/channels/server-stats.js
 import { UserListChannelService } from './api/stream/channels/user-list.js';
 import { OpenApiServerService } from './api/openapi/OpenApiServerService.js';
 import { ClientLoggerService } from './web/ClientLoggerService.js';
+import { OAuth2ProviderService } from './oauth/OAuth2ProviderService.js';
 
 @Module({
 	imports: [
@@ -76,6 +77,7 @@ import { ClientLoggerService } from './web/ClientLoggerService.js';
 		ServerStatsChannelService,
 		UserListChannelService,
 		OpenApiServerService,
+		OAuth2ProviderService,
 	],
 	exports: [
 		ServerService,
