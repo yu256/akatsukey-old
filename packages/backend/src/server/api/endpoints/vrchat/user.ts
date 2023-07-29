@@ -44,8 +44,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				},
 			}).then((res) => res.json());
 
-			if ('error' in data) throw new Error();
-
 			const { bio, bioLinks, currentAvatarThumbnailImageUrl, displayName, last_activity, location, status, statusDescription } = data;
 
 			return { bio, bioLinks, currentAvatarThumbnailImageUrl, displayName, last_activity, location, status, statusDescription };

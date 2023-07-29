@@ -2,7 +2,8 @@
 <template>
 <MkStickyContainer>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
-		<div v-if="user" class="_gaps_m">
+		<MkLoading v-if="fetching"/>
+		<div v-else-if="user" class="_gaps_m">
 			<VrcAvatar :friend="user" :class="$style.avatar"/>
 			<span :class="$style.main">{{ user.displayName }} {{ user.statusDescription }}</span>
 			<MkTime :time="user.last_activity"/>
@@ -12,7 +13,10 @@
 			</div>
 			<div v-if="instance">
 				<span :class="$style.main">{{ instance.name }}</span> ({{ instance.userCount }})
-				<MkA :to="`/vrchat/${instance.ownerId}`">{{ owner === false ? user.displayName : owner!.displayName }}</MkA>
+				<MkA :to="`/vrchat/${instance.ownerId}`">
+					{{ owner ? owner.displayName : instance.ownerId === props.id ?
+						user.displayName : 'unknown' }}
+				</MkA>
 				<div :class="$style.detail">{{ instance.description }}</div>
 				<img :src="instance.thumbnailImageUrl" decoding="async" style="border-radius: 10%;"/>
 			</div>
@@ -28,13 +32,16 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { fetchInstance, fetchUser, User } from '@/scripts/vrchat-api';
+import { User, fetchInstance, fetchUser } from '@/scripts/vrchat-api';
 
 const props = defineProps<{
 	id: string;
 }>();
+
+const fetching = ref(true);
 
 let user: User | undefined;
 
@@ -44,7 +51,9 @@ try {
 	// なにもしない
 }
 
-const instance = user?.location.startsWith('wrld') ? await fetchInstance(user.location) : undefined;
+fetching.value = false;
+
+const instance = user?.location.startsWith('wrld') && await fetchInstance(user.location);
 
 const owner = instance && instance.ownerId !== props.id && await fetchUser(instance.ownerId);
 
