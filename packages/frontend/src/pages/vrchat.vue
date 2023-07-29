@@ -12,7 +12,7 @@
 			</div>
 			<div v-if="instance">
 				<span :class="$style.main">{{ instance.name }}</span> ({{ instance.userCount }})
-				<MkA :to="`/vrchat/${instance.ownerId}`">{{ owner!.displayName }}</MkA>
+				<MkA :to="`/vrchat/${instance.ownerId}`">{{ owner === false ? user.displayName : owner!.displayName }}</MkA>
 				<div :class="$style.detail">{{ instance.description }}</div>
 				<img :src="instance.thumbnailImageUrl" decoding="async" style="border-radius: 10%;"/>
 			</div>
@@ -46,7 +46,7 @@ try {
 
 const instance = user?.location.startsWith('wrld') ? await fetchInstance(user.location) : undefined;
 
-const owner = instance && await fetchUser(instance.ownerId);
+const owner = instance && instance.ownerId !== props.id && await fetchUser(instance.ownerId);
 
 definePageMetadata({
 	title: 'VRChat',
