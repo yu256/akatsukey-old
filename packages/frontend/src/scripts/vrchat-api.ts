@@ -7,7 +7,7 @@ export async function fetchFriends(): Promise<Friend[]> {
 	});
 }
 
-export async function fetchToken(user: string, password: string): Promise<FetchTokenRes> {
+export async function fetchToken(user: string, password: string): Promise<string | undefined> {
 	return api('vrchat', {
 		user,
 		password,
@@ -26,11 +26,6 @@ export async function fetchUser(user: string): Promise<User> {
 		token: defaultStore.state.VRChatToken,
 		user,
 	});
-}
-
-export interface FetchTokenRes {
-	requiresTwoFactorAuth: string;
-	authToken: string;
 }
 
 export interface Friend {

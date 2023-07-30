@@ -45,14 +45,30 @@ const username = shallowRef('');
 const password = shallowRef('');
 const twofactor = shallowRef('');
 
+const onAuthenticationError = (): void => {
+	alert({
+		type: 'error',
+		text: '認証に失敗しました。',
+	});
+};
+
 async function setToken(): Promise<void> {
 	if (!username.value || !password.value) return;
-	const res = await fetchToken(username.value, password.value);
-	defaultStore.set('VRChatToken', res.authToken);
-	if (res.requiresTwoFactorAuth) alert({
-		type: 'info',
-		text: '二段階認証が必要です。',
-	});
+
+	try {
+		const res = await fetchToken(username.value, password.value);
+		if (!res) {
+			onAuthenticationError();
+			return;
+		}
+		defaultStore.set('VRChatToken', res);
+		alert({
+			type: 'info',
+			text: '二段階認証が必要です。',
+		});
+	} catch {
+		onAuthenticationError();
+	}
 }
 
 async function do2fa(): Promise<void> {

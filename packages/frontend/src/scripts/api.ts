@@ -1,6 +1,6 @@
 import { Endpoints } from 'misskey-js/built/api.types';
 import { ref } from 'vue';
-import { FetchTokenRes, Friend, Instance, User } from './vrchat-api';
+import { Friend, Instance, User } from './vrchat-api';
 import { apiUrl } from '@/config';
 import { $i } from '@/account';
 export const pendingApiRequestsCount = ref(0);
@@ -11,7 +11,7 @@ export type EndPoints = Endpoints & {
 			user: string;
 			password: string;
 		};
-		res: FetchTokenRes;
+		res: string | undefined;
 	};
 	'vrchat/email-2fa': {
 		req: {

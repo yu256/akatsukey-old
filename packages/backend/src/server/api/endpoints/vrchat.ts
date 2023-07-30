@@ -30,9 +30,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 					Authorization: `Basic ${Buffer.from(`${ps.user}:${ps.password}`).toString('base64')}`,
 					UserAgent: 'vrc-ts',
 				},
-			}).then((res) => res.json());
-
-			res.authToken = res.headers.get('set-cookie')?.split(';')[0].split('=')[1];
+			}).then((res) => res.headers.get('set-cookie')?.split(';')[0].split('=')[1]);
 
 			return res;
 		});
