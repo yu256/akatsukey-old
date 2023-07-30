@@ -125,7 +125,7 @@ function showFileMenu(file: misskey.entities.DriveFile, ev: MouseEvent): void {
 		icon: file.isSensitive ? 'ti ti-eye-exclamation' : 'ti ti-eye',
 		action: () => { toggleSensitive(file); },
 	}, {
-		text: i18n.ts.cropImageFile,
+		text: i18n.ts.cropImage,
 		icon: 'ti ti-crop',
 		action: () => { cropImage(file); },
 	}, {
