@@ -84,7 +84,7 @@ type Select = {
 
 const props = withDefaults(defineProps<{
 	type?: 'success' | 'error' | 'warning' | 'info' | 'question' | 'waiting';
-	title: string;
+	title?: string;
 	text?: string;
 	input?: Input;
 	select?: Select;

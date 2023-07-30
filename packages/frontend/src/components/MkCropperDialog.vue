@@ -44,10 +44,14 @@ const emit = defineEmits<{
 	(ev: 'closed'): void;
 }>();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	file: misskey.entities.DriveFile;
 	aspectRatio: number;
-}>();
+	highDefinition: boolean;
+	properties: Record<string, number>;
+}>(), {
+	highDefinition: false,
+});
 
 const imgUrl = getProxiedImageUrl(props.file.url, undefined, true);
 let dialogEl = $shallowRef<InstanceType<typeof MkModalWindow>>();
@@ -55,13 +59,17 @@ let imgEl = $shallowRef<HTMLImageElement>();
 let cropper: Cropper | null = null;
 let loading = $ref(true);
 
-const ok = async () => {
+const ok = async (): Promise<void> => {
 	const promise = new Promise<misskey.entities.DriveFile>(async (res) => {
-		const croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
+		const croppedCanvas = props.highDefinition ? await cropper?.getCropperSelection()?.$toCanvas({
+			width: props.properties.width,
+			height: props.properties.height,
+		}) : await cropper?.getCropperSelection()?.$toCanvas();
+		if (!croppedCanvas) return;
 		croppedCanvas.toBlob(blob => {
 			const formData = new FormData();
 			formData.append('file', blob);
-			formData.append('i', $i.token);
+			formData.append('i', $i!.token);
 			if (defaultStore.state.uploadFolder) {
 				formData.append('folderId', defaultStore.state.uploadFolder);
 			}
@@ -74,7 +82,8 @@ const ok = async () => {
 				.then(f => {
 					res(f);
 				});
-		});
+		},
+		'image/jpeg', 1);
 	});
 
 	os.promiseDialog(promise);
@@ -82,7 +91,7 @@ const ok = async () => {
 	const f = await promise;
 
 	emit('ok', f);
-	dialogEl.close();
+	dialogEl!.close();
 };
 
 const cancel = () => {

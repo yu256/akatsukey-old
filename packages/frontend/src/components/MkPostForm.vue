@@ -42,7 +42,7 @@
 		<textarea ref="textareaEl" v-model="text" :class="[$style.text]" :disabled="posting || posted" :placeholder="placeholder" data-cy-post-form-text @keydown="onKeydown" @paste="onPaste" @compositionupdate="onCompositionUpdate" @compositionend="onCompositionEnd"/>
 	</div>
 	<input v-show="withHashtags" ref="hashtagsInputEl" v-model="hashtags" :class="$style.hashtags" :placeholder="i18n.ts.hashtags" list="hashtags">
-	<XPostFormAttaches v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName"/>
+	<XPostFormAttaches v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName" @cropImage="updateFileToCropped"/>
 	<MkPollEditor v-if="poll" v-model="poll" @destroyed="poll = null"/>
 	<MkNotePreview v-if="showPreview" :class="$style.preview" :text="text"/>
 	<footer :class="$style.footer">
@@ -79,6 +79,7 @@ import insertTextAtCursor from 'insert-text-at-cursor';
 import { toASCII } from 'punycode/';
 import * as Acct from 'misskey-js/built/acct';
 import { $$, $computed, $ref, $shallowRef } from 'vue/macros';
+import { DriveFile } from 'misskey-js/built/entities';
 import MkNoteSimple from '@/components/MkNoteSimple.vue';
 import MkNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
@@ -385,6 +386,10 @@ function updateFileSensitive(file, sensitive) {
 
 function updateFileName(file, name) {
 	files[files.findIndex(x => x.id === file.id)].name = name;
+}
+
+function updateFileToCropped(file: DriveFile, cropped: DriveFile): void {
+	files[files.findIndex(x => x.id === file.id)] = cropped;
 }
 
 function upload(file: File, name?: string) {

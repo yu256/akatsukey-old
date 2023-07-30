@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue';
+import { DriveFile } from 'misskey-js/built/entities';
 import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
@@ -32,6 +33,7 @@ const emit = defineEmits<{
 	(ev: 'detach', id: string): void;
 	(ev: 'changeSensitive'): void;
 	(ev: 'changeName'): void;
+	(ev: 'cropImage'): void;
 }>();
 
 let menuShowing = false;
@@ -66,6 +68,20 @@ async function rename(file) {
 		emit('changeName', file, result);
 		file.name = result;
 	});
+}
+
+async function cropImage(file: DriveFile): Promise<void> {
+	const { canceled } = await os.confirm({
+		type: 'question',
+		text: i18n.t('cropImageAsk'),
+	});
+	if (!canceled) {
+		const cropped = await os.cropImage(file, {
+			aspectRatio: -1,
+			highDefinition: true,
+		});
+		emit('cropImage', file, cropped);
+	}
 }
 
 async function describe(file) {
@@ -108,6 +124,10 @@ function showFileMenu(file: misskey.entities.DriveFile, ev: MouseEvent): void {
 		text: file.isSensitive ? i18n.ts.unmarkAsSensitive : i18n.ts.markAsSensitive,
 		icon: file.isSensitive ? 'ti ti-eye-exclamation' : 'ti ti-eye',
 		action: () => { toggleSensitive(file); },
+	}, {
+		text: i18n.ts.cropImageFile,
+		icon: 'ti ti-crop',
+		action: () => { cropImage(file); },
 	}, {
 		text: i18n.ts.describeFile,
 		icon: 'ti ti-text-caption',
