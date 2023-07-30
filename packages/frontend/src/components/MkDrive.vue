@@ -65,7 +65,6 @@
 					v-anim="i"
 					:class="$style.file"
 					:file="file"
-					:folder="folder"
 					:selectMode="select === 'file'"
 					:isSelected="selectedFiles.some(x => x.id === file.id)"
 					@chosen="chooseFile"

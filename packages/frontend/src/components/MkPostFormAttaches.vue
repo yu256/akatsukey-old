@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue';
-import * as misskey from 'misskey-js';
 import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
@@ -31,9 +30,8 @@ const props = defineProps<{
 const emit = defineEmits<{
 	(ev: 'update:modelValue', value: any[]): void;
 	(ev: 'detach', id: string): void;
-	(ev: 'changeSensitive', file: misskey.entities.DriveFile, isSensitive: boolean): void;
-	(ev: 'changeName', file: misskey.entities.DriveFile, newName: string): void;
-	(ev: 'replaceFile', file: misskey.entities.DriveFile, newFile: misskey.entities.DriveFile): void;
+	(ev: 'changeSensitive'): void;
+	(ev: 'changeName'): void;
 }>();
 
 let menuShowing = false;
@@ -100,15 +98,8 @@ async function deleteFile(file: misskey.entities.DriveFile): Promise<void> {
 	detachMedia(file.id);
 }
 
-async function crop(file: misskey.entities.DriveFile): Promise<void> {
-	const newFile = await os.cropImage(file, { aspectRatio: NaN });
-	emit('replaceFile', file, newFile);
-}
-
 function showFileMenu(file: misskey.entities.DriveFile, ev: MouseEvent): void {
 	if (menuShowing) return;
-
-	const isImage = file.type.startsWith('image/');
 	os.popupMenu([{
 		text: i18n.ts.renameFile,
 		icon: 'ti ti-forms',
@@ -121,11 +112,7 @@ function showFileMenu(file: misskey.entities.DriveFile, ev: MouseEvent): void {
 		text: i18n.ts.describeFile,
 		icon: 'ti ti-text-caption',
 		action: () => { describe(file); },
-	}, ...isImage ? [{
-		text: i18n.ts.cropImage,
-		icon: 'ti ti-crop',
-		action: (): void => { crop(file); },
-	}] : [], {
+	}, {
 		text: i18n.ts.delete,
 		icon: 'ti ti-trash',
 		action: (): void => { deleteFile(file); },
