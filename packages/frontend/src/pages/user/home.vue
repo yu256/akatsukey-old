@@ -122,14 +122,14 @@
 				</div>
 				<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
 				<template v-if="narrow">
-					<XPhotos :key="user.id" :user="user"/>
+					<!-- <XPhotos :key="user.id" :user="user"/> -->
 					<XActivity :key="user.id" :user="user"/>
 				</template>
 				<MkNotes v-if="!disableNotes" :class="$style.tl" :noGap="true" :pagination="pagination"/>
 			</div>
 		</div>
 		<div v-if="!narrow" class="sub _gaps" style="container-type: inline-size;">
-			<XPhotos :key="user.id" :user="user"/>
+			<!-- <XPhotos :key="user.id" :user="user"/> -->
 			<XActivity :key="user.id" :user="user"/>
 		</div>
 	</div>
@@ -162,7 +162,7 @@ import MkNotes from '@/components/MkNotes.vue';
 import { api } from '@/os';
 import { isFfVisibleForMe } from '@/scripts/isFfVisibleForMe';
 
-const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
+// const XPhotos = defineAsyncComponent(() => import('./index.photos.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
 
 const props = withDefaults(defineProps<{
