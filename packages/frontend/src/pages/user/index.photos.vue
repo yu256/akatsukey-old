@@ -60,7 +60,7 @@ onMounted(() => {
 		userId: props.user.id,
 		fileType: image,
 		excludeNsfw: defaultStore.state.nsfw !== 'ignore',
-		limit: 10,
+		limit: 5,
 	}).then(notes => {
 		for (const note of notes) {
 			for (const file of note.files) {
