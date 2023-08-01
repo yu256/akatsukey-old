@@ -11,10 +11,6 @@
 				「パクる」と「数字引用」機能を有効にする
 				<template #caption>Renoteメニューに「パクる」と「数字引用する」を追加します。</template>
 			</MkSwitch>
-			<MkSwitch v-model="usePartialReload">
-				部分的にリロードする
-				<template #caption>モバイルのボトムバーの挙動を変更します。必要なコンポーネントのみリロードしますが、WebSocketの再接続も行われません。</template>
-			</MkSwitch>
 			<MkSwitch v-model="disableAutostop">
 				バックグラウンドでもタイムラインを更新する
 				<template #caption>バックグラウンドで10秒経過したらページネーションのアイテム更新をしない機能を無効にします。</template>
@@ -31,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, shallowRef } from 'vue';
+import { WritableComputedRef, computed, shallowRef } from 'vue';
 import { defaultStore } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
@@ -90,9 +86,8 @@ async function do2fa(): Promise<void> {
 	}
 }
 
-const useNumberquote = computed(defaultStore.makeGetterSetter('useNumberquote'));
-const usePartialReload = computed(defaultStore.makeGetterSetter('usePartialReload'));
-const disableAutostop = computed(defaultStore.makeGetterSetter('disableAutostop'));
-const useOriginalInstanceTicker = computed(defaultStore.makeGetterSetter('useOriginalInstanceTicker'));
+const useNumberquote = computed(defaultStore.makeGetterSetter('useNumberquote')) as WritableComputedRef<boolean>;
+const disableAutostop = computed(defaultStore.makeGetterSetter('disableAutostop')) as WritableComputedRef<boolean>;
+const useOriginalInstanceTicker = computed(defaultStore.makeGetterSetter('useOriginalInstanceTicker')) as WritableComputedRef<boolean>;
 
 </script>

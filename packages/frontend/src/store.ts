@@ -338,10 +338,6 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-	usePartialReload: {
-		where: 'device',
-		default: false,
-	},
 	disableAutostop: {
 		where: 'device',
 		default: false,
