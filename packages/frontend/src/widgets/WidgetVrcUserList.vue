@@ -11,7 +11,7 @@
 		<MkLoading v-else-if="fetching"/>
 		<div v-else-if="friends.length !== 0" class="users">
 			<span v-for="friend in friends" :key="friend.id" class="user">
-				<VRCAvatar class="avatar" :friend="friend"/>
+				<VRCAvatar v-if="!widgetProps.showAskMe || friend.status !== 'ask me'" class="avatar" :friend="friend"/>
 			</span>
 		</div>
 		<div v-else class="init">
@@ -36,6 +36,10 @@ const name = 'vrcUserList';
 
 const widgetPropsDef = {
 	showHeader: {
+		type: 'boolean' as const,
+		default: true,
+	},
+	showAskMe: {
 		type: 'boolean' as const,
 		default: true,
 	},
