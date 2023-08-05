@@ -2,38 +2,32 @@
 <MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status" :class="[$style.indicator, {
-			[$style.join]: friend.status === 'join me',
-			[$style.active]: friend.status === 'active',
-			[$style.ask]: friend.status === 'ask me',
-			[$style.busy]: friend.status === 'busy',
-			[$style.private]: friend.location === 'private',
-		}]"
+		v-tooltip="friend.status" :class="[$style.indicator, $style[style]]"
 	/>
 </MkA>
 <span v-else class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status" :class="[$style.indicator, {
-			[$style.join]: friend.status === 'join me',
-			[$style.active]: friend.status === 'active',
-			[$style.ask]: friend.status === 'ask me',
-			[$style.busy]: friend.status === 'busy',
-			[$style.private]: friend.location === 'private',
-			[$style.web]: friend.location === 'offline',
-		}]"
+		v-tooltip="friend.status" :class="[$style.indicator, $style[friend.location === 'offline' ? 'offline' : style]]"
 	/>
 </span>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { defaultStore } from '@/store';
 import { Friend } from '@/scripts/vrchat-api';
 import { CustomPartial } from '@/types/custom-utilities';
 
-defineProps<{
+const props = defineProps<{
 	friend: CustomPartial<Friend, 'id'>;
 }>();
+
+const style = computed(() =>
+	props.friend.location === 'private'
+		? 'private'
+		: props.friend.status.split(' ')[0],
+) as unknown as 'private' | 'active' | 'busy' | 'join' | 'ask';
 
 </script>
 
@@ -79,30 +73,30 @@ defineProps<{
 	height: 20%;
 	box-shadow: 0 0 0 3px var(--panel);
 	border-radius: 100%;
-	&.join {
-		background: #58d4c9;
-	}
+}
 
-	&.active {
-		background: rgb(26, 182, 26);
-	}
+.join {
+	background: #58d4c9;
+}
 
-	&.ask {
-		background: #e4bc48;
-	}
+.active {
+	background: rgb(26, 182, 26);
+}
 
-	&.busy {
-		background: rgb(113, 5, 5);
-	}
+.ask {
+	background: #e4bc48;
+}
 
-	&.private {
-		background: brown !important;
-	}
+.busy {
+	background: rgb(113, 5, 5);
+}
 
-	&.web {
-		background: black !important;
-	}
+.private {
+	background: brown;
+}
 
+.offline {
+	background: black;
 }
 
 </style>

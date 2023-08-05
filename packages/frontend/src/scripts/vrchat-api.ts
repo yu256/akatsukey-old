@@ -26,8 +26,8 @@ export type Friend = {
 	currentAvatarThumbnailImageUrl: string;
 	id: string;
 	location: string;
-	status: string;
-}
+	status: 'join me' | 'active' | 'ask me' | 'busy';
+};
 
 export type Instance = {
 	ownerId: string;
@@ -35,7 +35,7 @@ export type Instance = {
 	name: string;
 	description: string;
 	thumbnailImageUrl: string;
-}
+};
 
 export type User = {
 	bio: string;
@@ -46,4 +46,4 @@ export type User = {
 	location: string;
 	status: string;
 	statusDescription?: string;
-}
+};
