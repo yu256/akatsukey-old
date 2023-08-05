@@ -4,7 +4,7 @@
 	<template #header>{{ i18n.ts._widgets.aiscript }}</template>
 
 	<div class="uylguesu _monospace">
-		<textarea v-model="widgetProps.script" placeholder="(1 + 1)"></textarea>
+		<textarea v-model="widgetProps.script" :style="`height: ${widgetProps.height - 80}px;`" placeholder="(1 + 1)"></textarea>
 		<button class="_buttonPrimary" @click="run">RUN</button>
 		<div class="logs">
 			<div v-for="log in logs" :key="log.id" class="log" :class="{ print: log.print }">{{ log.text }}</div>
