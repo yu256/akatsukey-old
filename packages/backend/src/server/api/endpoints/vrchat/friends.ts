@@ -63,7 +63,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 
 			if ('error' in friends) throw new ApiError(meta.errors.invalidToken);
 
-			const trimmedFriends = friends.filter(friend => friend.location !== 'offline' && !(!ps.isShowAskMe && friend.status === 'ask me')).map(friend => {
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			const trimmedFriends = friends.filter(friend => friend.location !== 'offline' && (ps.isShowAskMe || friend.status !== 'ask me')).map(friend => {
 				const { id, status, location, currentAvatarThumbnailImageUrl } = friend;
 				return {
 					id,
