@@ -1,5 +1,5 @@
 <template>
-<MkContainer :showHeader="widgetProps.showHeader" data-cy-mkw-aiscript class="mkw-aiscript">
+<MkContainer :showHeader="widgetProps.showHeader" :style="`height: ${widgetProps.height}px;`" data-cy-mkw-aiscript class="mkw-aiscript">
 	<template #icon><i class="ti ti-terminal-2"></i></template>
 	<template #header>{{ i18n.ts._widgets.aiscript }}</template>
 
@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Interpreter, Parser, utils } from '@syuilo/aiscript';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
+import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import * as os from '@/os';
 import MkContainer from '@/components/MkContainer.vue';
@@ -30,6 +30,10 @@ const widgetPropsDef = {
 	showHeader: {
 		type: 'boolean' as const,
 		default: true,
+	},
+	height: {
+		type: 'number' as const,
+		default: 300,
 	},
 	script: {
 		type: 'string' as const,
