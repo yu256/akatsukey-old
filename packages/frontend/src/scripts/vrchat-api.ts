@@ -1,9 +1,10 @@
 import { defaultStore } from '@/store';
 import { api } from '@/os';
 
-export async function fetchFriends(): Promise<Friend[]> {
+export async function fetchFriends(isShowAskMe: boolean): Promise<Friend[]> {
 	return api('vrchat/friends', {
 		token: defaultStore.state.VRChatToken,
+		isShowAskMe,
 	});
 }
 

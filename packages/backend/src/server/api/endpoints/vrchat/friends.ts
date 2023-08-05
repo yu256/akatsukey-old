@@ -25,6 +25,7 @@ export const paramDef = {
 	type: 'object',
 	properties: {
 		token: { type: 'string', nullable: true },
+		isShowAskMe: { type: 'boolean' },
 	},
 	required: [],
 } as const;
@@ -62,7 +63,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 
 			if ('error' in friends) throw new ApiError(meta.errors.invalidToken);
 
-			const trimmedFriends = friends.filter(friend => friend.location !== 'offline').map(friend => {
+			const trimmedFriends = friends.filter(friend => friend.location !== 'offline' && !(!ps.isShowAskMe && friend.status === 'ask me')).map(friend => {
 				const { id, status, location, currentAvatarThumbnailImageUrl } = friend;
 				return {
 					id,

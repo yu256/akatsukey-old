@@ -11,7 +11,7 @@
 		<MkLoading v-else-if="fetching"/>
 		<div v-else-if="friends.length !== 0" class="users">
 			<span v-for="friend in friends" :key="friend.id" class="user">
-				<VRCAvatar v-if="!widgetProps.showAskMe || friend.status !== 'ask me'" class="avatar" :friend="friend"/>
+				<VRCAvatar class="avatar" :friend="friend"/>
 			</span>
 		</div>
 		<div v-else class="init">
@@ -65,7 +65,7 @@ async function fetch(): Promise<void> {
 		return;
 	}
 	try {
-		friends = await fetchFriends();
+		friends = await fetchFriends(widgetProps.showAskMe);
 	} catch (err) {
 		const error = err as { code?: string };
 		if ('code' in error) miAlert({

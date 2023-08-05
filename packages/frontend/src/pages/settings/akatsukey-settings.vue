@@ -15,7 +15,7 @@
 				バックグラウンドでもタイムラインを更新する
 				<template #caption>バックグラウンドで10秒経過したらページネーションのアイテム更新をしない機能を無効にします。</template>
 			</MkSwitch>
-			VRChat APIのトークンを設定
+			<div class="_margin">VRChat APIのトークンを設定</div>
 			<MkInput v-model="username" type="text" placeholder="ユーザーネームもしくはメールアドレス"/>
 			<MkInput v-model="password" type="password" placeholder="パスワード"/>
 			<MkButton @click="setToken">決定</MkButton>

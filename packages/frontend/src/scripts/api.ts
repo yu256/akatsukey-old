@@ -23,6 +23,7 @@ export type EndPoints = Endpoints & {
 	'vrchat/friends': {
 		req: {
 			token: string;
+			isShowAskMe: boolean;
 		};
 		res: Friend[];
 	};
