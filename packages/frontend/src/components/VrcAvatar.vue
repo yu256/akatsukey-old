@@ -26,8 +26,8 @@ const props = defineProps<{
 const style = computed(() =>
 	props.friend.location === 'private'
 		? 'private'
-		: props.friend.status.split(' ')[0],
-) as unknown as 'private' | 'active' | 'busy' | 'join' | 'ask';
+		: props.friend.status.split(' ')[0] as 'active' | 'busy' | 'join' | 'ask',
+);
 
 </script>
 
