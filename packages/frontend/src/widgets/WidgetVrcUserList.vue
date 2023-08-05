@@ -68,7 +68,7 @@ async function fetch(): Promise<void> {
 		friends = await fetchFriends();
 	} catch (err) {
 		const error = err as { code?: string };
-		if ('code' in error && error.code === 'INVALID_TOKEN') miAlert({
+		if ('code' in error) miAlert({
 			type: 'error',
 			text: 'VRChat APIのトークンが無効です。',
 		});
