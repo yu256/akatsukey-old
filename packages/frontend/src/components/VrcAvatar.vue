@@ -2,32 +2,38 @@
 <MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status" :class="[$style.indicator, $style[style]]"
+		v-tooltip="friend.status" :class="[$style.indicator, {
+			[$style.join]: friend.status === 'join me',
+			[$style.active]: friend.status === 'active',
+			[$style.ask]: friend.status === 'ask me',
+			[$style.busy]: friend.status === 'busy',
+			[$style.private]: friend.location === 'private',
+		}]"
 	/>
 </MkA>
 <span v-else class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status" :class="[$style.indicator, $style[friend.location === 'offline' ? 'offline' : style]]"
+		v-tooltip="friend.status" :class="[$style.indicator, {
+			[$style.join]: friend.status === 'join me',
+			[$style.active]: friend.status === 'active',
+			[$style.ask]: friend.status === 'ask me',
+			[$style.busy]: friend.status === 'busy',
+			[$style.private]: friend.location === 'private',
+			[$style.offline]: friend.location === 'offline',
+		}]"
 	/>
 </span>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
 import { defaultStore } from '@/store';
 import { Friend } from '@/scripts/vrchat-api';
 import { CustomPartial } from '@/types/custom-utilities';
 
-const props = defineProps<{
+defineProps<{
 	friend: CustomPartial<Friend, 'id'>;
 }>();
-
-const style = computed(() =>
-	props.friend.location === 'private'
-		? 'private'
-		: props.friend.status.split(' ')[0] as 'active' | 'busy' | 'join' | 'ask',
-);
 
 </script>
 
@@ -92,11 +98,11 @@ const style = computed(() =>
 }
 
 .private {
-	background: brown;
+	background: brown !important;
 }
 
 .offline {
-	background: black;
+	background: black !important;
 }
 
 </style>
