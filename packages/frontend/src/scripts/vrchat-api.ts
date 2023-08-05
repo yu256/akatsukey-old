@@ -7,13 +7,6 @@ export async function fetchFriends(): Promise<Friend[]> {
 	});
 }
 
-export async function fetchToken(user: string, password: string): Promise<string | undefined> {
-	return api('vrchat', {
-		user,
-		password,
-	});
-}
-
 export async function fetchInstance(id: string): Promise<Instance> {
 	return api('vrchat/instance', {
 		token: defaultStore.state.VRChatToken,
@@ -28,14 +21,14 @@ export async function fetchUser(user: string): Promise<User> {
 	});
 }
 
-export interface Friend {
+export type Friend = {
 	currentAvatarThumbnailImageUrl: string;
 	id: string;
 	location: string;
 	status: string;
 }
 
-export interface Instance {
+export type Instance = {
 	ownerId: string;
 	userCount: number;
 	name: string;
@@ -43,7 +36,7 @@ export interface Instance {
 	thumbnailImageUrl: string;
 }
 
-export interface User {
+export type User = {
 	bio: string;
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;

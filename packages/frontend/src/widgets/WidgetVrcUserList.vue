@@ -29,7 +29,7 @@ import { useInterval } from '@/scripts/use-interval';
 import { fetchFriends, Friend } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
-import { alert } from '@/os';
+import { alert as miAlert } from '@/os';
 import VRCAvatar from '@/components/VrcAvatar.vue';
 
 const name = 'vrcUserList';
@@ -68,7 +68,7 @@ async function fetch(): Promise<void> {
 		friends = await fetchFriends();
 	} catch (err) {
 		const error = err as { code?: string };
-		if ('code' in error && error.code === 'INVALID_TOKEN') alert({
+		if ('code' in error && error.code === 'INVALID_TOKEN') miAlert({
 			type: 'error',
 			text: 'VRChat APIのトークンが無効です。',
 		});
@@ -81,10 +81,12 @@ useInterval(fetch, 1000 * 60, {
 	afterMounted: true,
 });
 
+const widgetId = Props.widget?.id ?? null;
+
 defineExpose<WidgetComponentExpose>({
 	name,
 	configure,
-	id: Props.widget ? Props.widget.id : null,
+	id: widgetId,
 });
 </script>
 

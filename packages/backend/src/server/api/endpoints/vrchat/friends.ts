@@ -72,6 +72,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> {
 				};
 			});
 
+			trimmedFriends.sort((a, b) => new Intl.Collator('en').compare(a.id, b.id));
+
 			return trimmedFriends;
 		});
 	}

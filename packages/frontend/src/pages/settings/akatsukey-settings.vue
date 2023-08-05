@@ -34,15 +34,14 @@ import MkSwitch from '@/components/MkSwitch.vue';
 import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
-import { fetchToken } from '@/scripts/vrchat-api';
-import { api, alert } from '@/os';
+import { api, alert as miAlert } from '@/os';
 
 const username = shallowRef('');
 const password = shallowRef('');
 const twofactor = shallowRef('');
 
 const onAuthenticationError = (): void => {
-	alert({
+	miAlert({
 		type: 'error',
 		text: '認証に失敗しました。',
 	});
@@ -52,13 +51,18 @@ async function setToken(): Promise<void> {
 	if (!username.value || !password.value) return;
 
 	try {
-		const res = await fetchToken(username.value, password.value);
+		const res = await api('vrchat', {
+			user: username.value,
+			password: password.value,
+		});
+
 		if (!res) {
 			onAuthenticationError();
 			return;
 		}
+
 		defaultStore.set('VRChatToken', res);
-		alert({
+		miAlert({
 			type: 'info',
 			text: '二段階認証が必要です。',
 		});
@@ -74,12 +78,12 @@ async function do2fa(): Promise<void> {
 	});
 
 	if (verified) {
-		alert({
+		miAlert({
 			type: 'success',
 			text: '二段階認証が完了しました。',
 		});
 	} else {
-		alert({
+		miAlert({
 			type: 'error',
 			text: '二段階認証に失敗しました。',
 		});

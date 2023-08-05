@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { defaultStore } from '@/store';
 import { Friend } from '@/scripts/vrchat-api';
-import { CustomPartial } from '@/scripts/types';
+import { CustomPartial } from '@/types/custom-utilities';
 
 defineProps<{
 	friend: CustomPartial<Friend, 'id'>;
