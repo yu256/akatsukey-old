@@ -6,6 +6,7 @@
 	v-hotkey="keymap"
 	:class="[$style.root, { [$style.showActionsOnlyHover]: defaultStore.state.showNoteActionsOnlyHover }]"
 	:tabindex="!isDeleted ? '-1' : undefined"
+	@dblclick="deleteNote"
 >
 	<MkNoteSub v-if="appearNote.reply && !renoteCollapsed" :note="appearNote.reply" :class="$style.replyTo"/>
 	<div v-if="pinned" :class="$style.tip"><i class="ti ti-pin"></i> {{ i18n.ts.pinnedNote }}</div>
@@ -431,6 +432,19 @@ function menu(viaKeyboard = false): void {
 	os.popupMenu(getNoteMenu({ note: note, translating, translation, menuButton, isDeleted, currentClip: currentClip?.value }), menuButton.value, {
 		viaKeyboard,
 	}).then(focus);
+}
+
+function deleteNote(): void {
+	os.confirm({
+		type: 'warning',
+		text: i18n.ts.noteDeleteConfirm,
+	}).then(({ canceled }) => {
+		if (canceled) return;
+
+		os.api('notes/delete', {
+			noteId: appearNote.id,
+		});
+	});
 }
 
 async function clip() {
