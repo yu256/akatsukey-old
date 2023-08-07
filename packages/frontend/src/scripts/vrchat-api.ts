@@ -1,25 +1,78 @@
 import { defaultStore } from '@/store';
-import { api } from '@/os';
+import { alert as miAlert } from '@/os';
 
-export async function fetchFriends(isShowAskMe: boolean): Promise<Friend[]> {
-	return api('vrchat/friends', {
-		token: defaultStore.state.VRChatToken,
-		isShowAskMe,
-	});
+export type Error = {
+	Error: {
+		error: string;
+	}
 }
 
-export async function fetchInstance(id: string): Promise<Instance> {
-	return api('vrchat/instance', {
-		token: defaultStore.state.VRChatToken,
-		id,
-	});
+export async function fetchFriends(): Promise<Friend[] | undefined> {
+	type Success = {
+		Success: {
+			friends: Friend[];
+		}
+	};
+	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friends', {
+		method: 'POST',
+		body: defaultStore.state.VRChatAuth,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error.error,
+		});
+		return;
+	}
+
+	return res.Success.friends;
 }
 
-export async function fetchUser(user: string): Promise<User> {
-	return api('vrchat/user', {
-		token: defaultStore.state.VRChatToken,
-		user,
-	});
+export async function fetchInstance(id: string): Promise<Instance | undefined> {
+	type Success = {
+		Success: {
+			instance: Instance;
+		}
+	};
+
+	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'instance', {
+		method: 'POST',
+		body: defaultStore.state.VRChatAuth + ':' + id,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error.error,
+		});
+		return;
+	}
+
+	return res.Success.instance;
+}
+
+export async function fetchUser(user: string): Promise<User | undefined> {
+	type Success = {
+		Success: {
+			user: User;
+		}
+	};
+
+	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'user', {
+		method: 'POST',
+		body: defaultStore.state.VRChatAuth + ':' + user,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error.error,
+		});
+		return;
+	}
+
+	return res.Success.user;
 }
 
 export type Friend = {
@@ -44,6 +97,6 @@ export type User = {
 	displayName: string;
 	last_activity: string;
 	location: string;
-	status: string;
+	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription?: string;
 };

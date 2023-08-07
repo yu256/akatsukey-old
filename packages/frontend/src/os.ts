@@ -6,10 +6,11 @@ import insertTextAtCursor from 'insert-text-at-cursor';
 import { DriveFile } from 'misskey-js/built/entities';
 import * as Misskey from 'misskey-js';
 import { APIError } from 'misskey-js/built/api';
+import { Endpoints } from 'misskey-js';
 import copyToClipboard from './scripts/copy-to-clipboard';
 import { showMovedDialog } from './scripts/show-moved-dialog';
 import { i18n } from './i18n';
-import { pendingApiRequestsCount, api, apiGet, EndPoints } from '@/scripts/api';
+import { pendingApiRequestsCount, api, apiGet } from '@/scripts/api';
 export { pendingApiRequestsCount, api, apiGet };
 import MkPostFormDialog from '@/components/MkPostFormDialog.vue';
 import MkWaitingDialog from '@/components/MkWaitingDialog.vue';
@@ -23,7 +24,7 @@ import MkContextMenu from '@/components/MkContextMenu.vue';
 import { MenuItem } from '@/types/menu';
 
 export const apiWithDialog = ((
-	endpoint: keyof EndPoints,
+	endpoint: keyof Endpoints,
 	data: Record<string, any> = {},
 	token?: string | null | undefined,
 ) => {

@@ -5,7 +5,7 @@
 	<template #func="{ buttonStyleClass }"><button class="_button" :class="buttonStyleClass" @click="configure()"><i class="ti ti-settings"></i></button></template>
 
 	<div :class="$style.root">
-		<div v-if="!defaultStore.state.VRChatToken" class="init">
+		<div v-if="!defaultStore.state.VRChatAuth" class="init">
 			<MkA :to="'/settings/akatsukey-settings'">トークンを設定してください。</MkA>
 		</div>
 		<MkLoading v-else-if="fetching"/>
@@ -29,17 +29,12 @@ import { useInterval } from '@/scripts/use-interval';
 import { fetchFriends, Friend } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
-import { alert as miAlert } from '@/os';
 import VRCAvatar from '@/components/VrcAvatar.vue';
 
 const name = 'vrcUserList';
 
 const widgetPropsDef = {
 	showHeader: {
-		type: 'boolean' as const,
-		default: true,
-	},
-	showAskMe: {
 		type: 'boolean' as const,
 		default: true,
 	},
@@ -60,19 +55,19 @@ let friends = $ref(<Friend[]>[]);
 let fetching = $ref(true);
 
 async function fetch(): Promise<void> {
-	if (!defaultStore.state.VRChatToken) {
+	if (!defaultStore.state.VRChatAuth) {
 		fetching = false;
 		return;
 	}
-	try {
-		friends = await fetchFriends(widgetProps.showAskMe);
-	} catch (err) {
-		const error = err as { code?: string };
-		if ('code' in error) miAlert({
-			type: 'error',
-			text: 'VRChat APIのトークンが無効です。',
-		});
+
+	const res = await fetchFriends();
+
+	if (!res) {
+		fetching = false;
+		return;
 	}
+
+	friends = res;
 	fetching = false;
 }
 

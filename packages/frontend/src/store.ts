@@ -346,7 +346,11 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: true,
 	},
-	VRChatToken: {
+	VRChatAuth: {
+		where: 'device',
+		default: '',
+	},
+	VRChatURL: {
 		where: 'device',
 		default: '',
 	},

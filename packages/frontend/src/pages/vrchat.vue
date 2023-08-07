@@ -35,7 +35,7 @@
 import { ref } from 'vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { User, fetchInstance, fetchUser } from '@/scripts/vrchat-api';
+import { fetchInstance, fetchUser } from '@/scripts/vrchat-api';
 
 const props = defineProps<{
 	id: string;
@@ -43,19 +43,14 @@ const props = defineProps<{
 
 const fetching = ref(true);
 
-let user: User | undefined;
-
-try {
-	user = await fetchUser(props.id);
-} catch {
-	// なにもしない
-}
-
-fetching.value = false;
+// eslint-disable-next-line vue/no-setup-props-destructure
+const user = await fetchUser(props.id);
 
 const instance = user?.location.startsWith('wrld') && await fetchInstance(user.location);
 
 const owner = instance && instance.ownerId !== props.id && await fetchUser(instance.ownerId);
+
+fetching.value = false;
 
 definePageMetadata({
 	title: 'VRChat',
