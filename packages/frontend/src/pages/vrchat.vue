@@ -1,24 +1,28 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-<MkStickyContainer>
+<MkStickyContainer :class="$style.root">
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
-		<MkLoading v-if="fetching"/>
-		<div v-else-if="user" class="_gaps_m">
-			<VrcAvatar :friend="user" :class="$style.avatar"/>
-			<span :class="$style.main">{{ user.displayName }} {{ user.statusDescription }}</span>
-			<MkTime :time="user.last_activity"/>
-			<div :class="$style.detail">{{ user.bio }}</div>
-			<div v-for="bioLink in user.bioLinks" :key="bioLink" :class="$style.link">
-				<a :href="bioLink" target="_blank">・ {{ bioLink }}</a>
+		<div v-if="user" class="_gaps_m vrc" :class="$style.container">
+			<span style="display: flex">
+				<VrcAvatar :friend="user" :class="$style.avatar"/>
+				<span :class="$style.title">{{ user.displayName }} {{ user.statusDescription }}</span>
+			</span>
+			<MkTime v-if="user.last_activity" :time="user.last_activity"/>
+			<div :class="$style.content" class="_gaps_m">
+				<div :class="$style.detail">{{ user.bio }}</div>
+				<div v-for="bioLink in user.bioLinks" :key="bioLink">
+					<a :href="bioLink" target="_blank">・ {{ bioLink }}</a>
+				</div>
 			</div>
-			<div v-if="instance">
-				<span :class="$style.main">{{ instance.name }}</span> ({{ instance.userCount }})
-				<MkA :to="`/vrchat/${instance.ownerId}`">
-					{{ owner ? owner.displayName : instance.ownerId === props.id ?
-						user.displayName : 'unknown' }}
+			<div v-if="instance" class="_gaps_m">
+				<span style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</span>
+				<MkA v-if="instance.ownerId" :to="`/vrchat/${instance.ownerId}`">
+					{{ owner ? owner.displayName : user.displayName }}
 				</MkA>
-				<div :class="$style.detail">{{ instance.description }}</div>
-				<img :src="instance.thumbnailImageUrl" decoding="async" style="border-radius: 10%;"/>
+				<div :class="$style.content">
+					<div :class="$style.detail">{{ instance.description }}</div>
+					<img :class="$style.img" :src="instance.thumbnailImageUrl" decoding="async"/>
+				</div>
 			</div>
 			<div v-else>
 				{{ user.location }}
@@ -32,7 +36,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { fetchInstance, fetchUser } from '@/scripts/vrchat-api';
@@ -41,16 +44,12 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const fetching = ref(true);
-
 // eslint-disable-next-line vue/no-setup-props-destructure
 const user = await fetchUser(props.id);
 
 const instance = user?.location.startsWith('wrld') && await fetchInstance(user.location);
 
-const owner = instance && instance.ownerId !== props.id && await fetchUser(instance.ownerId);
-
-fetching.value = false;
+const owner = instance && instance.ownerId !== props.id && instance.ownerId && await fetchUser(instance.ownerId);
 
 definePageMetadata({
 	title: 'VRChat',
@@ -59,22 +58,36 @@ definePageMetadata({
 </script>
 
 <style lang="scss" module>
-.main {
-	font-size: 1.3em;
-	border-bottom: 2px dotted;
+.root a {
+	color: var(--link);
+}
+
+.container {
+	background: var(--navBg);
+	border-radius: 2em;
+	padding: 1em;
+}
+
+.title {
+	margin-left: .5em;
+	font-size: 2em;
 }
 
 .avatar {
-	width: 50px;
-	height: 50px;
-	margin: auto;
+	width: 40px;
+	height: 40px;
 }
 
-.link {
-	margin-left: 1em;
+.content {
+	background: var(--bg);
+	border-radius: 1.5em;
+	padding: 1em;
 }
 
-.detail {
-	margin: .5em;
+.img {
+	border-radius: 10%;
+	margin: 2em auto;
+	display: block;
+	height: 250px;
 }
 </style>

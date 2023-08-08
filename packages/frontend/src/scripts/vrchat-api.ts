@@ -13,6 +13,7 @@ export async function fetchFriends(): Promise<Friend[] | undefined> {
 			friends: Friend[];
 		}
 	};
+
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friends', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth,
@@ -83,7 +84,7 @@ export type Friend = {
 };
 
 export type Instance = {
-	ownerId: string;
+	ownerId?: string;
 	userCount: number;
 	name: string;
 	description: string;
@@ -95,7 +96,7 @@ export type User = {
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;
 	displayName: string;
-	last_activity: string;
+	last_activity?: string;
 	location: string;
 	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription?: string;
