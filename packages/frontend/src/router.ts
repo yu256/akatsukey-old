@@ -45,7 +45,7 @@ export const routes = [{
 	path: '/instance-info/:host',
 	component: page(() => import('./pages/instance-info.vue')),
 }, {
-	path: '/vrchat/:id',
+	path: '/vrchat/:id?',
 	name: 'vrchat',
 	component: page(() => import('./pages/vrchat.vue')),
 }, {
