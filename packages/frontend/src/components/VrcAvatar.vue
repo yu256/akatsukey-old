@@ -2,7 +2,9 @@
 <MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status" :class="[$style.indicator, {
+		v-if="friend.status"
+		v-tooltip="friend.status"
+		:class="[$style.indicator, {
 			[$style.join]: friend.status === 'join me',
 			[$style.active]: friend.status === 'active',
 			[$style.ask]: friend.status === 'ask me',
@@ -14,7 +16,8 @@
 <span v-else class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status" :class="[$style.indicator, {
+		v-tooltip="friend.status"
+		:class="[$style.indicator, {
 			[$style.join]: friend.status === 'join me',
 			[$style.active]: friend.status === 'active',
 			[$style.ask]: friend.status === 'ask me',
@@ -32,7 +35,7 @@ import { Friend } from '@/scripts/vrchat-api';
 import { CustomPartial } from '@/types/custom-utilities';
 
 defineProps<{
-	friend: CustomPartial<Friend, 'id'>;
+	friend: CustomPartial<Friend, 'id' | 'location' | 'status'>;
 }>();
 
 </script>

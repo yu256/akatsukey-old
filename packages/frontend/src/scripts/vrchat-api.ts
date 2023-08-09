@@ -76,6 +76,29 @@ export async function fetchUser(user: string): Promise<User | undefined> {
 	return res.Success.user;
 }
 
+export async function searchUser(query: string): Promise<HitUsers | undefined> {
+	type Success = {
+		Success: {
+			users: HitUsers;
+		}
+	};
+
+	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'search_user', {
+		method: 'POST',
+		body: defaultStore.state.VRChatAuth + ':' + query,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error.error,
+		});
+		return;
+	}
+
+	return res.Success.users;
+}
+
 export type Friend = {
 	currentAvatarThumbnailImageUrl: string;
 	id: string;
@@ -101,3 +124,8 @@ export type User = {
 	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription?: string;
 };
+
+export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription'> & {
+	isFriend: boolean;
+	id: string;
+}>;

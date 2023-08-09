@@ -1,13 +1,14 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 <div v-if="user" class="_gaps_m" :class="$style.container">
-	<span style="display: flex">
+	<span style="display:flex">
 		<VrcAvatar :friend="user" :class="$style.avatar"/>
 		<span :class="$style.title">{{ user.displayName }} {{ user.statusDescription }}</span>
 	</span>
-	<MkTime v-if="user.last_activity" :time="user.last_activity"/>
+	<span v-if="user.last_activity">
+		フレンド 最終ログイン: <MkTime :time="user.last_activity"/>
+	</span>
 	<div :class="$style.content" class="_gaps_m">
-		<div :class="$style.detail">{{ user.bio }}</div>
+		<div>{{ user.bio }}</div>
 		<div v-for="bioLink in user.bioLinks" :key="bioLink">
 			<a :href="bioLink" target="_blank">・ {{ bioLink }}</a>
 		</div>
@@ -17,8 +18,8 @@
 		<MkA v-if="instance.ownerId" :to="`/vrchat/${instance.ownerId}`">
 			{{ owner ? owner.displayName : user.displayName }}
 		</MkA>
-		<div :class="$style.content">
-			<div :class="$style.detail">{{ instance.description }}</div>
+		<div :class="[$style.content, $style.grid]">
+			<div>{{ instance.description }}</div>
 			<img :class="$style.img" :src="instance.thumbnailImageUrl" decoding="async"/>
 		</div>
 	</div>
@@ -43,9 +44,13 @@ const props = defineProps<{
 // eslint-disable-next-line vue/no-setup-props-destructure
 const user = await fetchUser(props.id);
 
-const instance = user?.location.startsWith('wrld') && await fetchInstance(user.location);
+const instance = user?.location.startsWith('wrld')
+	&& await fetchInstance(user.location);
 
-const owner = instance && instance.ownerId !== props.id && instance.ownerId && await fetchUser(instance.ownerId);
+const owner = instance
+	&& instance.ownerId !== props.id
+		&& instance.ownerId
+			&& await fetchUser(instance.ownerId);
 
 definePageMetadata({
 	title: 'VRChat',
@@ -54,6 +59,16 @@ definePageMetadata({
 </script>
 
 <style lang="scss" module>
+@container (min-width: 400px) {
+	.grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		.img {
+			margin: .5em;
+		}
+	}
+}
+
 .container {
 	background: var(--navBg);
 	border-radius: 2em;
@@ -81,8 +96,7 @@ definePageMetadata({
 
 .img {
 	border-radius: 10%;
-	margin: 2em auto;
-	display: block;
-	height: 250px;
+	width: 100%;
+	margin: 1em auto;
 }
 </style>
