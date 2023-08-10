@@ -99,6 +99,50 @@ export async function searchUser(query: string): Promise<HitUsers | undefined> {
 	return res.Success.users;
 }
 
+export async function friendRequest(id: string, isPost: boolean): Promise<boolean> {
+	type Success = {
+		Success: object; // 空
+	};
+
+	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friend_request', {
+		method: isPost ? 'POST' : 'DELETE',
+		body: defaultStore.state.VRChatAuth + ':' + id,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error.error,
+		});
+		return false;
+	}
+
+	return true;
+}
+
+export async function friendStatus(id: string): Promise<Status | undefined> {
+	type Success = {
+		Success: {
+			status: Status;
+		}
+	};
+
+	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friend_status', {
+		method: 'POST',
+		body: defaultStore.state.VRChatAuth + ':' + id,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error.error,
+		});
+		return;
+	}
+
+	return res.Success.status;
+}
+
 export type Friend = {
 	currentAvatarThumbnailImageUrl: string;
 	id: string;
@@ -123,9 +167,15 @@ export type User = {
 	location: string;
 	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription?: string;
+	rank: string;
 };
 
 export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription'> & {
 	isFriend: boolean;
 	id: string;
 }>;
+
+export type Status = {
+	outgoingRequest: boolean;
+	incomingRequest: boolean;
+};
