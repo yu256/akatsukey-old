@@ -2,9 +2,7 @@
 <MkInput v-model="query"/>
 <MkButton @click="search">決定</MkButton>
 <div v-if="users" class="_gaps_s">
-	<div v-for="user in users" :key="user.displayName">
-		<VrcUser :user="user"/>
-	</div>
+	<VrcUser v-for="user in users" :key="user.displayName" :user="user"/>
 </div>
 </template>
 

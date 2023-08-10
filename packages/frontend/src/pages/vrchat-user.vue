@@ -66,12 +66,7 @@ const fetching = ref(true);
 onMounted(async () => {
 	user.value = await fetchUser(props.id);
 
-	if (!user.value) {
-		fetching.value = false;
-		return;
-	}
-
-	if (!user.value.location.startsWith('wrld')) {
+	if (!(user.value?.location.startsWith('wrld'))) {
 		fetching.value = false;
 		return;
 	}
