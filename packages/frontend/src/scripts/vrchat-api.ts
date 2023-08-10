@@ -2,16 +2,12 @@ import { defaultStore } from '@/store';
 import { alert as miAlert } from '@/os';
 
 export type Error = {
-	Error: {
-		error: string;
-	}
+	Error: string;
 }
 
 export async function fetchFriends(): Promise<Friend[] | undefined> {
 	type Success = {
-		Success: {
-			friends: Friend[];
-		}
+		Success: Friend[];
 	};
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friends', {
@@ -22,19 +18,17 @@ export async function fetchFriends(): Promise<Friend[] | undefined> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	return res.Success.friends;
+	return res.Success;
 }
 
 export async function fetchInstance(id: string): Promise<Instance | undefined> {
 	type Success = {
-		Success: {
-			instance: Instance;
-		}
+		Success: Instance;
 	};
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'instance', {
@@ -45,19 +39,17 @@ export async function fetchInstance(id: string): Promise<Instance | undefined> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	return res.Success.instance;
+	return res.Success;
 }
 
 export async function fetchUser(user: string): Promise<User | undefined> {
 	type Success = {
-		Success: {
-			user: User;
-		}
+		Success: User;
 	};
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'user', {
@@ -68,19 +60,17 @@ export async function fetchUser(user: string): Promise<User | undefined> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	return res.Success.user;
+	return res.Success;
 }
 
 export async function searchUser(query: string): Promise<HitUsers | undefined> {
 	type Success = {
-		Success: {
-			users: HitUsers;
-		}
+		Success: HitUsers;
 	};
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'search_user', {
@@ -91,17 +81,17 @@ export async function searchUser(query: string): Promise<HitUsers | undefined> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	return res.Success.users;
+	return res.Success;
 }
 
 export async function friendRequest(id: string, isPost: boolean): Promise<boolean> {
 	type Success = {
-		Success: object; // 空
+		Success: unknown; // 空
 	};
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friend_request', {
@@ -112,7 +102,7 @@ export async function friendRequest(id: string, isPost: boolean): Promise<boolea
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return false;
 	}
@@ -122,9 +112,7 @@ export async function friendRequest(id: string, isPost: boolean): Promise<boolea
 
 export async function friendStatus(id: string): Promise<Status | undefined> {
 	type Success = {
-		Success: {
-			status: Status;
-		}
+		Success: Status;
 	};
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friend_status', {
@@ -135,12 +123,12 @@ export async function friendStatus(id: string): Promise<Status | undefined> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	return res.Success.status;
+	return res.Success;
 }
 
 export type Friend = {

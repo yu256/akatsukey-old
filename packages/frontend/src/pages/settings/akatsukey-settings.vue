@@ -59,9 +59,7 @@ async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
 
 	type Success = {
-		Success: {
-			token: string;
-		}
+		Success: string;
 	}
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'auth', {
@@ -72,12 +70,12 @@ async function auth(): Promise<void> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	token.value = res.Success.token;
+	token.value = res.Success;
 
 	miAlert({
 		type: 'info',
@@ -90,9 +88,7 @@ async function do2fa(): Promise<void> {
 	const authUUID = defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth;
 
 	type Success = {
-		Success: {
-			auth: string;
-		}
+		Success: string;
 	}
 
 	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'twofactor_email', {
@@ -103,12 +99,12 @@ async function do2fa(): Promise<void> {
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.error,
+			text: res.Error,
 		});
 		return;
 	}
 
-	defaultStore.set('VRChatAuth', res.Success.auth);
+	defaultStore.set('VRChatAuth', res.Success);
 
 	miAlert({
 		type: 'success',
