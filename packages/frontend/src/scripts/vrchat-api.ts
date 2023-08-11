@@ -1,7 +1,7 @@
 import { defaultStore } from '@/store';
 import { alert as miAlert } from '@/os';
 
-export type Error = {
+export type Err = {
 	Error: string;
 }
 
@@ -10,7 +10,7 @@ export async function fetchFriends(): Promise<Friend[] | undefined> {
 		Success: Friend[];
 	};
 
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friends', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'friends', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth,
 	}).then(response => response.json());
@@ -31,7 +31,7 @@ export async function fetchInstance(id: string): Promise<Instance | undefined> {
 		Success: Instance;
 	};
 
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'instance', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'instance', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth + ':' + id,
 	}).then(response => response.json());
@@ -52,7 +52,7 @@ export async function fetchUser(user: string): Promise<User | undefined> {
 		Success: User;
 	};
 
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'user', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'user', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth + ':' + user,
 	}).then(response => response.json());
@@ -73,7 +73,7 @@ export async function searchUser(query: string): Promise<HitUsers | undefined> {
 		Success: HitUsers;
 	};
 
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'search_user', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'search_user', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth + ':' + query,
 	}).then(response => response.json());
@@ -94,7 +94,7 @@ export async function friendRequest(id: string, isPost: boolean): Promise<boolea
 		Success: unknown; // 空
 	};
 
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friend_request', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'friend_request', {
 		method: isPost ? 'POST' : 'DELETE',
 		body: defaultStore.state.VRChatAuth + ':' + id,
 	}).then(response => response.json());
@@ -115,7 +115,7 @@ export async function friendStatus(id: string): Promise<Status | undefined> {
 		Success: Status;
 	};
 
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'friend_status', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'friend_status', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth + ':' + id,
 	}).then(response => response.json());

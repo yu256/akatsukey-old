@@ -48,21 +48,21 @@ import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import { alert as miAlert } from '@/os';
-import { Error } from '@/scripts/vrchat-api';
+import { Err } from '@/scripts/vrchat-api';
 
 const username = shallowRef('');
 const password = shallowRef('');
 const token = shallowRef('');
 const twofactor = shallowRef('');
 
+type Success = {
+	Success: string;
+}
+
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
 
-	type Success = {
-		Success: string;
-	}
-
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'auth', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'auth', {
 		method: 'POST',
 		body: `${username.value}:${password.value}`,
 	}).then(response => response.json());
@@ -87,11 +87,7 @@ async function do2fa(): Promise<void> {
 	if (!twofactor.value) return;
 	const authUUID = defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth;
 
-	type Success = {
-		Success: string;
-	}
-
-	const res: Success | Error = await fetch(defaultStore.state.VRChatURL + 'twofactor_email', {
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'twofactor_email', {
 		method: 'POST',
 		body: `auth=${token.value}:${twofactor.value}${authUUID}`,
 	}).then(response => response.json());
