@@ -108,15 +108,15 @@ async function do2fa(): Promise<void> {
 	});
 }
 
-async function toggleAskMe(bool: string): Promise<void> {
-	const res: string = await fetch(defaultStore.state.VRChatURL + 'askme', {
+function toggleAskMe(bool: string): void {
+	fetch(defaultStore.state.VRChatURL + 'askme', {
 		method: 'POST',
 		body: defaultStore.state.VRChatAuth + ':' + bool,
-	}).then(response => response.text());
-
-	miAlert({
-		type: res.endsWith('。') ? 'success' : 'error',
-		text: res,
+	}).then(async res => {
+		miAlert({
+			type: res.ok ? 'success' : 'error',
+			text: await res.text(),
+		});
 	});
 }
 
