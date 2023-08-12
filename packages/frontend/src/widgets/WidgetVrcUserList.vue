@@ -6,10 +6,10 @@
 
 	<div :class="$style.root">
 		<div v-if="!defaultStore.state.VRChatAuth" class="init">
-			<MkA :to="'/settings/akatsukey-settings'">トークンを設定してください。</MkA>
+			<MkA to="/settings/akatsukey-settings">トークンを設定してください。</MkA>
 		</div>
 		<MkLoading v-else-if="fetching"/>
-		<div v-else-if="friends.length !== 0" class="users">
+		<div v-else-if="friends.length" class="users">
 			<span v-for="friend in friends" :key="friend.id" class="user">
 				<VRCAvatar class="avatar" :friend="friend"/>
 			</span>
@@ -51,7 +51,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-let friends = $ref(<Friend[]>[]);
+let friends = $ref<Friend[]>([]);
 let fetching = $ref(true);
 
 async function fetch(): Promise<void> {

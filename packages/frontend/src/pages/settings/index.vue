@@ -129,8 +129,13 @@ const menuDef = computed(() => [{
 	}, {
 		icon: 'ti ti-git-fork',
 		text: 'akatsukey',
-		to: '/settings/akatsukey-settings',
-		active: currentPage?.route.name === 'akatsukey-settings',
+		to: '/settings/akatsukey',
+		active: currentPage?.route.name === 'akatsukey',
+	}, {
+		icon: 'ti ti-badge-vr',
+		text: 'VRChat',
+		to: '/settings/vrchat',
+		active: currentPage?.route.name === 'VRChat',
 	}],
 }, {
 	title: i18n.ts.otherSettings,
