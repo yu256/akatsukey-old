@@ -15,6 +15,10 @@
 				バックグラウンドでもタイムラインを更新する
 				<template #caption>バックグラウンドで10秒経過したらページネーションのアイテム更新をしない機能を無効にします。</template>
 			</MkSwitch>
+			<MkSwitch v-model="useDblClickDelete">
+				ダブルクリックでノートを削除する
+				<template #caption>ノートの上でダブルクリックすると削除モーダルが出現するようになります。</template>
+			</MkSwitch>
 		</div>
 	</FormSection>
 </div>
@@ -30,5 +34,6 @@ import FormSection from '@/components/form/section.vue';
 const useNumberquote = computed<boolean>(defaultStore.makeGetterSetter('useNumberquote'));
 const disableAutostop = computed<boolean>(defaultStore.makeGetterSetter('disableAutostop'));
 const useOriginalInstanceTicker = computed<boolean>(defaultStore.makeGetterSetter('useOriginalInstanceTicker'));
+const useDblClickDelete = computed<boolean>(defaultStore.makeGetterSetter('useDblClickDelete'));
 
 </script>

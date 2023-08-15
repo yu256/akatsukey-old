@@ -126,7 +126,6 @@ export class AntennaService implements OnApplicationShutdown {
 				},
 				take: 1,
 			}).then(n => n > 0);
-			console.log(isFollowing, antenna.userId, note.userId);
 			if (!isFollowing && antenna.userId !== note.userId) return false;
 		}
 

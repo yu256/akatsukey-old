@@ -346,6 +346,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: true,
 	},
+	useDblClickDelete: {
+		where: 'device',
+		default: false,
+	},
 	VRChatAuth: {
 		where: 'device',
 		default: '',
