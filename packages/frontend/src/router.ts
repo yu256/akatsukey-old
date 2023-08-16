@@ -49,6 +49,10 @@ export const routes = [{
 	name: 'vrchat',
 	component: page(() => import('./pages/vrchat.vue')),
 }, {
+	path: '/world/:id',
+	name: 'vrcWorld',
+	component: page(() => import('./pages/vrchat-world.vue')),
+}, {
 	name: 'settings',
 	path: '/settings',
 	component: page(() => import('./pages/settings/index.vue')),

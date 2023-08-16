@@ -131,6 +131,27 @@ export async function friendStatus(id: string): Promise<Status | undefined> {
 	return res.Success;
 }
 
+export async function fetchWorld(id: string): Promise<World | undefined> {
+	type Success = {
+		Success: World;
+	};
+
+	const res: Success | Err = await fetch(defaultStore.state.VRChatURL + 'world', {
+		method: 'POST',
+		body: defaultStore.state.VRChatAuth + ':' + id,
+	}).then(response => response.json());
+
+	if ('Error' in res) {
+		miAlert({
+			type: 'error',
+			text: res.Error,
+		});
+		return;
+	}
+
+	return res.Success;
+}
+
 export type Friend = {
 	currentAvatarThumbnailImageUrl: string;
 	id: string;
@@ -167,3 +188,31 @@ export type Status = {
 	outgoingRequest: boolean;
 	incomingRequest: boolean;
 };
+
+export type World = {
+    authorId: string;
+    // authorName: string;
+    capacity: number;
+    created_at: string;
+    description: string;
+    favorites: number;
+	featured: boolean;
+	heat: number;
+	// id: string;
+	imageUrl: string;
+	labsPublicationDate: string;
+	name: string;
+	namespace: string;
+	// occupants: number;
+	organization: string;
+	popularity: number;
+	privateOccupants: number;
+	publicOccupants: number;
+	publicationDate: string;
+	// releaseStatus: string;
+	tags: string[];
+	thumbnailImageUrl: string;
+	updated_at: string;
+	// version: number;
+	visits: number;
+}
