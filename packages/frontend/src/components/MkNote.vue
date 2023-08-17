@@ -6,7 +6,7 @@
 	v-hotkey="keymap"
 	:class="[$style.root, { [$style.showActionsOnlyHover]: defaultStore.state.showNoteActionsOnlyHover }]"
 	:tabindex="!isDeleted ? '-1' : undefined"
-	@dblclick="defaultStore.state.useDblClickDelete && deleteNote"
+	@dblclick="deleteNote"
 >
 	<MkNoteSub v-if="appearNote.reply && !renoteCollapsed" :note="appearNote.reply" :class="$style.replyTo"/>
 	<div v-if="pinned" :class="$style.tip"><i class="ti ti-pin"></i> {{ i18n.ts.pinnedNote }}</div>
@@ -435,6 +435,8 @@ function menu(viaKeyboard = false): void {
 }
 
 function deleteNote(): void {
+	if (!defaultStore.state.useDblClickDelete) return;
+
 	os.confirm({
 		type: 'warning',
 		text: i18n.ts.noteDeleteConfirm,
