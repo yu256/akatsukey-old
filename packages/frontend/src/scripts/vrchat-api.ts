@@ -3,7 +3,18 @@ import { alert as miAlert } from '@/os';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
-export async function fetchData<T>(url: string, body: string, method = 'POST'): Promise<T | undefined> {
+type Method =
+	| 'GET'
+	| 'HEAD'
+	| 'POST'
+	| 'PUT'
+	| 'DELETE'
+	| 'CONNECT'
+	| 'OPTIONS'
+	| 'TRACE'
+	| 'PATCH';
+
+export async function fetchData<T>(url: string, body: string, method: Method = 'POST'): Promise<T | undefined> {
 	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
 		method,
 		body,
@@ -20,7 +31,7 @@ export async function fetchData<T>(url: string, body: string, method = 'POST'): 
 	return res.Success;
 }
 
-export async function fetchDataReqAuth<T>(url: string, body = '', method?: string): Promise<T | undefined> {
+export async function fetchDataReqAuth<T>(url: string, body = '', method?: Method): Promise<T | undefined> {
 	// eslint-disable-next-line no-param-reassign
 	body &&= ':' + body;
 	return fetchData<T>(url, defaultStore.state.VRChatAuth + body, method);
