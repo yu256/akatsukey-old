@@ -20,7 +20,7 @@
 			</div>
 			<div :class="[$style.content, $style.instance]">
 				<div class="_gaps_s">
-					<div :class="[$style.container, $style.grid]">
+					<div v-if="world.tags.length" :class="[$style.container, $style.grid]">
 						<div v-for="tag in world.tags" :key="tag" :class="$style.tag">{{ tag }}</div>
 					</div>
 					{{ world.description }}
