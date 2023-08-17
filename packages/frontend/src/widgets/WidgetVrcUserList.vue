@@ -6,7 +6,7 @@
 
 	<div :class="$style.root">
 		<div v-if="!defaultStore.state.VRChatAuth" class="init">
-			<MkA to="/settings/akatsukey-settings">トークンを設定してください。</MkA>
+			<MkA to="/settings/vrchat">トークンを設定してください。</MkA>
 		</div>
 		<MkLoading v-else-if="fetching"/>
 		<div v-else-if="friends.length" class="users">
