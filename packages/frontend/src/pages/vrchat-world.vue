@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 import VrchatUser from './vrchat-user.user.vue';
-import { User, World, fetchUser, fetchWorld } from '@/scripts/vrchat-api';
+import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
 import { ArrayElementType } from '@/types/custom-utilities';
@@ -60,12 +60,13 @@ const options = [
 ] as const;
 
 const selectedOptionLabel = computed(() =>
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	options.find(opt => opt.value === selectedOption.value)!.label,
 );
 
 onMounted(async () => {
-	world.value = await fetchWorld(props.id);
-	author.value = world.value && await fetchUser(world.value.authorId);
+	world.value = await fetchDataWithAuth('world', props.id);
+	author.value = world.value && await fetchDataWithAuth('user', world.value.authorId);
 	fetching.value = false;
 });
 

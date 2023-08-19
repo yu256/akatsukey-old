@@ -14,11 +14,42 @@ type Method =
 	| 'TRACE'
 	| 'PATCH';
 
+type VrcEndPoints = {
+	'friends': {
+		req: undefined;
+		res: Friend[];
+	};
+	'instance': {
+		req: string;
+		res: Instance;
+	};
+	'user': {
+		req: string;
+		res: User;
+	};
+	'search_user': {
+		req: string;
+		res: HitUsers;
+	};
+	'friend_request': {
+		req: string;
+		res: boolean;
+	};
+	'friend_status': {
+		req: string;
+		res: Status;
+	};
+	'world': {
+		req: string;
+		res: World;
+	};
+}
+
 export async function fetchData<T>(url: string, body: string, method: Method = 'POST'): Promise<T | undefined> {
 	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
 		method,
 		body,
-	}).then(response => response.json());
+	}).then(r => r.json());
 
 	if ('Error' in res) {
 		miAlert({
@@ -31,39 +62,8 @@ export async function fetchData<T>(url: string, body: string, method: Method = '
 	return res.Success;
 }
 
-export async function fetchDataReqAuth<T>(url: string, body = '', method?: Method): Promise<T | undefined> {
-	// eslint-disable-next-line no-param-reassign
-	body &&= ':' + body;
-	return fetchData<T>(url, defaultStore.state.VRChatAuth + body, method);
-}
-
-export async function fetchFriends(): Promise<Friend[] | undefined> {
-	return fetchDataReqAuth<Friend[]>('friends');
-}
-
-export async function fetchInstance(id: string): Promise<Instance | undefined> {
-	return fetchDataReqAuth<Instance>('instance', id);
-}
-
-export async function fetchUser(user: string): Promise<User | undefined> {
-	return fetchDataReqAuth<User>('user', user);
-}
-
-export async function searchUser(query: string): Promise<HitUsers | undefined> {
-	return fetchDataReqAuth<HitUsers>('search_user', query);
-}
-
-export async function friendRequest(id: string, isPost: boolean): Promise<boolean> {
-	const res = await fetchDataReqAuth<boolean>('friend_request', id, isPost ? 'POST' : 'DELETE');
-	return !!res;
-}
-
-export async function friendStatus(id: string): Promise<Status | undefined> {
-	return fetchDataReqAuth<Status>('friend_status', id);
-}
-
-export async function fetchWorld(id: string): Promise<World | undefined> {
-	return fetchDataReqAuth<World>('world', id);
+export async function fetchDataWithAuth<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method?: Method): Promise<T | undefined> {
+	return fetchData<T>(url, defaultStore.state.VRChatAuth + ':' + body, method);
 }
 
 export type Friend = {

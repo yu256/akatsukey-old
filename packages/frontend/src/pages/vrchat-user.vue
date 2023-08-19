@@ -31,7 +31,7 @@ import { onMounted, ref } from 'vue';
 import VrchatUser from './vrchat-user.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { Instance, User, fetchInstance, fetchUser } from '@/scripts/vrchat-api';
+import { Instance, User, fetchDataWithAuth } from '@/scripts/vrchat-api';
 
 const props = defineProps<{
 	id: string;
@@ -44,21 +44,21 @@ const owner = ref<User>();
 const fetching = ref(true);
 
 onMounted(async () => {
-	user.value = await fetchUser(props.id);
+	user.value = await fetchDataWithAuth('user', props.id);
 
 	if (!(user.value?.location.startsWith('wrld'))) {
 		fetching.value = false;
 		return;
 	}
 
-	instance.value = await fetchInstance(user.value.location);
+	instance.value = await fetchDataWithAuth('instance', user.value.location);
 
 	if (!instance.value || instance.value.ownerId === props.id || !instance.value.ownerId) {
 		fetching.value = false;
 		return;
 	}
 
-	owner.value = await fetchUser(instance.value.ownerId);
+	owner.value = await fetchDataWithAuth('user', instance.value.ownerId);
 	fetching.value = false;
 });
 
