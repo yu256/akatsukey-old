@@ -2,9 +2,10 @@
 <span style="display:flex">
 	<VrcAvatar :friend="user" :class="$style.avatar"/>
 	<span v-if="user.statusDescription" :class="$style.title" style="font-size:1.5em">
-		{{ user.displayName }}<span class="description">{{ user.statusDescription }}</span>
+		<a :href="`https://vrchat.com/home/user/${id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
+		<span class="description">{{ user.statusDescription }}</span>
 	</span>
-	<span v-else :class="$style.title">{{ user.displayName }}</span>
+	<a v-else :class="$style.title" :href="`https://vrchat.com/home/user/${id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
 </span>
 <span v-if="user.last_activity">
 	フレンド ({{ user.rank }}) 最終ログイン: <MkTime :time="user.last_activity"/>
@@ -38,7 +39,7 @@ defineProps<{
 	margin-left: .5em;
 	font-size: 2em;
 	position: relative;
-	:global(.description) {
+	&:global(.description) {
 		font-size: .5em;
 		position: absolute;
 		top: 70%;

@@ -3,7 +3,7 @@
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32" :class="$style.container">
 		<MkLoading v-if="fetching"/>
 		<div v-else-if="world" class="_gaps_m">
-			<div :class="$style.title" style="background:var(--bg);border-radius:1em;padding:.4em">{{ world.name }}</div>
+			<a :class="$style.title" class="world" :href="`https://vrchat.com/home/world/${id}`" target="_blank" rel="noopener">{{ world.name }}</a>
 			<MkSelect v-model="selectedOption" :onUpdate:modelValue="() => timeKey++">
 				<option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
 			</MkSelect>
@@ -27,7 +27,7 @@
 				</div>
 				<img :class="$style.img" :src="world.imageUrl/*world.thumbnailImageUrl*/" decoding="async"/>
 			</div>
-			<VrchatUser v-if="author" :id="id" class="_gaps_m" :user="author"/>
+			<VrchatUser v-if="author" :id="world.authorId" class="_gaps_m" :user="author"/>
 		</div>
 	</MkSpacer>
 </MkStickyContainer>
@@ -100,11 +100,16 @@ definePageMetadata({
 	margin-left: .5em;
 	font-size: 2em;
 	position: relative;
-	:global(.description) {
+	&:global(.description) {
 		font-size: .5em;
 		position: absolute;
 		top: 70%;
 		left: 0; 
+	}
+	&:global(.world) {
+		background: var(--bg);
+		border-radius: 1em;
+		padding: .4em
 	}
 }
 
