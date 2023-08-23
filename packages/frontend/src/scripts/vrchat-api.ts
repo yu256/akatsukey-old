@@ -15,10 +15,6 @@ type Method =
 	| 'PATCH';
 
 type VrcEndPoints = {
-	'friends': {
-		req: undefined;
-		res: Friend[];
-	};
 	'instance': {
 		req: string;
 		res: Instance;
@@ -42,6 +38,14 @@ type VrcEndPoints = {
 	'world': {
 		req: string;
 		res: World;
+	};
+	'group': {
+		req: string;
+		res: Group;
+	};
+	'favorites': {
+		req: string;
+		res: boolean;
 	};
 }
 
@@ -129,4 +133,60 @@ export type World = {
 	updated_at: string;
 	// version: number;
 	visits: number;
+}
+
+type Gallery = {
+    id: string;
+    name: string;
+    description: string;
+    membersOnly: boolean;
+    roleIdsToView: string[];
+    roleIdsToSubmit: string[];
+    roleIdsToAutoApprove: string[];
+    roleIdsToManage: string[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+type Member = {
+    id: string;
+    groupId: string;
+    userId: string;
+    roleIds: string[];
+    managerNotes: string | null;
+    membershipStatus: string;
+    isSubscribedToAnnouncements: boolean;
+    visibility: string;
+    isRepresenting: boolean;
+    joinedAt: string;
+    bannedAt: string | null;
+    has2FA: boolean;
+    permissions: string[];
+}
+
+export type Group = {
+    id: string;
+    name: string;
+    shortCode: string;
+    discriminator: string;
+    description: string;
+    iconUrl: string;
+    bannerUrl: string;
+    privacy: string;
+    ownerId: string;
+    rules: string;
+    links: string[];
+    languages: string[];
+    iconId: string;
+    bannerId: string;
+    memberCount: number;
+    memberCountSyncedAt: string;
+    isVerified: boolean;
+    joinState: string;
+    tags: string[];
+    galleries: Gallery[];
+    createdAt: string;
+    onlineMemberCount: number;
+    membershipStatus: string;
+    myMember: Member;
 }

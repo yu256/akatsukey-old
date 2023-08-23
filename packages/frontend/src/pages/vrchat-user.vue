@@ -8,8 +8,11 @@
 			<div v-if="owner">
 				<VrcAvatar :friend="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
 			</div>
-			<div v-else>
+			<div v-else-if="instance.ownerId.startsWith('usr')">
 				<VrcAvatar :friend="user" :class="$style.avatar_host"/>{{ user.displayName }}
+			</div>
+			<div v-else>
+				<VrcGroup :id="instance.ownerId"/>
 			</div>
 		</MkA>
 		<div :class="[$style.content, $style.instance]">
@@ -28,8 +31,9 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import VrchatUser from './vrchat-user.user.vue';
+import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
+import VrcGroup from '@/components/VrcGroup.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { Instance, User, fetchDataWithAuth } from '@/scripts/vrchat-api';
 
@@ -53,7 +57,7 @@ onMounted(async () => {
 
 	instance.value = await fetchDataWithAuth('instance', user.value.location);
 
-	if (!instance.value || instance.value.ownerId === props.id || !instance.value.ownerId) {
+	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
 		fetching.value = false;
 		return;
 	}

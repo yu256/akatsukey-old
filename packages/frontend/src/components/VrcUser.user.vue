@@ -39,7 +39,7 @@ defineProps<{
 	margin-left: .5em;
 	font-size: 2em;
 	position: relative;
-	&:global(.description) {
+	:global(.description) {
 		font-size: .5em;
 		position: absolute;
 		top: 70%;

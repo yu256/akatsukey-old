@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-import VrchatUser from './vrchat-user.user.vue';
+import VrchatUser from '@/components/VrcUser.user.vue';
 import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
@@ -100,12 +100,6 @@ definePageMetadata({
 	margin-left: .5em;
 	font-size: 2em;
 	position: relative;
-	&:global(.description) {
-		font-size: .5em;
-		position: absolute;
-		top: 70%;
-		left: 0; 
-	}
 	&:global(.world) {
 		background: var(--bg);
 		border-radius: 1em;
