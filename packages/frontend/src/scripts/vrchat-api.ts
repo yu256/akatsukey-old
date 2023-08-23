@@ -29,7 +29,7 @@ type VrcEndPoints = {
 	};
 	'friend_request': {
 		req: string;
-		res: boolean;
+		res: true;
 	};
 	'friend_status': {
 		req: string;
@@ -45,7 +45,7 @@ type VrcEndPoints = {
 	};
 	'favorites': {
 		req: string;
-		res: boolean;
+		res: true;
 	};
 }
 

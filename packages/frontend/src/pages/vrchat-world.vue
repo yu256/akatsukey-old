@@ -8,8 +8,8 @@
 				<option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
 			</MkSelect>
 			<div>{{ selectedOptionLabel }}: <MkTime :key="timeKey" :time="world[selectedOption]" mode="absolute"/></div>
-			<div>
-				favorites: {{ world.favorites }}💜<br>
+			<div class="_gaps_s">
+				<MkButton @click="favorite">💜{{ world.favorites }}</MkButton>
 				<div v-if="world.featured">featured</div>
 				heat: {{ world.heat }}, popularity: {{ world.popularity }}<br>
 				<div v-if="world.namespace">namespace: {{ world.namespace }}</div>
@@ -39,7 +39,9 @@ import VrchatUser from '@/components/VrcUser.user.vue';
 import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
+import MkButton from '@/components/MkButton.vue';
 import { ArrayElementType } from '@/types/custom-utilities';
+import { toast } from '@/os';
 
 const props = defineProps<{
 	id: string;
@@ -63,6 +65,11 @@ const selectedOptionLabel = computed(() =>
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	options.find(opt => opt.value === selectedOption.value)!.label,
 );
+
+function favorite(): void {
+	fetchDataWithAuth('favorites', `world:${props.id}:worlds1`) // todo 別コンポーネントに分離してタグを選べるようにする
+		.then(ok => ok && toast('✅'));
+}
 
 onMounted(async () => {
 	world.value = await fetchDataWithAuth('world', props.id);
