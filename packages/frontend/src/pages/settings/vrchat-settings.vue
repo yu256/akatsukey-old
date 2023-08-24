@@ -63,7 +63,7 @@ async function do2fa(): Promise<void> {
 	if (!twofactor.value) return;
 	const authUUID = defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth;
 
-	const res = await fetchData<string>('twofactor_email', `auth=${token.value}:${twofactor.value}${authUUID}`);
+	const res = await fetchData<string>('twofactor', `${token.value}:${twofactor.value}${authUUID}`);
 	if (!res) return;
 	defaultStore.set('VRChatAuth', res);
 

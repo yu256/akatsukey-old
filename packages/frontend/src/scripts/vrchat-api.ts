@@ -70,11 +70,8 @@ export async function fetchDataWithAuth<E extends keyof VrcEndPoints, T extends 
 	return fetchData<T>(url, defaultStore.state.VRChatAuth + ':' + body, method);
 }
 
-export type Friend = {
-	currentAvatarThumbnailImageUrl: string;
+export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
 	id: string;
-	location: string;
-	status: 'join me' | 'active' | 'ask me' | 'busy';
 };
 
 export type Instance = {
