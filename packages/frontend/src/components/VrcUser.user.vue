@@ -7,8 +7,8 @@
 	</span>
 	<a v-else :class="$style.title" :href="`https://vrchat.com/home/user/${id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
 </span>
-<span v-if="user.last_activity">
-	フレンド ({{ user.rank }}) 最終ログイン: <MkTime :time="user.last_activity"/>
+<span v-if="user.isFriend">
+	フレンド ({{ user.rank }})
 </span>
 <span v-else style="position:relative">
 	{{ user.rank }}<VrcFollowButton :id="id" :class="$style.follow" @success="is => toast(`フレンド申請を${is ? '送信' : '解除'}しました。`)"/>

@@ -87,15 +87,14 @@ export type User = {
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;
 	displayName: string;
-	last_activity?: string;
+	isFriend: boolean;
 	location: string;
 	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription?: string;
 	rank: string;
 };
 
-export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription'> & {
-	isFriend: boolean;
+export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription' | 'isFriend'> & {
 	id: string;
 }>;
 
