@@ -4,17 +4,15 @@
 	<VrchatUser :id="id" :user="user"/>
 	<div v-if="instance" class="_gaps_m">
 		<MkA :to="`/world/${user.location.split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
-		<MkA v-if="instance.ownerId" :to="`/vrchat/${instance.ownerId}`">
+		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
 			<div v-if="owner">
 				<VrcAvatar :friend="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
 			</div>
-			<div v-else-if="instance.ownerId.startsWith('usr')">
+			<div v-else>
 				<VrcAvatar :friend="user" :class="$style.avatar_host"/>{{ user.displayName }}
 			</div>
-			<div v-else>
-				<VrcGroup :id="instance.ownerId"/>
-			</div>
 		</MkA>
+		<VrcGroup v-else-if="instance.ownerId" :id="instance.ownerId"/>
 		<div :class="[$style.content, $style.instance]">
 			<div>{{ instance.description }}</div>
 			<img :class="$style.img" :src="instance.thumbnailImageUrl" decoding="async"/>

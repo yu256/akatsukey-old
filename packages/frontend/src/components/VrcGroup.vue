@@ -3,8 +3,8 @@
 <template v-else-if="group">
 	<div :class="[$style.container, $style.content]">
 		<div>
-			<img :src="group.bannerUrl" decoding="async"/>
-			<a :href="`https://vrchat.com/home/group/${id}`" target="_blank" rel="noopener">{{ group.name }}</a>
+			<a style="font-size:2em" :href="`https://vrchat.com/home/group/${id}`" target="_blank" rel="noopener">{{ group.name }}</a>
+			<img :src="group.bannerUrl" :class="$style.img" decoding="async"/>
 			<div>{{ group.description }}</div>
 		</div>
 		<img :class="$style.img" :src="group.iconUrl" decoding="async"/>
@@ -31,6 +31,7 @@ const group = ref<Group>();
 
 onMounted(async () => {
 	group.value = await fetchDataWithAuth('group', props.id);
+	console.log(group.value);
 	fetching.value = false;
 });
 </script>
