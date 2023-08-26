@@ -17,12 +17,10 @@
 			</span>
 			<div class="_margin">認証UUID</div>
 			<MkInput v-model="VRChatAuth" type="text"/>
-			<div v-if="!fetching_askme">
-				<MkSwitch v-model="VRChatShowAskMe">
-					ask me
-					<template #caption>フレンド一覧ウィジェットにask meのユーザーを表示するかどうかを設定します。</template>
-				</MkSwitch>
-			</div>
+			<MkSwitch v-model="VRChatShowAskMe">
+				ask me
+				<template #caption>フレンド一覧ウィジェットにask meのユーザーを表示するかどうかを設定します。</template>
+			</MkSwitch>
 		</div>
 	</FormSection>
 </div>
@@ -43,7 +41,6 @@ const username = ref('');
 const password = ref('');
 const token = ref('');
 const twofactor = ref('');
-const fetching_askme = ref(true);
 
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
@@ -60,9 +57,8 @@ async function auth(): Promise<void> {
 
 async function do2fa(): Promise<void> {
 	if (!twofactor.value) return;
-	const authUUID = defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth;
 
-	const res = await fetchData<string>('twofactor', `${token.value}:${twofactor.value}${authUUID}`);
+	const res = await fetchData<string>('twofactor', `${token.value}:${twofactor.value}${defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth}`);
 	if (!res) return;
 	defaultStore.set('VRChatAuth', res);
 

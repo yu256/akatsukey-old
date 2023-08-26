@@ -79,7 +79,7 @@ export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 
 };
 
 export type Instance = {
-	ownerId?: string;
+	ownerId: string | null;
 	userCount: number;
 	name: string;
 	description: string;
@@ -94,7 +94,7 @@ export type User = {
 	isFriend: boolean;
 	location: string;
 	status: 'join me' | 'active' | 'ask me' | 'busy';
-	statusDescription?: string;
+	statusDescription: string | null;
 	rank: string;
 };
 
@@ -188,5 +188,5 @@ export type Group = {
     createdAt: string;
     onlineMemberCount: number;
     membershipStatus: string;
-    myMember: Member;
+    myMember: Member | null;
 }
