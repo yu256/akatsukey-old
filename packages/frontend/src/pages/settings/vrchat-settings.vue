@@ -18,7 +18,7 @@
 			<div class="_margin">認証UUID</div>
 			<MkInput v-model="VRChatAuth" type="text"/>
 			<div v-if="!fetching_askme">
-				<MkSwitch v-model="askme" @update:modelValue="toggleAskMe">
+				<MkSwitch v-model="VRChatShowAskMe">
 					ask me
 					<template #caption>フレンド一覧ウィジェットにask meのユーザーを表示するかどうかを設定します。</template>
 				</MkSwitch>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { defaultStore } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
@@ -43,7 +43,6 @@ const username = ref('');
 const password = ref('');
 const token = ref('');
 const twofactor = ref('');
-const askme = ref(true);
 const fetching_askme = ref(true);
 
 async function auth(): Promise<void> {
@@ -73,38 +72,8 @@ async function do2fa(): Promise<void> {
 	});
 }
 
-function toggleAskMe(): void {
-	fetch(defaultStore.state.VRChatURL + 'askme', {
-		method: 'POST',
-		body: defaultStore.state.VRChatAuth + ':' + askme.value,
-	}).then(async res => {
-		if (!res.ok) miAlert({
-			type: 'error',
-			text: await res.text(),
-		});
-	});
-}
-
-onMounted(() => {
-	if (!VRChatAuth.value) return;
-
-	fetch(defaultStore.state.VRChatURL + 'check_askme', {
-		method: 'POST',
-		body: defaultStore.state.VRChatAuth,
-	}).then(async res => {
-		if (!res.ok) {
-			miAlert({
-				type: 'error',
-				text: await res.text(),
-			});
-			return;
-		}
-		askme.value = await res.text() === 'true';
-		fetching_askme.value = false;
-	});
-});
-
 const VRChatAuth = computed<string>(defaultStore.makeGetterSetter('VRChatAuth'));
 const VRChatURL = computed<string>(defaultStore.makeGetterSetter('VRChatURL'));
+const VRChatShowAskMe = computed<boolean>(defaultStore.makeGetterSetter('VRChatShowAskMe'));
 
 </script>

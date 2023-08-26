@@ -15,6 +15,10 @@ type Method =
 	| 'PATCH';
 
 type VrcEndPoints = {
+	'friends': {
+		req: boolean;
+		res: Friend[];
+	};
 	'instance': {
 		req: string;
 		res: Instance;
