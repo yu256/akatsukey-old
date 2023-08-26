@@ -360,7 +360,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	VRChatShowAskMe: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 }));
 

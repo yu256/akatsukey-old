@@ -2,41 +2,41 @@
 <MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-if="friend.status"
-		v-tooltip="friend.status"
-		:class="[$style.indicator, {
-			[$style.join]: friend.status === 'join me',
-			[$style.active]: friend.status === 'active',
-			[$style.ask]: friend.status === 'ask me',
-			[$style.busy]: friend.status === 'busy',
-			[$style.private]: friend.location === 'private',
-		}]"
+		v-if="friend.status" v-tooltip="friend.status" :class="$style.indicator" :style="`background: ${style}`"
 	/>
 </MkA>
 <span v-else class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div
-		v-tooltip="friend.status"
-		:class="[$style.indicator, {
-			[$style.join]: friend.status === 'join me',
-			[$style.active]: friend.status === 'active',
-			[$style.ask]: friend.status === 'ask me',
-			[$style.busy]: friend.status === 'busy',
-			[$style.private]: friend.location === 'private',
-			[$style.offline]: friend.location === 'offline',
-		}]"
+		v-tooltip="friend.status" :class="$style.indicator" :style="`background: ${style}`"
 	/>
 </span>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { defaultStore } from '@/store';
 import { Friend } from '@/scripts/vrchat-api';
 import { CustomPartial } from '@/types/custom-utilities';
 
-defineProps<{
+const props = defineProps<{
 	friend: CustomPartial<Friend, 'id' | 'location' | 'status'>;
 }>();
+
+const style = computed(() => {
+	switch (props.friend.location) {
+		case 'offline': return 'black';
+		case 'private': if (props.friend.status !== 'ask me') return 'brown';
+	}
+
+	switch (props.friend.status) {
+		case 'join me': return '#58d4c9';
+		case 'active': return 'rgb(26, 182, 26)';
+		case 'ask me': return '#e4bc48';
+		case 'busy': return 'rgb(113, 5, 5)';
+		default: return 'black';
+	}
+});
 
 </script>
 
@@ -83,29 +83,4 @@ defineProps<{
 	box-shadow: 0 0 0 3px var(--panel);
 	border-radius: 100%;
 }
-
-.join {
-	background: #58d4c9;
-}
-
-.active {
-	background: rgb(26, 182, 26);
-}
-
-.ask {
-	background: #e4bc48;
-}
-
-.busy {
-	background: rgb(113, 5, 5);
-}
-
-.private {
-	background: brown !important;
-}
-
-.offline {
-	background: black !important;
-}
-
 </style>
