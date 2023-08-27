@@ -11,6 +11,9 @@
 				<MkButton @click="auth">決定</MkButton>
 			</span>
 			<span v-else class="_gaps_s">
+				<MkSelect v-model="twofactorType">
+					<option v-for="t in twofactorTypes" :key="t">{{ t }}</option>
+				</MkSelect>
 				<MkInput v-model="token" type="text" placeholder="トークン"/>
 				<MkInput v-model="twofactor" type="text" placeholder="2FAコード"/>
 				<MkButton @click="do2fa">決定</MkButton>
@@ -34,13 +37,18 @@ import MkSwitch from '@/components/MkSwitch.vue';
 import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
+import MkSelect from '@/components/MkSelect.vue';
 import { alert as miAlert } from '@/os';
 import { fetchData } from '@/scripts/vrchat-api';
+import { ArrayElementType } from '@/types/custom-utilities';
 
 const username = ref('');
 const password = ref('');
 const token = ref('');
 const twofactor = ref('');
+const twofactorType = ref<ArrayElementType<typeof twofactorTypes>>('emailotp');
+
+const twofactorTypes = ['emailotp', 'otp', 'totp'] as const;
 
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
@@ -58,7 +66,7 @@ async function auth(): Promise<void> {
 async function do2fa(): Promise<void> {
 	if (!twofactor.value) return;
 
-	const res = await fetchData<string>('twofactor', `${token.value}:${twofactor.value}${defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth}`);
+	const res = await fetchData<string>('twofactor', `${token.value}:${twofactor.value}:${twofactorType.value}${defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth}`);
 	if (!res) return;
 	defaultStore.set('VRChatAuth', res);
 
