@@ -6,11 +6,7 @@ import { $i } from '@/account';
 import { useStream } from '@/stream';
 import { defaultStore } from '@/store';
 import { deepClone } from '@/scripts/clone';
-
-type SomeRequired<T, K extends keyof T> = Omit<T, K> & Required<RequiredNotNull<Pick<T, K>>>;
-type RequiredNotNull<T> = {
-	[P in keyof T]: NonNullable<T[P]>;
-};
+import { SomeRequired } from '@/types/custom-utilities';
 
 type PostDataBase = Partial<{
 	text: string | null;
@@ -42,7 +38,7 @@ type PostData = (
 
 type Note = Note_ & { channelId?: string | null };
 
-const uploadFile = async (_file: DriveFile): Promise<DriveFile> => {
+async function uploadFile(_file: DriveFile): Promise<DriveFile> {
 	return new Promise((res) => {
 		const marker = uuid();
 
@@ -63,13 +59,13 @@ const uploadFile = async (_file: DriveFile): Promise<DriveFile> => {
 			force: true,
 		});
 	});
-};
+}
 
-const uploadFiles = async (_files: DriveFile[]): Promise<DriveFile[]> => {
+async function uploadFiles(_files: DriveFile[]): Promise<DriveFile[]> {
 	return Promise.all(_files.map(_file => uploadFile(_file)));
-};
+}
 
-const fixMentionsHost = (note: Note): Note => {
+function fixMentionsHost(note: Note): Note {
 	if (note.user.host == null) return note;
 
 	const _fix = (text: string, host: string): string => {
@@ -97,39 +93,40 @@ const fixMentionsHost = (note: Note): Note => {
 	const cw = note.cw && _fix(note.cw, note.user.host);
 
 	return { ...note, text, cw };
-};
+}
 
-const makeVisibleUserIds = ({ visibility, visibleUserIds, userId }: Note): PostData['visibleUserIds'] => {
+function makeVisibleUserIds({ visibility, visibleUserIds, userId }: Note): PostData['visibleUserIds'] {
 	const ids = new Set(visibleUserIds);
 	if (visibility === 'specified') ids.add(userId);
 	return Array.from(ids);
-};
+}
 
-const makeFileIds = async ({ files, fileIds, userId }: Note): Promise<PostData['fileIds']> => {
+async function makeFileIds({ files, fileIds, userId }: Note): Promise<PostData['fileIds']> {
 	if ($i?.id === userId) return fileIds;
 	return (await uploadFiles(files)).map(file => file.id);
-};
+}
 
-const makePoll = ({ poll, createdAt }: Note): PostData['poll'] => {
+function makePoll({ poll, createdAt }: Note): PostData['poll'] {
 	if (poll == null) return null;
 
 	const choices = poll.choices.map(choice => choice.text);
 	const multiple = poll.multiple;
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 	const expiredAfter = poll.expiresAt && Date.parse(poll.expiresAt) - Date.parse(createdAt) || null;
 
 	return { choices, multiple, expiredAfter };
-};
+}
 
-const isPureRenote = (note: Note): note is SomeRequired<Note, 'renote' | 'renoteId'> => {
+function isPureRenote(note: Note): note is SomeRequired<Note, 'renote' | 'renoteId'> {
 	return (
 		note.renote != null &&
 		note.text == null &&
 		note.fileIds.length === 0 &&
 		note.poll == null
 	);
-};
+}
 
-const makeParams = async (_note: Note): Promise<PostData> => {
+async function makeParams(_note: Note): Promise<PostData> {
 	const note = fixMentionsHost(deepClone(isPureRenote(_note) ? _note.renote : _note));
 	const { text, cw, localOnly, visibility, replyId, renoteId, channelId } = note;
 
@@ -148,29 +145,29 @@ const makeParams = async (_note: Note): Promise<PostData> => {
 	}
 
 	return params;
-};
+}
 
-const _nqadd = (text: PostData['text']): PostData['text'] => {
+function _nqadd(text: PostData['text']): PostData['text'] {
 	if (!text) return '2';
 	if (/\-?\d+$/.test(text)) return text.replace(/\-?\d+$/, (n => (BigInt(n) + 1n).toString(10)));
 	// eslint-disable-next-line no-irregular-whitespace
 	if (text.endsWith(':')) return `${text}​2`;
 	if (text.endsWith('</center>')) return `${text}\n2`;
-	if (/[\uFF10-\uFF19]$/.test(text)) return _nqadd(text.replace(/[０-９]/g, m => '0123456789'[m.charCodeAt(0) - 65296]));
+	if (/[\uFF10-\uFF19]$/.test(text)) return _nqadd(text.replace(/[\uFF10-\uFF19]$/g, m => '0123456789'[m.charCodeAt(0) - 65296]));
 	return `${text}2`;
-};
+}
 
-export const pakuru = async (note: Note): Promise<{
+export async function pakuru(note: Note): Promise<{
 	createdNote: Note;
-}> => {
+}> {
 	return os.api('notes/create', await makeParams(note));
-};
+}
 
-export const numberquote = async (note: Note): Promise<{
+export async function numberquote(note: Note): Promise<{
 	createdNote: Note;
-}> => {
+}> {
 	return os.api('notes/create', await makeParams(note).then(params => {
 		const text = _nqadd(params.text);
 		return { ...params, text };
 	}));
-};
+}
