@@ -1,22 +1,18 @@
 <template>
-<MkA v-if="friend.id" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
+<component :is="friend.id ? 'MkA' : 'span'" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
 	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
 	<div v-if="friend.status" v-tooltip="friend.status" :class="$style.indicator" :style="`background: ${style}`"/>
-</MkA>
-<span v-else class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]">
-	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
-	<div v-tooltip="friend.status" :class="$style.indicator" :style="`background: ${style}`"/>
-</span>
+</component>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { defaultStore } from '@/store';
 import { Friend } from '@/scripts/vrchat-api';
-import { CustomPartial } from '@/types/custom-utilities';
+import { SomeRequired } from '@/types/custom-utilities';
 
 const props = defineProps<{
-	friend: CustomPartial<Friend, 'id' | 'location' | 'status'>;
+	friend: SomeRequired<Partial<Friend>, 'currentAvatarThumbnailImageUrl'>
 }>();
 
 const style = computed(() => {

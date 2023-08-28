@@ -84,6 +84,7 @@ export type Instance = {
 	name: string;
 	description: string;
 	thumbnailImageUrl: string;
+	users: Record<string, string>;
 };
 
 export type User = {
