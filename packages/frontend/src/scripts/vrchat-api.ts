@@ -16,7 +16,7 @@ type Method =
 
 type VrcEndPoints = {
 	'friends': {
-		req: boolean;
+		req: '';
 		res: Friend[];
 	};
 	'instance': {
@@ -71,7 +71,7 @@ export async function fetchData<T>(url: string, body: string, method: Method = '
 }
 
 export async function fetchDataWithAuth<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method?: Method): Promise<T | undefined> {
-	return fetchData<T>(url, defaultStore.state.VRChatAuth + ':' + body, method);
+	return fetchData<T>(url, defaultStore.state.VRChatAuth + body && (':' + body), method);
 }
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {

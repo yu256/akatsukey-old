@@ -60,7 +60,7 @@ async function fetch(): Promise<void> {
 		return;
 	}
 
-	const res = await fetchDataWithAuth('friends', defaultStore.state.VRChatShowAskMe);
+	const res = await fetchDataWithAuth('friends', '');
 
 	if (!res) {
 		fetching = false;
