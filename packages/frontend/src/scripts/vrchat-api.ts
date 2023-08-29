@@ -70,7 +70,7 @@ export async function fetchData<T>(url: string, body: string, method: Method = '
 	return res.Success;
 }
 
-export async function fetchDataWithAuth<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method?: Method): Promise<T | undefined> {
+export function fetchDataWithAuth<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method?: Method): Promise<T | undefined> {
 	return fetchData<T>(url, defaultStore.state.VRChatAuth + (body && ':' + body), method);
 }
 

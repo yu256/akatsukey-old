@@ -15,7 +15,7 @@
 		<VrcGroup v-else-if="instance.ownerId" :id="instance.ownerId"/>
 		<div :class="[$style.content, $style.instance]">
 			<div class="_gaps_s">
-				<span :class="$style.users">
+				<span :class="$style.users" class="_gaps_s">
 					<span v-for="[img, name] in Object.entries(instance.users)" :key="name" :class="$style.user">
 						<VrcAvatar :friend="{ currentAvatarThumbnailImageUrl: img }" :class="$style.avatar_host"/>{{ name }}
 					</span>
