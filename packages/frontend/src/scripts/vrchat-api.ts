@@ -14,57 +14,24 @@ type Method =
 	| 'TRACE'
 	| 'PATCH';
 
-type VrcEndPoints = VrcEndPointsMultiArgs/*(reqがstringの場合のみ成り立つ)*/ & {
-	'auth': {
-		req: string;
-		res: string;
-	};
-	'twofactor': {
-		req: string;
-		res: string;
-	};
-	'friends': {
-		req: string;
-		res: Friend[];
-	};
+type VrcEndPoints = VrcEndPointsMultiArgs & {
+	'auth': string;
+	'twofactor': string;
+	'friends': Friend[];
 }
 
 type VrcEndPointsMultiArgs = {
-	'instance': {
-		req: string;
-		res: Instance;
-	};
-	'user': {
-		req: string;
-		res: User;
-	};
-	'search_user': {
-		req: string;
-		res: HitUsers;
-	};
-	'friend_request': {
-		req: string;
-		res: true;
-	};
-	'friend_status': {
-		req: string;
-		res: Status;
-	};
-	'world': {
-		req: string;
-		res: World;
-	};
-	'group': {
-		req: string;
-		res: Group;
-	};
-	'favorites': {
-		req: string;
-		res: true;
-	};
+	'instance': Instance;
+	'user': User;
+	'search_user': HitUsers;
+	'friend_request': true;
+	'friend_status': Status;
+	'world': World;
+	'group': Group;
+	'favorites': true;
 }
 
-export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method: Method = 'POST'): Promise<T | undefined> {
+export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]>(url: E, body: string, method: Method = 'POST'): Promise<T | undefined> {
 	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
 		method,
 		body,
@@ -81,7 +48,7 @@ export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPo
 	return res.Success;
 }
 
-export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs, T extends VrcEndPointsMultiArgs[E]['res']>(url: E, body: VrcEndPointsMultiArgs[E]['req'], method?: Method): Promise<T | undefined> {
+export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string, method?: Method): Promise<VrcEndPointsMultiArgs[E] | undefined> {
 	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body, method);
 }
 
