@@ -40,7 +40,7 @@ const twofactor = ref('');
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
 
-	const res = await fetchData<string>('auth', `${username.value}:${password.value}`);
+	const res = await fetchData('auth', `${username.value}:${password.value}`);
 	if (!res) return;
 	token.value = res;
 
@@ -53,7 +53,7 @@ async function auth(): Promise<void> {
 async function do2fa(): Promise<void> {
 	if (!twofactor.value) return;
 
-	const res = await fetchData<string>('twofactor', `${token.value}:${twofactor.value}${defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth}`);
+	const res = await fetchData('twofactor', `${token.value}:${twofactor.value}${defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth}`);
 	if (!res) return;
 	defaultStore.set('VRChatAuth', res);
 

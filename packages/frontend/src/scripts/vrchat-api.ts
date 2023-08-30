@@ -14,11 +14,22 @@ type Method =
 	| 'TRACE'
 	| 'PATCH';
 
-type VrcEndPoints = {
+type VrcEndPoints = VrcEndPointsMultiArgs/*(reqがstringの場合のみ成り立つ)*/ & {
+	'auth': {
+		req: string;
+		res: string;
+	};
+	'twofactor': {
+		req: string;
+		res: string;
+	};
 	'friends': {
-		req: '';
+		req: string;
 		res: Friend[];
 	};
+}
+
+type VrcEndPointsMultiArgs = {
 	'instance': {
 		req: string;
 		res: Instance;
@@ -53,7 +64,7 @@ type VrcEndPoints = {
 	};
 }
 
-export async function fetchData<T>(url: string, body: string, method: Method = 'POST'): Promise<T | undefined> {
+export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method: Method = 'POST'): Promise<T | undefined> {
 	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
 		method,
 		body,
@@ -70,8 +81,8 @@ export async function fetchData<T>(url: string, body: string, method: Method = '
 	return res.Success;
 }
 
-export function fetchDataWithAuth<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: E, body: VrcEndPoints[E]['req'], method?: Method): Promise<T | undefined> {
-	return fetchData<T>(url, defaultStore.state.VRChatAuth + (body && ':' + body), method);
+export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs, T extends VrcEndPointsMultiArgs[E]['res']>(url: E, body: VrcEndPointsMultiArgs[E]['req'], method?: Method): Promise<T | undefined> {
+	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body, method);
 }
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
@@ -137,57 +148,57 @@ export type World = {
 }
 
 type Gallery = {
-    id: string;
-    name: string;
-    description: string;
-    membersOnly: boolean;
-    roleIdsToView: string[];
-    roleIdsToSubmit: string[];
-    roleIdsToAutoApprove: string[];
-    roleIdsToManage: string[];
-    createdAt: string;
-    updatedAt: string;
+	id: string;
+	name: string;
+	description: string;
+	membersOnly: boolean;
+	roleIdsToView: string[];
+	roleIdsToSubmit: string[];
+	roleIdsToAutoApprove: string[];
+	roleIdsToManage: string[];
+	createdAt: string;
+	updatedAt: string;
 }
 
 type Member = {
-    id: string;
-    groupId: string;
-    userId: string;
-    roleIds: string[];
-    managerNotes: string | null;
-    membershipStatus: string;
-    isSubscribedToAnnouncements: boolean;
-    visibility: string;
-    isRepresenting: boolean;
-    joinedAt: string;
-    bannedAt: string | null;
-    has2FA: boolean;
-    permissions: string[];
+	id: string;
+	groupId: string;
+	userId: string;
+	roleIds: string[];
+	managerNotes: string | null;
+	membershipStatus: string;
+	isSubscribedToAnnouncements: boolean;
+	visibility: string;
+	isRepresenting: boolean;
+	joinedAt: string;
+	bannedAt: string | null;
+	has2FA: boolean;
+	permissions: string[];
 }
 
 export type Group = {
-    id: string;
-    name: string;
-    shortCode: string;
-    discriminator: string;
-    description: string;
-    iconUrl: string;
-    bannerUrl: string;
-    privacy: string;
-    ownerId: string;
-    rules: string;
-    links: string[];
-    languages: string[];
-    iconId: string;
-    bannerId: string;
-    memberCount: number;
-    memberCountSyncedAt: string;
-    isVerified: boolean;
-    joinState: string;
-    tags: string[];
-    galleries: Gallery[];
-    createdAt: string;
-    onlineMemberCount: number;
-    membershipStatus: string;
-    myMember: Member | null;
+	id: string;
+	name: string;
+	shortCode: string;
+	discriminator: string;
+	description: string;
+	iconUrl: string;
+	bannerUrl: string;
+	privacy: string;
+	ownerId: string;
+	rules: string;
+	links: string[];
+	languages: string[];
+	iconId: string;
+	bannerId: string;
+	memberCount: number;
+	memberCountSyncedAt: string;
+	isVerified: boolean;
+	joinState: string;
+	tags: string[];
+	galleries: Gallery[];
+	createdAt: string;
+	onlineMemberCount: number;
+	membershipStatus: string;
+	myMember: Member | null;
 }

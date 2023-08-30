@@ -26,7 +26,7 @@ import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
 import { useInterval } from '@/scripts/use-interval';
-import { fetchDataWithAuth, Friend } from '@/scripts/vrchat-api';
+import { fetchData, Friend } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import VRCAvatar from '@/components/VrcAvatar.vue';
@@ -60,7 +60,7 @@ async function fetch(): Promise<void> {
 		return;
 	}
 
-	const res = await fetchDataWithAuth('friends', '');
+	const res = await fetchData('friends', defaultStore.state.VRChatAuth);
 
 	if (!res) {
 		fetching = false;
