@@ -31,7 +31,6 @@ const group = ref<Group>();
 
 onMounted(async () => {
 	group.value = await fetchDataWithAuth('group', props.id);
-	console.log(group.value);
 	fetching.value = false;
 });
 </script>
