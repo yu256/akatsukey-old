@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
@@ -43,9 +43,9 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const user = ref<User>();
-const instance = ref<Instance>();
-const owner = ref<User>();
+const user = shallowRef<User>();
+const instance = shallowRef<Instance>();
+const owner = shallowRef<User>();
 
 const fetching = ref(true);
 

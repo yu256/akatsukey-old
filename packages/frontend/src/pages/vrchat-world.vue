@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
@@ -47,8 +47,8 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const world = ref<World>();
-const author = ref<User>();
+const world = shallowRef<World>();
+const author = shallowRef<User>();
 const fetching = ref(true);
 
 const selectedOption = ref<ArrayElementType<typeof options>['value']>('created_at');

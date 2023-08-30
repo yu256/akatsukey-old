@@ -51,7 +51,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-let friends = $ref<Friend[]>([]);
+let friends = $shallowRef<Friend[]>([]);
 let fetching = $ref(true);
 
 async function fetch(): Promise<void> {

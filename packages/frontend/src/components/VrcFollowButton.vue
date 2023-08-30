@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, shallowRef } from 'vue';
 import MkButton from './MkButton.vue';
 import { Status, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { confirm } from '@/os';
@@ -28,7 +28,7 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const res = ref<Status>();
+const res = shallowRef<Status>();
 const fetching = ref(true);
 
 onMounted(async () => {

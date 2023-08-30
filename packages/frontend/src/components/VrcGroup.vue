@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, shallowRef } from 'vue';
 import { Group, fetchDataWithAuth } from '@/scripts/vrchat-api';
 
 const props = withDefaults(defineProps<{
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<{
 });
 
 const fetching = ref(true);
-const group = ref<Group>();
+const group = shallowRef<Group>();
 
 onMounted(async () => {
 	group.value = await fetchDataWithAuth('group', props.id);
