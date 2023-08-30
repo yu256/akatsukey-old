@@ -62,7 +62,7 @@ export async function fetchData<T>(url: string, body: string, method: Method = '
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error,
+			text: res.Error.includes('Missing Credentials') ? 'トークンの有効期限が切れています。' : res.Error,
 		});
 		return;
 	}
