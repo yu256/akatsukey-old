@@ -43,7 +43,7 @@ function request(isPost: boolean): void {
 	}).then( async ({ canceled }) => {
 		if (canceled) return;
 
-		if (await fetchDataWithAuth('friend_request', props.id, isPost ? 'POST' : 'DELETE')) emit('success', isPost);
+		if (await fetchDataWithAuth('friend_request', props.id + ':' + isPost ? 'POST' : 'DELETE')) emit('success', isPost);
 	});
 }
 </script>
