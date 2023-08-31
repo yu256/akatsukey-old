@@ -18,7 +18,7 @@ import XDetails from '@/components/MkReactionsViewer.details.vue';
 import MkReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
-import { $i } from '@/account';
+import { $i, iAmModerator } from '@/account';
 import MkReactionEffect from '@/components/MkReactionEffect.vue';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
@@ -88,7 +88,7 @@ function anime(): void {
 
 function reactAlternative(): void {
 	if (!alternative.value) {
-		importEmojiConfirm();
+		importAndReact();
 		return;
 	}
 	os.api('notes/reactions/create', {
@@ -97,25 +97,37 @@ function reactAlternative(): void {
 	});
 }
 
-async function importEmojiConfirm(): Promise<void> {
-	if (!($i?.isAdmin || $i?.isModerator)) return;
+async function importAndReact(): Promise<void> {
+	if (!iAmModerator) return;
+
 	const { canceled } = await os.confirm({
 		type: 'info',
-		text: `${reactionName.value}をインポートしますか？`,
+		text: `${reactionName.value}をインポートしてリアクションしますか？`,
 	});
-	if (!canceled) importEmoji().then(() =>
-		os.toast(`${reactionName.value}をインポートしました`));
+
+	if (canceled) return;
+
+	importEmoji().then(emojiId =>
+		os.apiWithDialog('admin/emoji/update', {
+			id: emojiId,
+			name: reactionName.value,
+			aliases: [],
+		}).then(() => os.api('notes/reactions/create', {
+			noteId: props.note.id,
+			reaction: `:${reactionName.value}:`,
+		})),
+	);
 }
 
-async function importEmoji(): Promise<void> {
+async function importEmoji(): Promise<string> {
 	const emojiId = await getEmojiId();
-	if (!emojiId) return;
 	os.api('admin/emoji/copy', {
 		emojiId: emojiId,
 	});
+	return emojiId;
 }
 
-async function getEmojiId(): Promise<string | null> {
+async function getEmojiId(): Promise<string> {
 	const host = (): string =>
 		props.reaction.slice(props.reaction.indexOf('@') + 1, props.reaction.length - 1);
 
@@ -124,7 +136,7 @@ async function getEmojiId(): Promise<string | null> {
 		query: reactionName.value,
 	});
 
-	if (!res) return null;
+	if (!res) throw new Error('Failed to fetch emojiId.');
 
 	return await res.find((emoji: { name: string; }) => emoji.name === reactionName.value).id;
 }
