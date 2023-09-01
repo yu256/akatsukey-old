@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, shallowRef } from 'vue';
+import { ref, shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
@@ -49,24 +49,21 @@ const owner = shallowRef<User>();
 
 const fetching = ref(true);
 
-onMounted(async () => {
+(async (): Promise<void> => {
 	user.value = await fetchDataWithAuth('user', props.id);
 
 	if (!(user.value?.location.startsWith('wrld'))) {
-		fetching.value = false;
 		return;
 	}
 
 	instance.value = await fetchDataWithAuth('instance', user.value.location);
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
-		fetching.value = false;
 		return;
 	}
 
 	owner.value = await fetchDataWithAuth('user', instance.value.ownerId);
-	fetching.value = false;
-});
+})().then(() => fetching.value = false);
 
 definePageMetadata({
 	title: 'VRChat',

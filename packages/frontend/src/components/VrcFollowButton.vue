@@ -1,8 +1,5 @@
 <template>
-<MkLoading v-if="fetching"/>
-<span v-else-if="!res">
-	Error
-</span>
+<MkLoading v-if="!res"/>
 <MkA v-else-if="res.incomingRequest" :to="'todo'">
 	フレンド申請を承認する
 </MkA>
@@ -15,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, shallowRef } from 'vue';
+import { onMounted, shallowRef } from 'vue';
 import MkButton from './MkButton.vue';
 import { Status, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { confirm } from '@/os';
@@ -29,11 +26,9 @@ const props = defineProps<{
 }>();
 
 const res = shallowRef<Status>();
-const fetching = ref(true);
 
 onMounted(async () => {
 	res.value = await fetchDataWithAuth('friend_status', props.id);
-	fetching.value = false;
 });
 
 function request(isPost: boolean): void {
@@ -41,9 +36,9 @@ function request(isPost: boolean): void {
 		type: 'warning',
 		text: `フレンド申請を${isPost ? '送信' : '解除'}しますか？`,
 	}).then( async ({ canceled }) => {
-		if (canceled) return;
+		if (canceled || !await fetchDataWithAuth('friend_request', props.id + ':' + isPost ? 'POST' : 'DELETE')) return;
 
-		if (await fetchDataWithAuth('friend_request', props.id + ':' + isPost ? 'POST' : 'DELETE')) emit('success', isPost);
+		emit('success', isPost);
 	});
 }
 </script>

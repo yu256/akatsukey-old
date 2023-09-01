@@ -1,6 +1,6 @@
 <template>
-<MkLoading v-if="fetching"/>
-<template v-else-if="group">
+<MkLoading v-if="!group"/>
+<template v-else>
 	<div :class="[$style.container, $style.content]">
 		<div>
 			<a style="font-size:2em" :href="`https://vrchat.com/home/group/${id}`" target="_blank" rel="noopener">{{ group.name }}</a>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, shallowRef } from 'vue';
+import { onMounted, shallowRef } from 'vue';
 import { Group, fetchDataWithAuth } from '@/scripts/vrchat-api';
 
 const props = withDefaults(defineProps<{
@@ -26,12 +26,10 @@ const props = withDefaults(defineProps<{
 	detailed: false,
 });
 
-const fetching = ref(true);
 const group = shallowRef<Group>();
 
 onMounted(async () => {
 	group.value = await fetchDataWithAuth('group', props.id);
-	fetching.value = false;
 });
 </script>
 

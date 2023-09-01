@@ -14,11 +14,9 @@ import MkButton from '@/components/MkButton.vue';
 import { HitUsers, fetchDataWithAuth } from '@/scripts/vrchat-api';
 
 let query = '';
-const users = shallowRef<HitUsers>([]);
+const users = shallowRef<HitUsers>();
 
 async function search(): Promise<void> {
-	const res = await fetchDataWithAuth('search_user', query);
-	if (!res) return;
-	users.value = res;
+	users.value = await fetchDataWithAuth('search_user', query);
 }
 </script>
