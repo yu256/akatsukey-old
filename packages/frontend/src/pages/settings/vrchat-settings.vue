@@ -1,6 +1,11 @@
 <template>
 <div class="_gaps_m">
-	<MkInfo>VRChat API</MkInfo>
+	<MkInfo>
+		<a href="https://github.com/yu256/vrcapi_proxy" target="_blank" rel="noopener">
+			プロキシの詳細
+			<i class="ti ti-external-link"/>
+		</a>
+	</MkInfo>
 	<FormSection>
 		<div class="_gaps_s">
 			<div class="_margin">トークンを設定</div>
@@ -15,7 +20,7 @@
 				<MkInput v-model="twofactor" type="text" placeholder="2FAコード"/>
 				<MkButton @click="do2fa">決定</MkButton>
 			</span>
-			<div class="_margin">認証UUID</div>
+			<div class="_margin">認証ID</div>
 			<MkInput v-model="VRChatAuth" type="text"/>
 		</div>
 	</FormSection>
@@ -51,7 +56,7 @@ async function auth(): Promise<void> {
 }
 
 async function do2fa(): Promise<void> {
-	if (!twofactor.value) return;
+	if (!twofactor.value || !VRChatAuth.value) return;
 
 	const res = await fetchData('twofactor', `${token.value}:${twofactor.value}${defaultStore.state.VRChatAuth && ';' + defaultStore.state.VRChatAuth}`);
 	if (!res) return;
