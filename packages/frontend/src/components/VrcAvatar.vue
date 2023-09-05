@@ -24,7 +24,7 @@ const style = computed(() => {
 	switch (props.friend.status) {
 		case 'join me': return '#58d4c9';
 		case 'active': return 'rgb(26, 182, 26)';
-		case 'ask me': return '#e4bc48';
+		case 'ask me': return props.friend.undetermined ? 'gray' : '#e4bc48';
 		case 'busy': return 'rgb(113, 5, 5)';
 		default: return 'black';
 	}

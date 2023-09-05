@@ -54,6 +54,7 @@ export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E,
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
 	id: string;
+	undetermined: true | null;
 };
 
 export type Instance = {
