@@ -108,15 +108,16 @@ async function importAndReact(): Promise<void> {
 	if (canceled) return;
 
 	importEmoji().then(emojiId =>
-		os.apiWithDialog('admin/emoji/update', {
-			id: emojiId,
-			name: reactionName.value,
-			aliases: [],
-		}).then(() => os.api('notes/reactions/create', {
-			noteId: props.note.id,
-			reaction: `:${reactionName.value}:`,
-		})),
-	);
+		setTimeout(() => {
+			os.apiWithDialog('admin/emoji/update', {
+				id: emojiId,
+				name: reactionName.value,
+				aliases: [],
+			}).then(() => os.api('notes/reactions/create', {
+				noteId: props.note.id,
+				reaction: `:${reactionName.value}:`,
+			}));
+		}, 2000));
 }
 
 async function importEmoji(): Promise<string> {
