@@ -8,12 +8,25 @@
 		<div v-if="!defaultStore.state.VRChatAuth" class="init">
 			<MkA to="/settings/vrchat">トークンを設定してください。</MkA>
 		</div>
-		<MkLoading v-else-if="fetching"/>
-		<div v-else-if="friends.length" class="users">
-			<span v-for="friend in friends" :key="friend.id" class="user">
-				<VRCAvatar class="avatar" :friend="friend"/>
+		<MkLoading v-else-if="!friends"/>
+		<template v-else-if="friends.public.length || friends.private.length">
+			<span v-if="friends.public.length" class="users">
+				<span v-for="friend in friends.public" :key="friend.id" class="user">
+					<VRCAvatar class="avatar" :friend="friend"/>
+				</span>
 			</span>
-		</div>
+			<div v-else class="init">
+				パブリックのフレンドはいません。
+			</div>
+			<template v-if="friends.private.length">
+				<div :class="$style.divider"/>
+				<span class="users">
+					<span v-for="friend in friends.private" :key="friend.id" class="user">
+						<VRCAvatar class="avatar" :friend="friend"/>
+					</span>
+				</span>
+			</template>
+		</template>
 		<div v-else class="init">
 			<span>オンラインのフレンドがいません。</span>
 		</div>
@@ -22,6 +35,7 @@
 </template>
 
 <script lang="ts" setup>
+import { shallowRef } from 'vue';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
@@ -51,24 +65,17 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-let friends = $shallowRef<Friend[]>([]);
-let fetching = $ref(true);
+const friends = shallowRef<{
+		'public': Friend[];
+		'private': Friend[];
+	}>();
 
 async function fetch(): Promise<void> {
 	if (!defaultStore.state.VRChatAuth) {
-		fetching = false;
 		return;
 	}
 
-	const res = await fetchData('friends', defaultStore.state.VRChatAuth);
-
-	if (!res) {
-		fetching = false;
-		return;
-	}
-
-	friends = res;
-	fetching = false;
+	friends.value = await fetchData('friends', defaultStore.state.VRChatAuth);
 }
 
 useInterval(fetch, 1000 * 60, {
@@ -111,6 +118,10 @@ defineExpose<WidgetComponentExpose>({
 			}
 		}
 	}
+}
+
+.divider {
+	border-top: solid 0.5px var(--divider);
 }
 </style>
 	

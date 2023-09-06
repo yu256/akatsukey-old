@@ -16,10 +16,7 @@ const props = defineProps<{
 }>();
 
 const style = computed(() => {
-	switch (props.friend.location) {
-		case 'offline': return 'black';
-		case 'private': if (props.friend.status !== 'ask me') return 'brown';
-	}
+	if (props.friend.location === 'offline') return 'black';
 
 	switch (props.friend.status) {
 		case 'join me': return '#58d4c9';

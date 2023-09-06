@@ -17,7 +17,10 @@ type Method =
 type VrcEndPoints = VrcEndPointsMultiArgs & {
 	'auth': string;
 	'twofactor': string;
-	'friends': Friend[];
+	'friends': {
+		'public': Friend[];
+		'private': Friend[];
+	};
 }
 
 type VrcEndPointsMultiArgs = {
