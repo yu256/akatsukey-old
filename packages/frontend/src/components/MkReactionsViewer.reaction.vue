@@ -18,7 +18,7 @@ import XDetails from '@/components/MkReactionsViewer.details.vue';
 import MkReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
-import { $i, iAmModerator } from '@/account';
+import { $i } from '@/account';
 import MkReactionEffect from '@/components/MkReactionEffect.vue';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
@@ -88,7 +88,7 @@ function anime(): void {
 
 function reactAlternative(): void {
 	if (!alternative.value) {
-		importAndReact();
+		importEmojiConfirm();
 		return;
 	}
 	os.api('notes/reactions/create', {
@@ -97,35 +97,21 @@ function reactAlternative(): void {
 	});
 }
 
-async function importAndReact(): Promise<void> {
-	if (!iAmModerator) return;
-
+async function importEmojiConfirm(): Promise<void> {
+	if (!($i?.isAdmin || $i?.isModerator)) return;
 	const { canceled } = await os.confirm({
 		type: 'info',
-		text: `${reactionName.value}をインポートしてリアクションしますか？`,
+		text: `${reactionName.value}をインポートしますか？`,
 	});
-
-	if (canceled) return;
-
-	importEmoji().then(emojiId =>
-		setTimeout(() => {
-			os.apiWithDialog('admin/emoji/update', {
-				id: emojiId,
-				name: reactionName.value,
-				aliases: [],
-			}).then(() => os.api('notes/reactions/create', {
-				noteId: props.note.id,
-				reaction: `:${reactionName.value}:`,
-			}));
-		}, 2000));
+	if (!canceled) importEmoji().then(() =>
+		os.toast(`${reactionName.value}をインポートしました`));
 }
 
-async function importEmoji(): Promise<string> {
+async function importEmoji(): Promise<void> {
 	const emojiId = await getEmojiId();
 	os.api('admin/emoji/copy', {
 		emojiId: emojiId,
 	});
-	return emojiId;
 }
 
 async function getEmojiId(): Promise<string> {
