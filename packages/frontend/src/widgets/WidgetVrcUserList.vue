@@ -71,9 +71,7 @@ const friends = shallowRef<{
 	}>();
 
 async function fetch(): Promise<void> {
-	if (!defaultStore.state.VRChatAuth) {
-		return;
-	}
+	if (!defaultStore.state.VRChatAuth) return;
 
 	friends.value = await fetchData('friends', defaultStore.state.VRChatAuth);
 }
@@ -124,4 +122,4 @@ defineExpose<WidgetComponentExpose>({
 	border-top: solid 0.5px var(--divider);
 }
 </style>
-	
+

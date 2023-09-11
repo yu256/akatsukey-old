@@ -14,7 +14,7 @@
 	{{ user.rank }}<VrcFollowButton :id="id" :class="$style.follow" @success="is => toast(`フレンド申請を${is ? '送信' : '解除'}しました。`)"/>
 </span>
 <div v-if="user.bio || user.bioLinks.length" :class="$style.content" class="_gaps_m">
-	<div v-if="user.bio">{{ user.bio }}</div>
+	<div v-if="user.bio"><template v-for="text in user.bio.split('\n')" :key="text">{{ text }}<br></template></div>
 	<div v-for="bioLink in user.bioLinks" :key="bioLink">
 		<a :href="bioLink" target="_blank">・ {{ bioLink }}</a>
 	</div>

@@ -70,7 +70,7 @@ export type Instance = {
 };
 
 export type User = {
-	bio: string;
+	bio: string | null; //空文字列の場合もある
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;
 	displayName: string;
