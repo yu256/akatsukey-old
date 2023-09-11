@@ -16,7 +16,7 @@
 				<MkButton @click="auth">決定</MkButton>
 			</span>
 			<span v-else class="_gaps_s">
-				<MkInput v-model="token" type="text" placeholder="トークン"/>
+				<MkInput v-for="text in token.split(':')" :key="text" :modelValue="text" readonly/>
 				<MkInput v-model="twofactor" type="text" placeholder="2FAコード"/>
 				<MkButton @click="do2fa">決定</MkButton>
 			</span>
