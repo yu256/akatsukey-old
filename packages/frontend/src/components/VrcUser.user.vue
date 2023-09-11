@@ -43,7 +43,8 @@ defineProps<{
 		font-size: .5em;
 		position: absolute;
 		top: 70%;
-		left: 0; 
+		left: 0;
+		white-space: nowrap;
 	}
 }
 
