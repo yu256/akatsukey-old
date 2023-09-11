@@ -52,6 +52,10 @@ const widgetPropsDef = {
 		type: 'boolean' as const,
 		default: true,
 	},
+	onlyFavorited: {
+		type: 'boolean' as const,
+		default: false,
+	},
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -73,7 +77,7 @@ const friends = shallowRef<{
 async function fetch(): Promise<void> {
 	if (!defaultStore.state.VRChatAuth) return;
 
-	friends.value = await fetchData('friends', defaultStore.state.VRChatAuth);
+	friends.value = await fetchData(widgetProps.onlyFavorited ? 'favfriends' : 'friends', defaultStore.state.VRChatAuth);
 }
 
 useInterval(fetch, 1000 * 60, {

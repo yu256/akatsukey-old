@@ -24,6 +24,9 @@
 			<MkInput v-model="VRChatAuth" type="text">
 				<template #caption>AuthTokenのキーとなります。複数のクライアントで同じ文字列を入力することで同一のトークンを使用することが可能です。任意の文字列を入力してください。</template>
 			</MkInput>
+			<MkButton @click="fetchData('favorites/refresh', defaultStore.state.VRChatAuth)">
+				お気に入りフレンドリストの再取得を要求
+			</MkButton>
 		</div>
 	</FormSection>
 </div>

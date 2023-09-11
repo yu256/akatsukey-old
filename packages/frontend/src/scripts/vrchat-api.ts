@@ -21,6 +21,8 @@ type VrcEndPoints = VrcEndPointsMultiArgs & {
 		'public': Friend[];
 		'private': Friend[];
 	};
+	'favfriends': Pick<VrcEndPoints, 'friends'>;
+	'favorites/refresh': null;
 }
 
 type VrcEndPointsMultiArgs = {
