@@ -11,7 +11,7 @@
 		<MkLoading v-else-if="fetching"/>
 		<div v-else class="users">
 			<span v-for="user in users" :key="user.id" class="user">
-				<MkAvatar :user="user" class="avatar" indicator link preview/>
+				<MkAvatar v-if="!widgetProps.onlyOnline || user.onlineStatus === 'online'" :user="user" class="avatar" indicator link preview/>
 			</span>
 		</div>
 	</div>
@@ -19,7 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
+import { UserDetailed, UserList } from 'misskey-js/built/entities';
+import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
 import * as os from '@/os';
@@ -39,6 +40,10 @@ const widgetPropsDef = {
 		default: null,
 		hidden: true,
 	},
+	onlyOnline: {
+		type: 'boolean' as const,
+		default: false,
+	},
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -52,13 +57,13 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 	emit,
 );
 
-let list = $ref();
-let users = $ref([]);
+let list = $ref<UserList>();
+let users = $ref<UserDetailed[]>([]);
 let fetching = $ref(true);
 
-async function chooseList() {
+async function chooseList(): Promise<void> {
 	const lists = await os.api('users/lists/list');
-	const { canceled, result: list } = await os.select({
+	const { canceled, result: __list } = await os.select({
 		title: i18n.ts.selectList,
 		items: lists.map(x => ({
 			value: x, text: x.name,
@@ -67,13 +72,13 @@ async function chooseList() {
 	});
 	if (canceled) return;
 
-	widgetProps.listId = list.id;
+	widgetProps.listId = __list.id;
 	save();
 	fetch();
 }
 
-const fetch = () => {
-	if (widgetProps.listId == null) {
+function fetch(): void {
+	if (widgetProps.listId as string | null == null) {
 		fetching = false;
 		return;
 	}
@@ -85,17 +90,18 @@ const fetch = () => {
 		os.api('users/show', {
 			userIds: list.userIds,
 		}).then(_users => {
-			users = _users;
+			users = _users as unknown as UserDetailed[];
 			fetching = false;
 		});
 	});
-};
+}
 
 useInterval(fetch, 1000 * 60, {
 	immediate: true,
 	afterMounted: true,
 });
 
+// eslint-disable-next-line vue/no-setup-props-destructure
 defineExpose<WidgetComponentExpose>({
 	name,
 	configure,
