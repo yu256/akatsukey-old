@@ -21,7 +21,9 @@
 				<MkButton @click="do2fa">決定</MkButton>
 			</span>
 			<div class="_margin">認証ID</div>
-			<MkInput v-model="VRChatAuth" type="text"/>
+			<MkInput v-model="VRChatAuth" type="text">
+				<template #caption>AuthTokenのキーとなります。複数のクライアントで同じ文字列を入力することで同一のトークンを使用することが可能です。任意の文字列を入力してください。</template>
+			</MkInput>
 		</div>
 	</FormSection>
 </div>
