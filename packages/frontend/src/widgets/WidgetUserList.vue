@@ -10,8 +10,8 @@
 		</div>
 		<MkLoading v-else-if="fetching"/>
 		<div v-else class="users">
-			<span v-for="user in users" :key="user.id" class="user">
-				<MkAvatar v-if="!widgetProps.onlyOnline || user.onlineStatus === 'online'" :user="user" class="avatar" indicator link preview/>
+			<span v-for="user in users.filter(user => !widgetProps.onlyOnline || user.onlineStatus === 'online')" :key="user.id" class="user">
+				<MkAvatar :user="user" class="avatar" indicator link preview/>
 			</span>
 		</div>
 	</div>
