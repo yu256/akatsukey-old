@@ -36,7 +36,7 @@ function request(isPost: boolean): void {
 		type: 'warning',
 		text: `フレンド申請を${isPost ? '送信' : '解除'}しますか？`,
 	}).then( async ({ canceled }) => {
-		if (canceled || !await fetchDataWithAuth('friend_request', props.id + ':' + isPost ? 'POST' : 'DELETE')) return;
+		if (canceled || !await fetchDataWithAuth('friend_request', props.id + ':' + (isPost ? 'POST' : 'DELETE'))) return;
 
 		emit('success', isPost);
 	});
