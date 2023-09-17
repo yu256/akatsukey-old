@@ -1817,6 +1817,7 @@ _widgets:
   aiscriptApp: "AiScript App"
   aichan: "藍"
   userList: "ユーザーリスト"
+  vrcUserList: "VRCユーザーリスト"
   _userList:
     chooseList: "リストを選択"
   clicker: "クリッカー"

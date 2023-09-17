@@ -126,6 +126,11 @@ const menuDef = computed(() => [{
 		text: i18n.ts.plugins,
 		to: '/settings/plugin',
 		active: currentPage?.route.name === 'plugin',
+	}, {
+		icon: 'ti ti-badge-vr',
+		text: 'VRChat',
+		to: '/settings/vrchat',
+		active: currentPage?.route.name === 'VRChat',
 	}],
 }, {
 	title: i18n.ts.otherSettings,

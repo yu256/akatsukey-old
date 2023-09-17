@@ -150,4 +150,10 @@ export const navbarItemDef = reactive({
 		show: computed(() => $i != null),
 		to: `/@${$i?.username}`,
 	},
+	vrchat: {
+		title: 'VRChat',
+		icon: 'ti ti-badge-vr',
+		show: computed(() => $i != null),
+		to: '/vrchat',
+	},
 });
