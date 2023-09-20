@@ -6,6 +6,7 @@
 			<img :src="group.bannerUrl" :class="$style.img" decoding="async"/>
 			<div>{{ group.description }}</div>
 		</div>
+		<div/>
 		<img :class="$style.img" :src="group.iconUrl" decoding="async"/>
 	</div>
 	<div v-if="detailed">
@@ -36,7 +37,7 @@ fetchDataWithAuth('group', props.id).then(r => { group.value = r; });
 @container (min-width: 400px) {
 	.container {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr .1fr 1fr;
 		.img {
 			margin: .5em;
 		}

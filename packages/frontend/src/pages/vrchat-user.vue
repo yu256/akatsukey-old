@@ -56,8 +56,6 @@ fetchDataWithAuth('user', props.id).then(async usr => {
 		instance.value = await fetchDataWithAuth('instance', usr.location);
 	} else if (usr.location === 'traveling') {
 		instance.value = await fetchDataWithAuth('instance', usr.travelingToLocation);
-	} else {
-		return;
 	}
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
