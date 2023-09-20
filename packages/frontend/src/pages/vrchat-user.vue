@@ -2,6 +2,7 @@
 <div v-if="user" class="_gaps_m" :class="$style.container">
 	<VrchatUser :id="id" :user="user"/>
 	<div v-if="instance" class="_gaps_m">
+		<div v-if="user.location === 'traveling'">移動中</div>
 		<MkA :to="`/world/${user.location.split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
 		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
 			<div v-if="owner">
@@ -27,7 +28,7 @@
 	<div v-else-if="user.location === 'private' || user.location === 'offline'">
 		{{ user.location }}
 	</div>
-	<MkLoading v-else/>
+	<MkLoading v-else-if="user.location !== 'traveling'"/>
 </div>
 </template>
 
@@ -49,12 +50,15 @@ const owner = shallowRef<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 fetchDataWithAuth('user', props.id).then(async usr => {
+	if (!usr) return;
 	user.value = usr;
-	if (!(usr?.location.startsWith('wrld'))) {
+	if (usr.location.startsWith('wrld')) {
+		instance.value = await fetchDataWithAuth('instance', usr.location);
+	} else if (usr.location === 'traveling') {
+		instance.value = await fetchDataWithAuth('instance', usr.travelingToLocation);
+	} else {
 		return;
 	}
-
-	instance.value = await fetchDataWithAuth('instance', usr.location);
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
 		return;

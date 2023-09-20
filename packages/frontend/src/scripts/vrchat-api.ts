@@ -78,6 +78,7 @@ export type User = {
 	displayName: string;
 	isFriend: boolean;
 	location: string;
+	travelingToLocation: string;
 	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription: string | null;
 	rank: string;
