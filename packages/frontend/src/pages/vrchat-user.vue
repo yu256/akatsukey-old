@@ -24,8 +24,8 @@
 			<img :class="$style.img" :src="instance.thumbnailImageUrl" decoding="async"/>
 		</div>
 	</div>
-	<div v-else-if="user.location === 'private'">
-		private
+	<div v-else-if="user.location === 'private' || user.location === 'offline'">
+		{{ user.location }}
 	</div>
 	<MkLoading v-else/>
 </div>
