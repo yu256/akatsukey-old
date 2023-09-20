@@ -1,8 +1,7 @@
 <template>
 <MkStickyContainer>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32" :class="$style.container">
-		<MkLoading v-if="fetching"/>
-		<div v-else-if="world" class="_gaps_m">
+		<div v-if="world" class="_gaps_m">
 			<a :class="$style.title" class="world" :href="`https://vrchat.com/home/world/${id}`" target="_blank" rel="noopener">{{ world.name }}</a>
 			<MkSelect v-model="selectedOption" :onUpdate:modelValue="() => timeKey++">
 				<option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
@@ -28,13 +27,15 @@
 				<img :class="$style.img" :src="world.imageUrl/*world.thumbnailImageUrl*/" decoding="async"/>
 			</div>
 			<VrchatUser v-if="author" :id="world.authorId" class="_gaps_m" :user="author"/>
+			<MkLoading v-else/>
 		</div>
+		<MkLoading v-else/>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
@@ -49,7 +50,12 @@ const props = defineProps<{
 
 const world = shallowRef<World>();
 const author = shallowRef<User>();
-const fetching = ref(true);
+
+// eslint-disable-next-line vue/no-setup-props-destructure
+fetchDataWithAuth('world', props.id).then(async wrld => {
+	world.value = wrld;
+	if (wrld) author.value = await fetchDataWithAuth('user', wrld.authorId);
+});
 
 const selectedOption = ref<ArrayElementType<typeof options>['value']>('created_at');
 let timeKey = 0;
@@ -70,12 +76,6 @@ function favorite(): void {
 	fetchDataWithAuth('favorites', `world:${props.id}:worlds1`) // todo 別コンポーネントに分離してタグを選べるようにする
 		.then(ok => ok && toast('✅'));
 }
-
-onMounted(async () => {
-	world.value = await fetchDataWithAuth('world', props.id);
-	author.value = world.value && await fetchDataWithAuth('user', world.value.authorId);
-	fetching.value = false;
-});
 
 definePageMetadata({
 	title: 'VRChat World',

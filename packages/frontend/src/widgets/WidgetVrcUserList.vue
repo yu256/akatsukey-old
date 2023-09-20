@@ -70,9 +70,9 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 );
 
 const friends = shallowRef<{
-		'public': Friend[];
-		'private': Friend[];
-	}>();
+	'public': Friend[];
+	'private': Friend[];
+}>();
 
 async function fetch(): Promise<void> {
 	if (!defaultStore.state.VRChatAuth) return;
@@ -85,12 +85,11 @@ useInterval(fetch, 1000 * 60, {
 	afterMounted: true,
 });
 
-const widgetId = Props.widget?.id ?? null;
-
+// eslint-disable-next-line vue/no-setup-props-destructure
 defineExpose<WidgetComponentExpose>({
 	name,
 	configure,
-	id: widgetId,
+	id: Props.widget?.id ?? null,
 });
 </script>
 

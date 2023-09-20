@@ -1,6 +1,5 @@
 <template>
-<MkLoading v-if="fetching"/>
-<div v-else-if="user" class="_gaps_m" :class="$style.container">
+<div v-if="user" class="_gaps_m" :class="$style.container">
 	<VrchatUser :id="id" :user="user"/>
 	<div v-if="instance" class="_gaps_m">
 		<MkA :to="`/world/${user.location.split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
@@ -8,7 +7,7 @@
 			<div v-if="owner">
 				<VrcAvatar :friend="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
 			</div>
-			<div v-else>
+			<div v-else-if="instance.ownerId === props.id">
 				<VrcAvatar :friend="user" :class="$style.avatar_host"/>{{ user.displayName }}
 			</div>
 		</MkA>
@@ -25,14 +24,15 @@
 			<img :class="$style.img" :src="instance.thumbnailImageUrl" decoding="async"/>
 		</div>
 	</div>
-	<div v-else>
-		{{ user.location }}
+	<div v-else-if="user.location === 'private'">
+		private
 	</div>
+	<MkLoading v-else/>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef } from 'vue';
+import { shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
@@ -47,23 +47,21 @@ const user = shallowRef<User>();
 const instance = shallowRef<Instance>();
 const owner = shallowRef<User>();
 
-const fetching = ref(true);
-
-(async (): Promise<void> => {
-	user.value = await fetchDataWithAuth('user', props.id);
-
-	if (!(user.value?.location.startsWith('wrld'))) {
+// eslint-disable-next-line vue/no-setup-props-destructure
+fetchDataWithAuth('user', props.id).then(async usr => {
+	user.value = usr;
+	if (!(usr?.location.startsWith('wrld'))) {
 		return;
 	}
 
-	instance.value = await fetchDataWithAuth('instance', user.value.location);
+	instance.value = await fetchDataWithAuth('instance', usr.location);
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
 		return;
 	}
 
 	owner.value = await fetchDataWithAuth('user', instance.value.ownerId);
-})().then(() => fetching.value = false);
+});
 
 definePageMetadata({
 	title: 'VRChat',
