@@ -22,7 +22,7 @@ type VrcEndPoints = VrcEndPointsMultiArgs & {
 		'private': Friend[];
 	};
 	'favfriends': Pick<VrcEndPoints, 'friends'>;
-	'favorites/refresh': null;
+	'favorites/refresh': true;
 }
 
 type VrcEndPointsMultiArgs = {
@@ -72,7 +72,7 @@ export type Instance = {
 };
 
 export type User = {
-	bio: string | null; //空文字列の場合もある
+	bio: string;
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;
 	displayName: string;
@@ -162,7 +162,7 @@ export type Group = {
 	rules: string;
 	links: string[];
 	languages: string[];
-	iconId: string;
+	iconId: string | null;
 	bannerId: string;
 	memberCount: number;
 	memberCountSyncedAt: string;

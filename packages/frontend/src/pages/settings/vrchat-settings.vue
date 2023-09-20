@@ -24,7 +24,7 @@
 			<MkInput v-model="VRChatAuth" type="text">
 				<template #caption>AuthTokenのキーとなります。複数のクライアントで同じ文字列を入力することで同一のトークンを使用することが可能です。任意の文字列を入力してください。</template>
 			</MkInput>
-			<MkButton @click="fetchData('favorites/refresh', defaultStore.state.VRChatAuth)">
+			<MkButton @click="fetchData('favorites/refresh', defaultStore.state.VRChatAuth).then(r => r && toast('✅'))">
 				お気に入りフレンドリストの再取得を要求
 			</MkButton>
 		</div>
@@ -39,7 +39,7 @@ import MkInfo from '@/components/MkInfo.vue';
 import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
-import { alert as miAlert } from '@/os';
+import { alert as miAlert, toast } from '@/os';
 import { fetchData } from '@/scripts/vrchat-api';
 
 const username = ref('');
