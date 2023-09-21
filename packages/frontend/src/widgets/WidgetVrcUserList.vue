@@ -52,6 +52,10 @@ const widgetPropsDef = {
 		type: 'boolean' as const,
 		default: true,
 	},
+	onlyFavorited: {
+		type: 'boolean' as const,
+		default: false,
+	},
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -66,14 +70,14 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 );
 
 const friends = shallowRef<{
-		'public': Friend[];
-		'private': Friend[];
-	}>();
+	'public': Friend[];
+	'private': Friend[];
+}>();
 
 async function fetch(): Promise<void> {
 	if (!defaultStore.state.VRChatAuth) return;
 
-	friends.value = await fetchData('friends', defaultStore.state.VRChatAuth);
+	friends.value = await fetchData(widgetProps.onlyFavorited ? 'favfriends' : 'friends', defaultStore.state.VRChatAuth);
 }
 
 useInterval(fetch, 1000 * 60, {
@@ -81,12 +85,11 @@ useInterval(fetch, 1000 * 60, {
 	afterMounted: true,
 });
 
-const widgetId = Props.widget?.id ?? null;
-
+// eslint-disable-next-line vue/no-setup-props-destructure
 defineExpose<WidgetComponentExpose>({
 	name,
 	configure,
-	id: widgetId,
+	id: Props.widget?.id ?? null,
 });
 </script>
 
@@ -122,4 +125,4 @@ defineExpose<WidgetComponentExpose>({
 	border-top: solid 0.5px var(--divider);
 }
 </style>
-	
+

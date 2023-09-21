@@ -1,6 +1,6 @@
 <template>
-<MkInput v-model="query"/>
-<MkButton @click="search">決定</MkButton>
+<MkInput v-model="query" placeholder="ユーザー検索"/>
+<MkButton class="ti ti-search" rounded inline @click="search"/>
 <div v-if="users" class="_gaps_s">
 	<VrcUser v-for="user in users" :key="user.id" :user="user"/>
 </div>

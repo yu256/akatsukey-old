@@ -1,18 +1,7 @@
 import { defaultStore } from '@/store';
-import { alert as miAlert } from '@/os';
+import { alert as miAlert, select, toast } from '@/os';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
-
-type Method =
-	| 'GET'
-	| 'HEAD'
-	| 'POST'
-	| 'PUT'
-	| 'DELETE'
-	| 'CONNECT'
-	| 'OPTIONS'
-	| 'TRACE'
-	| 'PATCH';
 
 type VrcEndPoints = VrcEndPointsMultiArgs & {
 	'auth': string;
@@ -21,6 +10,8 @@ type VrcEndPoints = VrcEndPointsMultiArgs & {
 		'public': Friend[];
 		'private': Friend[];
 	};
+	'favfriends': VrcEndPoints['friends'];
+	'favorites/refresh': true;
 }
 
 type VrcEndPointsMultiArgs = {
@@ -34,9 +25,9 @@ type VrcEndPointsMultiArgs = {
 	'favorites': true;
 }
 
-export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]>(url: E, body: string, method: Method = 'POST'): Promise<T | undefined> {
+export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]>(url: E, body: string): Promise<T | undefined> {
 	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
-		method,
+		method: 'POST',
 		body,
 	}).then(r => r.json());
 
@@ -51,8 +42,23 @@ export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPo
 	return res.Success;
 }
 
-export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string, method?: Method): Promise<VrcEndPointsMultiArgs[E] | undefined> {
-	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body, method);
+export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string): Promise<VrcEndPointsMultiArgs[E] | undefined> {
+	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body);
+}
+
+export function addToFavorites(favoriteId: string, values: readonly string[]): void {
+	const items = values.map(value => (
+		{
+			value,
+			text: value,
+		}
+	));
+
+	select({ title: 'お気に入りするグループ', items }).then(res => {
+		if (res.canceled) return;
+		fetchDataWithAuth('favorites', `${values[0] === 'group_0' ? 'friend' : values[0].slice(0, -2)}:${favoriteId}:${res.result}`)
+			.then(ok => ok && toast('✅'));
+	});
 }
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
@@ -76,6 +82,7 @@ export type User = {
 	displayName: string;
 	isFriend: boolean;
 	location: string;
+	travelingToLocation: string | null;
 	status: 'join me' | 'active' | 'ask me' | 'busy';
 	statusDescription: string | null;
 	rank: string;
@@ -160,7 +167,7 @@ export type Group = {
 	rules: string;
 	links: string[];
 	languages: string[];
-	iconId: string;
+	iconId: string | null;
 	bannerId: string;
 	memberCount: number;
 	memberCountSyncedAt: string;

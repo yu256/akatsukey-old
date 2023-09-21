@@ -1,15 +1,14 @@
 <template>
 <MkStickyContainer>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32" :class="$style.container">
-		<MkLoading v-if="fetching"/>
-		<div v-else-if="world" class="_gaps_m">
+		<div v-if="world" class="_gaps_m">
 			<a :class="$style.title" class="world" :href="`https://vrchat.com/home/world/${id}`" target="_blank" rel="noopener">{{ world.name }}</a>
 			<MkSelect v-model="selectedOption" :onUpdate:modelValue="() => timeKey++">
 				<option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
 			</MkSelect>
 			<div>{{ selectedOptionLabel }}: <MkTime :key="timeKey" :time="world[selectedOption]" mode="absolute"/></div>
 			<div class="_gaps_s">
-				<MkButton @click="favorite">💜{{ world.favorites }}</MkButton>
+				<MkButton @click="addToFavorites(id, items)">💜{{ world.favorites }}</MkButton>
 				<div v-if="world.featured">featured</div>
 				heat: {{ world.heat }}, popularity: {{ world.popularity }}<br>
 				<div v-if="world.namespace">namespace: {{ world.namespace }}</div>
@@ -28,20 +27,21 @@
 				<img :class="$style.img" :src="world.imageUrl/*world.thumbnailImageUrl*/" decoding="async"/>
 			</div>
 			<VrchatUser v-if="author" :id="world.authorId" class="_gaps_m" :user="author"/>
+			<MkLoading v-else/>
 		</div>
+		<MkLoading v-else/>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
-import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
+import { User, World, fetchDataWithAuth, addToFavorites } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
 import MkButton from '@/components/MkButton.vue';
 import { ArrayElementType } from '@/types/custom-utilities';
-import { toast } from '@/os';
 
 const props = defineProps<{
 	id: string;
@@ -49,7 +49,12 @@ const props = defineProps<{
 
 const world = shallowRef<World>();
 const author = shallowRef<User>();
-const fetching = ref(true);
+
+// eslint-disable-next-line vue/no-setup-props-destructure
+fetchDataWithAuth('world', props.id).then(async wrld => {
+	world.value = wrld;
+	if (wrld) author.value = await fetchDataWithAuth('user', wrld.authorId);
+});
 
 const selectedOption = ref<ArrayElementType<typeof options>['value']>('created_at');
 let timeKey = 0;
@@ -66,16 +71,7 @@ const selectedOptionLabel = computed(() =>
 	options.find(opt => opt.value === selectedOption.value)!.label,
 );
 
-function favorite(): void {
-	fetchDataWithAuth('favorites', `world:${props.id}:worlds1`) // todo 別コンポーネントに分離してタグを選べるようにする
-		.then(ok => ok && toast('✅'));
-}
-
-onMounted(async () => {
-	world.value = await fetchDataWithAuth('world', props.id);
-	author.value = world.value && await fetchDataWithAuth('user', world.value.authorId);
-	fetching.value = false;
-});
+const items = ['worlds1', 'worlds2', 'worlds3', 'worlds4'] as const;
 
 definePageMetadata({
 	title: 'VRChat World',
