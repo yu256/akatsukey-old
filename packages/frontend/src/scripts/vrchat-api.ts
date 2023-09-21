@@ -34,7 +34,7 @@ export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPo
 	if ('Error' in res) {
 		miAlert({
 			type: 'error',
-			text: res.Error.includes('Missing Credentials') ? 'トークンの有効期限が切れています。' : res.Error,
+			text: res.Error,
 		});
 		return;
 	}
