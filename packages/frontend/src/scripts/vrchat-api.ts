@@ -3,17 +3,6 @@ import { alert as miAlert, select, toast } from '@/os';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
-type Method =
-	| 'GET'
-	| 'HEAD'
-	| 'POST'
-	| 'PUT'
-	| 'DELETE'
-	| 'CONNECT'
-	| 'OPTIONS'
-	| 'TRACE'
-	| 'PATCH';
-
 type VrcEndPoints = VrcEndPointsMultiArgs & {
 	'auth': string;
 	'twofactor': string;
@@ -36,9 +25,9 @@ type VrcEndPointsMultiArgs = {
 	'favorites': true;
 }
 
-export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]>(url: E, body: string, method: Method = 'POST'): Promise<T | undefined> {
+export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]>(url: E, body: string): Promise<T | undefined> {
 	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
-		method,
+		method: 'POST',
 		body,
 	}).then(r => r.json());
 
@@ -53,8 +42,8 @@ export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPo
 	return res.Success;
 }
 
-export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string, method?: Method): Promise<VrcEndPointsMultiArgs[E] | undefined> {
-	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body, method);
+export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string): Promise<VrcEndPointsMultiArgs[E] | undefined> {
+	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body);
 }
 
 export function addToFavorites(favoriteId: string, values: readonly string[]): void {
