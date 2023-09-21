@@ -8,7 +8,7 @@
 			</MkSelect>
 			<div>{{ selectedOptionLabel }}: <MkTime :key="timeKey" :time="world[selectedOption]" mode="absolute"/></div>
 			<div class="_gaps_s">
-				<MkButton @click="favorite">💜{{ world.favorites }}</MkButton>
+				<MkButton @click="addToFavorites(id, items)">💜{{ world.favorites }}</MkButton>
 				<div v-if="world.featured">featured</div>
 				heat: {{ world.heat }}, popularity: {{ world.popularity }}<br>
 				<div v-if="world.namespace">namespace: {{ world.namespace }}</div>
@@ -37,12 +37,11 @@
 <script lang="ts" setup>
 import { computed, ref, shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
-import { User, World, fetchDataWithAuth } from '@/scripts/vrchat-api';
+import { User, World, fetchDataWithAuth, addToFavorites } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
 import MkButton from '@/components/MkButton.vue';
 import { ArrayElementType } from '@/types/custom-utilities';
-import { toast } from '@/os';
 
 const props = defineProps<{
 	id: string;
@@ -72,10 +71,7 @@ const selectedOptionLabel = computed(() =>
 	options.find(opt => opt.value === selectedOption.value)!.label,
 );
 
-function favorite(): void {
-	fetchDataWithAuth('favorites', `world:${props.id}:worlds1`) // todo 別コンポーネントに分離してタグを選べるようにする
-		.then(ok => ok && toast('✅'));
-}
+const items = ['worlds1', 'worlds2', 'worlds3', 'worlds4'] as const;
 
 definePageMetadata({
 	title: 'VRChat World',

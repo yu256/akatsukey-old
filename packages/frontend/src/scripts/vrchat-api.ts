@@ -1,5 +1,5 @@
 import { defaultStore } from '@/store';
-import { alert as miAlert } from '@/os';
+import { alert as miAlert, select, toast } from '@/os';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
@@ -21,7 +21,7 @@ type VrcEndPoints = VrcEndPointsMultiArgs & {
 		'public': Friend[];
 		'private': Friend[];
 	};
-	'favfriends': Pick<VrcEndPoints, 'friends'>;
+	'favfriends': VrcEndPoints['friends'];
 	'favorites/refresh': true;
 }
 
@@ -55,6 +55,21 @@ export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPo
 
 export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string, method?: Method): Promise<VrcEndPointsMultiArgs[E] | undefined> {
 	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body, method);
+}
+
+export function addToFavorites(favoriteId: string, values: readonly string[]): void {
+	const items = values.map(value => (
+		{
+			value,
+			text: value,
+		}
+	));
+
+	select({ title: 'お気に入りするグループ', items }).then(res => {
+		if (res.canceled) return;
+		fetchDataWithAuth('favorites', `${values[0] === 'group_0' ? 'friend' : values[0].slice(0, -2)}:${favoriteId}:${res.result}`)
+			.then(ok => ok && toast('✅'));
+	});
 }
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
