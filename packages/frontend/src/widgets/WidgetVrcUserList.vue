@@ -56,6 +56,10 @@ const widgetPropsDef = {
 		type: 'boolean' as const,
 		default: false,
 	},
+	fetchFrequency: {
+		type: 'number' as const,
+		default: 60,
+	},
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -80,7 +84,7 @@ async function fetch(): Promise<void> {
 	friends.value = await fetchData(widgetProps.onlyFavorited ? 'favfriends' : 'friends', defaultStore.state.VRChatAuth);
 }
 
-useInterval(fetch, 1000 * 60, {
+useInterval(fetch, 1000 * widgetProps.fetchFrequency, {
 	immediate: true,
 	afterMounted: true,
 });
