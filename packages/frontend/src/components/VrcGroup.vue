@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue';
-import { Group, fetchDataWithAuth } from '@/scripts/vrchat-api';
+import { Group, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 
 const props = withDefaults(defineProps<{
 	id: string;
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<{
 const group = shallowRef<Group>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchDataWithAuth('group', props.id).then(r => { group.value = r; });
+fetchVrcWithAuth('group', props.id).then(r => { group.value = r; });
 </script>
 
 <style lang="scss" module>

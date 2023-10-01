@@ -24,7 +24,7 @@
 			<MkInput v-model="VRChatAuth" type="text">
 				<template #caption>AuthTokenのキーとなります。複数のクライアントで同じ文字列を入力することで同一のトークンを使用することが可能です。任意の文字列を入力してください。</template>
 			</MkInput>
-			<MkButton @click="fetchData('favorites/refresh', defaultStore.state.VRChatAuth).then(r => r && toast('✅'))">
+			<MkButton @click="fetchVrcWithAuth('favorites/refresh').then(r => r && toast('✅'))">
 				お気に入りフレンドリストの再取得を要求
 			</MkButton>
 		</div>
@@ -40,7 +40,7 @@ import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import { alert as miAlert, toast } from '@/os';
-import { fetchData } from '@/scripts/vrchat-api';
+import { fetchVrc, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 
 const username = ref('');
 const password = ref('');
@@ -50,7 +50,7 @@ const twofactor = ref('');
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
 
-	const res = await fetchData('auth', `${username.value}:${password.value}`);
+	const res = await fetchVrc('auth', `${username.value}:${password.value}`);
 	if (!res) return;
 	token.value = res;
 
@@ -63,7 +63,7 @@ async function auth(): Promise<void> {
 async function do2fa(): Promise<void> {
 	if (!twofactor.value || !VRChatAuth.value) return;
 
-	const res = await fetchData('twofactor', `${token.value}:${twofactor.value}:${defaultStore.state.VRChatAuth}`);
+	const res = await fetchVrc('twofactor', `${token.value}:${twofactor.value}:${defaultStore.state.VRChatAuth}`);
 	if (!res) return;
 	defaultStore.set('VRChatAuth', res);
 

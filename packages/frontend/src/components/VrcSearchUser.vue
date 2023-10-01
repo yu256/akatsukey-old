@@ -11,12 +11,12 @@ import { shallowRef } from 'vue';
 import VrcUser from './VrcUser.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
-import { HitUsers, fetchDataWithAuth } from '@/scripts/vrchat-api';
+import { HitUsers, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 
 let query = '';
 const users = shallowRef<HitUsers>();
 
 async function search(): Promise<void> {
-	users.value = await fetchDataWithAuth('search_user', query);
+	users.value = await fetchVrcWithAuth('search_user', query);
 }
 </script>

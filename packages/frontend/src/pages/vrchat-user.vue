@@ -38,7 +38,7 @@ import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { Instance, User, fetchDataWithAuth } from '@/scripts/vrchat-api';
+import { Instance, User, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 
 const props = defineProps<{
 	id: string;
@@ -49,20 +49,20 @@ const instance = shallowRef<Instance>();
 const owner = shallowRef<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchDataWithAuth('user', props.id).then(async usr => {
+fetchVrcWithAuth('user', props.id).then(async usr => {
 	if (!usr) return;
 	user.value = usr;
 	if (usr.location.startsWith('wrld')) {
-		instance.value = await fetchDataWithAuth('instance', usr.location);
+		instance.value = await fetchVrcWithAuth('instance', usr.location);
 	} else if (usr.location === 'traveling') {
-		if (usr.travelingToLocation) instance.value = await fetchDataWithAuth('instance', usr.travelingToLocation);
+		if (usr.travelingToLocation) instance.value = await fetchVrcWithAuth('instance', usr.travelingToLocation);
 	}
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
 		return;
 	}
 
-	owner.value = await fetchDataWithAuth('user', instance.value.ownerId);
+	owner.value = await fetchVrcWithAuth('user', instance.value.ownerId);
 });
 
 definePageMetadata({

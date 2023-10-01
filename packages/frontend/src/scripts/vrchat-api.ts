@@ -3,48 +3,93 @@ import { alert as miAlert, select, toast } from '@/os';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
-type VrcEndPoints = VrcEndPointsMultiArgs & {
-	'auth': string;
-	'twofactor': string;
-	'friends': {
-		'public': Friend[];
-		'private': Friend[];
-	};
-	'favfriends': VrcEndPoints['friends'];
-	'favorites/refresh': true;
-}
-
-type VrcEndPointsMultiArgs = {
-	'instance': Instance;
-	'user': User;
-	'search_user': HitUsers;
-	'friend_request': true;
-	'friend_status': Status;
-	'world': World;
-	'group': Group;
-	'favorites': true;
-}
-
-export async function fetchData<E extends keyof VrcEndPoints, T extends VrcEndPoints[E]>(url: E, body: string): Promise<T | undefined> {
-	const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
-		method: 'POST',
-		body,
-	}).then(r => r.json());
-
-	if ('Error' in res) {
-		miAlert({
-			type: 'error',
-			text: res.Error,
-		});
-		return;
+type VrcEndPoints = {
+	auth: {
+		requiredAuth: false;
+		res: string;
 	}
-
-	return res.Success;
+	twofactor: {
+		requiredAuth: false;
+		res: string;
+	}
+	instance: {
+		requiredAuth: true;
+		res: Instance;
+	}
+	user: {
+		requiredAuth: true;
+		res: User;
+	}
+	search_user: {
+		requiredAuth: true;
+		res: HitUsers;
+	}
+	friend_request: {
+		requiredAuth: true;
+		res: true;
+	}
+	friend_status: {
+		requiredAuth: true;
+		res: Status;
+	}
+	world: {
+		requiredAuth: true;
+		res: World;
+	}
+	group: {
+		requiredAuth: true;
+		res: World;
+	}
+	favorites: {
+		requiredAuth: true;
+		res: true;
+	}
+	friends: {
+		requiredAuth: true;
+		res: {
+			public: Friend[];
+			private: Friend[];
+		};
+	}
+	favfriends: {
+		requiredAuth: true;
+		res: VrcEndPoints['friends'];
+	}
+	'favorites/refresh': {
+		requiredAuth: true;
+		res: true;
+	}
 }
 
-export function fetchDataWithAuth<E extends keyof VrcEndPointsMultiArgs>(url: E, body: string): Promise<VrcEndPointsMultiArgs[E] | undefined> {
-	return fetchData(url, defaultStore.state.VRChatAuth + ':' + body);
-}
+type CheckAuth<WITHAUTH, E extends keyof VrcEndPoints> = WITHAUTH extends true
+	? (VrcEndPoints[E]['requiredAuth'] extends true ? true : false)
+	: (VrcEndPoints[E]['requiredAuth'] extends false ? true : false);
+
+type ValidateAuth<WITHAUTH, E extends keyof VrcEndPoints> = CheckAuth<WITHAUTH, E> extends true
+	? E
+	: never;
+
+const fetchData = <WITHAUTH>(auth = '') =>
+	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: string): Promise<T | undefined> => {
+		const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
+			method: 'POST',
+			body: auth + (body ? `${auth && ':'}${body}` : ''),
+		}).then(r => r.json());
+
+		if ('Error' in res) {
+			miAlert({
+				type: 'error',
+				text: res.Error,
+			});
+			return;
+		}
+
+		return res.Success;
+	};
+
+export const fetchVrcWithAuth = fetchData<true>(defaultStore.state.VRChatAuth);
+
+export const fetchVrc = fetchData<false>();
 
 export function addToFavorites(favoriteId: string, values: readonly string[]): void {
 	const items = values.map(value => (
@@ -54,11 +99,10 @@ export function addToFavorites(favoriteId: string, values: readonly string[]): v
 		}
 	));
 
-	select({ title: 'お気に入りするグループ', items }).then(res => {
-		if (res.canceled) return;
-		fetchDataWithAuth('favorites', `${values[0] === 'group_0' ? 'friend' : values[0].slice(0, -2)}:${favoriteId}:${res.result}`)
-			.then(ok => ok && toast('✅'));
-	});
+	select({ title: 'お気に入りするグループ', items }).then(res => void (res.canceled ||
+		fetchVrcWithAuth('favorites', `${values[0] === 'group_0' ? 'friend' : values[0].slice(0, -2)}:${favoriteId}:${res.result}`)
+			.then(ok => ok && toast('✅'))
+	));
 }
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
