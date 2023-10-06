@@ -59,6 +59,10 @@ type VrcEndPoints = {
 		requiredAuth: true;
 		res: true;
 	}
+	notifications: {
+		requiredAuth: true;
+		res: Notification[];
+	}
 }
 
 type CheckAuth<WITHAUTH, E extends keyof VrcEndPoints> = WITHAUTH extends true
@@ -223,4 +227,15 @@ export type Group = {
 	onlineMemberCount: number;
 	membershipStatus: string;
 	myMember: Member | null;
+}
+
+export type Notification = {
+	id: string;
+	senderUserId: string;
+	senderUsername: string;
+	type: string;
+	message: string;
+	details: 'NotificationDetailInvite' | 'NotificationDetailInviteResponse' | 'NotificationDetailRequestInvite' | 'NotificationDetailRequestInviteResponse' | 'NotificationDetailVoteToKick' | null;
+	seen: boolean;
+	created_at: string;
 }
