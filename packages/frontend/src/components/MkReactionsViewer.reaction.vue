@@ -3,7 +3,7 @@
 	ref="buttonEl"
 	v-ripple="canToggle"
 	class="_button"
-	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: (canToggle || alternative), [$style.large]: defaultStore.state.largeNoteReactions }]"
+	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: canToggle || canToggleRemoteEmojiName, [$style.large]: defaultStore.state.largeNoteReactions }]"
 	@click="toggleReaction()"
 >
 	<MkReactionIcon :class="$style.icon" :reaction="reaction" :emojiUrl="(note as unknown as Note).reactionEmojis[reaction.substring(1, reaction.length - 1)]"/>
@@ -12,20 +12,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, computed, onMounted, shallowRef, watch } from 'vue';
+import { computed, onMounted, shallowRef, watch } from 'vue';
 import * as misskey from 'misskey-js';
 import XDetails from '@/components/MkReactionsViewer.details.vue';
 import MkReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
-import { $i } from '@/account';
+import { $i, iAmModerator } from '@/account';
 import MkReactionEffect from '@/components/MkReactionEffect.vue';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { customEmojis } from '@/custom-emojis';
 
-interface Note {
-	reactionEmojis: Map<string, string>;
+type Note = {
+	reactionEmojis: Record<string, string>;
 }
 
 const props = defineProps<{
@@ -37,11 +37,11 @@ const props = defineProps<{
 
 const buttonEl = shallowRef<HTMLElement>();
 
+const canToggle = computed(() => $i && (props.reaction[props.reaction.length - 2] === '.' || !props.reaction.startsWith(':')));
+
 const reactionName = computed(() => props.reaction.slice(1, props.reaction.indexOf('@')));
 
-const alternative: ComputedRef<string | undefined> = computed(() => $i ? customEmojis.value.find(it => it.name === reactionName.value)?.name : undefined);
-
-const canToggle = computed(() => (props.reaction[props.reaction.length - 2] === '.' || !props.reaction.startsWith(':')) && $i);
+const canToggleRemoteEmojiName = computed(() => $i && customEmojis.value.find(emoji => emoji.name === reactionName.value)?.name);
 
 async function toggleReaction(): Promise<void> {
 	if (!canToggle.value) {
@@ -87,18 +87,18 @@ function anime(): void {
 }
 
 function reactAlternative(): void {
-	if (!alternative.value) {
+	if (!canToggleRemoteEmojiName.value) {
 		importEmojiConfirm();
 		return;
 	}
 	os.api('notes/reactions/create', {
 		noteId: props.note.id,
-		reaction: `:${alternative.value}:`,
+		reaction: `:${canToggleRemoteEmojiName.value}:`,
 	});
 }
 
 async function importEmojiConfirm(): Promise<void> {
-	if (!($i?.isAdmin || $i?.isModerator)) return;
+	if (!iAmModerator) return;
 	const { canceled } = await os.confirm({
 		type: 'info',
 		text: `${reactionName.value}をインポートしますか？`,
