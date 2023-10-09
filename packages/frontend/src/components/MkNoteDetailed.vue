@@ -52,7 +52,7 @@
 					</div>
 				</div>
 				<div :class="$style.noteHeaderUsername"><MkAcct :user="appearNote.user"/></div>
-				<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance" :forceDefault="true"/>
+				<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance" forceDefault/>
 			</div>
 		</header>
 		<div :class="$style.noteContent">

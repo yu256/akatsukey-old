@@ -109,23 +109,22 @@ async function importEmojiConfirm(): Promise<void> {
 
 async function importEmoji(): Promise<void> {
 	const emojiId = await getEmojiId();
+	if (!emojiId) return;
 	os.api('admin/emoji/copy', {
 		emojiId: emojiId,
 	});
 }
 
-async function getEmojiId(): Promise<string> {
+async function getEmojiId(): Promise<string | undefined> {
 	const host = (): string =>
 		props.reaction.slice(props.reaction.indexOf('@') + 1, props.reaction.length - 1);
 
 	const res = await os.api('admin/emoji/list-remote', {
 		host,
 		query: reactionName.value,
-	});
+	}) as { name: string; id: string; }[] | null;
 
-	if (!res) throw new Error('Failed to fetch emojiId.');
-
-	return await res.find((emoji: { name: string; }) => emoji.name === reactionName.value).id;
+	return res?.find(emoji => emoji.name === reactionName.value)?.id;
 }
 
 watch(() => props.count, (newCount, oldCount) => {
