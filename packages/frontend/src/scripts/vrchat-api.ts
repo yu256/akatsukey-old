@@ -1,84 +1,100 @@
 import { defaultStore } from '@/store';
 import { alert as miAlert, select, toast } from '@/os';
+import { ArrayElementType } from '@/types/custom-utilities';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
 type VrcEndPoints = {
 	auth: {
-		requiredAuth: false;
+		withAuth: false;
 		res: string;
 	}
 	twofactor: {
-		requiredAuth: false;
+		withAuth: false;
 		res: string;
 	}
+	profile: {
+		withAuth: false;
+		res: true;
+	}
 	instance: {
-		requiredAuth: true;
+		withAuth: true;
 		res: Instance;
 	}
 	user: {
-		requiredAuth: true;
+		withAuth: true;
 		res: User;
 	}
 	search_user: {
-		requiredAuth: true;
+		withAuth: true;
 		res: HitUsers;
 	}
 	friend_request: {
-		requiredAuth: true;
+		withAuth: true;
 		res: true;
 	}
 	friend_status: {
-		requiredAuth: true;
+		withAuth: true;
 		res: Status;
 	}
 	world: {
-		requiredAuth: true;
+		withAuth: true;
 		res: World;
 	}
 	group: {
-		requiredAuth: true;
+		withAuth: true;
 		res: World;
 	}
 	favorites: {
-		requiredAuth: true;
+		withAuth: true;
 		res: true;
 	}
 	friends: {
-		requiredAuth: true;
+		withAuth: true;
 		res: {
 			public: Friend[];
 			private: Friend[];
 		};
 	}
 	favfriends: {
-		requiredAuth: true;
+		withAuth: true;
 		res: VrcEndPoints['friends'];
 	}
 	'favorites/refresh': {
-		requiredAuth: true;
+		withAuth: true;
 		res: true;
 	}
 	notifications: {
-		requiredAuth: true;
+		withAuth: true;
 		res: Notification[];
 	}
 }
 
 type CheckAuth<WITHAUTH, E extends keyof VrcEndPoints> = WITHAUTH extends true
-	? (VrcEndPoints[E]['requiredAuth'] extends true ? true : false)
-	: (VrcEndPoints[E]['requiredAuth'] extends false ? true : false);
+	? (VrcEndPoints[E]['withAuth'] extends true ? true : false)
+	: (VrcEndPoints[E]['withAuth'] extends false ? true : false);
 
 type ValidateAuth<WITHAUTH, E extends keyof VrcEndPoints> = CheckAuth<WITHAUTH, E> extends true
 	? E
 	: never;
 
 const fetchData = <WITHAUTH>(auth = '') =>
-	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: string): Promise<T | undefined> => {
-		const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, {
+	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: string | object): Promise<T | undefined> => {
+		const option: RequestInit = {
 			method: 'POST',
-			body: auth + (body ? `${auth && ':'}${body}` : ''),
-		}).then(r => r.json());
+		};
+
+		if (typeof body === 'object') {
+			option.headers = {
+				'Content-Type': 'application/json',
+			};
+			// eslint-disable-next-line no-param-reassign
+			body = JSON.stringify(body);
+		}
+
+		option.body = body ? `${auth && `${auth}:`}${body}` : auth;
+
+		const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, option).then(r => r.json());
 
 		if ('Error' in res) {
 			miAlert({
@@ -109,6 +125,8 @@ export function addToFavorites(favoriteId: string, values: readonly string[]): v
 	));
 }
 
+export const status = ['join me', 'active', 'ask me', 'busy'] as const satisfies readonly string[];
+
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
 	id: string;
 	undetermined: boolean;
@@ -131,9 +149,10 @@ export type User = {
 	isFriend: boolean;
 	location: string;
 	travelingToLocation: string | null;
-	status: 'join me' | 'active' | 'ask me' | 'busy';
+	status: ArrayElementType<typeof status>;
 	statusDescription: string | null;
 	rank: string;
+	hasUserIcon: boolean;
 };
 
 export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription' | 'isFriend'> & {
