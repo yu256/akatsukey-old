@@ -3,7 +3,7 @@
 	<VrchatUser :id="id" :user="user"/>
 	<div v-if="instance" class="_gaps_m">
 		<div v-if="user.location === 'traveling'">移動中</div>
-		<MkA :to="`/world/${user.location.split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
+		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
 		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
 			<div v-if="owner">
 				<VrcAvatar :friend="owner" :class="$style.avatar_host"/>{{ owner.displayName }}

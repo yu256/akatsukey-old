@@ -43,7 +43,7 @@ type VrcEndPoints = {
 	}
 	group: {
 		withAuth: true;
-		res: World;
+		res: Group;
 	}
 	favorites: {
 		withAuth: true;
