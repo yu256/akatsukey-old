@@ -4,8 +4,8 @@
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
 		<VRCUser v-if="id" :id="id"/>
 		<div v-else class="_gaps_m">
-			<MkInput v-model="VRChatId" type="text" placeholder="自分のユーザーID"/>
 			<template v-if="profile">
+				<FormInfo warn>プロフィールの情報は、このページ以外で書き換えを行うと次の情報の更新まで不整合が生じます。</FormInfo>
 				<MkSelect v-model="profile.status">
 					<option v-for="text in status" :key="text" :value="text">{{ text }}</option>
 				</MkSelect>
@@ -26,12 +26,6 @@
 					</MkButton>
 				</div>
 			</template>
-			<MkButton
-				v-else
-				@click="VRChatId && fetchVrcWithAuth('user', VRChatId).then(user => profile = user)"
-			>
-				プロフィールを取得
-			</MkButton>
 			<Search/>
 		</div>
 	</MkSpacer>
@@ -47,23 +41,14 @@ import MkTextarea from '@/components/MkTextarea.vue';
 import MkSelect from '@/components/MkSelect.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
+import FormInfo from '@/components/MkInfo.vue';
 import { status, fetchVrc, fetchVrcWithAuth, User } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { toast } from '@/os';
 
 const profile = shallowRef<User>();
 
-type Profile = {
-	auth: string,
-	user: string,
-	query: {
-		status: string,
-		statusDescription: string,
-		bio: string,
-		bioLinks: string[],
-		userIcon?: string,
-	}
-}
+fetchVrcWithAuth('user').then(user => profile.value = user);
 
 function addLink(): void {
 	profile.value?.bioLinks.push('');
@@ -71,6 +56,18 @@ function addLink(): void {
 }
 
 function updateProfile(): void {
+	type Profile = {
+		auth: string,
+		user: string,
+		query: {
+			status: string,
+			statusDescription: string,
+			bio: string,
+			bioLinks: string[],
+			userIcon?: string,
+		}
+	}
+
 	if (!profile.value) return;
 
 	const req = {
