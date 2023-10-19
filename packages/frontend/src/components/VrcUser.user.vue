@@ -2,16 +2,16 @@
 <span style="display:flex">
 	<VrcAvatar :friend="user" :class="$style.avatar"/>
 	<span v-if="user.statusDescription" :class="$style.title" style="font-size:1.5em">
-		<a :href="`https://vrchat.com/home/user/${id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
+		<a :href="`https://vrchat.com/home/user/${user.id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
 		<span class="description">{{ user.statusDescription }}</span>
 	</span>
-	<a v-else :class="$style.title" :href="`https://vrchat.com/home/user/${id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
+	<a v-else :class="$style.title" :href="`https://vrchat.com/home/user/${user.id}`" target="_blank" rel="noopener">{{ user.displayName }}</a>
 </span>
 <span v-if="user.isFriend">
 	フレンド ({{ user.rank }})
 </span>
 <span v-else style="position:relative">
-	{{ user.rank }}<VrcFollowButton :id="id" :class="$style.follow" @success="is => toast(`フレンド申請を${is ? '送信' : '解除'}しました。`)"/>
+	{{ user.rank }}<VrcFollowButton :id="user.id" :class="$style.follow" @success="is => toast(`フレンド申請を${is ? '送信' : '解除'}しました。`)"/>
 </span>
 <div v-if="user.bio || user.bioLinks.length" :class="$style.content" class="_gaps_m">
 	<div v-if="user.bio"><template v-for="text in user.bio.split('\n')" :key="text">{{ text }}<br></template></div>
@@ -30,7 +30,6 @@ import { User } from '@/scripts/vrchat-api';
 
 defineProps<{
 	user: User;
-	id: string;
 }>();
 </script>
 

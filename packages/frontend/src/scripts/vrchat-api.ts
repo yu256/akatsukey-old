@@ -142,6 +142,7 @@ export type Instance = {
 };
 
 export type User = {
+	id: string;
 	bio: string;
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;

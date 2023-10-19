@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, shallowRef, triggerRef } from 'vue';
+import { shallowRef, triggerRef } from 'vue';
 import VRCUser from './vrchat-user.vue';
 import Search from '@/components/VrcSearchUser.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
@@ -46,9 +46,17 @@ import { status, fetchVrc, fetchVrcWithAuth, User } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { toast } from '@/os';
 
+const props = defineProps<{
+	id?: string;
+}>();
+
 const profile = shallowRef<User>();
 
-fetchVrcWithAuth('user').then(user => profile.value = user);
+props.id ?? fetchVrcWithAuth('user').then(user => {
+	// if (!user) return;
+	profile.value = user;
+	// VRChatId.value ||= user.id;
+});
 
 function addLink(): void {
 	profile.value?.bioLinks.push('');
@@ -72,7 +80,7 @@ function updateProfile(): void {
 
 	const req = {
 		auth: defaultStore.state.VRChatAuth,
-		user: VRChatId.value,
+		user: profile.value.id,
 		query: {
 			status: profile.value.status,
 			statusDescription: profile.value.statusDescription ?? '',
@@ -85,11 +93,7 @@ function updateProfile(): void {
 	fetchVrc('profile', req).then(ok => ok && toast('✅'));
 }
 
-const VRChatId = computed<string>(defaultStore.makeGetterSetter('VRChatId'));
-
-defineProps<{
-	id?: string;
-}>();
+// const VRChatId = computed<string>(defaultStore.makeGetterSetter('VRChatId'));
 
 definePageMetadata({
 	title: 'VRChat',

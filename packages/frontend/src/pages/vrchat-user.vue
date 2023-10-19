@@ -1,6 +1,6 @@
 <template>
 <div v-if="user" class="_gaps_m" :class="$style.container">
-	<VrchatUser :id="id" :user="user"/>
+	<VrchatUser :user="user"/>
 	<div v-if="instance" class="_gaps_m">
 		<div v-if="user.location === 'traveling'">移動中</div>
 		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
