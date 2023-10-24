@@ -1554,6 +1554,7 @@ _widgets:
   aichan: "藍"
   userList: "ユーザーリスト"
   vrcUserList: "VRCユーザーリスト"
+  vrcProfile: "VRCプロフィール"
   _userList:
     chooseList: "リストを選択"
 

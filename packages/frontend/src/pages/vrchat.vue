@@ -6,6 +6,7 @@
 		<div v-else class="_gaps_m">
 			<template v-if="profile">
 				<FormInfo warn>プロフィールの情報は、このページ以外で書き換えを行うと次の情報の更新まで不整合が生じます。</FormInfo>
+				<MkA :to="`/vrchat/${profile.id}`">詳細<i class="ti ti-external-link"/></MkA>
 				<MkSelect v-model="profile.status">
 					<option v-for="text in status" :key="text" :value="text">{{ text }}</option>
 				</MkSelect>
@@ -21,7 +22,7 @@
 						リンクを追加
 					</MkButton>
 					<div/>
-					<MkButton inline @click="updateProfile">
+					<MkButton inline @click="updateProfile(profile)">
 						更新
 					</MkButton>
 				</div>
@@ -33,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, triggerRef } from 'vue';
+import { computed, shallowRef, triggerRef } from 'vue';
 import VRCUser from './vrchat-user.vue';
 import Search from '@/components/VrcSearchUser.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
@@ -42,9 +43,8 @@ import MkSelect from '@/components/MkSelect.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import FormInfo from '@/components/MkInfo.vue';
-import { status, fetchVrc, fetchVrcWithAuth, User } from '@/scripts/vrchat-api';
+import { status, fetchVrcWithAuth, User, updateProfile } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
-import { toast } from '@/os';
 
 const props = defineProps<{
 	id?: string;
@@ -53,9 +53,9 @@ const props = defineProps<{
 const profile = shallowRef<User>();
 
 props.id ?? fetchVrcWithAuth('user').then(user => {
-	// if (!user) return;
+	if (!user) return;
+	VRChatId.value = user.id;
 	profile.value = user;
-	// VRChatId.value ||= user.id;
 });
 
 function addLink(): void {
@@ -63,37 +63,7 @@ function addLink(): void {
 	triggerRef(profile);
 }
 
-function updateProfile(): void {
-	type Profile = {
-		auth: string,
-		user: string,
-		query: {
-			status: string,
-			statusDescription: string,
-			bio: string,
-			bioLinks: string[],
-			userIcon?: string,
-		}
-	}
-
-	if (!profile.value) return;
-
-	const req = {
-		auth: defaultStore.state.VRChatAuth,
-		user: profile.value.id,
-		query: {
-			status: profile.value.status,
-			statusDescription: profile.value.statusDescription ?? '',
-			bio: profile.value.bio,
-			bioLinks: profile.value.bioLinks,
-			userIcon: profile.value.hasUserIcon ? profile.value.currentAvatarThumbnailImageUrl : undefined,
-		},
-	} as const satisfies Profile;
-
-	fetchVrc('profile', req).then(ok => ok && toast('✅'));
-}
-
-// const VRChatId = computed<string>(defaultStore.makeGetterSetter('VRChatId'));
+const VRChatId = computed<string>(defaultStore.makeGetterSetter('VRChatId'));
 
 definePageMetadata({
 	title: 'VRChat',

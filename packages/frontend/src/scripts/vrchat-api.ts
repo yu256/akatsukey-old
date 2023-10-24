@@ -125,6 +125,36 @@ export function addToFavorites(favoriteId: string, values: readonly string[]): v
 	));
 }
 
+export function updateProfile(query: User | undefined): void {
+	type Profile = {
+		auth: string,
+		user: string,
+		query: {
+			status: string,
+			statusDescription: string,
+			bio: string,
+			bioLinks: string[],
+			userIcon?: string,
+		}
+	}
+
+	if (!query) return;
+
+	const req = {
+		auth: defaultStore.state.VRChatAuth,
+		user: query.id,
+		query: {
+			status: query.status,
+			statusDescription: query.statusDescription ?? '',
+			bio: query.bio,
+			bioLinks: query.bioLinks,
+			userIcon: query.hasUserIcon ? query.currentAvatarThumbnailImageUrl : undefined,
+		},
+	} as const satisfies Profile;
+
+	fetchVrc('profile', req).then(ok => ok && toast('✅'));
+}
+
 export const status = ['join me', 'active', 'ask me', 'busy'] as const satisfies readonly string[];
 
 export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {

@@ -358,10 +358,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: '',
 	},
-	// VRChatId: {
-	// 	where: 'device',
-	// 	default: '',
-	// },
+	VRChatId: {
+		where: 'device',
+		default: '',
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期

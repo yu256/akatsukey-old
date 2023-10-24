@@ -12,7 +12,7 @@
 		<template v-else-if="friends.public.length || friends.private.length">
 			<span v-if="friends.public.length" class="users">
 				<span v-for="friend in friends.public" :key="friend.id" class="user">
-					<VRCAvatar class="avatar" :friend="friend"/>
+					<VRCAvatar class="avatar" :user="friend"/>
 				</span>
 			</span>
 			<div v-else class="init">
@@ -22,7 +22,7 @@
 				<div :class="$style.divider"/>
 				<span class="users">
 					<span v-for="friend in friends.private" :key="friend.id" class="user">
-						<VRCAvatar class="avatar" :friend="friend"/>
+						<VRCAvatar class="avatar" :user="friend"/>
 					</span>
 				</span>
 			</template>
