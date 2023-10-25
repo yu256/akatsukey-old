@@ -125,7 +125,7 @@ export function addToFavorites(favoriteId: string, values: readonly string[]): v
 	));
 }
 
-export function updateProfile(query: User | undefined): void {
+export function updateProfile(query: User): void {
 	type Profile = {
 		auth: string,
 		user: string,
@@ -137,8 +137,6 @@ export function updateProfile(query: User | undefined): void {
 			userIcon?: string,
 		}
 	}
-
-	if (!query) return;
 
 	const req = {
 		auth: defaultStore.state.VRChatAuth,

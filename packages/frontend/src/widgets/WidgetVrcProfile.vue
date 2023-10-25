@@ -52,8 +52,15 @@ defineExpose<WidgetComponentExpose>({
 	id: props.widget ? props.widget.id : null,
 });
 
-let cnt = 0; // user.valueが代入された際に一度watchEffectが動く
-watch(user, () => ++cnt > 1 && updateProfile(user.value), { deep: true });
+let isLoaded = false;
+watch(user, () => {
+	if (isLoaded) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		updateProfile(user.value!);
+	} else if (user.value) {
+		isLoaded = true;
+	}
+}, { deep: true });
 
 </script>
 
