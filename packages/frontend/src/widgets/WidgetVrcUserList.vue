@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
@@ -73,7 +73,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-const friends = shallowRef<{
+const friends = ref<{
 	'public': Friend[];
 	'private': Friend[];
 }>();

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import MkButton from './MkButton.vue';
 import { Status, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 import { confirm } from '@/os';
@@ -25,7 +25,7 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const res = shallowRef<Status>();
+const res = ref<Status>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 fetchVrcWithAuth('friend_status', props.id).then(r => { res.value = r; });

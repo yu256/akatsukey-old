@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, shallowRef } from 'vue';
+import { computed, ref } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import { User, World, fetchVrcWithAuth, addToFavorites } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
@@ -47,8 +47,8 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const world = shallowRef<World>();
-const author = shallowRef<User>();
+const world = ref<World>();
+const author = ref<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 fetchVrcWithAuth('world', props.id).then(async wrld => {

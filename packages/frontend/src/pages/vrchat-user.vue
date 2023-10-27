@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
@@ -45,9 +45,9 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const user = shallowRef<User>();
-const instance = shallowRef<Instance>();
-const owner = shallowRef<User>();
+const user = ref<User>();
+const instance = ref<Instance>();
+const owner = ref<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 fetchVrcWithAuth('user', props.id === defaultStore.state.VRChatId ? undefined : props.id).then(async usr => {

@@ -7,14 +7,14 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import VrcUser from './VrcUser.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import { HitUsers, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 
 let query = '';
-const users = shallowRef<HitUsers>();
+const users = ref<HitUsers>();
 
 async function search(): Promise<void> {
 	users.value = await fetchVrcWithAuth('search_user', query);

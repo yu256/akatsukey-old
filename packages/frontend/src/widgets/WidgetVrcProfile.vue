@@ -23,14 +23,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, shallowRef, watch } from 'vue';
 import { defaultStore } from '@/store';
 import { fetchVrcWithAuth, updateProfile, User } from '@/scripts/vrchat-api';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import MkSelect from '@/components/MkSelect.vue';
 
 const currentStatus = ref('');
-const user = ref<User>();
+const user = shallowRef<User>();
 
 const customStatus = defaultStore.state.VRChatStatusSets.map(getStatus);
 
