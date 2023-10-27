@@ -1,5 +1,8 @@
 <template>
 <div class="_panel">
+	<MkA to="settings/vrchat" :class="$style.setting">
+		<i class="ti ti-settings"/>
+	</MkA>
 	<div v-if="user" :class="$style.container">
 		<div :class="$style.avatarContainer">
 			<VrcAvatar :class="$style.avatar" :user="user"/>
@@ -9,8 +12,8 @@
 				<MkA :to="`/vrchat/${user.id}`">
 					{{ user.displayName }}
 				</MkA>
-				<MkSelect v-model="user.status">
-					<option v-for="text in status" :key="text" :value="text">{{ text }}</option>
+				<MkSelect v-model="currentStatus">
+					<option v-for="text in customStatus" :key="text" :value="text">{{ text.replace('_', ' ') }}</option>
 				</MkSelect>
 			</div>
 		</div>
@@ -21,50 +24,48 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { useWidgetPropsManager, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import { fetchVrcWithAuth, User, status, updateProfile } from '@/scripts/vrchat-api';
+import { defaultStore } from '@/store';
+import { fetchVrcWithAuth, updateProfile, User } from '@/scripts/vrchat-api';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import MkSelect from '@/components/MkSelect.vue';
 
-const name = 'profile';
-
+const currentStatus = ref('');
 const user = ref<User>();
-fetchVrcWithAuth('user').then(r => user.value = r);
 
-const widgetPropsDef = {};
+const customStatus = defaultStore.state.VRChatStatusSets.map(getStatus);
 
-type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
+function getStatus(status: [string, string]): string {
+	return `${status[0]}${status[1] && `_${status[1]}`}`;
+}
 
-const props = defineProps<WidgetComponentProps<WidgetProps>>();
-const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
-
-const { configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
-);
-
-// eslint-disable-next-line vue/no-setup-props-destructure
-defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+fetchVrcWithAuth('user').then(res => {
+	if (!res) return;
+	const status = getStatus([res.status, res.statusDescription ?? '']);
+	if (!customStatus.includes(status)) customStatus.unshift(status);
+	currentStatus.value = status;
+	setTimeout(() => {
+		user.value = res;
+	}, 10);
 });
 
-let isLoaded = false;
-watch(user, () => {
-	if (isLoaded) {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		updateProfile(user.value!);
-	} else if (user.value) {
-		isLoaded = true;
-	}
-}, { deep: true });
+watch(currentStatus, () => {
+	if (!user.value) return;
+	const [status, desc] = currentStatus.value.split('_');
+	user.value.status = status as 'join me' | 'active' | 'ask me' | 'busy';
+	user.value.statusDescription = desc || ''; // 本当は??にしたいがTSがnullishであると認識していない(undefinedの可能性がある)
+	updateProfile(user.value);
+});
 
 </script>
 
 <style lang="scss" module>
+.setting {
+	position: fixed;
+	right: 1em;
+	top: 1em;
+	z-index: 10;
+}
+
 .container {
 	position: relative;
 	background-size: cover;

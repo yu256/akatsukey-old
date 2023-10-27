@@ -21,7 +21,6 @@
 					>
 						リンクを追加
 					</MkButton>
-					<div/>
 					<MkButton inline @click="updateProfile(profile)">
 						更新
 					</MkButton>
@@ -73,7 +72,7 @@ definePageMetadata({
 
 <style lang="scss" module>
 .buttons {
-	display: grid;
-	grid-template-columns: 1fr 0.1fr 1fr;
+	display: flex;
+	gap: 1em;
 }
 </style>

@@ -7,8 +7,8 @@
 		</a>
 	</MkInfo>
 	<FormSection>
+		<template #label>トークンを設定</template>
 		<div class="_gaps_s">
-			<div class="_margin">トークンを設定</div>
 			<MkInput v-model="VRChatURL" type="text" placeholder="プロキシサーバーのURL https://hoge.com/"/>
 			<span v-if="!token" class="_gaps_s">
 				<MkInput v-model="username" type="text" placeholder="ユーザーネームもしくはメールアドレス"/>
@@ -29,23 +29,44 @@
 			</MkButton>
 		</div>
 	</FormSection>
+
+	<FormSection>
+		<template #label>プロフィールウィジェットのステータスセット</template>
+		<div class="_gaps_s">
+			<template v-for="statusSet, index in VRChatStatusSets" :key="statusSet[0] + statusSet[1]">
+				<div :class="$style.flex">
+					<MkSelect v-model="statusSet[0]" inline>
+						<option v-for="text in status" :key="text" :value="text">{{ text }}</option>
+					</MkSelect>
+					<MkInput v-model="statusSet[1]" inline/>
+					<MkButton inline @click="updateStatusSets(val => val.splice(index, 1))">-</MkButton>
+				</div>
+			</template>
+			<div :class="$style.flex">
+				<MkButton @click="updateStatusSets(val => val.push(['active', '']))">+</MkButton>
+				<MkButton @click="defaultStore.set('VRChatStatusSets', VRChatStatusSets)">決定</MkButton>
+			</div>
+		</div>
+	</FormSection>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, shallowRef, triggerRef } from 'vue';
 import { defaultStore } from '@/store';
 import MkInfo from '@/components/MkInfo.vue';
 import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
+import MkSelect from '@/components/MkSelect.vue';
 import { alert as miAlert, toast } from '@/os';
-import { fetchVrc, fetchVrcWithAuth } from '@/scripts/vrchat-api';
+import { fetchVrc, fetchVrcWithAuth, status } from '@/scripts/vrchat-api';
 
 const username = ref('');
 const password = ref('');
 const token = ref('');
 const twofactor = ref('');
+const VRChatStatusSets = shallowRef(defaultStore.state.VRChatStatusSets);
 
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
@@ -73,7 +94,19 @@ async function do2fa(): Promise<void> {
 	});
 }
 
+function updateStatusSets(fn: (val: Array<['join me' | 'active' | 'ask me' | 'busy', string]>) => void): void {
+	fn(VRChatStatusSets.value);
+	triggerRef(VRChatStatusSets);
+}
+
 const VRChatAuth = computed<string>(defaultStore.makeGetterSetter('VRChatAuth'));
 const VRChatURL = computed<string>(defaultStore.makeGetterSetter('VRChatURL'));
 
 </script>
+
+<style lang="scss" module>
+.flex {
+	display: flex;
+	gap: 1em;
+}
+</style>

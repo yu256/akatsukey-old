@@ -1,6 +1,6 @@
 <template>
 <div v-if="user" class="_gaps_m" :class="$style.container">
-	<VrchatUser :user="user" :isMyself="isMyself"/>
+	<VrchatUser :user="user"/>
 	<div v-if="instance" class="_gaps_m">
 		<div v-if="user.location === 'traveling'">移動中</div>
 		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, computed } from 'vue';
+import { shallowRef } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
@@ -49,10 +49,8 @@ const user = shallowRef<User>();
 const instance = shallowRef<Instance>();
 const owner = shallowRef<User>();
 
-const isMyself = computed(() => props.id === defaultStore.state.VRChatId);
-
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchVrcWithAuth('user', isMyself.value ? undefined : props.id).then(async usr => {
+fetchVrcWithAuth('user', props.id === defaultStore.state.VRChatId ? undefined : props.id).then(async usr => {
 	if (!usr) return;
 	user.value = usr;
 	if (usr.location.startsWith('wrld')) {
