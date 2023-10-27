@@ -12,7 +12,7 @@
 		<template v-else-if="friends.public.length || friends.private.length">
 			<span v-if="friends.public.length" class="users">
 				<span v-for="friend in friends.public" :key="friend.id" class="user">
-					<VRCAvatar class="avatar" :friend="friend"/>
+					<VRCAvatar class="avatar" :user="friend"/>
 				</span>
 			</span>
 			<div v-else class="init">
@@ -22,7 +22,7 @@
 				<div :class="$style.divider"/>
 				<span class="users">
 					<span v-for="friend in friends.private" :key="friend.id" class="user">
-						<VRCAvatar class="avatar" :friend="friend"/>
+						<VRCAvatar class="avatar" :user="friend"/>
 					</span>
 				</span>
 			</template>
@@ -35,12 +35,12 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
 import { GetFormResultType } from '@/scripts/form';
 import MkContainer from '@/components/MkContainer.vue';
 import { useInterval } from '@/scripts/use-interval';
-import { fetchData, Friend } from '@/scripts/vrchat-api';
+import { fetchVrcWithAuth, Friend } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import VRCAvatar from '@/components/VrcAvatar.vue';
@@ -56,6 +56,10 @@ const widgetPropsDef = {
 		type: 'boolean' as const,
 		default: false,
 	},
+	fetchFrequency: {
+		type: 'number' as const,
+		default: 60,
+	},
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -69,7 +73,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-const friends = shallowRef<{
+const friends = ref<{
 	'public': Friend[];
 	'private': Friend[];
 }>();
@@ -77,10 +81,10 @@ const friends = shallowRef<{
 async function fetch(): Promise<void> {
 	if (!defaultStore.state.VRChatAuth) return;
 
-	friends.value = await fetchData(widgetProps.onlyFavorited ? 'favfriends' : 'friends', defaultStore.state.VRChatAuth);
+	friends.value = await fetchVrcWithAuth(widgetProps.onlyFavorited ? 'favfriends' : 'friends');
 }
 
-useInterval(fetch, 1000 * 60, {
+useInterval(fetch, 1000 * widgetProps.fetchFrequency, {
 	immediate: true,
 	afterMounted: true,
 });

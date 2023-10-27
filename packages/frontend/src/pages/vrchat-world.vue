@@ -35,9 +35,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, shallowRef } from 'vue';
+import { computed, ref } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
-import { User, World, fetchDataWithAuth, addToFavorites } from '@/scripts/vrchat-api';
+import { User, World, fetchVrcWithAuth, addToFavorites } from '@/scripts/vrchat-api';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
 import MkButton from '@/components/MkButton.vue';
@@ -47,13 +47,13 @@ const props = defineProps<{
 	id: string;
 }>();
 
-const world = shallowRef<World>();
-const author = shallowRef<User>();
+const world = ref<World>();
+const author = ref<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchDataWithAuth('world', props.id).then(async wrld => {
+fetchVrcWithAuth('world', props.id).then(async wrld => {
 	world.value = wrld;
-	if (wrld) author.value = await fetchDataWithAuth('user', wrld.authorId);
+	if (wrld) author.value = await fetchVrcWithAuth('user', wrld.authorId);
 });
 
 const selectedOption = ref<ArrayElementType<typeof options>['value']>('created_at');

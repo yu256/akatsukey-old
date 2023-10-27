@@ -1,7 +1,7 @@
 <template>
-<component :is="friend.id ? 'MkA' : 'span'" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${friend.id}`">
-	<img :class="$style.inner" :src="friend.currentAvatarThumbnailImageUrl" decoding="async"/>
-	<div v-if="friend.status" v-tooltip="friend.status" :class="$style.indicator" :style="`background:${props.friend.undetermined?`linear-gradient(225deg,${style} 50%,gray 50%)`:style}`"/>
+<component :is="user.id ? 'MkA' : 'span'" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${user.id}`">
+	<img :class="$style.inner" :src="user.currentAvatarThumbnailImageUrl" decoding="async"/>
+	<div v-if="user.status" v-tooltip="user.status" :class="$style.indicator" :style="`background:${props.user.undetermined?`linear-gradient(225deg,${style} 50%,gray 50%)`:style}`"/>
 </component>
 </template>
 
@@ -12,13 +12,13 @@ import { Friend } from '@/scripts/vrchat-api';
 import { SomeRequired } from '@/types/custom-utilities';
 
 const props = defineProps<{
-	friend: SomeRequired<Partial<Friend>, 'currentAvatarThumbnailImageUrl'>
+	user: SomeRequired<Partial<Friend>, 'currentAvatarThumbnailImageUrl'>
 }>();
 
 const style = computed(() => {
-	if (props.friend.location === 'offline') return 'black';
+	if (props.user.location === 'offline') return 'black';
 
-	switch (props.friend.status) {
+	switch (props.user.status) {
 		case 'join me': return '#58d4c9';
 		case 'active': return 'rgb(26, 182, 26)';
 		case 'ask me': return '#e4bc48';

@@ -1,15 +1,15 @@
 <template>
 <div v-if="user" class="_gaps_m" :class="$style.container">
-	<VrchatUser :id="id" :user="user"/>
+	<VrchatUser :user="user"/>
 	<div v-if="instance" class="_gaps_m">
 		<div v-if="user.location === 'traveling'">移動中</div>
-		<MkA :to="`/world/${user.location.split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
+		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
 		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
 			<div v-if="owner">
-				<VrcAvatar :friend="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
+				<VrcAvatar :user="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
 			</div>
 			<div v-else-if="instance.ownerId === props.id">
-				<VrcAvatar :friend="user" :class="$style.avatar_host"/>{{ user.displayName }}
+				<VrcAvatar :user="user" :class="$style.avatar_host"/>{{ user.displayName }}
 			</div>
 		</MkA>
 		<VrcGroup v-else-if="instance.ownerId" :id="instance.ownerId"/>
@@ -17,7 +17,7 @@
 			<div class="_gaps_s">
 				<span :class="$style.users" class="_gaps_s">
 					<span v-for="[img, name] in Object.entries(instance.users)" :key="name" :class="$style.user">
-						<VrcAvatar :friend="{ currentAvatarThumbnailImageUrl: img }" :class="$style.avatar_host"/>{{ name }}
+						<VrcAvatar :user="{ currentAvatarThumbnailImageUrl: img }" :class="$style.avatar_host"/>{{ name }}
 					</span>
 				</span>
 				<div>{{ instance.description }}</div>
@@ -33,36 +33,37 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef } from 'vue';
+import { ref } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
-import { Instance, User, fetchDataWithAuth } from '@/scripts/vrchat-api';
+import { Instance, User, fetchVrcWithAuth } from '@/scripts/vrchat-api';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	id: string;
 }>();
 
-const user = shallowRef<User>();
-const instance = shallowRef<Instance>();
-const owner = shallowRef<User>();
+const user = ref<User>();
+const instance = ref<Instance>();
+const owner = ref<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchDataWithAuth('user', props.id).then(async usr => {
+fetchVrcWithAuth('user', props.id === defaultStore.state.VRChatId ? undefined : props.id).then(async usr => {
 	if (!usr) return;
 	user.value = usr;
 	if (usr.location.startsWith('wrld')) {
-		instance.value = await fetchDataWithAuth('instance', usr.location);
+		instance.value = await fetchVrcWithAuth('instance', usr.location);
 	} else if (usr.location === 'traveling') {
-		if (usr.travelingToLocation) instance.value = await fetchDataWithAuth('instance', usr.travelingToLocation);
+		if (usr.travelingToLocation) instance.value = await fetchVrcWithAuth('instance', usr.travelingToLocation);
 	}
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
 		return;
 	}
 
-	owner.value = await fetchDataWithAuth('user', instance.value.ownerId);
+	owner.value = await fetchVrcWithAuth('user', instance.value.ownerId);
 });
 
 definePageMetadata({

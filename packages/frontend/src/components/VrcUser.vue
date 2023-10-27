@@ -1,6 +1,6 @@
 <template>
 <MkA v-adaptive-bg :to="`/vrchat/${user.id}`" :class="[$style.root, { yellow: user.isFriend }]">
-	<VrcAvatar class="avatar" :friend="user"/>
+	<VrcAvatar class="avatar" :user="user"/>
 	<div class="body">
 		<span class="name">{{ user.displayName }}</span>
 		<span v-if="user.statusDescription" class="sub"><span class="acct _monospace">{{ user.statusDescription }}</span></span>
