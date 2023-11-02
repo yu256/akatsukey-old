@@ -70,6 +70,9 @@ type VrcEndPoints = {
 	}
 }
 
+// 引数がstringでないエンドポイント
+type Body<B> = B extends 'profile' ? object : string;
+
 type CheckAuth<WITHAUTH, E extends keyof VrcEndPoints> = WITHAUTH extends true
 	? (VrcEndPoints[E]['withAuth'] extends true ? true : false)
 	: (VrcEndPoints[E]['withAuth'] extends false ? true : false);
@@ -79,20 +82,21 @@ type ValidateAuth<WITHAUTH, E extends keyof VrcEndPoints> = CheckAuth<WITHAUTH, 
 	: never;
 
 const fetchData = <WITHAUTH>(auth = '') =>
-	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: string | object): Promise<T | undefined> => {
+	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: Body<E>): Promise<T | undefined> => {
 		const option: RequestInit = {
 			method: 'POST',
 		};
+
+		let body_: string | object | undefined = body;
 
 		if (typeof body === 'object') {
 			option.headers = {
 				'Content-Type': 'application/json',
 			};
-			// eslint-disable-next-line no-param-reassign
-			body = JSON.stringify(body);
+			body_ = JSON.stringify(body);
 		}
 
-		option.body = body ? `${auth && `${auth}:`}${body}` : auth;
+		option.body = body_ ? `${auth && `${auth}:`}${body_}` : auth;
 
 		const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, option).then(r => r.json());
 

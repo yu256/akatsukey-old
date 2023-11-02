@@ -94,7 +94,7 @@ async function do2fa(): Promise<void> {
 	});
 }
 
-function updateStatusSets(fn: (val: Array<['join me' | 'active' | 'ask me' | 'busy', string]>) => void): void {
+function updateStatusSets(fn: (val: typeof VRChatStatusSets.value) => void): void {
 	fn(VRChatStatusSets.value);
 	triggerRef(VRChatStatusSets);
 }
