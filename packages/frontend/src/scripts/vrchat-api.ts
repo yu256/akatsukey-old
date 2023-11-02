@@ -165,7 +165,7 @@ export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 
 };
 
 export type Instance = {
-	ownerId: string | null;
+	ownerId?: string;
 	userCount: number;
 	name: string;
 	description: string;
@@ -181,9 +181,9 @@ export type User = {
 	displayName: string;
 	isFriend: boolean;
 	location: string;
-	travelingToLocation: string | null;
+	travelingToLocation?: string;
 	status: ArrayElementType<typeof status>;
-	statusDescription: string | null;
+	statusDescription?: string;
 	rank: string;
 	hasUserIcon: boolean;
 };
@@ -230,7 +230,7 @@ type Gallery = {
 	name: string;
 	description: string;
 	membersOnly: boolean;
-	roleIdsToView: string[] | null;
+	roleIdsToView?: string[];
 	roleIdsToSubmit: string[];
 	roleIdsToAutoApprove: string[];
 	roleIdsToManage: string[];
@@ -243,13 +243,13 @@ type Member = {
 	groupId: string;
 	userId: string;
 	roleIds: string[];
-	managerNotes: string | null;
+	managerNotes?: string;
 	membershipStatus: string;
 	isSubscribedToAnnouncements: boolean;
 	visibility: string;
 	isRepresenting: boolean;
 	joinedAt: string;
-	bannedAt: string | null;
+	bannedAt?: string;
 	has2FA: boolean;
 	permissions: string[];
 }
@@ -267,7 +267,7 @@ export type Group = {
 	rules: string;
 	links: string[];
 	languages: string[];
-	iconId: string | null;
+	iconId?: string;
 	bannerId: string;
 	memberCount: number;
 	memberCountSyncedAt: string;
@@ -278,7 +278,7 @@ export type Group = {
 	createdAt: string;
 	onlineMemberCount: number;
 	membershipStatus: string;
-	myMember: Member | null;
+	myMember?: Member;
 }
 
 export type Notification = {
@@ -287,7 +287,7 @@ export type Notification = {
 	senderUsername: string;
 	type: string;
 	message: string;
-	details: 'NotificationDetailInvite' | 'NotificationDetailInviteResponse' | 'NotificationDetailRequestInvite' | 'NotificationDetailRequestInviteResponse' | 'NotificationDetailVoteToKick' | null;
+	details?: 'NotificationDetailInvite' | 'NotificationDetailInviteResponse' | 'NotificationDetailRequestInvite' | 'NotificationDetailRequestInviteResponse' | 'NotificationDetailVoteToKick';
 	seen: boolean;
 	created_at: string;
 }
