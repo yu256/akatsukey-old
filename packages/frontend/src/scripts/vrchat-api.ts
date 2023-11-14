@@ -25,17 +25,9 @@ type VrcEndPoints = {
 		withAuth: true;
 		res: User;
 	}
-	search_user: {
+	'search/user': {
 		withAuth: true;
 		res: HitUsers;
-	}
-	friend_request: {
-		withAuth: true;
-		res: true;
-	}
-	friend_status: {
-		withAuth: true;
-		res: Status;
 	}
 	world: {
 		withAuth: true;
@@ -49,6 +41,10 @@ type VrcEndPoints = {
 		withAuth: true;
 		res: true;
 	}
+	'favorites/refresh': {
+		withAuth: true;
+		res: true;
+	}
 	friends: {
 		withAuth: true;
 		res: {
@@ -56,17 +52,25 @@ type VrcEndPoints = {
 			private: Friend[];
 		};
 	}
-	favfriends: {
+	'friends/filtered': {
 		withAuth: true;
 		res: VrcEndPoints['friends'];
 	}
-	'favorites/refresh': {
+	'friend/request': {
 		withAuth: true;
 		res: true;
+	}
+	'friend/status': {
+		withAuth: true;
+		res: Status;
 	}
 	notifications: {
 		withAuth: true;
 		res: Notification[];
+	}
+	'invite/myself': {
+		withAuth: true;
+		res: true;
 	}
 }
 

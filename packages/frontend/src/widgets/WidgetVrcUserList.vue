@@ -81,7 +81,7 @@ const friends = ref<{
 async function fetch(): Promise<void> {
 	if (!defaultStore.state.VRChatAuth) return;
 
-	friends.value = await fetchVrcWithAuth(widgetProps.onlyFavorited ? 'favfriends' : 'friends');
+	friends.value = await fetchVrcWithAuth(widgetProps.onlyFavorited ? 'friends/filtered' : 'friends');
 }
 
 useInterval(fetch, 1000 * widgetProps.fetchFrequency, {

@@ -4,6 +4,7 @@
 	<div v-if="instance" class="_gaps_m">
 		<div v-if="user.location === 'traveling'">移動中</div>
 		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
+		<button :class="$style.button" @click="fetchVrcWithAuth('invite/myself', user.location === 'traveling' ? user.travelingToLocation! : user.location).then(ok => ok && toast('✅'))">Invite Myself</button>
 		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
 			<div v-if="owner">
 				<VrcAvatar :user="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
@@ -40,6 +41,7 @@ import VrcGroup from '@/components/VrcGroup.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { Instance, User, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
+import { toast } from '@/os';
 
 const props = defineProps<{
 	id: string;
@@ -118,5 +120,12 @@ definePageMetadata({
 		border-radius: 2em;
 		padding: .5em;
 	}
+}
+
+.button {
+	background-color: var(--bg);
+	border-radius: 1em;
+	border-color: var(--accent);
+	cursor: pointer;
 }
 </style>
