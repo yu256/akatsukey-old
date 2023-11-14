@@ -48,6 +48,11 @@
 			</div>
 		</div>
 	</FormSection>
+
+	<FormSection>
+		<template #label>ユーザーがVRC+の場合、profilePicOverrideよりもUserIconを優先する</template>
+		<MkSwitch v-model="prioritizeUserIcon"/>
+	</FormSection>
 </div>
 </template>
 
@@ -59,6 +64,7 @@ import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkSelect from '@/components/MkSelect.vue';
+import MkSwitch from '@/components/MkSwitch.vue';
 import { alert as miAlert, toast } from '@/os';
 import { fetchVrc, fetchVrcWithAuth, status } from '@/scripts/vrchat-api';
 
@@ -101,6 +107,7 @@ function updateStatusSets(fn: (val: typeof VRChatStatusSets.value) => void): voi
 
 const VRChatAuth = computed<string>(defaultStore.makeGetterSetter('VRChatAuth'));
 const VRChatURL = computed<string>(defaultStore.makeGetterSetter('VRChatURL'));
+const prioritizeUserIcon = computed<boolean>(defaultStore.makeGetterSetter('VRChatPrioritizeUserIcon'));
 
 </script>
 

@@ -366,6 +366,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: [['active', '']] as Array<['join me' | 'active' | 'ask me' | 'busy', string]>,
 	},
+	VRChatPrioritizeUserIcon: {
+		where: 'account',
+		default: true,
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期

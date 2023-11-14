@@ -1,6 +1,6 @@
 import { defaultStore } from '@/store';
 import { alert as miAlert, select, toast } from '@/os';
-import { ArrayElementType } from '@/types/custom-utilities';
+import { ArrayElementType, SomeRequired } from '@/types/custom-utilities';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
@@ -137,13 +137,7 @@ export function updateProfile(query: User): void {
 	type Profile = {
 		auth: string,
 		user: string,
-		query: {
-			status: string,
-			statusDescription: string,
-			bio: string,
-			bioLinks: string[],
-			userIcon?: string,
-		}
+		query: Pick<User, 'status' | 'statusDescription' | 'bio' | 'bioLinks' | 'userIcon'>;
 	}
 
 	const req = {
@@ -154,16 +148,21 @@ export function updateProfile(query: User): void {
 			statusDescription: query.statusDescription ?? '',
 			bio: query.bio,
 			bioLinks: query.bioLinks,
-			userIcon: query.hasUserIcon ? query.currentAvatarThumbnailImageUrl : undefined,
+			userIcon: query.userIcon,
 		},
 	} as const satisfies Profile;
 
 	fetchVrc('profile', req).then(ok => ok && toast('✅'));
 }
 
+export function avatarImage(user: SomeRequired<Partial<User>, 'currentAvatarThumbnailImageUrl'>): string {
+	return (defaultStore.state.VRChatPrioritizeUserIcon ? (user.userIcon ?? user.profilePicOverride) : (user.profilePicOverride ?? user.userIcon))
+		?? user.currentAvatarThumbnailImageUrl;
+}
+
 export const status = ['join me', 'active', 'ask me', 'busy'] as const satisfies readonly string[];
 
-export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
+export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'profilePicOverride' | 'userIcon' | 'location' | 'status'> & {
 	id: string;
 	undetermined: boolean;
 };
@@ -182,6 +181,8 @@ export type User = {
 	bio: string;
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;
+	profilePicOverride?: string;
+	userIcon?: string;
 	displayName: string;
 	isFriend: boolean;
 	location: string;
@@ -189,10 +190,9 @@ export type User = {
 	status: ArrayElementType<typeof status>;
 	statusDescription?: string;
 	rank: string;
-	hasUserIcon: boolean;
 };
 
-export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription' | 'isFriend'> & {
+export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'profilePicOverride' | 'userIcon' | 'displayName' | 'statusDescription' | 'isFriend'> & {
 	id: string;
 }>;
 
