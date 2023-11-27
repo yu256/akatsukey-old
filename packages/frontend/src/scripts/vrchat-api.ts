@@ -212,6 +212,7 @@ export type World = {
 	heat: number;
 	// id: string;
 	imageUrl: string;
+	instances?: Array<[string, number, string] | null>;
 	labsPublicationDate: string;
 	name: string;
 	namespace: string;
