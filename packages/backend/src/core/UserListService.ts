@@ -55,7 +55,7 @@ export class UserListService {
 		// このインスタンス内にこのリモートユーザーをフォローしているユーザーがいなくても投稿を受け取るためにダミーのユーザーがフォローしたということにする
 		if (this.userEntityService.isRemoteUser(target)) {
 			const proxy = await this.proxyAccountService.fetch();
-			if (proxy) {
+			if (proxy && !target.followersCount) {
 				this.queueService.createFollowJob([{ from: { id: proxy.id }, to: { id: target.id } }]);
 			}
 		}
