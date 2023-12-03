@@ -47,7 +47,6 @@ import { User, World, fetchVrcWithAuth, addToFavorites } from '@/scripts/vrchat-
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
 import MkButton from '@/components/MkButton.vue';
-import { ArrayElementType } from '@/types/custom-utilities';
 import { toast } from '@/os';
 
 const props = defineProps<{
@@ -63,7 +62,7 @@ fetchVrcWithAuth('world', props.id).then(async wrld => {
 	if (wrld) author.value = await fetchVrcWithAuth('user', wrld.authorId);
 });
 
-const selectedOption = ref<ArrayElementType<typeof options>['value']>('created_at');
+const selectedOption = ref<typeof options[number]['value']>('created_at');
 let timeKey = 0;
 
 const options = [

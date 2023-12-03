@@ -11,10 +11,9 @@
 <script lang="ts" setup>
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import { HitUsers } from '@/scripts/vrchat-api';
-import { ArrayElementType } from '@/types/custom-utilities';
 
 defineProps<{
-	user: ArrayElementType<HitUsers>;
+	user: HitUsers[number];
 }>();
 </script>
 

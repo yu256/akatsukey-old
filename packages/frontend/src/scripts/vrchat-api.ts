@@ -1,6 +1,6 @@
 import { defaultStore } from '@/store';
 import { alert as miAlert, select, toast } from '@/os';
-import { ArrayElementType, SomeRequired } from '@/types/custom-utilities';
+import { SomeRequired } from '@/types/custom-utilities';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
@@ -187,7 +187,7 @@ export type User = {
 	isFriend: boolean;
 	location: string;
 	travelingToLocation?: string;
-	status: ArrayElementType<typeof status>;
+	status: typeof status[number];
 	statusDescription?: string;
 	rank: string;
 };
