@@ -49,7 +49,10 @@ export class UrlPreviewService {
 		reply: FastifyReply,
 	): Promise<object | undefined> {
 		const url = request.query.url;
-		if (typeof url !== 'string') {
+		let urlObj: URL;
+		try {
+			urlObj = new URL(url);
+		} catch {
 			reply.code(400);
 			return;
 		}
@@ -62,11 +65,13 @@ export class UrlPreviewService {
 
 		const meta = await this.metaService.fetch();
 
-		this.logger.info(meta.summalyProxy
+		const useSummalyProxy = !!meta.summalyProxy && !/(booth\.pm|pixiv\.net)$/.test(urlObj.hostname);
+
+		this.logger.info(useSummalyProxy
 			? `(Proxy) Getting preview of ${url}@${lang} ...`
 			: `Getting preview of ${url}@${lang} ...`);
 		try {
-			const summary = meta.summalyProxy ?
+			const summary = useSummalyProxy ?
 				await this.httpRequestService.getJson<ReturnType<typeof summaly>>(`${meta.summalyProxy}?${query({
 					url: url,
 					lang: lang ?? 'ja-JP',
