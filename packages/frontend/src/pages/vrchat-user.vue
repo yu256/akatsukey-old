@@ -4,6 +4,10 @@
 	<div v-if="instance" class="_gaps_m">
 		<div v-if="user.location === 'traveling'">移動中</div>
 		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
+		<div style="display: flex; gap: 0.5em;">
+			<MkButton :class="$style.button" @click="fetchVrcWithAuth('invite/myself', location()).then(ok => ok && toast('✅'))">Invite myself</MkButton>
+			<MkButton :class="$style.button" @click="copyToClipboard(location())">locationをコピー</MkButton>
+		</div>
 		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
 			<div v-if="owner">
 				<VrcAvatar :user="owner" :class="$style.avatar_host"/>{{ owner.displayName }}
@@ -40,6 +44,9 @@ import VrcGroup from '@/components/VrcGroup.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { Instance, User, fetchVrcWithAuth } from '@/scripts/vrchat-api';
 import { defaultStore } from '@/store';
+import { toast } from '@/os';
+import MkButton from '@/components/MkButton.vue';
+import copyToClipboard from '@/scripts/copy-to-clipboard';
 
 const props = defineProps<{
 	id: string;
@@ -65,6 +72,8 @@ fetchVrcWithAuth('user', props.id === defaultStore.state.VRChatId ? undefined : 
 
 	owner.value = await fetchVrcWithAuth('user', instance.value.ownerId);
 });
+
+const location = (): string | undefined => user.value && (user.value.location === 'traveling' ? user.value.travelingToLocation : user.value.location);
 
 definePageMetadata({
 	title: 'VRChat',

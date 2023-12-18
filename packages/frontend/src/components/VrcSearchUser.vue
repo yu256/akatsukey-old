@@ -17,6 +17,6 @@ let query = '';
 const users = ref<HitUsers>();
 
 async function search(): Promise<void> {
-	users.value = await fetchVrcWithAuth('search_user', query);
+	users.value = await fetchVrcWithAuth('search/user', query);
 }
 </script>

@@ -1,6 +1,6 @@
 import { defaultStore } from '@/store';
 import { alert as miAlert, select, toast } from '@/os';
-import { ArrayElementType } from '@/types/custom-utilities';
+import { SomeRequired } from '@/types/custom-utilities';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 
@@ -9,13 +9,13 @@ type VrcEndPoints = {
 		withAuth: false;
 		res: string;
 	}
-	twofactor: {
-		withAuth: false;
-		res: string;
-	}
 	profile: {
 		withAuth: false;
 		res: true;
+	}
+	twofactor: {
+		withAuth: true;
+		res: string;
 	}
 	instance: {
 		withAuth: true;
@@ -25,17 +25,9 @@ type VrcEndPoints = {
 		withAuth: true;
 		res: User;
 	}
-	search_user: {
+	'search/user': {
 		withAuth: true;
 		res: HitUsers;
-	}
-	friend_request: {
-		withAuth: true;
-		res: true;
-	}
-	friend_status: {
-		withAuth: true;
-		res: Status;
 	}
 	world: {
 		withAuth: true;
@@ -49,6 +41,10 @@ type VrcEndPoints = {
 		withAuth: true;
 		res: true;
 	}
+	'favorites/refresh': {
+		withAuth: true;
+		res: true;
+	}
 	friends: {
 		withAuth: true;
 		res: {
@@ -56,19 +52,30 @@ type VrcEndPoints = {
 			private: Friend[];
 		};
 	}
-	favfriends: {
+	'friends/filtered': {
 		withAuth: true;
 		res: VrcEndPoints['friends'];
 	}
-	'favorites/refresh': {
+	'friend/request': {
 		withAuth: true;
 		res: true;
+	}
+	'friend/status': {
+		withAuth: true;
+		res: Status;
 	}
 	notifications: {
 		withAuth: true;
 		res: Notification[];
 	}
+	'invite/myself': {
+		withAuth: true;
+		res: true;
+	}
 }
+
+// 引数がstringでないエンドポイント
+type Body<B> = B extends 'profile' ? object : string;
 
 type CheckAuth<WITHAUTH, E extends keyof VrcEndPoints> = WITHAUTH extends true
 	? (VrcEndPoints[E]['withAuth'] extends true ? true : false)
@@ -79,20 +86,21 @@ type ValidateAuth<WITHAUTH, E extends keyof VrcEndPoints> = CheckAuth<WITHAUTH, 
 	: never;
 
 const fetchData = <WITHAUTH>(auth = '') =>
-	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: string | object): Promise<T | undefined> => {
+	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: Body<E>): Promise<T | undefined> => {
 		const option: RequestInit = {
 			method: 'POST',
 		};
+
+		let body_: string | object | undefined = body;
 
 		if (typeof body === 'object') {
 			option.headers = {
 				'Content-Type': 'application/json',
 			};
-			// eslint-disable-next-line no-param-reassign
-			body = JSON.stringify(body);
+			body_ = JSON.stringify(body);
 		}
 
-		option.body = body ? `${auth && `${auth}:`}${body}` : auth;
+		option.body = body_ ? `${auth && `${auth}:`}${body_}` : auth;
 
 		const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, option).then(r => r.json());
 
@@ -129,13 +137,7 @@ export function updateProfile(query: User): void {
 	type Profile = {
 		auth: string,
 		user: string,
-		query: {
-			status: string,
-			statusDescription: string,
-			bio: string,
-			bioLinks: string[],
-			userIcon?: string,
-		}
+		query: Pick<User, 'status' | 'statusDescription' | 'bio' | 'bioLinks' | 'userIcon'>;
 	}
 
 	const req = {
@@ -146,22 +148,27 @@ export function updateProfile(query: User): void {
 			statusDescription: query.statusDescription ?? '',
 			bio: query.bio,
 			bioLinks: query.bioLinks,
-			userIcon: query.hasUserIcon ? query.currentAvatarThumbnailImageUrl : undefined,
+			userIcon: query.userIcon,
 		},
 	} as const satisfies Profile;
 
 	fetchVrc('profile', req).then(ok => ok && toast('✅'));
 }
 
+export function avatarImage(user: SomeRequired<Partial<User>, 'currentAvatarThumbnailImageUrl'>): string {
+	return (defaultStore.state.VRChatPrioritizeUserIcon ? (user.userIcon ?? user.profilePicOverride) : (user.profilePicOverride ?? user.userIcon))
+		?? user.currentAvatarThumbnailImageUrl;
+}
+
 export const status = ['join me', 'active', 'ask me', 'busy'] as const satisfies readonly string[];
 
-export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'location' | 'status'> & {
+export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'profilePicOverride' | 'userIcon' | 'location' | 'status'> & {
 	id: string;
 	undetermined: boolean;
 };
 
 export type Instance = {
-	ownerId: string | null;
+	ownerId?: string;
 	userCount: number;
 	name: string;
 	description: string;
@@ -174,17 +181,18 @@ export type User = {
 	bio: string;
 	bioLinks: string[];
 	currentAvatarThumbnailImageUrl: string;
+	profilePicOverride?: string;
+	userIcon?: string;
 	displayName: string;
 	isFriend: boolean;
 	location: string;
-	travelingToLocation: string | null;
-	status: ArrayElementType<typeof status>;
-	statusDescription: string | null;
+	travelingToLocation?: string;
+	status: typeof status[number];
+	statusDescription?: string;
 	rank: string;
-	hasUserIcon: boolean;
 };
 
-export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'displayName' | 'statusDescription' | 'isFriend'> & {
+export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'profilePicOverride' | 'userIcon' | 'displayName' | 'statusDescription' | 'isFriend'> & {
 	id: string;
 }>;
 
@@ -204,6 +212,7 @@ export type World = {
 	heat: number;
 	// id: string;
 	imageUrl: string;
+	instances?: Array<[string, number, string] | null>;
 	labsPublicationDate: string;
 	name: string;
 	namespace: string;
@@ -226,7 +235,7 @@ type Gallery = {
 	name: string;
 	description: string;
 	membersOnly: boolean;
-	roleIdsToView: string[] | null;
+	roleIdsToView?: string[];
 	roleIdsToSubmit: string[];
 	roleIdsToAutoApprove: string[];
 	roleIdsToManage: string[];
@@ -239,13 +248,13 @@ type Member = {
 	groupId: string;
 	userId: string;
 	roleIds: string[];
-	managerNotes: string | null;
+	managerNotes?: string;
 	membershipStatus: string;
 	isSubscribedToAnnouncements: boolean;
 	visibility: string;
 	isRepresenting: boolean;
 	joinedAt: string;
-	bannedAt: string | null;
+	bannedAt?: string;
 	has2FA: boolean;
 	permissions: string[];
 }
@@ -263,7 +272,7 @@ export type Group = {
 	rules: string;
 	links: string[];
 	languages: string[];
-	iconId: string | null;
+	iconId?: string;
 	bannerId: string;
 	memberCount: number;
 	memberCountSyncedAt: string;
@@ -274,7 +283,7 @@ export type Group = {
 	createdAt: string;
 	onlineMemberCount: number;
 	membershipStatus: string;
-	myMember: Member | null;
+	myMember?: Member;
 }
 
 export type Notification = {
@@ -283,7 +292,7 @@ export type Notification = {
 	senderUsername: string;
 	type: string;
 	message: string;
-	details: 'NotificationDetailInvite' | 'NotificationDetailInviteResponse' | 'NotificationDetailRequestInvite' | 'NotificationDetailRequestInviteResponse' | 'NotificationDetailVoteToKick' | null;
+	details?: 'NotificationDetailInvite' | 'NotificationDetailInviteResponse' | 'NotificationDetailRequestInvite' | 'NotificationDetailRequestInviteResponse' | 'NotificationDetailVoteToKick';
 	seen: boolean;
 	created_at: string;
 }

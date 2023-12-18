@@ -48,6 +48,11 @@
 			</div>
 		</div>
 	</FormSection>
+
+	<FormSection>
+		<template #label>ユーザーがVRC+の場合、profilePicOverrideよりもUserIconを優先する</template>
+		<MkSwitch v-model="prioritizeUserIcon"/>
+	</FormSection>
 </div>
 </template>
 
@@ -59,6 +64,7 @@ import FormSection from '@/components/form/section.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkSelect from '@/components/MkSelect.vue';
+import MkSwitch from '@/components/MkSwitch.vue';
 import { alert as miAlert, toast } from '@/os';
 import { fetchVrc, fetchVrcWithAuth, status } from '@/scripts/vrchat-api';
 
@@ -84,7 +90,7 @@ async function auth(): Promise<void> {
 async function do2fa(): Promise<void> {
 	if (!twofactor.value || !VRChatAuth.value) return;
 
-	const res = await fetchVrc('twofactor', `${token.value}:${twofactor.value}:${defaultStore.state.VRChatAuth}`);
+	const res = await fetchVrcWithAuth('twofactor', `${token.value}:${twofactor.value}`);
 	if (!res) return;
 	defaultStore.set('VRChatAuth', res);
 
@@ -94,13 +100,14 @@ async function do2fa(): Promise<void> {
 	});
 }
 
-function updateStatusSets(fn: (val: Array<['join me' | 'active' | 'ask me' | 'busy', string]>) => void): void {
+function updateStatusSets(fn: (val: typeof VRChatStatusSets.value) => void): void {
 	fn(VRChatStatusSets.value);
 	triggerRef(VRChatStatusSets);
 }
 
 const VRChatAuth = computed<string>(defaultStore.makeGetterSetter('VRChatAuth'));
 const VRChatURL = computed<string>(defaultStore.makeGetterSetter('VRChatURL'));
+const prioritizeUserIcon = computed<boolean>(defaultStore.makeGetterSetter('VRChatPrioritizeUserIcon'));
 
 </script>
 

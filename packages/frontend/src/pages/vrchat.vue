@@ -10,7 +10,7 @@
 				<MkSelect v-model="profile.status">
 					<option v-for="text in status" :key="text" :value="text">{{ text }}</option>
 				</MkSelect>
-				<MkInput v-model="profile.statusDescription" type="text" placeholder="statusDescription"/>
+				<MkInput v-if="profile.statusDescription" v-model="profile.statusDescription" type="text" placeholder="statusDescription"/>
 				<MkTextarea v-model="profile.bio" placeholder="bio"/>
 				リンク
 				<MkInput v-for="bioLink, index in profile.bioLinks" :key="bioLink" v-model="profile.bioLinks[index]" type="text" :placeholder="`リンク${index + 1}`"/>

@@ -1,6 +1,6 @@
 <template>
 <component :is="user.id ? 'MkA' : 'span'" class="_noSelect" :class="[$style.root, { [$style.square]: defaultStore.state.squareAvatars }]" :to="`/vrchat/${user.id}`">
-	<img :class="$style.inner" :src="user.currentAvatarThumbnailImageUrl" decoding="async"/>
+	<img :class="$style.inner" :src="avatarImage(user)" decoding="async"/>
 	<div v-if="user.status" v-tooltip="user.status" :class="$style.indicator" :style="`background:${props.user.undetermined?`linear-gradient(225deg,${style} 50%,gray 50%)`:style}`"/>
 </component>
 </template>
@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { defaultStore } from '@/store';
-import { Friend } from '@/scripts/vrchat-api';
+import { Friend, avatarImage } from '@/scripts/vrchat-api';
 import { SomeRequired } from '@/types/custom-utilities';
 
 const props = defineProps<{

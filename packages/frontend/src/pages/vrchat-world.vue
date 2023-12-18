@@ -24,7 +24,13 @@
 					</div>
 					{{ world.description }}
 				</div>
-				<img :class="$style.img" :src="world.imageUrl/*world.thumbnailImageUrl*/" decoding="async"/>
+				<img :class="$style.img" :src="world.imageUrl" decoding="async"/>
+			</div>
+			<div v-if="world.instances && world.instances[0]">
+				<div v-for="instance in world.instances" :key="instance![0]">
+					{{ instance![0] }} ({{ instance![1] }})
+					<MkButton @click="fetchVrcWithAuth('invite/myself', `${id}:${instance![0]}`).then(ok => ok && toast('✅'))">Invite</MkButton>
+				</div>
 			</div>
 			<VrchatUser v-if="author" :id="world.authorId" class="_gaps_m" :user="author"/>
 			<MkLoading v-else/>
@@ -41,7 +47,7 @@ import { User, World, fetchVrcWithAuth, addToFavorites } from '@/scripts/vrchat-
 import { definePageMetadata } from '@/scripts/page-metadata';
 import MkSelect from '@/components/MkSelect.vue';
 import MkButton from '@/components/MkButton.vue';
-import { ArrayElementType } from '@/types/custom-utilities';
+import { toast } from '@/os';
 
 const props = defineProps<{
 	id: string;
@@ -56,7 +62,7 @@ fetchVrcWithAuth('world', props.id).then(async wrld => {
 	if (wrld) author.value = await fetchVrcWithAuth('user', wrld.authorId);
 });
 
-const selectedOption = ref<ArrayElementType<typeof options>['value']>('created_at');
+const selectedOption = ref<typeof options[number]['value']>('created_at');
 let timeKey = 0;
 
 const options = [
