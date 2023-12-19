@@ -46,6 +46,14 @@ export const routes = [{
 	path: '/instance-info/:host',
 	component: page(() => import('./pages/instance-info.vue')),
 }, {
+	path: '/vrchat/:id?',
+	name: 'vrchat',
+	component: page(() => import('./pages/vrchat.vue')),
+}, {
+	path: '/world/:id',
+	name: 'vrcWorld',
+	component: page(() => import('./pages/vrchat-world.vue')),
+}, {
 	name: 'settings',
 	path: '/settings',
 	component: page(() => import('./pages/settings/index.vue')),
@@ -182,6 +190,10 @@ export const routes = [{
 		path: '/akatsukey-settings',
 		name: 'akatsukey',
 		component: page(() => import('./pages/settings/akatsukey-settings.vue')),
+	}, {
+		path: '/vrchat',
+		name: 'VRChat',
+		component: page(() => import('./pages/settings/vrchat-settings.vue')),
 	}, {
 		path: '/',
 		component: page(() => import('./pages/_empty_.vue')),

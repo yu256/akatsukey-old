@@ -135,6 +135,11 @@ const menuDef = computed(() => [{
 		text: 'akatsukey',
 		to: '/settings/akatsukey-settings',
 		active: currentPage.value?.route.name === 'akatsukey-settings',
+	}, {
+		icon: 'ti ti-badge-vr',
+		text: 'VRChat',
+		to: '/settings/vrchat',
+		active: currentPage.value?.route.name === 'VRChat',
 	}],
 }, {
 	title: i18n.ts.otherSettings,

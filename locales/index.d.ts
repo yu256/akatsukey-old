@@ -2120,6 +2120,8 @@ export interface Locale {
         "aiscriptApp": string;
         "aichan": string;
         "userList": string;
+        "vrcUserList": string;
+        "vrcProfile": string;
         "_userList": {
             "chooseList": string;
         };
