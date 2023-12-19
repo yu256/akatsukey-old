@@ -145,7 +145,6 @@ export class ExportNotesProcessorService {
 			visibility: note.visibility,
 			visibleUserIds: note.visibleUserIds,
 			localOnly: note.localOnly,
-			reactionAcceptance: note.reactionAcceptance,
 		};
 	}
 }

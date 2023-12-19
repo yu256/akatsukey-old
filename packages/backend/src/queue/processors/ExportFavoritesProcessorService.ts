@@ -144,7 +144,6 @@ export class ExportFavoritesProcessorService {
 				visibility: favorite.note.visibility,
 				visibleUserIds: favorite.note.visibleUserIds,
 				localOnly: favorite.note.localOnly,
-				reactionAcceptance: favorite.note.reactionAcceptance,
 				uri: favorite.note.uri,
 				url: favorite.note.url,
 				user: {

@@ -86,11 +86,6 @@ export class MiNote {
 	})
 	public localOnly: boolean;
 
-	@Column('varchar', {
-		length: 64, nullable: true,
-	})
-	public reactionAcceptance: 'likeOnly' | 'likeOnlyForRemote' | 'nonSensitiveOnly' | 'nonSensitiveOnlyForLocalLikeOnlyForRemote' | null;
-
 	@Column('smallint', {
 		default: 0,
 	})

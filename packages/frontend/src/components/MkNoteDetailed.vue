@@ -125,8 +125,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<i class="ti ti-ban"></i>
 			</button>
 			<button v-if="appearNote.myReaction == null" ref="reactButton" :class="$style.noteFooterButton" class="_button" @mousedown="react()">
-				<i v-if="appearNote.reactionAcceptance === 'likeOnly'" class="ti ti-heart"></i>
-				<i v-else class="ti ti-plus"></i>
+				<i class="ti ti-plus"></i>
 			</button>
 			<button v-if="appearNote.myReaction != null" ref="reactButton" class="_button" :class="[$style.noteFooterButton, $style.reacted]" @click="undoReact(appearNote)">
 				<i class="ti ti-minus"></i>
@@ -368,41 +367,19 @@ function reply(viaKeyboard = false): void {
 function react(viaKeyboard = false): void {
 	pleaseLogin();
 	showMovedDialog();
-	if (appearNote.value.reactionAcceptance === 'likeOnly') {
+	blur();
+	reactionPicker.show(reactButton.value, reaction => {
 		sound.play('reaction');
 
 		os.api('notes/reactions/create', {
 			noteId: appearNote.value.id,
-			reaction: '❤️',
 		});
-		const el = reactButton.value as HTMLElement | null | undefined;
-		if (el) {
-			const rect = el.getBoundingClientRect();
-			const x = rect.left + (el.offsetWidth / 2);
-			const y = rect.top + (el.offsetHeight / 2);
-			os.popup(MkRippleEffect, { x, y }, {}, 'end');
-		}
-	} else {
-		blur();
-		reactionPicker.show(reactButton.value, reaction => {
-			sound.play('reaction');
-
-			os.api('notes/reactions/create', {
-				noteId: appearNote.value.id,
-				reaction: reaction,
-			});
-		}, () => {
-			focus();
-		});
-	}
+	}, () => {
+		focus();
+	});
 }
 
 function undoReact(note): void {
-	const oldReaction = note.myReaction;
-	if (!oldReaction) return;
-	os.api('notes/reactions/delete', {
-		noteId: note.id,
-	});
 }
 
 function onContextmenu(ev: MouseEvent): void {

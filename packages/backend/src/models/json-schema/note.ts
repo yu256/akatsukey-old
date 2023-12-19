@@ -154,10 +154,6 @@ export const packedNoteSchema = {
 			type: 'boolean',
 			optional: true, nullable: false,
 		},
-		reactionAcceptance: {
-			type: 'string',
-			optional: false, nullable: true,
-		},
 		reactions: {
 			type: 'object',
 			optional: false, nullable: false,
