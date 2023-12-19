@@ -25,7 +25,6 @@ import * as os from '@/os.js';
 import { useInterval } from '@/scripts/use-interval.js';
 import * as game from '@/scripts/clicker-game.js';
 import number from '@/filters/number.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 
 const saveData = game.saveData;
 const cookies = computed(() => saveData.value?.cookies);
@@ -41,10 +40,6 @@ function onClick(ev: MouseEvent) {
 	saveData.value!.totalCookies++;
 	saveData.value!.totalHandmadeCookies++;
 	saveData.value!.clicked++;
-
-	if (cookies.value === 1) {
-		claimAchievement('cookieClicked');
-	}
 }
 
 useInterval(() => {

@@ -288,7 +288,6 @@ import type {
 	I2faUnregisterRequest,
 	IAppsRequest,
 	IAuthorizedAppsRequest,
-	IClaimAchievementRequest,
 	IChangePasswordRequest,
 	IDeleteAccountRequest,
 	IExportFollowingRequest,
@@ -503,7 +502,6 @@ import type {
 	UsersSearchResponse,
 	UsersShowRequest,
 	UsersShowResponse,
-	UsersAchievementsRequest,
 	UsersUpdateMemoRequest,
 	FetchRssRequest,
 	FetchExternalResourcesRequest,
@@ -706,7 +704,6 @@ export type Endpoints = {
 	'i/2fa/unregister': { req: I2faUnregisterRequest; res: EmptyResponse };
 	'i/apps': { req: IAppsRequest; res: EmptyResponse };
 	'i/authorized-apps': { req: IAuthorizedAppsRequest; res: EmptyResponse };
-	'i/claim-achievement': { req: IClaimAchievementRequest; res: EmptyResponse };
 	'i/change-password': { req: IChangePasswordRequest; res: EmptyResponse };
 	'i/delete-account': { req: IDeleteAccountRequest; res: EmptyResponse };
 	'i/export-blocking': { req: EmptyRequest; res: EmptyResponse };
@@ -863,7 +860,6 @@ export type Endpoints = {
 	'users/search-by-username-and-host': { req: UsersSearchByUsernameAndHostRequest; res: UsersSearchByUsernameAndHostResponse };
 	'users/search': { req: UsersSearchRequest; res: UsersSearchResponse };
 	'users/show': { req: UsersShowRequest; res: UsersShowResponse };
-	'users/achievements': { req: UsersAchievementsRequest; res: EmptyResponse };
 	'users/update-memo': { req: UsersUpdateMemoRequest; res: EmptyResponse };
 	'fetch-rss': { req: FetchRssRequest; res: EmptyResponse };
 	'fetch-external-resources': { req: FetchExternalResourcesRequest; res: EmptyResponse };

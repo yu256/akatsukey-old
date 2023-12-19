@@ -238,7 +238,6 @@ import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
@@ -382,9 +381,6 @@ function removePinnedList() {
 	defaultStore.set('pinnedUserLists', []);
 }
 
-let smashCount = 0;
-let smashTimer: number | null = null;
-
 function testNotification(): void {
 	const notification: Misskey.entities.Notification = {
 		id: Math.random().toString(),
@@ -394,19 +390,6 @@ function testNotification(): void {
 	};
 
 	globalEvents.emit('clientNotification', notification);
-
-	// セルフ通知破壊 実績関連
-	smashCount++;
-	if (smashCount >= 10) {
-		claimAchievement('smashTestNotificationButton');
-		smashCount = 0;
-	}
-	if (smashTimer) {
-		clearTimeout(smashTimer);
-	}
-	smashTimer = window.setTimeout(() => {
-		smashCount = 0;
-	}, 300);
 }
 
 function enableAllDataSaver() {

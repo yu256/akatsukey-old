@@ -41,7 +41,6 @@ import { Router, useScrollPositionManager } from '@/nirax';
 import { i18n } from '@/i18n.js';
 import { PageMetadata, provideMetadataReceiver } from '@/scripts/page-metadata.js';
 import { openingWindowsCount } from '@/os.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 import { getScrollContainer } from '@/scripts/scroll.js';
 
 const props = defineProps<{
@@ -147,17 +146,6 @@ function popout() {
 }
 
 useScrollPositionManager(() => getScrollContainer(contents.value), router);
-
-onMounted(() => {
-	openingWindowsCount.value++;
-	if (openingWindowsCount.value >= 3) {
-		claimAchievement('open3windows');
-	}
-});
-
-onUnmounted(() => {
-	openingWindowsCount.value--;
-});
 
 defineExpose({
 	close,

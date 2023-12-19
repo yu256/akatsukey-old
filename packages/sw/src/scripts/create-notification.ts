@@ -203,14 +203,6 @@ async function composeNotification(data: PushNotificationDataMap[keyof PushNotif
 						data,
 					}];
 
-				case 'achievementEarned':
-					return [t('_notification.achievementEarned'), {
-						body: t(`_achievements._types._${data.body.achievement}.title`),
-						badge: iconUrl('medal'),
-						data,
-						tag: `achievement:${data.body.achievement}`,
-					}];
-
 				case 'pollEnded':
 					return [t('_notification.pollEnded'), {
 						body: data.body.note.text ?? '',

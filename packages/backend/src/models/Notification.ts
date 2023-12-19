@@ -69,11 +69,6 @@ export type MiNotification = {
 	createdAt: string;
 	notifierId: MiUser['id'];
 } | {
-	type: 'achievementEarned';
-	id: string;
-	createdAt: string;
-	achievement: string;
-} | {
 	type: 'app';
 	id: string;
 	createdAt: string;

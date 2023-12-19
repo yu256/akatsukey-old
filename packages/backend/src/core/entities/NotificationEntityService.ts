@@ -92,9 +92,6 @@ export class NotificationEntityService implements OnModuleInit {
 			...(notification.type === 'reaction' ? {
 				reaction: notification.reaction,
 			} : {}),
-			...(notification.type === 'achievementEarned' ? {
-				achievement: notification.achievement,
-			} : {}),
 			...(notification.type === 'app' ? {
 				body: notification.customBody,
 				header: notification.customHeader,
@@ -225,9 +222,6 @@ export class NotificationEntityService implements OnModuleInit {
 			...(noteIfNeed != null ? { note: noteIfNeed } : {}),
 			...(notification.type === 'reaction' ? {
 				reaction: notification.reaction,
-			} : {}),
-			...(notification.type === 'achievementEarned' ? {
-				achievement: notification.achievement,
 			} : {}),
 			...(notification.type === 'app' ? {
 				body: notification.customBody,

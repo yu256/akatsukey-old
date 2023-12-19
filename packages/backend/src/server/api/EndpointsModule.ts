@@ -201,7 +201,6 @@ import * as ep___i_2fa_removeKey from './endpoints/i/2fa/remove-key.js';
 import * as ep___i_2fa_unregister from './endpoints/i/2fa/unregister.js';
 import * as ep___i_apps from './endpoints/i/apps.js';
 import * as ep___i_authorizedApps from './endpoints/i/authorized-apps.js';
-import * as ep___i_claimAchievement from './endpoints/i/claim-achievement.js';
 import * as ep___i_changePassword from './endpoints/i/change-password.js';
 import * as ep___i_deleteAccount from './endpoints/i/delete-account.js';
 import * as ep___i_exportBlocking from './endpoints/i/export-blocking.js';
@@ -358,7 +357,6 @@ import * as ep___users_reportAbuse from './endpoints/users/report-abuse.js';
 import * as ep___users_searchByUsernameAndHost from './endpoints/users/search-by-username-and-host.js';
 import * as ep___users_search from './endpoints/users/search.js';
 import * as ep___users_show from './endpoints/users/show.js';
-import * as ep___users_achievements from './endpoints/users/achievements.js';
 import * as ep___users_updateMemo from './endpoints/users/update-memo.js';
 import * as ep___fetchRss from './endpoints/fetch-rss.js';
 import * as ep___fetchExternalResources from './endpoints/fetch-external-resources.js';
@@ -562,7 +560,6 @@ const $i_2fa_removeKey: Provider = { provide: 'ep:i/2fa/remove-key', useClass: e
 const $i_2fa_unregister: Provider = { provide: 'ep:i/2fa/unregister', useClass: ep___i_2fa_unregister.default };
 const $i_apps: Provider = { provide: 'ep:i/apps', useClass: ep___i_apps.default };
 const $i_authorizedApps: Provider = { provide: 'ep:i/authorized-apps', useClass: ep___i_authorizedApps.default };
-const $i_claimAchievement: Provider = { provide: 'ep:i/claim-achievement', useClass: ep___i_claimAchievement.default };
 const $i_changePassword: Provider = { provide: 'ep:i/change-password', useClass: ep___i_changePassword.default };
 const $i_deleteAccount: Provider = { provide: 'ep:i/delete-account', useClass: ep___i_deleteAccount.default };
 const $i_exportBlocking: Provider = { provide: 'ep:i/export-blocking', useClass: ep___i_exportBlocking.default };
@@ -719,7 +716,6 @@ const $users_reportAbuse: Provider = { provide: 'ep:users/report-abuse', useClas
 const $users_searchByUsernameAndHost: Provider = { provide: 'ep:users/search-by-username-and-host', useClass: ep___users_searchByUsernameAndHost.default };
 const $users_search: Provider = { provide: 'ep:users/search', useClass: ep___users_search.default };
 const $users_show: Provider = { provide: 'ep:users/show', useClass: ep___users_show.default };
-const $users_achievements: Provider = { provide: 'ep:users/achievements', useClass: ep___users_achievements.default };
 const $users_updateMemo: Provider = { provide: 'ep:users/update-memo', useClass: ep___users_updateMemo.default };
 const $fetchRss: Provider = { provide: 'ep:fetch-rss', useClass: ep___fetchRss.default };
 const $fetchExternalResources: Provider = { provide: 'ep:fetch-external-resources', useClass: ep___fetchExternalResources.default };
@@ -927,7 +923,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$i_2fa_unregister,
 		$i_apps,
 		$i_authorizedApps,
-		$i_claimAchievement,
 		$i_changePassword,
 		$i_deleteAccount,
 		$i_exportBlocking,
@@ -1084,7 +1079,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$users_searchByUsernameAndHost,
 		$users_search,
 		$users_show,
-		$users_achievements,
 		$users_updateMemo,
 		$fetchRss,
 		$fetchExternalResources,
@@ -1286,7 +1280,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$i_2fa_unregister,
 		$i_apps,
 		$i_authorizedApps,
-		$i_claimAchievement,
 		$i_changePassword,
 		$i_deleteAccount,
 		$i_exportBlocking,
@@ -1440,7 +1433,6 @@ const $retention: Provider = { provide: 'ep:retention', useClass: ep___retention
 		$users_searchByUsernameAndHost,
 		$users_search,
 		$users_show,
-		$users_achievements,
 		$users_updateMemo,
 		$fetchRss,
 		$fetchExternalResources,

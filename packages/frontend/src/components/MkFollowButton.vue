@@ -40,7 +40,6 @@ import * as Misskey from 'misskey-js';
 import * as os from '@/os.js';
 import { useStream } from '@/stream.js';
 import { i18n } from '@/i18n.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 import { $i } from '@/account.js';
 import { defaultStore } from "@/store.js";
 
@@ -107,21 +106,6 @@ async function onClick() {
 					withReplies: defaultStore.state.defaultWithReplies,
 				});
 				hasPendingFollowRequestFromYou.value = true;
-
-				claimAchievement('following1');
-
-				if ($i.followingCount >= 10) {
-					claimAchievement('following10');
-				}
-				if ($i.followingCount >= 50) {
-					claimAchievement('following50');
-				}
-				if ($i.followingCount >= 100) {
-					claimAchievement('following100');
-				}
-				if ($i.followingCount >= 300) {
-					claimAchievement('following300');
-				}
 			}
 		}
 	} catch (err) {

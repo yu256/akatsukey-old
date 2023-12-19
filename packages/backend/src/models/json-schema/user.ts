@@ -549,7 +549,6 @@ export const packedMeDetailedOnlySchema = {
 				mention: notificationRecieveConfig,
 				reaction: notificationRecieveConfig,
 				pollEnded: notificationRecieveConfig,
-				achievementEarned: notificationRecieveConfig,
 				receiveFollowRequest: notificationRecieveConfig,
 				followRequestAccepted: notificationRecieveConfig,
 			},
@@ -560,24 +559,6 @@ export const packedMeDetailedOnlySchema = {
 			items: {
 				type: 'string',
 				nullable: false, optional: false,
-			},
-		},
-		achievements: {
-			type: 'array',
-			nullable: false, optional: false,
-			items: {
-				type: 'object',
-				nullable: false, optional: false,
-				properties: {
-					name: {
-						type: 'string',
-						nullable: false, optional: false,
-					},
-					unlockedAt: {
-						type: 'number',
-						nullable: false, optional: false,
-					},
-				},
 			},
 		},
 		loggedInDays: {

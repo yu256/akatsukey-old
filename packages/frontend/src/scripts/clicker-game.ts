@@ -12,7 +12,6 @@ type SaveData = {
 	totalCookies: number;
 	totalHandmadeCookies: number;
 	clicked: number;
-	achievements: any[];
 	facilities: any[];
 };
 
@@ -35,7 +34,6 @@ export async function load() {
 				totalCookies: 0,
 				totalHandmadeCookies: 0,
 				clicked: 0,
-				achievements: [],
 				facilities: [],
 			};
 			save();
@@ -52,7 +50,6 @@ export async function load() {
 			totalCookies: saveData.value.cookies,
 			totalHandmadeCookies: saveData.value.cookies,
 			clicked: saveData.value.clicked,
-			achievements: [],
 			facilities: [],
 		};
 		save();

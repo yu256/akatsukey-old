@@ -248,7 +248,6 @@ describe('Webリソース', () => {
 		{ sub: 'home' },
 		{ sub: 'notes' },
 		{ sub: 'activity' },
-		{ sub: 'achievements' },
 		{ sub: 'reactions' },
 		{ sub: 'clips' },
 		{ sub: 'pages' },

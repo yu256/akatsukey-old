@@ -249,19 +249,6 @@ export class MiUserProfile {
 		};
 	};
 
-	@Column('varchar', {
-		length: 32, array: true, default: '{}',
-	})
-	public loggedInDates: string[];
-
-	@Column('jsonb', {
-		default: [],
-	})
-	public achievements: {
-		name: string;
-		unlockedAt: number;
-	}[];
-
 	//#region Denormalized fields
 	@Index()
 	@Column('varchar', {

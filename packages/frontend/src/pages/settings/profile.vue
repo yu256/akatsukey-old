@@ -125,7 +125,6 @@ import { i18n } from '@/i18n.js';
 import { $i } from '@/account.js';
 import { langmap } from '@/scripts/langmap.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 import { defaultStore } from '@/store.js';
 import MkInfo from '@/components/MkInfo.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
@@ -191,13 +190,6 @@ function save() {
 		isBot: !!profile.isBot,
 		isCat: !!profile.isCat,
 	});
-	claimAchievement('profileFilled');
-	if (profile.name === 'syuilo' || profile.name === 'しゅいろ') {
-		claimAchievement('setNameToSyuilo');
-	}
-	if (profile.isCat) {
-		claimAchievement('markedAsCat');
-	}
 }
 
 function changeAvatar(ev) {
@@ -222,7 +214,6 @@ function changeAvatar(ev) {
 		});
 		$i.avatarId = i.avatarId;
 		$i.avatarUrl = i.avatarUrl;
-		claimAchievement('profileFilled');
 	});
 }
 

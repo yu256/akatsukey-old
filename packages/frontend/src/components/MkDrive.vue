@@ -106,7 +106,6 @@ import { useStream } from '@/stream.js';
 import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import { uploadFile, uploads } from '@/scripts/upload.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 
 const props = withDefaults(defineProps<{
 	initialFolder?: Misskey.entities.DriveFolder;
@@ -278,7 +277,6 @@ function onDrop(ev: DragEvent): any {
 		}).catch(err => {
 			switch (err.code) {
 				case 'RECURSIVE_NESTING':
-					claimAchievement('driveFolderCircularReference');
 					os.alert({
 						type: 'error',
 						title: i18n.ts.unableToProcess,

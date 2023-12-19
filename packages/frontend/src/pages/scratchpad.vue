@@ -52,7 +52,6 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { AsUiComponent, AsUiRoot, registerAsUiLib } from '@/scripts/aiscript/ui.js';
 import MkAsUi from '@/components/MkAsUi.vue';
 import { miLocalStorage } from '@/local-storage.js';
-import { claimAchievement } from '@/scripts/achievements.js';
 
 const parser = new Parser();
 let aiscript: Interpreter;
@@ -100,9 +99,6 @@ async function run() {
 			});
 		},
 		out: (value) => {
-			if (value.type === 'str' && value.value.toLowerCase().replace(',', '').includes('hello world')) {
-				claimAchievement('outputHelloWorldOnScratchpad');
-			}
 			logs.value.push({
 				id: Math.random(),
 				text: value.type === 'str' ? value.value : utils.valToString(value),

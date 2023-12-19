@@ -139,7 +139,6 @@ import { i18n } from '@/i18n.js';
 import { defaultStore } from '@/store.js';
 import * as os from '@/os.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
-import { claimAchievement, claimedAchievements } from '@/scripts/achievements.js';
 import { $i } from '@/account.js';
 
 const patronsWithIcon = [{
@@ -315,8 +314,6 @@ const patrons = [
 	'SHO SEKIGUCHI',
 ];
 
-const thereIsTreasure = ref($i && !claimedAchievements.includes('foundTreasure'));
-
 let easterEggReady = false;
 const easterEggEmojis = ref([]);
 const easterEggEngine = ref(null);
@@ -350,11 +347,6 @@ function iLoveMisskey() {
 		initialText: 'I $[jelly ❤] #Misskey',
 		instant: true,
 	});
-}
-
-function getTreasure() {
-	thereIsTreasure.value = false;
-	claimAchievement('foundTreasure');
 }
 
 onBeforeUnmount(() => {

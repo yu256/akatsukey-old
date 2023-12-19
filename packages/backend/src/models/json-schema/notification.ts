@@ -42,10 +42,6 @@ export const packedNotificationSchema = {
 			type: 'string',
 			optional: true, nullable: true,
 		},
-		achievement: {
-			type: 'string',
-			optional: true, nullable: false,
-		},
 		body: {
 			type: 'string',
 			optional: true, nullable: true,

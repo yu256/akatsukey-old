@@ -63,13 +63,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				throw new ApiError(meta.errors.userIsDeleted);
 			}
 
-			if (!userProfile.loggedInDates.includes(today)) {
-				this.userProfilesRepository.update({ userId: user.id }, {
-					loggedInDates: [...userProfile.loggedInDates, today],
-				});
-				userProfile.loggedInDates = [...userProfile.loggedInDates, today];
-			}
-
 			return await this.userEntityService.pack<true, true>(userProfile.user!, userProfile.user!, {
 				detail: true,
 				includeSecrets: isSecure,
