@@ -373,6 +373,7 @@ function react(viaKeyboard = false): void {
 
 		os.api('notes/reactions/create', {
 			noteId: appearNote.value.id,
+			reaction,
 		});
 	}, () => {
 		focus();
@@ -380,6 +381,11 @@ function react(viaKeyboard = false): void {
 }
 
 function undoReact(note): void {
+	const oldReaction = note.myReaction;
+	if (!oldReaction) return;
+	os.api('notes/reactions/delete', {
+		noteId: note.id,
+	});
 }
 
 function onContextmenu(ev: MouseEvent): void {
