@@ -34,7 +34,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</span>
 		</button>
 		<button :class="$style.navButton" class="_button" @click="widgetsShowing = true"><i :class="$style.navButtonIcon" class="ti ti-apps"></i></button>
-		<button :class="$style.navButton" class="_button" @click="reload()"><i :class="$style.navButtonIcon" class="ti ti-refresh"></i></button>
 		<button :class="$style.postButton" class="_button" @click="os.post()"><i :class="$style.navButtonIcon" class="ti ti-pencil"></i></button>
 	</div>
 
@@ -121,10 +120,6 @@ const XAnnouncements = defineAsyncComponent(() => import('@/ui/_common_/announce
 const DESKTOP_THRESHOLD = 1100;
 const MOBILE_THRESHOLD = 500;
 
-function reload(): void {
-	window.location.reload();
-}
-
 // デスクトップでウィンドウを狭くしたときモバイルUIが表示されて欲しいことはあるので deviceKind === 'desktop' の判定は行わない
 const isDesktop = ref(window.innerWidth >= DESKTOP_THRESHOLD);
 const isMobile = ref(deviceKind === 'smartphone' || window.innerWidth <= MOBILE_THRESHOLD);
@@ -191,8 +186,13 @@ onMounted(() => {
 	}
 });
 
-const onContextmenu = (ev: MouseEvent): void => {
-	const isLink = (el: HTMLElement): boolean => el.tagName === 'A' || !!el.parentElement && isLink(el.parentElement);
+const onContextmenu = (ev) => {
+	const isLink = (el: HTMLElement) => {
+		if (el.tagName === 'A') return true;
+		if (el.parentElement) {
+			return isLink(el.parentElement);
+		}
+	};
 	if (isLink(ev.target)) return;
 	if (['INPUT', 'TEXTAREA', 'IMG', 'VIDEO', 'CANVAS'].includes(ev.target.tagName) || ev.target.attributes['contenteditable']) return;
 	if (window.getSelection()?.toString() !== '') return;
@@ -203,13 +203,13 @@ const onContextmenu = (ev: MouseEvent): void => {
 	}, {
 		icon: 'ti ti-window-maximize',
 		text: i18n.ts.openInWindow,
-		action: (): void => {
+		action: () => {
 			os.pageWindow(path);
 		},
 	}], ev);
 };
 
-function top(): void {
+function top() {
 	contents.value.rootEl.scrollTo({
 		top: 0,
 		behavior: 'smooth',
@@ -391,9 +391,9 @@ $widgets-hide-threshold: 1090px;
 	z-index: 1000;
 	bottom: 0;
 	left: 0;
-	padding: 6px 6px max(6px, env(safe-area-inset-bottom, 0px)) 6px;
+	padding: 12px 12px max(12px, env(safe-area-inset-bottom, 0px)) 12px;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 8px;
 	width: 100%;
 	box-sizing: border-box;
@@ -407,7 +407,7 @@ $widgets-hide-threshold: 1090px;
 	position: relative;
 	padding: 0;
 	aspect-ratio: 1;
-	width: 90%;
+	width: 100%;
 	max-width: 60px;
 	margin: auto;
 	border-radius: 100%;
@@ -438,7 +438,7 @@ $widgets-hide-threshold: 1090px;
 }
 
 .navButtonIcon {
-	font-size: 14px;
+	font-size: 18px;
 	vertical-align: middle;
 }
 
