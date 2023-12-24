@@ -27,7 +27,7 @@ const modal = shallowRef<InstanceType<typeof MkModal>>();
 
 const whatIsNew = () => {
 	modal.value.close();
-	window.open('https://github.com/yu256/akatsukey/blob/develop/CHANGELOG.md', '_blank');
+	window.open('https://github.com/yu256/akatsukey/blob/develop-2023/CHANGELOG.md', '_blank');
 };
 
 onMounted(() => {
