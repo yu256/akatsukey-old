@@ -122,6 +122,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<button v-if="appearNote.myReaction != null" ref="reactButton" :class="$style.footerButton" class="_button" @click="undoReact(appearNote)">
 					<i class="ti ti-minus"></i>
 				</button>
+				<button ref="reactbutton" :class="$style.footerButton" class="_button" @click="reactStar">
+					<i class="ti ti-star"></i>
+				</button>
 				<button v-if="defaultStore.state.showClipButtonInNoteFooter" ref="clipButton" :class="$style.footerButton" class="_button" @mousedown="clip()">
 					<i class="ti ti-paperclip"></i>
 				</button>
@@ -370,6 +373,14 @@ function undoReact(note): void {
 
 	os.api('notes/reactions/delete', {
 		noteId: note.id,
+	});
+}
+
+function reactStar(): void {
+	sound.play('reaction');
+	os.api('notes/reactions/create', {
+		noteId: appearNote.value!.id,
+		reaction: '⭐',
 	});
 }
 
