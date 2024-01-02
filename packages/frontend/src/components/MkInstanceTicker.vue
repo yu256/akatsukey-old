@@ -32,7 +32,7 @@ const props = defineProps<{
 // if no instance data is given, this is for the local instance
 const instance = props.instance ?? {
 	name: instanceName,
-	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement).content,
+	themeColor: document.querySelector<HTMLMetaElement>('meta[name="theme-color-orig"]')?.content,
 };
 
 const faviconUrl = computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.faviconUrl, 'preview') ?? '/favicon.ico');
