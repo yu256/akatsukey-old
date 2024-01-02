@@ -12,6 +12,12 @@
 
 -->
 
+## akatsukey v2.0.1
+
+### Client
+- feat: ⭐リアクションボタンを追加
+- fix: "theme-color-orig"がnullの場合がある
+
 ## 202x.x.x (Unreleased)
 
 ### Client
