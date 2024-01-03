@@ -27,7 +27,7 @@ import FormSection from '@/components/form/section.vue';
 const showStarbutton = ref(!defaultStore.state.showClipButtonInNoteFooter);
 
 watchEffect(() => {
-	defaultStore.set('showClipButtonInNoteFooter', showStarbutton.value);
+	defaultStore.set('showClipButtonInNoteFooter', !showStarbutton.value);
 });
 
 const useOriginalInstanceTicker = computed(defaultStore.makeGetterSetter('useOriginalInstanceTicker')) as WritableComputedRef<boolean>;
