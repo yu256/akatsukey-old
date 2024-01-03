@@ -119,13 +119,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<button v-if="appearNote.myReaction == null" ref="reactButton" :class="$style.footerButton" class="_button" @mousedown="react()">
 					<i class="ti ti-plus"></i>
 				</button>
-				<button v-if="appearNote.myReaction != null" ref="reactButton" :class="$style.footerButton" class="_button" @click="undoReact(appearNote)">
+				<button v-else ref="reactButton" :class="$style.footerButton" class="_button" @click="undoReact(appearNote)">
 					<i class="ti ti-minus"></i>
 				</button>
-				<button ref="reactbutton" :class="$style.footerButton" class="_button" @click="reactStar">
+				<button v-if="!defaultStore.state.showClipButtonInNoteFooter" :class="$style.footerButton" class="_button" @click="reactStar">
 					<i class="ti ti-star"></i>
 				</button>
-				<button v-if="defaultStore.state.showClipButtonInNoteFooter" ref="clipButton" :class="$style.footerButton" class="_button" @mousedown="clip()">
+				<button v-else ref="clipButton" :class="$style.footerButton" class="_button" @mousedown="clip()">
 					<i class="ti ti-paperclip"></i>
 				</button>
 				<button ref="menuButton" :class="$style.footerButton" class="_button" @mousedown="menu()">

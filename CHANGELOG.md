@@ -12,6 +12,9 @@
 
 -->
 
+## akatsukey v2.0.2
+- feat: ⭐ボタンをClipボタンと排他に
+
 ## akatsukey v2.0.1
 
 ### Client
