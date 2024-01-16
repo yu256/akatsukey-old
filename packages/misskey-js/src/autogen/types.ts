@@ -2,8 +2,8 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 
 /*
- * version: 2023.12.0
- * generatedAt: 2023-12-26T23:35:09.389Z
+ * version: 2023.12.2
+ * generatedAt: 2024-01-13T04:31:38.633Z
  */
 
 /**
@@ -40,7 +40,6 @@ export type paths = {
      * admin/accounts/create
      * @description No description provided.
      *
-     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
      * **Credential required**: *No*
      */
     post: operations['admin/accounts/create'];
@@ -1958,6 +1957,16 @@ export type paths = {
      */
     post: operations['i/export-notes'];
   };
+  '/i/export-clips': {
+    /**
+     * i/export-clips
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['i/export-clips'];
+  };
   '/i/export-favorites': {
     /**
      * i/export-favorites
@@ -3420,6 +3429,31 @@ export type paths = {
      */
     post: operations['retention'];
   };
+  '/bubble-game/register': {
+    /**
+     * bubble-game/register
+     * @description No description provided.
+     *
+     * **Credential required**: *Yes* / **Permission**: *write:account*
+     */
+    post: operations['bubble-game/register'];
+  };
+  '/bubble-game/ranking': {
+    /**
+     * bubble-game/ranking
+     * @description No description provided.
+     *
+     * **Credential required**: *No*
+     */
+    get: operations['bubble-game/ranking'];
+    /**
+     * bubble-game/ranking
+     * @description No description provided.
+     *
+     * **Credential required**: *No*
+     */
+    post: operations['bubble-game/ranking'];
+  };
 };
 
 export type webhooks = Record<string, never>;
@@ -3760,19 +3794,20 @@ export type components = {
       fileIds?: string[];
       files?: components['schemas']['DriveFile'][];
       tags?: string[];
-      poll?: Record<string, unknown> | null;
+      poll?: Record<string, never> | null;
       /**
        * Format: id
        * @example xxxxxxxxxx
        */
       channelId?: string | null;
-      channel?: {
+      channel?: ({
         id: string;
         name: string;
         color: string;
         isSensitive: boolean;
         allowRenoteToExternal: boolean;
-      } | null;
+        userId: string | null;
+      }) | null;
       localOnly?: boolean;
       reactionAcceptance: string | null;
       reactions: Record<string, never>;
@@ -3782,7 +3817,7 @@ export type components = {
       url?: string;
       reactionAndUserPairCache?: string[];
       clippedCount?: number;
-      myReaction?: Record<string, unknown> | null;
+      myReaction?: Record<string, never> | null;
     };
     NoteReaction: {
       /**
@@ -4377,6 +4412,9 @@ export type operations = {
             emailRequiredForSignup: boolean;
             enableHcaptcha: boolean;
             hcaptchaSiteKey: string | null;
+            enableMcaptcha: boolean;
+            mcaptchaSiteKey: string | null;
+            mcaptchaInstanceUrl: string | null;
             enableRecaptcha: boolean;
             recaptchaSiteKey: string | null;
             enableTurnstile: boolean;
@@ -4402,6 +4440,7 @@ export type operations = {
             bannedEmailDomains?: string[];
             preservedUsernames: string[];
             hcaptchaSecretKey: string | null;
+            mcaptchaSecretKey: string | null;
             recaptchaSecretKey: string | null;
             turnstileSecretKey: string | null;
             sensitiveMediaDetection: string;
@@ -4433,6 +4472,9 @@ export type operations = {
             enableActiveEmailValidation: boolean;
             enableVerifymailApi: boolean;
             verifymailAuthKey: string | null;
+            enableTruemailApi: boolean;
+            truemailInstance: string | null;
+            truemailAuthKey: string | null;
             enableChartsForRemoteUser: boolean;
             enableChartsForFederatedInstances: boolean;
             enableServerMachineStats: boolean;
@@ -4597,7 +4639,6 @@ export type operations = {
    * admin/accounts/create
    * @description No description provided.
    *
-   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
    * **Credential required**: *No*
    */
   'admin/accounts/create': {
@@ -8172,6 +8213,10 @@ export type operations = {
           enableHcaptcha?: boolean;
           hcaptchaSiteKey?: string | null;
           hcaptchaSecretKey?: string | null;
+          enableMcaptcha?: boolean;
+          mcaptchaSiteKey?: string | null;
+          mcaptchaInstanceUrl?: string | null;
+          mcaptchaSecretKey?: string | null;
           enableRecaptcha?: boolean;
           recaptchaSiteKey?: string | null;
           recaptchaSecretKey?: string | null;
@@ -8224,6 +8269,9 @@ export type operations = {
           enableActiveEmailValidation?: boolean;
           enableVerifymailApi?: boolean;
           verifymailAuthKey?: string | null;
+          enableTruemailApi?: boolean;
+          truemailInstance?: string | null;
+          truemailAuthKey?: string | null;
           enableChartsForRemoteUser?: boolean;
           enableChartsForFederatedInstances?: boolean;
           enableServerMachineStats?: boolean;
@@ -16156,6 +16204,57 @@ export type operations = {
     };
   };
   /**
+   * i/export-clips
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  'i/export-clips': {
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description To many requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * i/export-favorites
    * @description No description provided.
    *
@@ -18624,6 +18723,9 @@ export type operations = {
             emailRequiredForSignup: boolean;
             enableHcaptcha: boolean;
             hcaptchaSiteKey: string | null;
+            enableMcaptcha: boolean;
+            mcaptchaSiteKey: string | null;
+            mcaptchaInstanceUrl: string | null;
             enableRecaptcha: boolean;
             recaptchaSiteKey: string | null;
             enableTurnstile: boolean;
@@ -25153,6 +25255,127 @@ export type operations = {
       200: {
         content: {
           'application/json': unknown;
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * bubble-game/register
+   * @description No description provided.
+   *
+   * **Credential required**: *Yes* / **Permission**: *write:account*
+   */
+  'bubble-game/register': {
+    requestBody: {
+      content: {
+        'application/json': {
+          score: number;
+          seed: string;
+          logs: unknown[];
+          gameMode: string;
+          gameVersion: number;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': unknown;
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description To many requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * bubble-game/ranking
+   * @description No description provided.
+   *
+   * **Credential required**: *No*
+   */
+  'bubble-game/ranking': {
+    requestBody: {
+      content: {
+        'application/json': {
+          gameMode: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': {
+              /** Format: misskey:id */
+              id: string;
+              score: number;
+              user: components['schemas']['UserLite'];
+            }[];
         };
       };
       /** @description Client error */

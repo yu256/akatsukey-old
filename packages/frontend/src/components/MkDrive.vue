@@ -102,6 +102,7 @@ import XNavFolder from '@/components/MkDrive.navFolder.vue';
 import XFolder from '@/components/MkDrive.folder.vue';
 import XFile from '@/components/MkDrive.file.vue';
 import * as os from '@/os.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import { useStream } from '@/stream.js';
 import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
@@ -253,7 +254,7 @@ function onDrop(ev: DragEvent): any {
 		const file = JSON.parse(driveFile);
 		if (files.value.some(f => f.id === file.id)) return;
 		removeFile(file.id);
-		os.api('drive/files/update', {
+		misskeyApi('drive/files/update', {
 			fileId: file.id,
 			folderId: folder.value ? folder.value.id : null,
 		});
@@ -269,7 +270,7 @@ function onDrop(ev: DragEvent): any {
 		if (folder.value && droppedFolder.id === folder.value.id) return false;
 		if (folders.value.some(f => f.id === droppedFolder.id)) return false;
 		removeFolder(droppedFolder.id);
-		os.api('drive/folders/update', {
+		misskeyApi('drive/folders/update', {
 			folderId: droppedFolder.id,
 			parentId: folder.value ? folder.value.id : null,
 		}).then(() => {
@@ -305,7 +306,7 @@ function urlUpload() {
 		placeholder: i18n.ts.uploadFromUrlDescription,
 	}).then(({ canceled, result: url }) => {
 		if (canceled || !url) return;
-		os.api('drive/files/upload-from-url', {
+		misskeyApi('drive/files/upload-from-url', {
 			url: url,
 			folderId: folder.value ? folder.value.id : undefined,
 		});
@@ -323,7 +324,7 @@ function createFolder() {
 		placeholder: i18n.ts.folderName,
 	}).then(({ canceled, result: name }) => {
 		if (canceled) return;
-		os.api('drive/folders/create', {
+		misskeyApi('drive/folders/create', {
 			name: name,
 			parentId: folder.value ? folder.value.id : undefined,
 		}).then(createdFolder => {
@@ -339,7 +340,7 @@ function renameFolder(folderToRename: Misskey.entities.DriveFolder) {
 		default: folderToRename.name,
 	}).then(({ canceled, result: name }) => {
 		if (canceled) return;
-		os.api('drive/folders/update', {
+		misskeyApi('drive/folders/update', {
 			folderId: folderToRename.id,
 			name: name,
 		}).then(updatedFolder => {
@@ -350,7 +351,7 @@ function renameFolder(folderToRename: Misskey.entities.DriveFolder) {
 }
 
 function deleteFolder(folderToDelete: Misskey.entities.DriveFolder) {
-	os.api('drive/folders/delete', {
+	misskeyApi('drive/folders/delete', {
 		folderId: folderToDelete.id,
 	}).then(() => {
 		// 削除時に親フォルダに移動
@@ -434,7 +435,7 @@ function move(target?: Misskey.entities.DriveFolder) {
 
 	fetching.value = true;
 
-	os.api('drive/folders/show', {
+	misskeyApi('drive/folders/show', {
 		folderId: target,
 	}).then(folderToMove => {
 		folder.value = folderToMove;
@@ -533,7 +534,7 @@ async function fetch() {
 	const foldersMax = 30;
 	const filesMax = 30;
 
-	const foldersPromise = os.api('drive/folders', {
+	const foldersPromise = misskeyApi('drive/folders', {
 		folderId: folder.value ? folder.value.id : null,
 		limit: foldersMax + 1,
 	}).then(fetchedFolders => {
@@ -544,7 +545,7 @@ async function fetch() {
 		return fetchedFolders;
 	});
 
-	const filesPromise = os.api('drive/files', {
+	const filesPromise = misskeyApi('drive/files', {
 		folderId: folder.value ? folder.value.id : null,
 		type: props.type,
 		limit: filesMax + 1,
@@ -569,7 +570,7 @@ function fetchMoreFolders() {
 
 	const max = 30;
 
-	os.api('drive/folders', {
+	misskeyApi('drive/folders', {
 		folderId: folder.value ? folder.value.id : null,
 		type: props.type,
 		untilId: folders.value.at(-1)?.id,
@@ -592,7 +593,7 @@ function fetchMoreFiles() {
 	const max = 30;
 
 	// ファイル一覧取得
-	os.api('drive/files', {
+	misskeyApi('drive/files', {
 		folderId: folder.value ? folder.value.id : null,
 		type: props.type,
 		untilId: files.value.at(-1)?.id,

@@ -9,6 +9,7 @@ import { $i } from '@/account.js';
 import { i18n } from '@/i18n.js';
 import { instance } from '@/instance.js';
 import * as os from '@/os.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import copyToClipboard from '@/scripts/copy-to-clipboard.js';
 import { url } from '@/config.js';
 import { defaultStore, noteActions } from '@/store.js';
@@ -38,7 +39,7 @@ export async function getNoteClipMenu(props: {
 		text: clip.name,
 		action: () => {
 			os.promiseDialog(
-				os.api('clips/add-note', { clipId: clip.id, noteId: appearNote.id }),
+				misskeyApi('clips/add-note', { clipId: clip.id, noteId: appearNote.id }),
 				null,
 				async (err) => {
 					if (err.id === '734806c4-542c-463a-9311-15c512803965') {
@@ -141,7 +142,7 @@ export function getNoteMenu(props: {
 		}).then(({ canceled }) => {
 			if (canceled) return;
 
-			os.api('notes/delete', {
+			misskeyApi('notes/delete', {
 				noteId: appearNote.id,
 			});
 		});
@@ -154,7 +155,7 @@ export function getNoteMenu(props: {
 		}).then(({ canceled }) => {
 			if (canceled) return;
 
-			os.api('notes/delete', {
+			misskeyApi('notes/delete', {
 				noteId: appearNote.id,
 			});
 
@@ -230,7 +231,7 @@ export function getNoteMenu(props: {
 	async function translate(): Promise<void> {
 		if (props.translation.value != null) return;
 		props.translating.value = true;
-		const res = await os.api('notes/translate', {
+		const res = await misskeyApi('notes/translate', {
 			noteId: appearNote.id,
 			targetLang: miLocalStorage.getItem('lang') ?? navigator.language,
 		});
@@ -240,7 +241,7 @@ export function getNoteMenu(props: {
 
 	let menu: MenuItem[];
 	if ($i) {
-		const statePromise = os.api('notes/state', {
+		const statePromise = misskeyApi('notes/state', {
 			noteId: appearNote.id,
 		});
 
@@ -317,7 +318,7 @@ export function getNoteMenu(props: {
 				icon: 'ti ti-user',
 				text: i18n.ts.user,
 				children: async () => {
-					const user = appearNote.userId === $i?.id ? $i : await os.api('users/show', { userId: appearNote.userId });
+					const user = appearNote.userId === $i?.id ? $i : await misskeyApi('users/show', { userId: appearNote.userId });
 					const { menu, cleanup } = getUserMenu(user);
 					cleanups.push(cleanup);
 					return menu;
@@ -336,6 +337,42 @@ export function getNoteMenu(props: {
 			...(appearNote.userId !== $i.id ? [
 				{ type: 'divider' },
 				appearNote.userId !== $i.id ? getAbuseNoteMenu(appearNote, i18n.ts.reportAbuse) : undefined,
+			]
+			: []
+			),
+			...(appearNote.channel && (appearNote.channel.userId === $i.id || $i.isModerator || $i.isAdmin) ? [
+				{ type: 'divider' },
+				{
+					type: 'parent' as const,
+					icon: 'ti ti-device-tv',
+					text: i18n.ts.channel,
+					children: async () => {
+						const channelChildMenu = [] as MenuItem[];
+
+						const channel = await misskeyApi('channels/show', { channelId: appearNote.channel!.id });
+
+						if (channel.pinnedNoteIds.includes(appearNote.id)) {
+							channelChildMenu.push({
+								icon: 'ti ti-pinned-off',
+								text: i18n.ts.unpin,
+								action: () => os.apiWithDialog('channels/update', {
+									channelId: appearNote.channel!.id,
+									pinnedNoteIds: channel.pinnedNoteIds.filter(id => id !== appearNote.id),
+								}),
+							});
+						} else {
+							channelChildMenu.push({
+								icon: 'ti ti-pin',
+								text: i18n.ts.pin,
+								action: () => os.apiWithDialog('channels/update', {
+									channelId: appearNote.channel!.id,
+									pinnedNoteIds: [...channel.pinnedNoteIds, appearNote.id],
+								}),
+							});
+						}
+						return channelChildMenu;
+					},
+				},
 			]
 			: []
 			),
@@ -376,7 +413,7 @@ export function getNoteMenu(props: {
 	}
 
 	if (noteActions.length > 0) {
-		menu = menu.concat([{ type: "divider" }, ...noteActions.map(action => ({
+		menu = menu.concat([{ type: 'divider' }, ...noteActions.map(action => ({
 			icon: 'ti ti-plug',
 			text: action.title,
 			action: () => {
@@ -386,7 +423,7 @@ export function getNoteMenu(props: {
 	}
 
 	if (defaultStore.state.devMode) {
-		menu = menu.concat([{ type: "divider" }, {
+		menu = menu.concat([{ type: 'divider' }, {
 			icon: 'ti ti-id',
 			text: i18n.ts.copyNoteId,
 			action: () => {
@@ -450,7 +487,7 @@ export function getRenoteMenu(props: {
 				}
 
 				if (!props.mock) {
-					os.api('notes/create', {
+					misskeyApi('notes/create', {
 						renoteId: appearNote.id,
 						channelId: appearNote.channelId,
 					}).then(() => {
@@ -495,7 +532,7 @@ export function getRenoteMenu(props: {
 				}
 
 				if (!props.mock) {
-					os.api('notes/create', {
+					misskeyApi('notes/create', {
 						localOnly,
 						visibility,
 						renoteId: appearNote.id,
