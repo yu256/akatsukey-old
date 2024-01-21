@@ -20,6 +20,8 @@ import type { FastifyRequest, FastifyReply } from 'fastify';
 export class UrlPreviewService {
 	private logger: Logger;
 
+	private proxyExcludedDomains = ['booth.pm', 'pixiv.net', 'steampowered.com'] as const satisfies string[];
+
 	constructor(
 		@Inject(DI.config)
 		private config: Config,
@@ -65,7 +67,7 @@ export class UrlPreviewService {
 
 		const meta = await this.metaService.fetch();
 
-		const useSummalyProxy = !!meta.summalyProxy && !/(booth\.pm|pixiv\.net)$/.test(urlObj.hostname);
+		const useSummalyProxy = !!meta.summalyProxy && this.proxyExcludedDomains.every(s => !urlObj.hostname.endsWith(s));
 
 		this.logger.info(useSummalyProxy
 			? `(Proxy) Getting preview of ${url}@${lang} ...`
