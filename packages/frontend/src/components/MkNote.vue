@@ -378,8 +378,8 @@ function undoReact(note): void {
 }
 
 function reactStar(): void {
-	sound.play('reaction');
-	os.api('notes/reactions/create', {
+	sound.playMisskeySfx('reaction');
+	misskeyApi('notes/reactions/create', {
 		noteId: appearNote.value!.id,
 		reaction: '⭐',
 	});

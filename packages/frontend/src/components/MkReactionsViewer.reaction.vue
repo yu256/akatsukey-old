@@ -136,7 +136,7 @@ function reactRemoteEmoji(): void {
 		importEmojiConfirm();
 		return;
 	}
-	os.api('notes/reactions/create', {
+	misskeyApi('notes/reactions/create', {
 		noteId: props.note.id,
 		reaction: `:${canToggleRemoteEmojiName.value}:`,
 	});
@@ -154,7 +154,7 @@ async function importEmojiConfirm(): Promise<void> {
 
 async function importEmoji(): Promise<void> {
 	const emojiId = await getEmojiId();
-	os.api('admin/emoji/copy', {
+	misskeyApi('admin/emoji/copy', {
 		emojiId: emojiId,
 	});
 }
@@ -162,7 +162,7 @@ async function importEmoji(): Promise<void> {
 async function getEmojiId(): Promise<string> {
 	const host = props.reaction.slice(props.reaction.indexOf('@') + 1, props.reaction.length - 1);
 
-	const res = await os.api('admin/emoji/list-remote', {
+	const res = await misskeyApi('admin/emoji/list-remote', {
 		host,
 		query: reactionName.value,
 	});
