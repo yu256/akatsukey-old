@@ -1,6 +1,6 @@
-import { defaultStore } from '@/store';
-import { alert as miAlert, select, toast } from '@/os';
-import { SomeRequired } from '@/types/custom-utilities';
+import { defaultStore } from '@/store.js';
+import { alert as miAlert, select, toast } from '@/os.js';
+import { SomeRequired } from '@/types/custom-utilities.js';
 
 type ApiResponse<T> = { Success: T } | { Error: string };
 

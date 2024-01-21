@@ -36,13 +36,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
-import { GetFormResultType } from '@/scripts/form';
+import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget.js';
+import { GetFormResultType } from '@/scripts/form.js';
 import MkContainer from '@/components/MkContainer.vue';
-import { useInterval } from '@/scripts/use-interval';
-import { fetchVrcWithAuth, Friend } from '@/scripts/vrchat-api';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
+import { useInterval } from '@/scripts/use-interval.js';
+import { fetchVrcWithAuth, Friend } from '@/scripts/vrchat-api.js';
+import { defaultStore } from '@/store.js';
+import { i18n } from '@/i18n.js';
 import VRCAvatar from '@/components/VrcAvatar.vue';
 
 const name = 'vrcUserList';

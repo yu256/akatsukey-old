@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import VrcAvatar from '@/components/VrcAvatar.vue';
-import { HitUsers } from '@/scripts/vrchat-api';
+import { HitUsers } from '@/scripts/vrchat-api.js';
 
 defineProps<{
 	user: HitUsers[number];

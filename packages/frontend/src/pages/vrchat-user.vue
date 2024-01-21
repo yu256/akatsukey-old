@@ -41,12 +41,12 @@ import { ref } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcGroup from '@/components/VrcGroup.vue';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { Instance, User, fetchVrcWithAuth } from '@/scripts/vrchat-api';
-import { defaultStore } from '@/store';
-import { toast } from '@/os';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
+import { Instance, User, fetchVrcWithAuth } from '@/scripts/vrchat-api.js';
+import { defaultStore } from '@/store.js';
+import { toast } from '@/os.js';
 import MkButton from '@/components/MkButton.vue';
-import copyToClipboard from '@/scripts/copy-to-clipboard';
+import copyToClipboard from '@/scripts/copy-to-clipboard.js';
 
 const props = defineProps<{
 	id: string;

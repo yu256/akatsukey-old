@@ -11,7 +11,7 @@ import { ref } from 'vue';
 import VrcUser from './VrcUser.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
-import { HitUsers, fetchVrcWithAuth } from '@/scripts/vrchat-api';
+import { HitUsers, fetchVrcWithAuth } from '@/scripts/vrchat-api.js';
 
 let query = '';
 const users = ref<HitUsers>();

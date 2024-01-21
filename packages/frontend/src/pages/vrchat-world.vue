@@ -43,11 +43,11 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import VrchatUser from '@/components/VrcUser.user.vue';
-import { User, World, fetchVrcWithAuth, addToFavorites } from '@/scripts/vrchat-api';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { User, World, fetchVrcWithAuth, addToFavorites } from '@/scripts/vrchat-api.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkSelect from '@/components/MkSelect.vue';
 import MkButton from '@/components/MkButton.vue';
-import { toast } from '@/os';
+import { toast } from '@/os.js';
 
 const props = defineProps<{
 	id: string;

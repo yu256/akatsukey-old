@@ -14,8 +14,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import MkButton from './MkButton.vue';
-import { Status, fetchVrcWithAuth } from '@/scripts/vrchat-api';
-import { confirm } from '@/os';
+import { Status, fetchVrcWithAuth } from '@/scripts/vrchat-api.js';
+import { confirm } from '@/os.js';
 
 const emit = defineEmits<{
 	(ev: 'success', value: boolean): void

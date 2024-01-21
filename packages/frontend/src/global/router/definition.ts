@@ -48,11 +48,11 @@ const routes = [{
 }, {
 	path: '/vrchat/:id?',
 	name: 'vrchat',
-	component: page(() => import('./pages/vrchat.vue')),
+	component: page(() => import('@/pages/vrchat.vue')),
 }, {
 	path: '/world/:id',
 	name: 'vrcWorld',
-	component: page(() => import('./pages/vrchat-world.vue')),
+	component: page(() => import('@/pages/vrchat-world.vue')),
 }, {
 	name: 'settings',
 	path: '/settings',
@@ -189,11 +189,11 @@ const routes = [{
 	}, {
 		path: '/akatsukey-settings',
 		name: 'akatsukey',
-		component: page(() => import('./pages/settings/akatsukey-settings.vue')),
+		component: page(() => import('@/pages/settings/akatsukey-settings.vue')),
 	}, {
 		path: '/vrchat',
 		name: 'VRChat',
-		component: page(() => import('./pages/settings/vrchat-settings.vue')),
+		component: page(() => import('@/pages/settings/vrchat-settings.vue')),
 	}, {
 		path: '/',
 		component: page(() => import('@/pages/_empty_.vue')),

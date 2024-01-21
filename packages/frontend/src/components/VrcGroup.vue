@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Group, fetchVrcWithAuth } from '@/scripts/vrchat-api';
+import { Group, fetchVrcWithAuth } from '@/scripts/vrchat-api.js';
 
 const props = withDefaults(defineProps<{
 	id: string;

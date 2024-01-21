@@ -25,9 +25,9 @@
 <script lang="ts" setup>
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import VrcFollowButton from '@/components/VrcFollowButton.vue';
-import { toast } from '@/os';
-import { defaultStore } from '@/store';
-import { User } from '@/scripts/vrchat-api';
+import { toast } from '@/os.js';
+import { defaultStore } from '@/store.js';
+import { User } from '@/scripts/vrchat-api.js';
 
 defineProps<{
 	user: User;

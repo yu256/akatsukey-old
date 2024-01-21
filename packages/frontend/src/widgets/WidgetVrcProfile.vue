@@ -24,8 +24,8 @@
 
 <script lang="ts" setup>
 import { ref, shallowRef, watch } from 'vue';
-import { defaultStore } from '@/store';
-import { fetchVrcWithAuth, updateProfile, User } from '@/scripts/vrchat-api';
+import { defaultStore } from '@/store.js';
+import { fetchVrcWithAuth, updateProfile, User } from '@/scripts/vrchat-api.js';
 import VrcAvatar from '@/components/VrcAvatar.vue';
 import MkSelect from '@/components/MkSelect.vue';
 

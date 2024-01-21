@@ -7,9 +7,9 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { defaultStore } from '@/store';
-import { Friend, avatarImage } from '@/scripts/vrchat-api';
-import { SomeRequired } from '@/types/custom-utilities';
+import { defaultStore } from '@/store.js';
+import { Friend, avatarImage } from '@/scripts/vrchat-api.js';
+import { SomeRequired } from '@/types/custom-utilities.js';
 
 const props = defineProps<{
 	user: SomeRequired<Partial<Friend>, 'currentAvatarThumbnailImageUrl'>

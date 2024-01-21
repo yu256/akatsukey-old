@@ -36,14 +36,14 @@
 import { computed, shallowRef, triggerRef } from 'vue';
 import VRCUser from './vrchat-user.vue';
 import Search from '@/components/VrcSearchUser.vue';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkSelect from '@/components/MkSelect.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import FormInfo from '@/components/MkInfo.vue';
-import { status, fetchVrcWithAuth, User, updateProfile } from '@/scripts/vrchat-api';
-import { defaultStore } from '@/store';
+import { status, fetchVrcWithAuth, User, updateProfile } from '@/scripts/vrchat-api.js';
+import { defaultStore } from '@/store.js';
 
 const props = defineProps<{
 	id?: string;
