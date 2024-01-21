@@ -12,6 +12,9 @@
 
 -->
 
+## akatsukey v2.0.3
+- enhance: summaly proxyの除外対象にsteamを追加
+
 ## akatsukey v2.0.2
 - feat: ⭐ボタンをClipボタンと排他に
 
