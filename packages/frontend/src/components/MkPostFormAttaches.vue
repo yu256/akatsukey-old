@@ -127,11 +127,11 @@ async function describe(file) {
 async function deleteFile(file: Misskey.entities.DriveFile): Promise<void> {
 	const { canceled } = await os.confirm({
 		type: 'warning',
-		text: i18n.t('driveFileDeleteConfirm', { name: file.name }),
+		text: i18n.tsx.driveFileDeleteConfirm({ name: file.name }),
 	});
 	if (canceled) return;
 
-	os.api('drive/files/delete', {
+	misskeyApi('drive/files/delete', {
 		fileId: file.id,
 	});
 	detachMedia(file.id);
