@@ -5,8 +5,8 @@
 
 import { reactive, ref } from 'vue';
 import * as Misskey from 'misskey-js';
-import { readAndCompressImage } from '@misskey-dev/browser-image-resizer';
-import { getCompressionConfig } from './upload/compress-config.js';
+import encode, { init as initWebpEncoder } from '@jsquash/webp/encode.js';
+import { compressTypes, createImageData, shouldBeCompressed } from './upload/compress.js';
 import { defaultStore } from '@/store.js';
 import { apiUrl } from '@/config.js';
 import { $i } from '@/account.js';
@@ -53,11 +53,13 @@ export function uploadFile(
 
 			uploads.value.push(ctx);
 
-			const config = !keepOriginal ? await getCompressionConfig(file) : undefined;
 			let resizedImage: Blob | undefined;
-			if (config) {
+			if (!keepOriginal && await shouldBeCompressed(file)) {
 				try {
-					const resized = await readAndCompressImage(file, config);
+					const resized = new Blob([await encode(await createImageData(file), {
+						quality: 95,
+					})]);
+
 					if (resized.size < file.size || file.type === 'image/webp') {
 						// The compression may not always reduce the file size
 						// (and WebP is not browser safe yet)
@@ -68,7 +70,7 @@ export function uploadFile(
 						console.log(`Image compression: before ${file.size} bytes, after ${resized.size} bytes, saved ${saved}%`);
 					}
 
-					ctx.name = file.type !== config.mimeType ? `${ctx.name}.${mimeTypeMap[config.mimeType]}` : ctx.name;
+					ctx.name = file.type !== 'image/webp' ? ctx.name.replace(new RegExp(`${compressTypes[file.type]}$`), 'webp') : ctx.name;
 				} catch (err) {
 					console.error('Failed to resize image', err);
 				}
