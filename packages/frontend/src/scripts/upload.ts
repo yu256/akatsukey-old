@@ -5,7 +5,7 @@
 
 import { reactive, ref } from 'vue';
 import * as Misskey from 'misskey-js';
-import encode, { init as initWebpEncoder } from '@jsquash/webp/encode.js';
+import encode from '@jsquash/webp/encode.js';
 import { compressTypes, createImageData, shouldBeCompressed } from './upload/compress.js';
 import { defaultStore } from '@/store.js';
 import { apiUrl } from '@/config.js';
@@ -21,12 +21,6 @@ type Uploading = {
 	img: string;
 };
 export const uploads = ref<Uploading[]>([]);
-
-const mimeTypeMap = {
-	'image/webp': 'webp',
-	'image/jpeg': 'jpg',
-	'image/png': 'png',
-} as const;
 
 export function uploadFile(
 	file: File,
