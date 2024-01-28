@@ -311,8 +311,8 @@ export class DriveService {
 				type !== 'image/svg+xml' && // security reason
 				type !== 'image/avif' && // not supported by Mastodon and MS Edge
 			!(metadata.exif ?? metadata.iptc ?? metadata.xmp ?? metadata.tifftagPhotoshop) &&
-			metadata.width && metadata.width <= 2048 &&
-			metadata.height && metadata.height <= 2048
+			metadata.width && metadata.width <= 4096 &&
+			metadata.height && metadata.height <= 4096
 			);
 		} catch (err) {
 			this.registerLogger.warn(`sharp failed: ${err}`);
