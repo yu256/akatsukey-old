@@ -6,15 +6,13 @@
 import isAnimated from 'is-file-animated';
 
 export async function createImageData(file: File): Promise<ImageData> {
-	const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+	const img = await new Promise<HTMLImageElement>(resolve => {
 		const image = new Image();
 
 		image.onload = () => {
 			URL.revokeObjectURL(image.src);
 			resolve(image);
 		};
-
-		image.onerror = reject;
 
 		image.src = URL.createObjectURL(file);
 	});
@@ -27,11 +25,11 @@ export async function createImageData(file: File): Promise<ImageData> {
 }
 
 export const compressTypes = {
-	'image/jpeg': 'jpeg',
-	'image/png': 'png',
-	'image/webp': 'webp',
-	'image/svg+xml': 'svg',
-} as const;
+	'image/jpeg': /(jpg|jpeg)$/,
+	'image/png': /png$/,
+	'image/webp': /webp$/,
+	'image/svg+xml': /svg$/,
+} as const satisfies Record<string, RegExp>;
 
 export async function shouldBeCompressed(file: File): Promise<boolean> {
 	return (compressTypes[file.type] && !await isAnimated(file));

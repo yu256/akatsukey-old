@@ -51,7 +51,7 @@ export function uploadFile(
 			if (!keepOriginal && await shouldBeCompressed(file)) {
 				try {
 					const resized = new Blob([await encode(await createImageData(file), {
-						quality: 95,
+						quality: 90,
 					})]);
 
 					if (resized.size < file.size || file.type === 'image/webp') {
@@ -64,7 +64,7 @@ export function uploadFile(
 						console.log(`Image compression: before ${file.size} bytes, after ${resized.size} bytes, saved ${saved}%`);
 					}
 
-					ctx.name = file.type !== 'image/webp' ? ctx.name.replace(new RegExp(`${compressTypes[file.type]}$`), 'webp') : ctx.name;
+					ctx.name = ctx.name.replace(compressTypes[file.type], 'webp');
 				} catch (err) {
 					console.error('Failed to resize image', err);
 				}
