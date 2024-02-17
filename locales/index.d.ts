@@ -8089,7 +8089,13 @@ export interface Locale extends ILocale {
          * ユーザーリスト
          */
         "userList": string;
+        /**
+         * VRCユーザーリスト
+         */
         "vrcUserList": string;
+        /**
+         * VRCプロフィール
+         */
         "vrcProfile": string;
         "_userList": {
             /**
