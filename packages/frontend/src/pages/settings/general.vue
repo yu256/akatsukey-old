@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -16,6 +16,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</I18n>
 		</template>
 	</MkSelect>
+
+	<MkRadios v-model="hemisphere">
+		<template #label>{{ i18n.ts.hemisphere }}</template>
+		<option value="N">{{ i18n.ts._hemisphere.N }}</option>
+		<option value="S">{{ i18n.ts._hemisphere.S }}</option>
+		<template #caption>{{ i18n.ts._hemisphere.caption }}</template>
+	</MkRadios>
 
 	<MkRadios v-model="overridedDeviceKind">
 		<template #label>{{ i18n.ts.overridedDeviceKind }}</template>
@@ -259,6 +266,7 @@ async function reloadAsk() {
 	unisonReload();
 }
 
+const hemisphere = computed(defaultStore.makeGetterSetter('hemisphere'));
 const overridedDeviceKind = computed(defaultStore.makeGetterSetter('overridedDeviceKind'));
 const serverDisconnectedBehavior = computed(defaultStore.makeGetterSetter('serverDisconnectedBehavior'));
 const showNoteActionsOnlyHover = computed(defaultStore.makeGetterSetter('showNoteActionsOnlyHover'));
@@ -321,6 +329,7 @@ watch(useSystemFont, () => {
 });
 
 watch([
+	hemisphere,
 	lang,
 	fontSize,
 	useSystemFont,
@@ -439,8 +448,8 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePageMetadata({
+definePageMetadata(() => ({
 	title: i18n.ts.general,
 	icon: 'ti ti-adjustments',
-});
+}));
 </script>

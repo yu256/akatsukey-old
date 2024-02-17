@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -58,14 +58,13 @@ const exampleCWNote = reactive<Misskey.entities.Note>({
 		isBot: false,
 		isCat: true,
 		emojis: {},
-		onlineStatus: null,
+		onlineStatus: 'unknown',
 		badgeRoles: [],
 	},
 	text: i18n.ts._initialTutorial._postNote._cw._exampleNote.note,
 	cw: i18n.ts._initialTutorial._postNote._cw._exampleNote.cw,
 	visibility: 'public',
 	localOnly: false,
-	reactionAcceptance: null,
 	renoteCount: 0,
 	repliesCount: 1,
 	reactions: {},

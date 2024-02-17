@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -190,7 +190,6 @@ export class ExportClipsProcessorService {
 				visibility: clip.note.visibility,
 				visibleUserIds: clip.note.visibleUserIds,
 				localOnly: clip.note.localOnly,
-				reactionAcceptance: clip.note.reactionAcceptance,
 				uri: clip.note.uri,
 				url: clip.note.url,
 				user: {

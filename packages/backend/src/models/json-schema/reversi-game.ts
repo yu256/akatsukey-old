@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -34,22 +34,6 @@ export const packedReversiGameLiteSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
-		form1: {
-			type: 'any',
-			optional: false, nullable: true,
-		},
-		form2: {
-			type: 'any',
-			optional: false, nullable: true,
-		},
-		user1Ready: {
-			type: 'boolean',
-			optional: false, nullable: false,
-		},
-		user2Ready: {
-			type: 'boolean',
-			optional: false, nullable: false,
-		},
 		user1Id: {
 			type: 'string',
 			optional: false, nullable: false,
@@ -63,12 +47,12 @@ export const packedReversiGameLiteSchema = {
 		user1: {
 			type: 'object',
 			optional: false, nullable: false,
-			ref: 'User',
+			ref: 'UserLite',
 		},
 		user2: {
 			type: 'object',
 			optional: false, nullable: false,
-			ref: 'User',
+			ref: 'UserLite',
 		},
 		winnerId: {
 			type: 'string',
@@ -78,7 +62,7 @@ export const packedReversiGameLiteSchema = {
 		winner: {
 			type: 'object',
 			optional: false, nullable: true,
-			ref: 'User',
+			ref: 'UserLite',
 		},
 		surrenderedUserId: {
 			type: 'string',
@@ -96,6 +80,10 @@ export const packedReversiGameLiteSchema = {
 		},
 		bw: {
 			type: 'string',
+			optional: false, nullable: false,
+		},
+		noIrregularRules: {
+			type: 'boolean',
 			optional: false, nullable: false,
 		},
 		isLlotheo: {
@@ -149,11 +137,11 @@ export const packedReversiGameDetailedSchema = {
 			optional: false, nullable: false,
 		},
 		form1: {
-			type: 'any',
+			type: 'object',
 			optional: false, nullable: true,
 		},
 		form2: {
-			type: 'any',
+			type: 'object',
 			optional: false, nullable: true,
 		},
 		user1Ready: {
@@ -177,12 +165,12 @@ export const packedReversiGameDetailedSchema = {
 		user1: {
 			type: 'object',
 			optional: false, nullable: false,
-			ref: 'User',
+			ref: 'UserLite',
 		},
 		user2: {
 			type: 'object',
 			optional: false, nullable: false,
-			ref: 'User',
+			ref: 'UserLite',
 		},
 		winnerId: {
 			type: 'string',
@@ -192,7 +180,7 @@ export const packedReversiGameDetailedSchema = {
 		winner: {
 			type: 'object',
 			optional: false, nullable: true,
-			ref: 'User',
+			ref: 'UserLite',
 		},
 		surrenderedUserId: {
 			type: 'string',
@@ -210,6 +198,10 @@ export const packedReversiGameDetailedSchema = {
 		},
 		bw: {
 			type: 'string',
+			optional: false, nullable: false,
+		},
+		noIrregularRules: {
+			type: 'boolean',
 			optional: false, nullable: false,
 		},
 		isLlotheo: {
@@ -234,6 +226,9 @@ export const packedReversiGameDetailedSchema = {
 			items: {
 				type: 'array',
 				optional: false, nullable: false,
+				items: {
+					type: 'number',
+				},
 			},
 		},
 		map: {

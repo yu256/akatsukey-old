@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -20,9 +20,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { computed, inject, onMounted, shallowRef, watch } from 'vue';
 import * as Misskey from 'misskey-js';
+import MkCustomEmojiDetailedDialog from './MkCustomEmojiDetailedDialog.vue';
 import XDetails from '@/components/MkReactionsViewer.details.vue';
 import MkReactionIcon from '@/components/MkReactionIcon.vue';
-import MkCustomEmojiDetailedDialog from './MkCustomEmojiDetailedDialog.vue';
 import * as os from '@/os.js';
 import { misskeyApi, misskeyApiGet } from '@/scripts/misskey-api.js';
 import { useTooltip } from '@/scripts/use-tooltip.js';
@@ -32,6 +32,8 @@ import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import { customEmojis } from '@/custom-emojis.js';
 import * as sound from '@/scripts/sound.js';
+import { checkReactionPermissions } from '@/scripts/check-reaction-permissions.js';
+import { customEmojis } from '@/custom-emojis.js';
 
 const props = defineProps<{
 	reaction: string;
@@ -48,7 +50,15 @@ const emit = defineEmits<{
 
 const buttonEl = shallowRef<HTMLElement>();
 
-const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
+const isCustomEmoji = computed(() => props.reaction.includes(':'));
+const emoji = computed(() => isCustomEmoji.value ? customEmojis.value.find(emoji => emoji.name === props.reaction.replace(/:/g, '').replace(/@\./, '')) : null);
+
+const canToggle = computed(() => {
+	return !props.reaction.match(/@\w/) && $i
+			&& (emoji.value && checkReactionPermissions($i, props.note, emoji.value))
+			|| !isCustomEmoji.value;
+});
+const canGetInfo = computed(() => !props.reaction.match(/@\w/) && props.reaction.includes(':'));
 
 const reactionName = computed(() => props.reaction.slice(1, props.reaction.indexOf('@')));
 
@@ -59,8 +69,6 @@ async function toggleReaction(): Promise<void> {
 		reactRemoteEmoji();
 		return;
 	}
-
-	// TODO: その絵文字を使う権限があるかどうか確認
 
 	const oldReaction = props.note.myReaction;
 	if (oldReaction) {
@@ -105,8 +113,8 @@ async function toggleReaction(): Promise<void> {
 }
 
 async function menu(ev) {
-	if (!canToggle.value) return;
-	if (!props.reaction.includes(":")) return;
+	if (!canGetInfo.value) return;
+
 	os.popupMenu([{
 		text: i18n.ts.info,
 		icon: 'ti ti-info-circle',
@@ -120,10 +128,8 @@ async function menu(ev) {
 	}], ev.currentTarget ?? ev.target);
 }
 
-function anime(): void {
-	if (document.hidden) return;
-	if (!defaultStore.state.animation) return;
-	if (!buttonEl.value) return;
+function anime() {
+	if (document.hidden || !defaultStore.state.animation || buttonEl.value == null) return;
 
 	const rect = buttonEl.value.getBoundingClientRect();
 	const x = rect.left + 16;
