@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<{
 const group = ref<Group>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchVrcWithAuth('group', props.id).then(r => { group.value = r; });
+fetchVrcWithAuth('group', { group_id: props.id }).then(r => { group.value = r; });
 </script>
 
 <style lang="scss" module>

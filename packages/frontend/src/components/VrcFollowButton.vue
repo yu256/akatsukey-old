@@ -28,14 +28,14 @@ const props = defineProps<{
 const res = ref<Status>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchVrcWithAuth('friend/status', props.id).then(r => { res.value = r; });
+fetchVrcWithAuth('friend/status', { user_id: props.id }).then(r => { res.value = r; });
 
 function request(isPost: boolean): void {
 	confirm({
 		type: 'warning',
 		text: `フレンド申請を${isPost ? '送信' : '解除'}しますか？`,
 	}).then( async ({ canceled }) => {
-		if (canceled || !await fetchVrcWithAuth('friend/request', props.id + ':' + (isPost ? 'POST' : 'DELETE'))) return;
+		if (canceled || !await fetchVrcWithAuth('friend/request', { user_id: props.id, method: isPost ? 'Request' : 'Delete' })) return;
 
 		emit('success', isPost);
 	});

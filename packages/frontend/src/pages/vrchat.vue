@@ -51,7 +51,7 @@ const props = defineProps<{
 
 const profile = shallowRef<User>();
 
-props.id ?? fetchVrcWithAuth('user').then(user => {
+props.id ?? fetchVrcWithAuth('user', {}).then(user => {
 	if (!user) return;
 	VRChatId.value = user.id;
 	profile.value = user;

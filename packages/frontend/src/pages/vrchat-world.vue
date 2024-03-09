@@ -29,7 +29,7 @@
 			<div v-if="world.instances && world.instances[0]">
 				<div v-for="instance in world.instances" :key="instance![0]">
 					{{ instance![0] }} ({{ instance![1] }})
-					<MkButton @click="fetchVrcWithAuth('invite/myself', `${id}:${instance![0]}`).then(ok => ok && toast('✅'))">Invite</MkButton>
+					<MkButton @click="fetchVrcWithAuth('invite/myself', { instance_id: `${id}:${instance![0]}` }).then(ok => ok && toast('✅'))">Invite</MkButton>
 				</div>
 			</div>
 			<VrchatUser v-if="author" :id="world.authorId" class="_gaps_m" :user="author"/>
@@ -57,9 +57,9 @@ const world = ref<World>();
 const author = ref<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchVrcWithAuth('world', props.id).then(async wrld => {
+fetchVrcWithAuth('world', { world_id: props.id }).then(async wrld => {
 	world.value = wrld;
-	if (wrld) author.value = await fetchVrcWithAuth('user', wrld.authorId);
+	if (wrld) author.value = await fetchVrcWithAuth('user', { user_id: wrld.authorId });
 });
 
 const selectedOption = ref<typeof options[number]['value']>('created_at');

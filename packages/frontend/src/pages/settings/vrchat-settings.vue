@@ -10,13 +10,14 @@
 		<template #label>トークンを設定</template>
 		<div class="_gaps_s">
 			<MkInput v-model="VRChatURL" type="text" placeholder="プロキシサーバーのURL https://hoge.com/"/>
-			<span v-if="!token" class="_gaps_s">
+			<span v-if="!twofactorTemp" class="_gaps_s">
 				<MkInput v-model="username" type="text" placeholder="ユーザーネームもしくはメールアドレス"/>
 				<MkInput v-model="password" type="password" placeholder="パスワード"/>
 				<MkButton @click="auth">決定</MkButton>
 			</span>
 			<span v-else class="_gaps_s">
-				<MkInput v-for="text in token.split(':')" :key="text" :modelValue="text" readonly/>
+				<MkInput :modelValue="twofactorTemp.token" readonly/>
+				<MkInput :modelValue="twofactorTemp.auth_type" readonly/>
 				<MkInput v-model="twofactor" type="text" placeholder="2FAコード"/>
 				<MkButton @click="do2fa">決定</MkButton>
 			</span>
@@ -70,29 +71,34 @@ import { fetchVrc, fetchVrcWithAuth, status } from '@/scripts/vrchat-api.js';
 
 const username = ref('');
 const password = ref('');
-const token = ref('');
+const twofactorTemp = ref<{
+    token: string;
+    auth_type: string;
+}>();
 const twofactor = ref('');
 const VRChatStatusSets = shallowRef(defaultStore.state.VRChatStatusSets);
 
 async function auth(): Promise<void> {
 	if (!username.value || !password.value) return;
 
-	const res = await fetchVrc('auth', `${username.value}:${password.value}`);
-	if (!res) return;
-	token.value = res;
+	twofactorTemp.value = await fetchVrc('auth', { username: username.value, password: password.value });
 
-	miAlert({
+	if (twofactorTemp.value) miAlert({
 		type: 'info',
 		text: '二段階認証が必要です。',
 	});
 }
 
 async function do2fa(): Promise<void> {
-	if (!twofactor.value || !VRChatAuth.value) return;
+	if (!twofactor.value || !VRChatAuth.value || !twofactorTemp.value) return;
 
-	const res = await fetchVrcWithAuth('twofactor', `${token.value}:${twofactor.value}`);
+	const res = await fetchVrcWithAuth('twofactor', {
+		token: twofactorTemp.value.token,
+		two_factor_type: twofactorTemp.value.auth_type,
+		two_factor_code: twofactor.value,
+	});
 	if (!res) return;
-	defaultStore.set('VRChatAuth', res);
+	defaultStore.set('VRChatAuth', VRChatAuth.value);
 
 	miAlert({
 		type: 'success',

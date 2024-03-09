@@ -38,7 +38,7 @@ function getStatus(status: [string, string]): string {
 	return `${status[0]}${status[1] && `_${status[1]}`}`;
 }
 
-fetchVrcWithAuth('user').then(res => {
+fetchVrcWithAuth('user', {}).then(res => {
 	if (!res) return;
 	const status = getStatus([res.status, res.statusDescription ?? '']);
 	if (!customStatus.includes(status)) customStatus.unshift(status);

@@ -2,146 +2,214 @@ import { defaultStore } from '@/store.js';
 import { alert as miAlert, select, toast } from '@/os.js';
 import { SomeRequired } from '@/types/custom-utilities.js';
 
-type ApiResponse<T> = { Success: T } | { Error: string };
+type ApiResponse<T> = T | { error: string };
 
 type VrcEndPoints = {
 	auth: {
 		withAuth: false;
-		res: string;
-	}
+		req: {
+			username: string;
+			password: string;
+		};
+		res: {
+			token: string;
+			auth_type: string;
+		};
+	};
 	profile: {
-		withAuth: false;
+		withAuth: true;
+		req: {
+			user: string;
+			query: Pick<
+				User,
+				'status' | 'statusDescription' | 'bio' | 'bioLinks' | 'userIcon'
+			>;
+		};
 		res: true;
-	}
+	};
 	twofactor: {
 		withAuth: true;
+		req: {
+			token: string;
+			two_factor_type: string;
+			two_factor_code: string;
+		};
 		res: string;
-	}
+	};
 	instance: {
 		withAuth: true;
+		req: {
+			instance_id: string;
+		};
 		res: Instance;
-	}
+	};
 	user: {
 		withAuth: true;
+		req: {
+			user_id?: string;
+			force?: boolean;
+		};
 		res: User;
-	}
+	};
 	'search/user': {
 		withAuth: true;
+		req: {
+			username: string;
+			n?: number;
+		};
 		res: HitUsers;
-	}
+	};
 	world: {
 		withAuth: true;
+		req: {
+			world_id: string;
+		};
 		res: World;
-	}
+	};
 	group: {
 		withAuth: true;
+		req: {
+			group_id: string;
+		};
 		res: Group;
-	}
+	};
 	favorites: {
 		withAuth: true;
+		req: {
+			favorite_type: string;
+			favorite_id: string;
+			tags: string[];
+		};
 		res: true;
-	}
+	};
 	'favorites/refresh': {
 		withAuth: true;
+		req: string;
 		res: true;
-	}
+	};
 	friends: {
 		withAuth: true;
+		req: string;
 		res: {
 			public: Friend[];
 			private: Friend[];
 		};
-	}
-	'friends/filtered': {
-		withAuth: true;
-		res: VrcEndPoints['friends'];
-	}
+	};
+	'friends/filtered': VrcEndPoints['friends'];
 	'friend/request': {
 		withAuth: true;
+		req: {
+			user_id: string;
+			method: 'Request' | 'Delete';
+		}
 		res: true;
-	}
+	};
 	'friend/status': {
 		withAuth: true;
+		req: {
+			user_id: string;
+		}
 		res: Status;
-	}
+	};
 	notifications: {
 		withAuth: true;
+		req: string;
 		res: Notification[];
-	}
+	};
 	'invite/myself': {
 		withAuth: true;
+		req: {
+			instance_id: string;
+		}
 		res: true;
-	}
-}
-
-// 引数がstringでないエンドポイント
-type Body<B> = B extends 'profile' ? object : string;
+	};
+};
 
 type CheckAuth<WITHAUTH, E extends keyof VrcEndPoints> = WITHAUTH extends true
-	? (VrcEndPoints[E]['withAuth'] extends true ? true : false)
-	: (VrcEndPoints[E]['withAuth'] extends false ? true : false);
+	? VrcEndPoints[E]['withAuth'] extends true
+		? true
+		: false
+	: VrcEndPoints[E]['withAuth'] extends false
+		? true
+		: false;
 
-type ValidateAuth<WITHAUTH, E extends keyof VrcEndPoints> = CheckAuth<WITHAUTH, E> extends true
+type ValidateAuth<WITHAUTH, E extends keyof VrcEndPoints> = CheckAuth<
+	WITHAUTH,
+	E
+> extends true
 	? E
 	: never;
 
-const fetchData = <WITHAUTH>(auth = '') =>
-	async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(url: ValidateAuth<WITHAUTH, E>, body?: Body<E>): Promise<T | undefined> => {
-		const option: RequestInit = {
-			method: 'POST',
-		};
+type Body<T extends keyof VrcEndPoints> = VrcEndPoints[T]['req'] extends string ? string : VrcEndPoints[T]['req'] & {
+	auth?: string;
+};
 
-		let body_: string | object | undefined = body;
-
-		if (typeof body === 'object') {
-			option.headers = {
-				'Content-Type': 'application/json',
+const fetchData =
+	<WITHAUTH>(auth = '') =>
+		async <E extends keyof VrcEndPoints, T extends VrcEndPoints[E]['res']>(
+			url: ValidateAuth<WITHAUTH, E>,
+			body?: Body<E>,
+		): Promise<T | undefined> => {
+			const option: RequestInit = {
+				method: 'POST',
 			};
-			body_ = JSON.stringify(body);
-		}
 
-		option.body = body_ ? `${auth && `${auth}:`}${body_}` : auth;
+			let body_: string | object | undefined = body;
 
-		const res: ApiResponse<T> = await fetch(defaultStore.state.VRChatURL + url, option).then(r => r.json());
+			if (typeof body === 'object') {
+				option.headers = {
+					'Content-Type': 'application/json',
+				};
+				body.auth = auth;
+				body_ = JSON.stringify(body);
+			}
 
-		if ('Error' in res) {
-			miAlert({
-				type: 'error',
-				text: res.Error,
-			});
-			return;
-		}
+			option.body = body_ ? (body_ as string) : auth;
 
-		return res.Success;
-	};
+			const res: ApiResponse<T> = await fetch(
+				defaultStore.state.VRChatURL + url,
+				option,
+			)
+				.then((r) => r.json())
+				.catch(console.error);
+
+			if (typeof res === 'object' && 'error' in res) {
+				miAlert({
+					type: 'error',
+					text: res.error,
+				});
+				return;
+			}
+
+			return res;
+		};
 
 export const fetchVrcWithAuth = fetchData<true>(defaultStore.state.VRChatAuth);
 
 export const fetchVrc = fetchData<false>();
 
-export function addToFavorites(favoriteId: string, values: readonly string[]): void {
-	const items = values.map(value => (
-		{
-			value,
-			text: value,
-		}
-	));
+export function addToFavorites(
+	favoriteId: string,
+	values: readonly string[],
+): void {
+	const items = values.map((value) => ({
+		value,
+		text: value,
+	}));
 
-	select({ title: 'お気に入りするグループ', items }).then(res => void (res.canceled ||
-		fetchVrcWithAuth('favorites', `${values[0] === 'group_0' ? 'friend' : values[0].slice(0, -2)}:${favoriteId}:${res.result}`)
-			.then(ok => ok && toast('✅'))
-	));
+	select({ title: 'お気に入りするグループ', items }).then((res) => {
+		if (res.canceled) return;
+		fetchVrcWithAuth('favorites', {
+			favorite_type:
+				values[0] === 'group_0' ? 'friend' : values[0].slice(0, -2),
+			favorite_id: favoriteId,
+			tags: [res.result],
+		}).then((ok) => ok && toast('✅'));
+	});
 }
 
 export function updateProfile(query: User): void {
-	type Profile = {
-		auth: string,
-		user: string,
-		query: Pick<User, 'status' | 'statusDescription' | 'bio' | 'bioLinks' | 'userIcon'>;
-	}
-
 	const req = {
-		auth: defaultStore.state.VRChatAuth,
 		user: query.id,
 		query: {
 			status: query.status,
@@ -150,19 +218,37 @@ export function updateProfile(query: User): void {
 			bioLinks: query.bioLinks,
 			userIcon: query.userIcon,
 		},
-	} as const satisfies Profile;
+	} as const satisfies VrcEndPoints['profile']['req'];
 
-	fetchVrc('profile', req).then(ok => ok && toast('✅'));
+	fetchVrcWithAuth('profile', req).then((ok) => ok && toast('✅'));
 }
 
-export function avatarImage(user: SomeRequired<Partial<User>, 'currentAvatarThumbnailImageUrl'>): string {
-	return (defaultStore.state.VRChatPrioritizeUserIcon ? (user.userIcon ?? user.profilePicOverride) : (user.profilePicOverride ?? user.userIcon))
-		?? user.currentAvatarThumbnailImageUrl;
+export function avatarImage(
+	user: SomeRequired<Partial<User>, 'currentAvatarThumbnailImageUrl'>,
+): string {
+	return (
+		(defaultStore.state.VRChatPrioritizeUserIcon
+			? user.userIcon ?? user.profilePicOverride
+			: user.profilePicOverride ?? user.userIcon) ??
+		user.currentAvatarThumbnailImageUrl
+	);
 }
 
-export const status = ['join me', 'active', 'ask me', 'busy'] as const satisfies readonly string[];
+export const status = [
+	'join me',
+	'active',
+	'ask me',
+	'busy',
+] as const satisfies readonly string[];
 
-export type Friend = Pick<User, 'currentAvatarThumbnailImageUrl' | 'profilePicOverride' | 'userIcon' | 'location' | 'status'> & {
+export type Friend = Pick<
+	User,
+	| 'currentAvatarThumbnailImageUrl'
+	| 'profilePicOverride'
+	| 'userIcon'
+	| 'location'
+	| 'status'
+> & {
 	id: string;
 	undetermined: boolean;
 };
@@ -187,14 +273,24 @@ export type User = {
 	isFriend: boolean;
 	location: string;
 	travelingToLocation?: string;
-	status: typeof status[number];
+	status: (typeof status)[number];
 	statusDescription?: string;
 	rank: string;
 };
 
-export type HitUsers = Array<Pick<User, 'currentAvatarThumbnailImageUrl' | 'profilePicOverride' | 'userIcon' | 'displayName' | 'statusDescription' | 'isFriend'> & {
-	id: string;
-}>;
+export type HitUsers = Array<
+	Pick<
+		User,
+		| 'currentAvatarThumbnailImageUrl'
+		| 'profilePicOverride'
+		| 'userIcon'
+		| 'displayName'
+		| 'statusDescription'
+		| 'isFriend'
+	> & {
+		id: string;
+	}
+>;
 
 export type Status = {
 	outgoingRequest: boolean;
@@ -228,7 +324,7 @@ export type World = {
 	updated_at: string;
 	// version: number;
 	visits: number;
-}
+};
 
 type Gallery = {
 	id: string;
@@ -241,7 +337,7 @@ type Gallery = {
 	roleIdsToManage: string[];
 	createdAt: string;
 	updatedAt: string;
-}
+};
 
 type Member = {
 	id: string;
@@ -257,7 +353,7 @@ type Member = {
 	bannedAt?: string;
 	has2FA: boolean;
 	permissions: string[];
-}
+};
 
 export type Group = {
 	id: string;
@@ -284,7 +380,7 @@ export type Group = {
 	onlineMemberCount: number;
 	membershipStatus: string;
 	myMember?: Member;
-}
+};
 
 export type Notification = {
 	id: string;
@@ -292,7 +388,12 @@ export type Notification = {
 	senderUsername: string;
 	type: string;
 	message: string;
-	details?: 'NotificationDetailInvite' | 'NotificationDetailInviteResponse' | 'NotificationDetailRequestInvite' | 'NotificationDetailRequestInviteResponse' | 'NotificationDetailVoteToKick';
+	details?:
+		| 'NotificationDetailInvite'
+		| 'NotificationDetailInviteResponse'
+		| 'NotificationDetailRequestInvite'
+		| 'NotificationDetailRequestInviteResponse'
+		| 'NotificationDetailVoteToKick';
 	seen: boolean;
 	created_at: string;
-}
+};

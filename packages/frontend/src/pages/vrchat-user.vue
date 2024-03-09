@@ -5,7 +5,7 @@
 		<div v-if="user.location === 'traveling'">移動中</div>
 		<MkA :to="`/world/${user.location.replace('traveling', user.travelingToLocation!).split(':')[0]}`" style="font-size: 1.5em">{{ instance.name }} ({{ instance.userCount }})</MkA>
 		<div style="display: flex; gap: 0.5em;">
-			<MkButton :class="$style.button" @click="fetchVrcWithAuth('invite/myself', location()).then(ok => ok && toast('✅'))">Invite myself</MkButton>
+			<MkButton :class="$style.button" @click="fetchVrcWithAuth('invite/myself', { instance_id: location()! }).then(ok => ok && toast('✅'))">Invite myself</MkButton>
 			<MkButton :class="$style.button" @click="copyToClipboard(location())">locationをコピー</MkButton>
 		</div>
 		<MkA v-if="instance.ownerId?.startsWith('usr')" :to="`/vrchat/${instance.ownerId}`">
@@ -57,20 +57,22 @@ const instance = ref<Instance>();
 const owner = ref<User>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-fetchVrcWithAuth('user', props.id === defaultStore.state.VRChatId ? undefined : props.id).then(async usr => {
+fetchVrcWithAuth('user', {
+	user_id: props.id === defaultStore.state.VRChatId ? undefined : props.id,
+}).then(async usr => {
 	if (!usr) return;
 	user.value = usr;
 	if (usr.location.startsWith('wrld')) {
-		instance.value = await fetchVrcWithAuth('instance', usr.location);
+		instance.value = await fetchVrcWithAuth('instance', { instance_id: usr.location });
 	} else if (usr.location === 'traveling') {
-		if (usr.travelingToLocation) instance.value = await fetchVrcWithAuth('instance', usr.travelingToLocation);
+		if (usr.travelingToLocation) instance.value = await fetchVrcWithAuth('instance', { instance_id: usr.travelingToLocation });
 	}
 
 	if (!instance.value || instance.value.ownerId === props.id || !(instance.value.ownerId?.startsWith('usr'))) {
 		return;
 	}
 
-	owner.value = await fetchVrcWithAuth('user', instance.value.ownerId);
+	owner.value = await fetchVrcWithAuth('user', { user_id: instance.value.ownerId });
 });
 
 const location = (): string | undefined => user.value && (user.value.location === 'traveling' ? user.value.travelingToLocation : user.value.location);
