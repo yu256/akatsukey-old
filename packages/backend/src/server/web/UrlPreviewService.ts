@@ -20,7 +20,7 @@ import type { FastifyRequest, FastifyReply } from 'fastify';
 export class UrlPreviewService {
 	private logger: Logger;
 
-	private proxyExcludedDomains = ['booth.pm', 'pixiv.net', 'steampowered.com', 'x.com', 'twitter.com'] as const satisfies string[];
+	private proxyExcludedDomains = ['booth.pm', 'pixiv.net', 'fanbox.cc', 'steampowered.com', 'x.com', 'twitter.com'] as const satisfies string[];
 
 	constructor(
 		@Inject(DI.config)
