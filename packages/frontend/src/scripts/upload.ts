@@ -50,9 +50,13 @@ export function uploadFile(
 			let resizedImage: Blob | undefined;
 			if (!keepOriginal && await shouldBeCompressed(file)) {
 				try {
-					const resized = new Blob([await encode(await createImageData(file), {
-						quality: 90,
-					})]);
+					const resized = new Blob([
+						await createImageData(file).then((img) =>
+							encode(img, {
+								quality: 80,
+							}),
+						),
+					]);
 
 					if (resized.size < file.size || file.type === 'image/webp') {
 						// The compression may not always reduce the file size
