@@ -94,7 +94,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				}
 			}
 
-			if (!serverSettings.enableFanoutTimeline) {
+			if (!serverSettings.enableFanoutTimeline || ps.untilId || ps.sinceId) {
 				const timeline = await this.getFromDb({
 					untilId,
 					sinceId,
