@@ -133,6 +133,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<button v-if="defaultStore.state.showClipButtonInNoteFooter" ref="clipButton" class="_button" :class="$style.noteFooterButton" @mousedown="clip()">
 				<i class="ti ti-paperclip"></i>
 			</button>
+			<button v-else :class="$style.footerButton" class="_button" @click="addReaction('⭐')">
+				<i class="ti ti-star"></i>
+			</button>
 			<button ref="menuButton" class="_button" :class="$style.noteFooterButton" @mousedown="showMenu()">
 				<i class="ti ti-dots"></i>
 			</button>
@@ -364,20 +367,20 @@ function reply(viaKeyboard = false): void {
 	});
 }
 
+function addReaction(reaction: string) {
+	sound.playMisskeySfx('reaction');
+
+	misskeyApi('notes/reactions/create', {
+		noteId: appearNote.value.id,
+		reaction,
+	});
+}
+
 function react(viaKeyboard = false): void {
 	pleaseLogin();
 	showMovedDialog();
 	blur();
-	reactionPicker.show(reactButton.value ?? null, note.value, reaction => {
-		sound.playMisskeySfx('reaction');
-
-		misskeyApi('notes/reactions/create', {
-			noteId: appearNote.value.id,
-			reaction,
-		});
-	}, () => {
-		focus();
-	});
+	reactionPicker.show(reactButton.value ?? null, note.value, addReaction, focus);
 }
 
 function undoReact(note): void {
