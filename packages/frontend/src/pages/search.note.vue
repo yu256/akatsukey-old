@@ -14,8 +14,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 			<div class="_gaps_m">
 				<MkSwitch v-model="isLocalOnly">{{ i18n.ts.localOnly }}</MkSwitch>
+				<MkSwitch v-model="isFollowingOnly">{{ i18n.ts.following }}</MkSwitch>
 
-				<MkFolder :defaultOpen="true">
+				<MkFolder v-if="!isFollowingOnly" :defaultOpen="true">
 					<template #label>{{ i18n.ts.specifyUser }}</template>
 					<template v-if="user" #suffix>@{{ user.username }}</template>
 
@@ -62,6 +63,7 @@ const searchOrigin = ref('combined');
 const notePagination = ref();
 const user = ref<any>(null);
 const isLocalOnly = ref(false);
+const isFollowingOnly = ref(false);
 
 function selectUser() {
 	os.selectUser({ includeSelf: true }).then(_user => {
@@ -97,7 +99,8 @@ async function search() {
 		limit: 10,
 		params: {
 			query: searchQuery.value,
-			userId: user.value ? user.value.id : null,
+			userId: user.value && !isFollowingOnly.value ? user.value.id : null,
+			onlyFollowing: isFollowingOnly.value,
 		},
 	};
 

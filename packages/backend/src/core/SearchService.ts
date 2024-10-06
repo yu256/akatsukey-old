@@ -10,7 +10,7 @@ import type { Config } from '@/config.js';
 import { bindThis } from '@/decorators.js';
 import { MiNote } from '@/models/Note.js';
 import { MiUser } from '@/models/_.js';
-import type { NotesRepository } from '@/models/_.js';
+import type { FollowingsRepository, NotesRepository } from '@/models/_.js';
 import { sqlLikeEscape } from '@/misc/sql-like-escape.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
 import { CacheService } from '@/core/CacheService.js';
@@ -31,7 +31,8 @@ type Q =
 	{ op: 'is not null', k: K} |
 	{ op: 'and', qs: Q[] } |
 	{ op: 'or', qs: Q[] } |
-	{ op: 'not', q: Q };
+	{ op: 'not', q: Q } |
+	{ op: 'in', k: K, v: V[] };
 
 function compileValue(value: V): string {
 	if (typeof value === 'string') {
@@ -57,6 +58,7 @@ function compileQuery(q: Q): string {
 		case 'is null': return `(${q.k} IS NULL)`;
 		case 'is not null': return `(${q.k} IS NOT NULL)`;
 		case 'not': return `(NOT ${compileQuery(q.q)})`;
+		case 'in': return `(${q.k} IN (${q.v.map(compileValue).join(', ')}))`;
 		default: throw new Error('unrecognized query operator');
 	}
 }
@@ -75,6 +77,9 @@ export class SearchService {
 
 		@Inject(DI.notesRepository)
 		private notesRepository: NotesRepository,
+
+		@Inject(DI.followingsRepository)
+		private followingsRepository: FollowingsRepository,
 
 		private cacheService: CacheService,
 		private queryService: QueryService,
@@ -161,6 +166,7 @@ export class SearchService {
 		userId?: MiNote['userId'] | null;
 		channelId?: MiNote['channelId'] | null;
 		host?: string | null;
+		onlyFollowing?: boolean;
 	}, pagination: {
 		untilId?: MiNote['id'];
 		sinceId?: MiNote['id'];
@@ -171,9 +177,20 @@ export class SearchService {
 				op: 'and',
 				qs: [],
 			};
+
 			if (pagination.untilId) filter.qs.push({ op: '<', k: 'createdAt', v: this.idService.parse(pagination.untilId).date.getTime() });
 			if (pagination.sinceId) filter.qs.push({ op: '>', k: 'createdAt', v: this.idService.parse(pagination.sinceId).date.getTime() });
 			if (opts.userId) filter.qs.push({ op: '=', k: 'userId', v: opts.userId });
+
+			// フォローしているユーザーの投稿のみを対象にする処理
+			if (opts.onlyFollowing && me) {
+				const followings = await this.followingsRepository.findBy({ followerId: me.id });
+				const followingUserIds = followings.map(following => following.followeeId);
+				if (followingUserIds.length > 0) {
+					filter.qs.push({ op: 'in', k: 'userId', v: followingUserIds });
+				} else return [];
+			}
+
 			if (opts.channelId) filter.qs.push({ op: '=', k: 'channelId', v: opts.channelId });
 			if (opts.host) {
 				if (opts.host === '.') {
@@ -182,6 +199,7 @@ export class SearchService {
 					filter.qs.push({ op: '=', k: 'userHost', v: opts.host });
 				}
 			}
+
 			const res = await this.meilisearchNoteIndex!.search(q, {
 				sort: ['createdAt:desc'],
 				matchingStrategy: 'all',
@@ -189,7 +207,9 @@ export class SearchService {
 				filter: compileQuery(filter),
 				limit: pagination.limit,
 			});
+
 			if (res.hits.length === 0) return [];
+
 			const [
 				userIdsWhoMeMuting,
 				userIdsWhoBlockingMe,
@@ -197,6 +217,7 @@ export class SearchService {
 				this.cacheService.userMutingsCache.fetch(me.id),
 				this.cacheService.userBlockedCache.fetch(me.id),
 			]) : [new Set<string>(), new Set<string>()];
+
 			const notes = (await this.notesRepository.findBy({
 				id: In(res.hits.map(x => x.id)),
 			})).filter(note => {
@@ -204,37 +225,46 @@ export class SearchService {
 				if (me && isUserRelated(note, userIdsWhoMeMuting)) return false;
 				return true;
 			});
+
 			return notes.sort((a, b) => a.id > b.id ? -1 : 1);
-		} else {
-			const query = this.queryService.makePaginationQuery(this.notesRepository.createQueryBuilder('note'), pagination.sinceId, pagination.untilId);
-
-			if (opts.userId) {
-				query.andWhere('note.userId = :userId', { userId: opts.userId });
-			} else if (opts.channelId) {
-				query.andWhere('note.channelId = :channelId', { channelId: opts.channelId });
-			}
-
-			query
-				.andWhere('note.text &@~ :q', { q: sqlLikeEscape(q) })
-				.innerJoinAndSelect('note.user', 'user')
-				.leftJoinAndSelect('note.reply', 'reply')
-				.leftJoinAndSelect('note.renote', 'renote')
-				.leftJoinAndSelect('reply.user', 'replyUser')
-				.leftJoinAndSelect('renote.user', 'renoteUser');
-
-			if (opts.host) {
-				if (opts.host === '.') {
-					query.andWhere('user.host IS NULL');
-				} else {
-					query.andWhere('user.host = :host', { host: opts.host });
-				}
-			}
-
-			this.queryService.generateVisibilityQuery(query, me);
-			if (me) this.queryService.generateMutedUserQuery(query, me);
-			if (me) this.queryService.generateBlockedUserQuery(query, me);
-
-			return await query.limit(pagination.limit).getMany();
 		}
+
+		const query = this.queryService.makePaginationQuery(this.notesRepository.createQueryBuilder('note'), pagination.sinceId, pagination.untilId);
+
+		if (opts.userId) {
+			query.andWhere('note.userId = :userId', { userId: opts.userId });
+		} else if (opts.channelId) {
+			query.andWhere('note.channelId = :channelId', { channelId: opts.channelId });
+		}
+
+		if (opts.onlyFollowing && me) {
+			const followings = await this.followingsRepository.findBy({ followerId: me.id });
+			const followingUserIds = followings.map(following => following.followeeId);
+			if (followingUserIds.length > 0) {
+				query.andWhere('note.userId IN (:...followingUserIds)', { followingUserIds });
+			} else return [];
+		}
+
+		query
+			.andWhere('note.text &@~ :q', { q: sqlLikeEscape(q) })
+			.innerJoinAndSelect('note.user', 'user')
+			.leftJoinAndSelect('note.reply', 'reply')
+			.leftJoinAndSelect('note.renote', 'renote')
+			.leftJoinAndSelect('reply.user', 'replyUser')
+			.leftJoinAndSelect('renote.user', 'renoteUser');
+
+		if (opts.host) {
+			if (opts.host === '.') {
+				query.andWhere('user.host IS NULL');
+			} else {
+				query.andWhere('user.host = :host', { host: opts.host });
+			}
+		}
+
+		this.queryService.generateVisibilityQuery(query, me);
+		if (me) this.queryService.generateMutedUserQuery(query, me);
+		if (me) this.queryService.generateBlockedUserQuery(query, me);
+
+		return await query.limit(pagination.limit).getMany();
 	}
 }
